@@ -1,0 +1,1932 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Prestations — Clips & Musique (v1.4)</title>
+  <style>
+    :root {
+      --bg:#0f172a;
+      --card:#111827;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --accent2:#16a34a;
+      --border:#1e293b;
+      --text:#e5e7eb;
+      --text2:#cbd5e1;
+      --shadow:0 10px 30px rgba(0,0,0,.25);
+      --bg-gradient:
+        radial-gradient(circle at 0% 0%, rgba(59,130,246,.22), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,.16), transparent 55%),
+        linear-gradient(120deg,#020617,#020617 40%,#020617 60%,#020617);
+    }
+
+    /* Thème clair premium */
+    [data-theme="light"] {
+      --bg:#f3f4f6;
+      --card:#ffffff;
+      --text:#0f172a;
+      --text2:#4b5563;
+      --border:#e5e7eb;
+      --muted:#6b7280;
+      --shadow:0 16px 40px rgba(15,23,42,.12);
+      --bg-gradient:
+        radial-gradient(circle at 0% 0%, rgba(59,130,246,.12), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,.10), transparent 55%),
+        linear-gradient(120deg,#f9fafb,#f3f4f6 40%,#e5e7eb 60%,#f9fafb);
+    }
+
+    *{box-sizing:border-box}
+
+    body {
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background: var(--bg-gradient);
+      color:var(--text);
+      margin:0;
+    }
+
+    .container { max-width:1200px; margin:36px auto; padding:0 16px; }
+
+    header.app {
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:8px;
+      flex-wrap:wrap;
+    }
+
+    .logo-wrap{
+      background:var(--card);
+      border-radius:18px;
+      padding:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:var(--shadow);
+      border:1px solid var(--border);
+    }
+    .logo-wrap img{
+      width:220px;
+      height:auto;
+      display:block;
+      border-radius:14px;
+      filter: invert(1) brightness(1.2);
+      transition:filter .2s ease, transform .2s ease;
+    }
+    [data-theme="light"] .logo-wrap img{
+      filter: none; /* logo normal en mode jour */
+    }
+
+    h1 { font-size:clamp(26px,4vw,40px); margin:0; }
+    h2 { margin:0 0 12px; font-size:18px; }
+    .sub{ color:var(--text2); margin-bottom:16px; font-size:14px;}
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      padding:16px;
+      margin-top:16px;
+    }
+
+    .grid{ display:grid; gap:16px; }
+    .grid-2{ grid-template-columns:1.15fr .85fr; }
+    @media(max-width:960px){
+      .grid-2{ grid-template-columns:1fr; }
+      header.app{ justify-content:flex-start; }
+    }
+
+    label{
+      display:block;
+      font-size:13px;
+      margin-bottom:6px;
+      color:var(--text2);
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    input[type="time"],
+    select,
+    textarea{
+      width:100%;
+      padding:10px 11px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--text);
+      font-size:14px;
+      outline:none;
+      transition:.16s border-color,.16s box-shadow,.16s background,.16s transform;
+    }
+    input::placeholder,
+    textarea::placeholder{ color:#6b7280; font-size:13px;}
+    input:focus,
+    select:focus,
+    textarea:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(37,99,235,.35);
+      background:var(--card);
+      transform:translateY(-1px);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:.01em;
+      background:#111827;
+      color:#e5e7eb;
+      border:1px solid #1f2937;
+      transition:.15s background,.15s transform,.15s box-shadow,.15s border-color,.15s opacity;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      border-color:transparent;
+      color:#fff;
+      box-shadow:0 10px 18px rgba(37,99,235,.45);
+    }
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 26px rgba(37,99,235,.6);
+      opacity:0.97;
+    }
+    .btn-outline{
+      background:transparent;
+      color:var(--text2);
+      border-color:#1f2937;
+    }
+    [data-theme="light"] .btn-outline{
+      border-color:#d1d5db;
+      background:#f9fafb;
+    }
+    .btn-outline:hover{
+      background:rgba(15,23,42,.08);
+      border-color:#374151;
+    }
+    [data-theme="light"] .btn-outline:hover{
+      background:#edf2ff;
+      border-color:#3b82f6;
+    }
+
+    .toolbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:12px;
+      align-items:center;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:12px;
+      font-size:13px;
+      border-radius:12px;
+      overflow:hidden;
+    }
+    th,td{
+      padding:7px 8px;
+      border-bottom:1px solid #111827;
+      text-align:left;
+      vertical-align:top;
+    }
+    [data-theme="light"] th,
+    [data-theme="light"] td{
+      border-bottom:1px solid #e5e7eb;
+    }
+    th{
+      font-weight:500;
+      font-size:12px;
+      color:#9ca3af;
+      white-space:nowrap;
+      background:rgba(15,23,42,.85);
+    }
+    [data-theme="light"] th{
+      background:#f3f4f6;
+      color:#6b7280;
+    }
+    tr:nth-child(even) td{
+      background:rgba(15,23,42,.35);
+    }
+    [data-theme="light"] tr:nth-child(even) td{
+      background:#f9fafb;
+    }
+    tr:hover td{
+      background:rgba(59,130,246,.18);
+    }
+    [data-theme="light"] tr:hover td{
+      background:rgba(59,130,246,.09);
+    }
+
+    .small{ font-size:12px; color:#8aa0b5;}
+    .muted{ color:#94a3b8; font-size:12px; }
+
+    .totals{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:8px;
+      margin-top:10px;
+    }
+    @media(max-width:780px){ .totals{ grid-template-columns:1fr; } }
+
+    .kpi{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px;
+      box-shadow:var(--shadow);
+    }
+    .kpi .label{
+      font-size:11px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .kpi .value{
+      font-size:20px;
+      font-weight:800;
+      margin-top:6px;
+    }
+    .kpi .sub{
+      font-size:11px;
+      color:#64748b;
+      margin-top:2px;
+    }
+
+    .progress{
+      height:6px;
+      border-radius:999px;
+      background:rgba(15,23,42,.8);
+      overflow:hidden;
+      border:1px solid #111827;
+    }
+    [data-theme="light"] .progress{
+      background:#e5e7eb;
+      border-color:#d1d5db;
+    }
+    .progress-inner{
+      height:100%;
+      width:0;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      transition:width .2s ease-out;
+    }
+
+    .searchbar{
+      display:grid;
+      grid-template-columns:1fr 160px 150px;
+      gap:10px;
+      margin:10px 0 0;
+    }
+    @media(max-width:780px){
+      .searchbar{ grid-template-columns:1fr; }
+    }
+
+    .status-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid #1f2937;
+      background:var(--card);
+      font-size:11px;
+      color:var(--text);
+    }
+    [data-theme="light"] .status-pill{
+      border-color:#e5e7eb;
+    }
+    .status-pill span.dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      display:inline-block;
+    }
+
+    /* États de pastilles (nuit) */
+    .status-pill.paid{
+      background:rgba(22,163,74,.14);
+      border-color:#16a34a;
+      color:#bbf7d0;
+    }
+    .status-pill.paid .dot{
+      background:#22c55e;
+    }
+
+    .status-pill.partial{
+      background:rgba(234,179,8,.16);
+      border-color:#facc15;
+      color:#fef9c3;
+    }
+    .status-pill.partial .dot{
+      background:#eab308;
+    }
+
+    .status-pill.muted{
+      background:rgba(239,68,68,.16);
+      border-color:#ef4444;
+      color:#fecaca;
+    }
+    .status-pill.muted .dot{
+      background:#ef4444;
+    }
+
+    /* États de pastilles (jour) */
+    [data-theme="light"] .status-pill.paid{
+      background:rgba(22,163,74,.14);
+      border-color:#16a34a;
+      color:#166534;
+    }
+    [data-theme="light"] .status-pill.partial{
+      background:rgba(250,204,21,.16);
+      border-color:#eab308;
+      color:#854d0e;
+    }
+    [data-theme="light"] .status-pill.muted{
+      background:rgba(248,113,113,.18);
+      border-color:#ef4444;
+      color:#991b1b;
+    }
+
+    .checkbox-toggle{ display:flex; align-items:center; gap:8px; }
+
+    .alert{
+      padding:10px 12px;
+      border-radius:12px;
+      margin:10px 0;
+    }
+    .alert-ok{
+      background:rgba(34,197,94,.12);
+      border:1px solid rgba(34,197,94,.5);
+      color:#bbf7d0;
+    }
+    .alert-err{
+      background:rgba(239,68,68,.08);
+      border:1px solid rgba(239,68,68,.5);
+      color:#fecaca;
+    }
+
+    footer{
+      margin:20px 0;
+      color:#94a3b8;
+      font-size:12px;
+      text-align:center;
+    }
+    footer code{
+      background:var(--card);
+      border-radius:8px;
+      padding:2px 6px;
+      border:1px solid #1f2937;
+    }
+    [data-theme="light"] footer code{
+      border-color:#e5e7eb;
+    }
+
+    .hint{ font-size:12px; color:#9fb1c2; }
+    .row{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:6px;
+    }
+    .pill{
+      font-size:11px;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid #1f2937;
+      background:var(--card);
+      color:#9ca3af;
+    }
+    [data-theme="light"] .pill{
+      border-color:#e5e7eb;
+      color:#6b7280;
+    }
+
+    /* Switch thème */
+    .switch{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:11px;
+      color:#9ca3af;
+      cursor:pointer;
+      user-select:none;
+    }
+    .switch input{ display:none; }
+    .switch span.slider{
+      width:34px;
+      height:18px;
+      border-radius:999px;
+      background:#020617;
+      border:1px solid #1f2937;
+      position:relative;
+      transition:.16s background,.16s border-color;
+    }
+    [data-theme="light"] .switch span.slider{
+      background:#e5e7eb;
+      border-color:#d1d5db;
+    }
+    .switch span.slider::before{
+      content:"";
+      position:absolute;
+      top:1px;
+      left:1px;
+      width:14px;
+      height:14px;
+      border-radius:999px;
+      background:#e5e7eb;
+      transition:.16s transform,.16s background;
+      box-shadow:0 1px 3px rgba(15,23,42,.5);
+    }
+    [data-theme="light"] .switch span.slider::before{
+      background:#ffffff;
+    }
+    .switch input:checked + .slider{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      border-color:transparent;
+    }
+    .switch input:checked + .slider::before{
+      transform:translateX(14px);
+    }
+
+    .debug-zone{
+      margin-top:10px;
+      font-size:11px;
+      background:var(--card);
+      border-radius:12px;
+      padding:8px 10px;
+      border:1px dashed #1f2937;
+      color:#9ca3af;
+    }
+    .debug-zone pre{
+      margin:4px 0 0;
+      white-space:pre-wrap;
+      word-break:break-word;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    }
+
+    .actions button{ margin-right:6px; }
+
+    .small { font-size:12px; color:#8aa0b5;}
+    .checkbox-toggle { display:flex; align-items:center; gap:8px;}
+    .alert-ok { background: rgba(34,197,94,.1); border:1px solid rgba(34,197,94,.4); color:#86efac; }
+    .alert-err{ background: rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.4); color:#fecaca; }
+    .hint { font-size:12px; color:#9fb1c2; }
+    .debug { font-size:12px; color:#9ca3af; margin-top:6px; }
+    .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+
+    .totals { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:10px; }
+    .kpi{ background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; }
+    .kpi .label{ font-size:12px; color:var(--muted); }
+    .kpi .value{ font-size:20px; font-weight:800; margin-top:6px;}
+    .actions button{ margin-right:6px;}
+    .searchbar{ display:grid; grid-template-columns: 1fr 150px 160px; gap:10px; }
+    @media(max-width:780px){ .searchbar{ grid-template-columns:1fr;} .totals{ grid-template-columns:1fr; } }
+
+    /* calendar centered narrow */
+    #bloc-calendar{max-width:900px;margin:24px auto;}
+
+    /* ====== CAPTURE MOBILE RÉCAP ====== */
+    #capture-mobile{
+      display:none;
+      width:380px;
+      max-width:100%;
+      margin:0 auto;
+      padding:16px;
+      background:var(--bg);
+      color:var(--text);
+      border-radius:16px;
+    }
+    .cap-header{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      margin-bottom:12px;
+      gap:6px;
+    }
+    .cap-header img{
+      width:140px;
+      height:auto;
+      border-radius:12px;
+    }
+    .cap-title{
+      font-size:16px;
+      font-weight:700;
+    }
+    .cap-sub{
+      font-size:11px;
+      color:var(--text2);
+    }
+    .cap-item{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 12px;
+      margin-bottom:10px;
+    }
+    .cap-client{
+      font-weight:700;
+      font-size:14px;
+      margin-bottom:2px;
+    }
+    .cap-subtitle{
+      font-size:12px;
+      color:var(--text2);
+      margin-bottom:6px;
+    }
+    .cap-row{
+      display:flex;
+      justify-content:space-between;
+      font-size:12px;
+      margin-bottom:2px;
+      gap:6px;
+    }
+    .cap-row span:first-child{
+      color:var(--text2);
+    }
+    .cap-row .status-pill{
+      font-size:10px;
+      padding:2px 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="app">
+      <div class="logo-wrap">
+        <img
+          src="data:image/png;base64,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"
+          alt="SZD Studio">
+      </div>
+
+      <div>
+        <h1>Prestations — Clips & Musique</h1>
+        <div class="row" style="margin:4px 0 2px;">
+          <span class="pill">Version 1.4</span>
+          <span class="pill">LocalStorage</span>
+        </div>
+        <p class="sub">
+          Ajoute tes prestations, saisis les montants et enregistre les paiements partiels.
+          Données stockées en localStorage. Si le stockage est bloqué, l'application bascule en mode secours (sauvegarde JSON).
+        </p>
+        <div class="row" style="margin:8px 0">
+          <a class="btn btn-outline" href="facture_simple.html" target="_blank">🧾 Facture simple</a>
+          <a class="btn btn-outline" href="facture_op.html" target="_blank">🧾 Facture (pro)</a>
+        </div>
+      </div>
+
+      <!-- Switch thème nuit / jour -->
+      <label class="switch" style="margin-left:auto;">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+      </label>
+    </header>
+
+    <div class="sub">
+      Ajoute tes prestations, saisis les montants et enregistre les paiements partiels.
+      Données stockées en localStorage. Si le stockage est bloqué, l'application bascule en mode secours (sauvegarde JSON).
+    </div>
+
+    <div id="status" class="alert" style="display:none;"></div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>Nouvelle prestation</h2>
+        <form id="prestations-form" novalidate>
+          <div class="grid" style="grid-template-columns:1fr 1fr; gap:12px;">
+            <div>
+              <label for="client">Client</label>
+              <input type="text" id="client" placeholder="Nom de l'artiste / client">
+            </div>
+            <div>
+              <label for="type">Type</label>
+              <select id="type">
+                <option value="Clip">Clip</option>
+                <option value="Musique">Musique</option>
+                <option value="Tournage">Tournage</option>
+                <option value="Montage">Montage</option>
+                <option value="Autre">Autre</option>
+              </select>
+            </div>
+            <div style="grid-column:1 / -1;">
+              <label for="description">Description (optionnel)</label>
+              <input type="text" id="description" placeholder="Détails de la prestation (ex : Clip Mayanna)">
+            </div>
+            <div>
+              <label for="date">Date</label>
+              <input type="date" id="date">
+            </div>
+            <div>
+              <label for="montant">Montant (€)</label>
+              <input type="text" inputmode="decimal" id="montant" placeholder="ex : 800 ou 800,00">
+            </div>
+            <div class="checkbox-toggle" style="align-self:end;">
+              <input type="checkbox" id="paye">
+              <label for="paye" style="margin:0;">Déjà payé (total)</label>
+            </div>
+          </div>
+          <div class="toolbar" style="margin-top:12px;">
+            <button class="btn btn-primary" id="save" type="submit">Ajouter</button>
+            <button type="button" class="btn btn-outline" id="reset">Réinitialiser</button>
+            <button type="button" class="btn btn-outline" id="addDemo">+ Démo</button>
+            <button type="button" class="btn btn-outline" id="exportJson">Export JSON</button>
+            <button type="button" class="btn btn-outline" id="exportCsv">Export CSV</button>
+            <label class="btn btn-outline">
+              Import JSON
+              <input type="file" id="importJson" accept="application/json" style="display:none;">
+            </label>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Recherche & filtre</h2>
+        <div class="searchbar">
+          <div>
+            <label for="search">Filtre texte</label>
+            <input type="text" id="search" placeholder="Client, type, description…">
+          </div>
+          <div>
+            <label for="filterStatus">Statut</label>
+            <select id="filterStatus">
+              <option value="all">Tous</option>
+              <option value="unpayed">Non payé</option>
+              <option value="partial">Partiel</option>
+              <option value="paid">Payé / soldé</option>
+            </select>
+          </div>
+          <div>
+            <label for="filterType">Type</label>
+            <select id="filterType">
+              <option value="all">Tous</option>
+              <option value="Clip">Clip</option>
+              <option value="Musique">Musique</option>
+              <option value="Tournage">Tournage</option>
+              <option value="Montage">Montage</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="totals">
+          <div class="kpi">
+            <div class="label">Total facturé</div>
+            <div class="value" id="totalMontant">0 €</div>
+            <div class="sub">Somme des prestations</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Total reçu</div>
+            <div class="value" id="totalRecu">0 €</div>
+            <div class="sub">Somme des paiements</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Total restant</div>
+            <div class="value" id="totalRestant">0 €</div>
+            <div class="sub">À encaisser</div>
+          </div>
+        </div>
+
+        <div style="margin-top:10px;">
+          <div class="row">
+            <div class="checkbox-toggle">
+              <input type="checkbox" id="debug">
+              <label for="debug" style="margin:0;">Debug mode</label>
+            </div>
+            <div class="checkbox-toggle">
+              <input type="checkbox" id="autoFile">
+              <label for="autoFile" style="margin:0;">Fichier auto (expérimental)</label>
+            </div>
+          </div>
+          <div class="small" id="lsStatus"></div>
+        </div>
+
+        <div class="debug-zone" id="debug-zone" style="display:none;">
+          <div>Console locale :</div>
+          <pre id="debugOut"></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <h2>Prestations enregistrées</h2>
+      <div class="small">Clique sur "Encaisser" pour enregistrer un paiement partiel ou total.</div>
+      <div class="toolbar" style="margin-top:10px;">
+        <button type="button" class="btn btn-outline" id="captureRecap">📸 Capture récap (mobile)</button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Client / Type</th>
+            <th>Montant</th>
+            <th>Reçu</th>
+            <th>Restant</th>
+            <th>Avancement</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="10" class="small">Aucune prestation ne correspond.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Zone de capture mobile cachée -->
+    <div id="capture-mobile"></div>
+
+    <!-- ====== FORMULAIRE CALENDRIER ====== -->
+    <section class="card" id="bloc-calendar" style="max-width: 900px; margin: 24px auto;">
+      <h2>Ajouter un RDV (Google Calendar)</h2>
+      <p class="hint">Remplis les champs puis clique sur “Créer dans Google Calendar”.</p>
+
+      <div class="grid grid-2">
+        <div>
+          <label for="gc-title">Titre</label>
+          <input id="gc-title" type="text" placeholder="Titre de l’événement" />
+        </div>
+        <div>
+          <label for="gc-location">Lieu</label>
+          <input id="gc-location" type="text" placeholder="Lieu" />
+        </div>
+
+        <div>
+          <label for="gc-date">Date</label>
+          <input id="gc-date" type="date" />
+        </div>
+        <div>
+          <label for="gc-allday">Toute la journée ?</label>
+          <input id="gc-allday" type="checkbox" />
+        </div>
+
+        <div>
+          <label for="gc-start">Heure de début</label>
+          <input id="gc-start" type="time" />
+        </div>
+        <div>
+          <label for="gc-end">Heure de fin</label>
+          <input id="gc-end" type="time" />
+        </div>
+
+        <div style="grid-column:1 / -1;">
+          <label for="gc-desc">Description</label>
+          <textarea id="gc-desc" placeholder="Détails (ex : Tournage clip, durée, particularités...)"></textarea>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button class="btn btn-primary" id="gc-create" type="button">Créer dans Google Calendar</button>
+        <a id="gc-url" href="#" target="_blank" class="btn btn-outline">Ouvrir le lien</a>
+      </div>
+      <p class="small">Le lien ouvre Google Calendar avec l'événement pré-rempli (dans un nouvel onglet).</p>
+    </section>
+    <!-- ====== FIN FORMULAIRE CALENDRIER ====== -->
+
+    <!-- ====== CONTRAT LICENCE D'INSTRUMENTALE ====== -->
+    <section class="card" id="bloc-contrat-artiste" style="max-width:900px;margin:24px auto;">
+      <h2>Contrat de licence d'instrumentale</h2>
+      <p class="hint">
+        Remplis les infos, choisis la fonction (Artiste / Manager / Autre), puis clique sur « Générer le contrat instrumental (.doc) ».
+      </p>
+
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+
+        <div>
+          <label for="ca-nom-artiste">Nom / prénom de la personne (obligatoire)</label>
+          <input type="text" id="ca-nom-artiste" placeholder="Nom complet de la personne">
+        </div>
+
+        <div>
+          <label for="ca-fonction">Fonction (obligatoire)</label>
+          <select id="ca-fonction">
+            <option value="Artiste" selected>Artiste</option>
+            <option value="Manager">Manager / Responsable d'artiste</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+
+        <div id="ca-wrapper-nom-scene">
+          <label for="ca-nom-scene">Nom de scène (si Artiste)</label>
+          <input type="text" id="ca-nom-scene" placeholder="Ex : HAMADA">
+        </div>
+
+        <div id="ca-wrapper-artiste-represente" style="display:none;">
+          <label for="ca-artiste-represente">Artiste représenté (obligatoire si Manager)</label>
+          <input type="text" id="ca-artiste-represente" placeholder="Nom de l'artiste représenté">
+        </div>
+
+        <div id="ca-wrapper-fonction-detail" style="display:none;">
+          <label for="ca-fonction-detaillee">Préciser la fonction (obligatoire si Autre)</label>
+          <input type="text" id="ca-fonction-detaillee" placeholder="Ex : Producteur exécutif">
+        </div>
+
+        <div>
+          <label for="ca-adresse-artiste">Adresse</label>
+          <input type="text" id="ca-adresse-artiste" placeholder="Adresse complète">
+        </div>
+
+        <div>
+          <label for="ca-cp-ville-artiste">Code postal / Ville</label>
+          <input type="text" id="ca-cp-ville-artiste" placeholder="Ex : 71170 Chauffailles">
+        </div>
+
+        <div>
+          <label for="ca-date-contrat">Date du contrat</label>
+          <input type="date" id="ca-date-contrat">
+        </div>
+
+        <div>
+          <label for="ca-lieu-signature">Lieu de signature</label>
+          <input type="text" id="ca-lieu-signature" placeholder="Ex : Montlouis-sur-Loire">
+        </div>
+
+        <div>
+          <label for="ca-titre-oeuvre">Titre de l'instrumentale</label>
+          <input type="text" id="ca-titre-oeuvre" placeholder="Titre de la prod">
+        </div>
+
+        <div>
+          <label for="ca-type-licence">Type de licence</label>
+          <select id="ca-type-licence">
+            <option value="non exclusive" selected>Non exclusive</option>
+            <option value="exclusive">Exclusive</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="ca-montant">Montant payé (€)</label>
+          <input type="number" id="ca-montant" placeholder="Ex : 100" min="0">
+        </div>
+      </div>
+
+      <div class="toolbar" style="margin-top:12px;">
+        <button type="button" class="btn btn-primary" id="ca-generate">
+          Générer le contrat instrumental (.doc)
+        </button>
+      </div>
+
+      <p class="small">
+        Le fichier généré sera un .doc modifiable (Word / LibreOffice), que tu pourras ensuite exporter en PDF pour signature.
+      </p>
+    </section>
+    <!-- ====== FIN CONTRAT LICENCE D'INSTRUMENTALE ====== -->
+
+  </div>
+
+  <footer>Local — clé: <code>prestations_v1</code>. Si ça casse, tu peux exporter en JSON et garder une sauvegarde manuelle.</footer>
+
+  <!-- html2canvas pour la capture -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+  <!-- SCRIPT GCAL -->
+  <script>
+  (function(){
+    function pad(n){ return String(n).padStart(2,'0'); }
+    function yyyymmdd(dateStr){
+      if(!dateStr) return "";
+      var parts = dateStr.split("-");
+      if(parts.length !== 3) return "";
+      var Y = parts[0], M = parts[1], D = parts[2];
+      return Y + M + D;
+    }
+    function hhmmss(timeStr){
+      if(!timeStr) return "000000";
+      var parts = String(timeStr).split(":");
+      var h = parts[0] || "00";
+      var m = parts[1] || "00";
+      return pad(h) + pad(m) + "00";
+    }
+    function buildUrl(){
+      var title = document.getElementById("gc-title").value || "RDV";
+      var desc  = document.getElementById("gc-desc").value  || "";
+      var loc   = document.getElementById("gc-location").value || "";
+      var date  = document.getElementById("gc-date").value;
+      var start = document.getElementById("gc-start").value;
+      var end   = document.getElementById("gc-end").value;
+      var allDay= document.getElementById("gc-allday").checked;
+
+      if(!date) return "";
+
+      var d = yyyymmdd(date);
+      var datesParam = "";
+      if(allDay){
+        datesParam = d + "/" + d;
+      }else{
+        var hs = hhmmss(start || "09:00");
+        var he = hhmmss(end   || "10:00");
+        datesParam = d + "T" + hs + "/" + d + "T" + he;
+      }
+
+      var params = new URLSearchParams();
+      params.set("action","TEMPLATE");
+      params.set("text", title);
+      if(desc) params.set("details", desc);
+      if(loc) params.set("location", loc);
+      params.set("dates", datesParam);
+
+      return "https://www.google.com/calendar/render?" + params.toString();
+    }
+
+    document.addEventListener("DOMContentLoaded", function(){
+      var preview = document.getElementById("gc-url");
+      var create  = document.getElementById("gc-create");
+      if(!preview || !create) return;
+
+      function refresh(){
+        var url = buildUrl();
+        if(url){
+          preview.href = url;
+          preview.textContent = "Ouvrir le lien Google Calendar";
+        }else{
+          preview.href = "#";
+          preview.textContent = "Renseigne au moins la date";
+        }
+      }
+
+      ["gc-title","gc-desc","gc-location","gc-date","gc-start","gc-end","gc-allday"].forEach(function(id){
+        var el = document.getElementById(id);
+        if(el){
+          el.addEventListener("input", refresh);
+          el.addEventListener("change", refresh);
+        }
+      });
+      refresh();
+
+      create.addEventListener("click", function(){
+        var url = buildUrl();
+        if(url){
+          window.open(url, "_blank", "noopener");
+        }else{
+          alert("Renseigne au moins la date pour créer l'événement.");
+        }
+      });
+    });
+  })();
+  </script>
+
+  <!-- SCRIPT PRESTATIONS -->
+  <script>
+    (() => {
+      const $ = (id) => document.getElementById(id);
+      const formEl = $("prestations-form");
+      const eur = (n) => new Intl.NumberFormat("fr-FR", {style:"currency", currency:"EUR"}).format(n || 0);
+      const storageKey = "prestations_v1";
+      const VERSION = "1.4";
+
+      const status = $("status");
+      const debugChk = $("debug");
+      const autoFile = $("autoFile");
+      const debugOut = $("debugOut");
+      const lsStatus = $("lsStatus");
+
+      const tbody = $("tbody");
+      const totalMontantEl = $("totalMontant");
+      const totalRecuEl = $("totalRecu");
+      const totalRestantEl = $("totalRestant");
+      const search = $("search");
+      const filterStatus = $("filterStatus");
+      const filterType = $("filterType");
+
+      const client = $("client");
+      const type = $("type");
+      const description = $("description");
+      const date = $("date");
+      const montant = $("montant");
+      const paye = $("paye");
+
+      const exportJsonBtn = $("exportJson");
+      const exportCsvBtn = $("exportCsv");
+      const importJsonInput = $("importJson");
+      const clearAllBtn = $("clearAll"); // (pas présent dans le HTML, ok si null)
+      const resetBtn = $("reset");
+      const addDemoBtn = $("addDemo");
+      const captureBtn = $("captureRecap");
+
+      let data = [];
+      let editingId = null;
+
+      const log = (...args) => {
+        if (debugChk && debugChk.checked) {
+          console.log("[DEBUG]", ...args);
+          if (debugOut) {
+            debugOut.textContent = String(args.join(" "));
+          }
+        }
+      };
+
+      function ts(){
+        const d=new Date();
+        const p=n=>String(n).padStart(2,"0");
+        return d.getFullYear()+"-"+p(d.getMonth()+1)+p(d.getDate())+"_"+p(d.getHours())+p(d.getMinutes())+p(d.getSeconds());
+      }
+
+      const supportsLocalStorage = (() => {
+        try {
+          const k = "__test_ls__";
+          localStorage.setItem(k,"1");
+          localStorage.removeItem(k);
+          return true;
+        } catch(e) {
+          return false;
+        }
+      })();
+
+      function showStatus(msg, ok=true){
+        if(!status) return;
+        status.className = "alert " + (ok ? "alert-ok" : "alert-err");
+        status.textContent = msg;
+        status.style.display = "block";
+        clearTimeout(showStatus._t);
+        showStatus._t = setTimeout(() => { status.style.display = "none"; }, 4000);
+      }
+
+      function persist(){
+        if(!supportsLocalStorage) return;
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(data));
+          log("persist ok", data.length);
+        } catch(e) {
+          console.error(e);
+          showStatus("Erreur de sauvegarde locale : " + e.message, false);
+        }
+      }
+
+      function load(){
+        if(!supportsLocalStorage){
+          if(lsStatus){
+            lsStatus.textContent = "LocalStorage indisponible (mode secours).";
+          }
+          return;
+        }
+        if(lsStatus){
+          lsStatus.textContent = "LocalStorage actif.";
+        }
+        try {
+          const raw = localStorage.getItem(storageKey);
+          if(!raw) return;
+          data = JSON.parse(raw) || [];
+        } catch(e) {
+          console.error(e);
+          showStatus("Impossible de lire les données locales.", false);
+        }
+      }
+
+      function sanitizeAmount(v) {
+        if (typeof v === "number") return v;
+        let s = (v||"").toString().trim();
+        s = s.replace(/\s/g,"").replace(",", "."); // french decimal
+        const num = parseFloat(s);
+        return isFinite(num) ? num : NaN;
+      }
+
+      function getPaid(r){ return Number(r.paidAmount || 0); }
+      function getRemaining(r){ return Math.max(0, Number((r.montant||0) - getPaid(r))); }
+      function isSettled(r){ return getRemaining(r) <= 0.00001; }
+
+      function filterRecords(list){
+        const q = (search?.value || "").toLowerCase();
+        const fStatus = filterStatus?.value || "all";
+        const fType = filterType?.value || "all";
+
+        return list.filter(r => {
+          if(q){
+            const blob = [r.client,r.type,r.description].join(" ").toLowerCase();
+            if(!blob.includes(q)) return false;
+          }
+          if(fType !== "all" && r.type !== fType) return false;
+          if(fStatus !== "all"){
+            const settled = isSettled(r);
+            const paid = getPaid(r) > 0;
+            if(fStatus === "paid" && !settled) return false;
+            if(fStatus === "unpayed" && (paid || settled)) return false;
+            if(fStatus === "partial" && (!paid || settled)) return false;
+          }
+          return true;
+        });
+      }
+
+      function updateTotals(){
+        let totalMontant = 0;
+        let totalRecu    = 0;
+        let totalRestant = 0;
+
+        data.forEach(r => {
+          const m = Number(r.montant||0);
+          const p = getPaid(r);
+          totalMontant += m;
+          totalRecu    += p;
+          totalRestant += Math.max(0,m-p);
+        });
+
+        if(totalMontantEl) totalMontantEl.textContent = eur(totalMontant);
+        if(totalRecuEl) totalRecuEl.textContent = eur(totalRecu);
+        if(totalRestantEl) totalRestantEl.textContent = eur(totalRestant);
+      }
+
+      function render(){
+        if(!tbody) return;
+        tbody.innerHTML = "";
+
+        const records = filterRecords(data);
+        if(!records.length){
+          const tr = document.createElement("tr");
+          const td = document.createElement("td");
+          td.colSpan = 10;
+          td.className = "small";
+          td.textContent = "Aucune prestation ne correspond.";
+          tr.appendChild(td);
+          tbody.appendChild(tr);
+          updateTotals();
+          return;
+        }
+
+        records.sort((a,b) => {
+          const da = a.date || "";
+          const db = b.date || "";
+          return da.localeCompare(db);
+        });
+
+        records.forEach(r => {
+          const tr = document.createElement("tr");
+
+          const tdDate = document.createElement("td");
+          tdDate.textContent = r.date || "";
+          tr.appendChild(tdDate);
+
+          const tdClient = document.createElement("td");
+          const c1 = document.createElement("div");
+          c1.textContent = r.client || "";
+          c1.style.fontWeight = "600";
+          const c2 = document.createElement("div");
+          c2.className = "small";
+          c2.textContent = (r.type || "") + (r.description ? " — " + r.description : "");
+          tdClient.appendChild(c1);
+          tdClient.appendChild(c2);
+          tr.appendChild(tdClient);
+
+          const tdMontant = document.createElement("td");
+          tdMontant.textContent = eur(r.montant || 0);
+          tr.appendChild(tdMontant);
+
+          const tdRecu = document.createElement("td");
+          tdRecu.textContent = eur(getPaid(r));
+          tr.appendChild(tdRecu);
+
+          const remaining = getRemaining(r);
+          const tdRestant = document.createElement("td");
+          tdRestant.textContent = eur(remaining);
+          tr.appendChild(tdRestant);
+
+          const tdProgress = document.createElement("td");
+          const wrapper = document.createElement("div");
+          wrapper.className = "small";
+          const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(getPaid(r)/r.montant*100)) : 0;
+          wrapper.textContent = percent + " %";
+          const bar = document.createElement("div");
+          bar.className = "progress";
+          const inner = document.createElement("div");
+          inner.className = "progress-inner";
+          inner.style.width = percent + "%";
+          bar.appendChild(inner);
+          tdProgress.appendChild(wrapper);
+          tdProgress.appendChild(bar);
+          tr.appendChild(tdProgress);
+
+          const tdStatus = document.createElement("td");
+          const pill = document.createElement("span");
+          pill.className = "status-pill";
+          const dot = document.createElement("span");
+          dot.className = "dot";
+          pill.appendChild(dot);
+          const label = document.createElement("span");
+          let cls = "";
+          if(isSettled(r)){
+            cls = "paid";
+            label.textContent = "Payé";
+          }else if(getPaid(r) > 0){
+            cls = "partial";
+            label.textContent = "Partiel";
+          }else{
+            cls = "muted";
+            label.textContent = "Non payé";
+          }
+          pill.classList.add(cls);
+          pill.appendChild(label);
+          tdStatus.appendChild(pill);
+          tr.appendChild(tdStatus);
+
+          const tdActions = document.createElement("td");
+          const encBtn = document.createElement("button");
+          encBtn.type = "button";
+          encBtn.className = "btn btn-primary";
+          encBtn.textContent = "Encaisser";
+          encBtn.addEventListener("click", () => {
+            let max = getRemaining(r);
+            if(max <= 0){
+              showStatus("Tout est déjà payé pour cette prestation.", false);
+              return;
+            }
+            const s = prompt("Montant à encaisser (max " + eur(max) + "):", "");
+            if(s===null) return;
+            const val = sanitizeAmount(s);
+            if(!isFinite(val) || val<=0){
+              showStatus("Montant invalide.", false);
+              return;
+            }
+            if(val > max + 0.00001){
+              showStatus("Montant supérieur au restant dû.", false);
+              return;
+            }
+            r.paidAmount = (r.paidAmount || 0) + val;
+            persist();
+            updateTotals();
+            render();
+            showStatus("Paiement enregistré.");
+          });
+
+          const editBtn = document.createElement("button");
+          editBtn.type = "button";
+          editBtn.className = "btn btn-outline";
+          editBtn.textContent = "Modifier";
+          editBtn.addEventListener("click", () => {
+            editingId = r.id;
+            client.value = r.client || "";
+            type.value = r.type || "Clip";
+            description.value = r.description || "";
+            date.value = r.date || "";
+            montant.value = r.montant != null ? String(r.montant) : "";
+            paye.checked = isSettled(r);
+            window.scrollTo({top:0, behavior:"smooth"});
+          });
+
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.className = "btn btn-outline";
+          delBtn.textContent = "Supprimer";
+          delBtn.addEventListener("click", () => {
+            if (confirm("Supprimer cette prestation ?")) {
+              data = data.filter(x => x.id !== r.id);
+              persist();
+              updateTotals();
+              render();
+              if (editingId === r.id) editingId = null;
+              showStatus("Prestation supprimée.");
+            }
+          });
+
+          tdActions.appendChild(encBtn);
+          tdActions.appendChild(editBtn);
+          tdActions.appendChild(delBtn);
+          tr.appendChild(tdActions);
+
+          tbody.appendChild(tr);
+        });
+
+        updateTotals();
+      }
+
+      function resetForm(){
+        if(!formEl) return;
+        client.value = "";
+        type.value = "Clip";
+        description.value = "";
+        date.value = "";
+        montant.value = "";
+        paye.checked = false;
+        editingId = null;
+      }
+
+      function validateForm(){
+        const c = client.value.trim();
+        if(!c){
+          showStatus("Le nom du client est obligatoire.", false);
+          client.focus();
+          return null;
+        }
+        const m = sanitizeAmount(montant.value);
+        if(!isFinite(m) || m<=0){
+          showStatus("Montant invalide.", false);
+          montant.focus();
+          return null;
+        }
+        const d = date.value || new Date().toISOString().slice(0,10);
+        return {client:c, type:type.value, description:description.value.trim(), date:d, montant:m};
+      }
+
+      function addRecord(rec){
+        rec.id = rec.id || Date.now() + Math.random();
+        rec.paidAmount = rec.paidAmount || 0;
+        data.push(rec);
+      }
+
+      if(formEl){
+        formEl.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const rec = validateForm();
+          if(!rec) return;
+
+          if(editingId){
+            const idx = data.findIndex(r => r.id === editingId);
+            if(idx !== -1){
+              data[idx] = {
+                ...data[idx],
+                ...rec
+              };
+              showStatus("Prestation modifiée.");
+            }
+            editingId = null;
+          } else {
+            if(paye.checked){
+              rec.paidAmount = rec.montant;
+            }
+            addRecord(rec);
+            showStatus("Prestation ajoutée.");
+          }
+
+          persist();
+          render();
+          resetForm();
+        });
+      }
+
+      if(resetBtn){
+        resetBtn.addEventListener("click", () => {
+          resetForm();
+        });
+      }
+
+      if(addDemoBtn){
+        addDemoBtn.addEventListener("click", () => {
+          const demo = {
+            client:"Artiste démo",
+            type:"Clip",
+            description:"Clip test démo",
+            date:new Date().toISOString().slice(0,10),
+            montant:800,
+            paidAmount:200
+          };
+          addRecord(demo);
+          persist();
+          render();
+          showStatus("Démo ajoutée.");
+        });
+      }
+
+      if(exportJsonBtn){
+        exportJsonBtn.addEventListener("click", () => {
+          try{
+            const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "prestations_"+ts()+".json";
+            a.click();
+            URL.revokeObjectURL(a.href);
+            showStatus("Export JSON téléchargé.");
+          }catch(e){
+            console.error(e);
+            showStatus("Erreur export JSON : " + e.message, false);
+          }
+        });
+      }
+
+      if(exportCsvBtn){
+        exportCsvBtn.addEventListener("click", () => {
+          try{
+            let csv = "date;client;type;description;montant;recu;restant\n";
+            data.forEach(r => {
+              csv += [
+                r.date || "",
+                r.client || "",
+                r.type || "",
+                (r.description||"").replace(/\n/g," "),
+                r.montant || 0,
+                getPaid(r),
+                getRemaining(r)
+              ].map(v => String(v).replace(/;/g,",")).join(";") + "\n";
+            });
+            const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "prestations_"+ts()+".csv";
+            a.click();
+            URL.revokeObjectURL(a.href);
+            showStatus("Export CSV téléchargé.");
+          }catch(e){
+            console.error(e);
+            showStatus("Erreur export CSV : " + e.message, false);
+          }
+        });
+      }
+
+      if(importJsonInput){
+        importJsonInput.addEventListener("change", async (e) => {
+          const file = e.target.files && e.target.files[0];
+          if(!file) return;
+          try{
+            const txt = await file.text();
+            const arr = JSON.parse(txt);
+            if(!Array.isArray(arr)) throw new Error("Format JSON invalide");
+            data = arr.map(r => ({
+              id: r.id || Date.now()+Math.random(),
+              client: r.client || "",
+              type: r.type || "Clip",
+              description: r.description || "",
+              date: r.date || "",
+              montant: Number(r.montant||0),
+              paidAmount: Number(r.paidAmount||0)
+            }));
+            persist();
+            render();
+            showStatus("Import JSON réussi.");
+          }catch(err){
+            console.error(err);
+            showStatus("Erreur import JSON : " + err.message, false);
+          }finally{
+            importJsonInput.value = "";
+          }
+        });
+      }
+
+      if(clearAllBtn){
+        clearAllBtn.addEventListener("click", () => {
+          if(confirm("Effacer TOUTES les prestations ?")){
+            data = [];
+            persist();
+            render();
+            showStatus("Tous les enregistrements ont été supprimés.");
+          }
+        });
+      }
+
+      if(debugChk){
+        debugChk.addEventListener("change", () => {
+          const zone = document.getElementById("debug-zone");
+          if(zone) zone.style.display = debugChk.checked ? "block" : "none";
+        });
+      }
+
+      if (search) {
+        search.addEventListener("input", () => {
+          render();
+        });
+      }
+      if (filterStatus) {
+        filterStatus.addEventListener("change", render);
+      }
+      if (filterType) {
+        filterType.addEventListener("change", render);
+      }
+
+      /* ==== Capture récap mobile pour "Prestations enregistrées" ==== */
+      if (captureBtn && typeof html2canvas !== "undefined") {
+        captureBtn.addEventListener("click", () => {
+          const records = filterRecords(data);
+          if (!records.length) {
+            showStatus("Aucune prestation à capturer (vérifie les filtres).", false);
+            return;
+          }
+          const zone = document.getElementById("capture-mobile");
+          if (!zone) {
+            alert("Zone de capture introuvable.");
+            return;
+          }
+
+          const now = new Date();
+          const dateStr = now.toLocaleString("fr-FR", {
+            day:"2-digit", month:"2-digit", year:"numeric",
+            hour:"2-digit", minute:"2-digit"
+          });
+
+          let html = "";
+          html += `
+            <div class="cap-header">
+              <img src="${document.querySelector('.logo-wrap img').src}" alt="SZD Studio">
+              <div class="cap-title">Récapitulatif des prestations</div>
+              <div class="cap-sub">Généré le ${dateStr}</div>
+            </div>
+          `;
+
+          records.forEach(r => {
+            const remaining = getRemaining(r);
+            const paid = getPaid(r);
+            let cls, label;
+            if (isSettled(r)) {
+              cls = "paid";
+              label = "Payé";
+            } else if (paid > 0) {
+              cls = "partial";
+              label = "Partiel";
+            } else {
+              cls = "muted";
+              label = "Non payé";
+            }
+
+            html += `
+              <div class="cap-item">
+                <div class="cap-client">${r.client || ""}</div>
+                <div class="cap-subtitle">${(r.type || "")}${r.description ? " — " + r.description : ""}</div>
+                <div class="cap-row">
+                  <span>Date</span><span>${r.date || ""}</span>
+                </div>
+                <div class="cap-row">
+                  <span>Montant</span><span>${eur(r.montant || 0)}</span>
+                </div>
+                <div class="cap-row">
+                  <span>Reçu</span><span>${eur(paid)}</span>
+                </div>
+                <div class="cap-row">
+                  <span>Restant</span><span>${eur(remaining)}</span>
+                </div>
+                <div class="cap-row">
+                  <span>Statut</span>
+                  <span class="status-pill ${cls}">
+                    <span class="dot"></span>
+                    <span>${label}</span>
+                  </span>
+                </div>
+              </div>
+            `;
+          });
+
+          zone.innerHTML = html;
+          zone.style.display = "block";
+
+          const bg = document.documentElement.getAttribute("data-theme") === "light"
+            ? "#f3f4f6"
+            : "#020617";
+
+          html2canvas(zone, {
+            backgroundColor: bg,
+            scale: 2
+          }).then(canvas => {
+            const link = document.createElement("a");
+            link.download = "recap_prestations_mobile_"+ts()+".png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+            zone.style.display = "none";
+            showStatus("Récapitulatif capturé (format mobile) !");
+          }).catch(err => {
+            console.error(err);
+            zone.style.display = "none";
+            showStatus("Erreur lors de la capture du récapitulatif.", false);
+          });
+        });
+      }
+
+      load();
+      render();
+      showStatus(
+        supportsLocalStorage ? "Sauvegarde locale active." : "Mode secours actif (stockage bloqué).",
+        supportsLocalStorage
+      );
+      log("init ok, version", VERSION);
+
+    })();
+  </script>
+
+  <!-- ====== TEMPLATE CONTRAT INSTRUMENTALE (CACHÉ) ====== -->
+  <textarea id="template-contrat-artiste" style="display:none; white-space:pre-wrap;">
+
+[[LIEU_SIGNATURE]], le [[DATE_CONTRAT]]
+
+[[NOM_PERSONNE]]
+[[ADRESSE_ARTISTE]]
+[[CP_VILLE_ARTISTE]]
+
+Objet : Contrat de licence d'instrumentale ([[TYPE_LICENCE_MAJ]])
+
+Madame, Monsieur,
+[[APPEL_CLIENT]]
+
+Par le présent courrier, il est convenu ce qui suit entre :
+
+[[NOM_PRODUCTEUR]] (ci-après « le Producteur » ou « le Beatmaker »),
+
+et
+
+[[BLOC_CLIENT]]
+
+--------------------------------------------------
+ARTICLE 1 – OBJET
+--------------------------------------------------
+Le présent contrat a pour objet de définir les conditions dans lesquelles le Producteur concède à l'Artiste une licence [[TYPE_LICENCE]] d'utilisation de l'instrumentale intitulée « [[TITRE_OEUVRE]] » (ci-après « l'Instrumentale »).
+
+--------------------------------------------------
+ARTICLE 2 – PRIX, ACOMPTE, MODALITÉS DE PAIEMENT ET RETOUCHES
+--------------------------------------------------
+En contrepartie de la Licence concédée et du travail de production réalisé, l’Artiste s’engage à verser au Producteur la somme de :
+
+MONTANT TOTAL : [[MONTANT]] € TTC
+
+ACOMPTE :
+Un acompte obligatoire de trente pour cent (30%) du montant total doit être réglé pour permettre au Producteur de démarrer la production.  
+Aucun travail (composition, arrangement, mix, structure ou tout élément de production) ne sera initié tant que cet acompte n’aura pas été reçu.
+
+SOLDE :
+Le solde restant (70%) doit être réglé dans un délai maximum de trente (30) jours à compter de la livraison de la première version de l’Instrumentale ou de l’émission de la demande de paiement correspondante.  
+Le paiement complet est indispensable pour valider définitivement la Licence.  
+Aucun fichier final (export, stems, projet, ou élément définitif) ne sera livré tant que le règlement total n’aura pas été reçu.
+
+MODES DE PAIEMENT ACCEPTÉS :
+- Virement bancaire (coordonnées ci-dessous)
+- PayPal ou Lydia (adresse communiquée sur demande)
+- Espèces (uniquement en main propre)
+
+Coordonnées bancaires du Producteur :
+Nom : Armel Abdoulatif ALI
+IBAN : FR80 2043 3026 26N2 6178 8757 833
+BIC : NTSBFRM1XXX
+
+RETOUCHES :
+L’Artiste bénéficie de deux (2) retouches gratuites, à condition qu’elles soient demandées dans un délai maximum de quinze (15) jours après la livraison initiale.  
+Une retouche correspond à une modification raisonnable n’altérant pas la structure ou l’identité de l’œuvre.
+
+RETOUCHES SUPPLÉMENTAIRES :
+Toute retouche supplémentaire au-delà des deux incluses sera facturée dix euros (10 €) par retouche.  
+Les retouches supplémentaires doivent obligatoirement être réglées avant le début de leur réalisation.
+
+PROTECTIONS :
+Le Producteur se réserve le droit de refuser toute demande excessive ou abusive.  
+En cas de non-paiement dans les délais impartis (y compris l'acompte ou le solde), la prestation peut être suspendue ou annulée sans préavis.
+--------------------------------------------------
+ARTICLE 3 – NATURE DE LA LICENCE
+--------------------------------------------------
+3.1 Licence non exclusive  
+Lorsque la licence choisie est NON EXCLUSIVE, l’Artiste peut exploiter librement l’Instrumentale, mais le Producteur conserve le droit de vendre la même Instrumentale à d’autres artistes.
+
+3.2 Licence exclusive  
+Lorsque la licence choisie est EXCLUSIVE, l’Artiste obtient un droit exclusif d’exploitation de l'Instrumentale à compter de la date du contrat.  
+Le Producteur ne pourra plus vendre cette Instrumentale à un autre artiste après cette date.
+
+Le type de licence choisi est : [[TYPE_LICENCE_MAJ]].
+
+--------------------------------------------------
+ARTICLE 4 – TERRITOIRE ET DURÉE
+--------------------------------------------------
+La licence est accordée pour le monde entier et pour toute la durée légale de protection de l'œuvre au titre du droit d’auteur.
+
+--------------------------------------------------
+ARTICLE 5 – DROITS ACCORDÉS
+--------------------------------------------------
+L’Artiste est autorisé à :
+- enregistrer un ou plusieurs morceaux avec l’Instrumentale ;
+- diffuser ces morceaux sur les plateformes de streaming (Spotify, Apple Music, Deezer, etc.) ;
+- diffuser ces morceaux sur YouTube, TikTok, réseaux sociaux, radios, TV ;
+- utiliser ces morceaux dans des clips, concerts, showcases, événements promotionnels.
+
+L’Artiste n’est pas autorisé à :
+- revendre l’Instrumentale seule ;
+- mettre l’Instrumentale seule à disposition en pack, banque de sons, kit de production ;
+- revendiquer la qualité de producteur ou de beatmaker de l’Instrumentale.
+
+--------------------------------------------------
+ARTICLE 6 – MENTION OBLIGATOIRE DU PRODUCTEUR
+--------------------------------------------------
+L’Artiste s'engage à créditer le Producteur de manière claire et visible sur toutes les exploitations du morceau utilisant l’Instrumentale, notamment, à titre d’exemple :
+
+« Prod. par [[NOM_PRODUCTEUR]] »
+
+Cette mention devra apparaître, dans la mesure du possible :
+- dans les métadonnées des plateformes (Spotify, Apple Music, Deezer, etc.) ;
+- dans les descriptions des vidéos YouTube ;
+- sur la pochette ou le visuel du single / projet ;
+- sur les visuels promotionnels et publications réseaux sociaux.
+
+--------------------------------------------------
+ARTICLE 7 – PROPRIÉTÉ INTELLECTUELLE
+--------------------------------------------------
+Le Producteur reste, en toutes circonstances, seul titulaire des droits d’auteur sur l’Instrumentale.
+
+La licence concédée à l’Artiste n’emporte aucun transfert de propriété, mais uniquement une autorisation d’utilisation dans le cadre défini par le présent contrat.
+
+--------------------------------------------------
+ARTICLE 8 – GARANTIE D’UTILISATION
+--------------------------------------------------
+L’Artiste s’engage à ne pas utiliser l’Instrumentale ni les morceaux qui en découlent dans des contenus :
+- diffamatoires,
+- haineux,
+- discriminatoires,
+- contraires aux lois et règlements français.
+
+--------------------------------------------------
+ARTICLE 9 – RÉSILIATION
+--------------------------------------------------
+En cas de non-respect grave des obligations du présent contrat (par exemple : diffusion de l’Instrumentale seule, absence systématique de crédit du Producteur, cession non autorisée de la licence), le Producteur pourra procéder à la résiliation du contrat après mise en demeure écrite restée sans effet pendant un délai de quinze (15) jours.
+
+La résiliation ne remet pas en cause les sommes déjà versées au titre de la licence.
+
+--------------------------------------------------
+ARTICLE 10 – DROIT APPLICABLE ET JURIDICTION
+--------------------------------------------------
+Le présent contrat est régi par le droit français.
+
+En cas de litige relatif à son interprétation ou à son exécution, et à défaut de résolution amiable, les Parties conviennent de soumettre le différend aux tribunaux compétents du ressort du domicile du Producteur.
+
+Fait à [[LIEU_SIGNATURE]], le [[DATE_CONTRAT]].
+
+Le Producteur  
+[[NOM_PRODUCTEUR]]  
+Signature :
+
+L'Artiste  
+[[NOM_ARTISTE]]  
+Alias [[NOM_SCENE]]  
+Signature :
+
+</textarea>
+
+  <!-- ====== FIN TEMPLATE CONTRAT INSTRUMENTALE ====== -->
+
+  <!-- SCRIPT CONTRAT INSTRUMENTAL -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('ca-generate');
+    const tplEl = document.getElementById('template-contrat-artiste');
+    if (!btn || !tplEl) return;
+
+    const fFonction = document.getElementById('ca-fonction');
+    const wrapNomScene = document.getElementById('ca-wrapper-nom-scene');
+    const wrapArtisteRep = document.getElementById('ca-wrapper-artiste-represente');
+    const wrapFonctionDetail = document.getElementById('ca-wrapper-fonction-detail');
+
+    function g(id) {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : "";
+    }
+
+    function updateFonctionUI(){
+      const f = g('ca-fonction') || "Artiste";
+      if (f === "Artiste") {
+        if (wrapNomScene) wrapNomScene.style.display = "";
+        if (wrapArtisteRep) wrapArtisteRep.style.display = "none";
+        if (wrapFonctionDetail) wrapFonctionDetail.style.display = "none";
+      } else if (f === "Manager") {
+        if (wrapNomScene) wrapNomScene.style.display = "none";
+        if (wrapArtisteRep) wrapArtisteRep.style.display = "";
+        if (wrapFonctionDetail) wrapFonctionDetail.style.display = "none";
+      } else { // Autre
+        if (wrapNomScene) wrapNomScene.style.display = "none";
+        if (wrapArtisteRep) wrapArtisteRep.style.display = "none";
+        if (wrapFonctionDetail) wrapFonctionDetail.style.display = "";
+      }
+    }
+
+    if (fFonction) {
+      fFonction.addEventListener('change', updateFonctionUI);
+      updateFonctionUI();
+    }
+
+    btn.addEventListener('click', function () {
+      let tpl = tplEl.value;
+      if (!tpl || !tpl.trim()) {
+        alert('Le modèle de contrat est vide. Vérifie le bloc <textarea id="template-contrat-artiste"> dans le code.');
+        return;
+      }
+
+      const nomPersonne = g('ca-nom-artiste');
+      const fonction = g('ca-fonction') || "Artiste";
+      const artisteRep = g('ca-artiste-represente');
+      const fonctionDetaillee = g('ca-fonction-detaillee');
+
+      if (!nomPersonne) {
+        alert("Le nom / prénom de la personne est obligatoire.");
+        return;
+      }
+
+      if (fonction === "Manager" && !artisteRep) {
+        alert("Merci de préciser l'artiste représenté (obligatoire pour un manager).");
+        return;
+      }
+
+      if (fonction === "Autre" && !fonctionDetaillee) {
+        alert("Merci de préciser la fonction (obligatoire si 'Autre').");
+        return;
+      }
+
+      // Artiste principal utilisé dans le contrat
+      let nomArtisteContrat;
+      if (fonction === "Artiste") {
+        nomArtisteContrat = nomPersonne;
+      } else if (fonction === "Manager") {
+        nomArtisteContrat = artisteRep || nomPersonne;
+      } else { // Autre
+        nomArtisteContrat = nomPersonne;
+      }
+
+      let nomScene = "";
+      if (fonction === "Artiste") {
+        nomScene = g('ca-nom-scene') || nomArtisteContrat;
+      } else if (fonction === "Manager") {
+        nomScene = artisteRep || nomArtisteContrat;
+      } else {
+        nomScene = nomArtisteContrat;
+      }
+
+      // Bloc d'appel (Madame, Monsieur, ... )
+      let appelClient;
+      if (fonction === "Artiste") {
+        appelClient = `Cher/Chère ${nomArtisteContrat} (alias ${nomScene}),`;
+      } else if (fonction === "Manager") {
+        appelClient = `Cher/Chère ${nomPersonne}, manager de ${nomArtisteContrat},`;
+      } else {
+        appelClient = `Cher/Chère ${nomPersonne},`;
+      }
+
+      // Bloc client (partie "et ...")
+      let blocClient;
+      if (fonction === "Artiste") {
+        blocClient = `${nomArtisteContrat}, également connu sous le nom de scène ${nomScene}, demeurant ${g('ca-adresse-artiste')} ${g('ca-cp-ville-artiste')} (ci-après « l'Artiste »).`;
+      } else if (fonction === "Manager") {
+        blocClient = `${nomPersonne}, agissant en qualité de manager de ${nomArtisteContrat}, demeurant ${g('ca-adresse-artiste')} ${g('ca-cp-ville-artiste')} (le manager, représentant l'Artiste).`;
+      } else {
+        blocClient = `${nomPersonne}, agissant en qualité de ${fonctionDetaillee}, demeurant ${g('ca-adresse-artiste')} ${g('ca-cp-ville-artiste')} (ci-après « le Client »).`;
+      }
+
+      const nomProducteur = "Armel ALI"; // change ici si besoin
+
+      tpl = tpl
+        .replaceAll('[[NOM_PERSONNE]]', nomPersonne || nomArtisteContrat)
+        .replaceAll('[[APPEL_CLIENT]]', appelClient)
+        .replaceAll('[[BLOC_CLIENT]]', blocClient)
+        .replaceAll('[[NOM_ARTISTE]]', nomArtisteContrat)
+        .replaceAll('[[NOM_SCENE]]', nomScene || nomArtisteContrat)
+        .replaceAll('[[ADRESSE_ARTISTE]]', g('ca-adresse-artiste'))
+        .replaceAll('[[CP_VILLE_ARTISTE]]', g('ca-cp-ville-artiste'))
+        .replaceAll('[[DATE_CONTRAT]]', g('ca-date-contrat'))
+        .replaceAll('[[LIEU_SIGNATURE]]', g('ca-lieu-signature'))
+        .replaceAll('[[TITRE_OEUVRE]]', g('ca-titre-oeuvre') || "Instrumentale")
+        .replaceAll('[[TYPE_LICENCE]]', g('ca-type-licence') || "non exclusive")
+        .replaceAll('[[TYPE_LICENCE_MAJ]]', (g('ca-type-licence') || "non exclusive").toUpperCase())
+        .replaceAll('[[MONTANT]]', g('ca-montant') || "0")
+        .replaceAll('[[NOM_PRODUCTEUR]]', nomProducteur);
+
+      const blob = new Blob([tpl], { type: "application/msword" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const safeName = (nomScene || nomArtisteContrat || "Artiste").replace(/\s+/g, "_");
+
+      a.href = url;
+      a.download = "Contrat_Licence_Instrumentale_" + safeName + ".doc";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  });
+  </script>
+
+  <!-- SCRIPT THEME NUIT/JOUR -->
+  <script>
+    (function(){
+      const THEME_KEY = "szd_theme";
+      const root = document.documentElement;
+
+      function applyTheme(theme){
+        if(theme === "light"){
+          root.setAttribute("data-theme","light");
+        }else{
+          root.removeAttribute("data-theme"); // dark par défaut
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function(){
+        var toggle = document.getElementById("themeToggle");
+        if(!toggle) return;
+
+        var saved = null;
+        try {
+          saved = localStorage.getItem(THEME_KEY);
+        } catch(e) {}
+
+        if(saved === "light"){
+          applyTheme("light");
+          toggle.checked = false;
+        } else {
+          applyTheme("dark");
+          toggle.checked = true;
+        }
+
+        toggle.addEventListener("change", function(){
+          if(toggle.checked){
+            applyTheme("dark");
+            try { localStorage.setItem(THEME_KEY,"dark"); } catch(e) {}
+          } else {
+            applyTheme("light");
+            try { localStorage.setItem(THEME_KEY,"light"); } catch(e) {}
+          }
+        });
+      });
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1762456680732,
+    "client": "Wesh B",
+    "type": "Musique",
+    "description": "Moutaya Sema",
+    "date": "2025-10-21",
+    "montant": 110,
+    "paidAmount": 110
+  },
+  {
+    "id": 1762456758903,
+    "client": "Wesh B",
+    "type": "Musique",
+    "description": "Bacoco",
+    "date": "2025-10-23",
+    "montant": 80,
+    "paidAmount": 80
+  },
+  {
+    "id": 1762456863231,
+    "client": "Ibou",
+    "type": "Montage",
+    "description": "Dancehall Mayanna",
+    "date": "2025-08-09",
+    "montant": 80,
+    "paidAmount": 50
+  },
+  {
+    "id": 1762456961520,
+    "client": "Wesh B",
+    "type": "Musique",
+    "description": "Zalia",
+    "date": "2025-11-06",
+    "montant": 80,
+    "paidAmount": 0
+  },
+  {
+    "id": 1762457424799,
+    "client": "Ibou",
+    "type": "Musique",
+    "description": "Zamani",
+    "date": "2025-11-06",
+    "montant": 80,
+    "paidAmount": 0
+  },
+  {
+    "id": 1762892721246,
+    "client": "Wesh B",
+    "type": "Musique",
+    "description": "Nissuliya",
+    "date": "2025-11-11",
+    "montant": 80,
+    "paidAmount": 0
+  },
+  {
+    "id": 1763405162562,
+    "client": "Ibou",
+    "type": "Musique",
+    "description": "Skine Riddim",
+    "date": "2025-11-17",
+    "montant": 80,
+    "paidAmount": 0
+  },
+  {
+    "id": 1763856725688,
+    "client": "Wesh B",
+    "type": "Musique",
+    "description": "Lolo Hay Lolo",
+    "date": "2025-11-23",
+    "montant": 80,
+    "paidAmount": 40
+  },
+  {
+    "id": 1764514729766,
+    "client": "Bouénina",
+    "type": "Musique",
+    "description": "Yama Yama",
+    "date": "2025-11-30",
+    "montant": 100,
+    "paidAmount": 100
+  },
+  {
+    "id": 1764776973767.1404,
+    "client": "SASKO",
+    "type": "Musique",
+    "description": "Magenta Drill",
+    "date": "2025-12-02",
+    "montant": 100,
+    "paidAmount": 0
+  },
+  {
+    "id": 1765046703414.3962,
+    "client": "Ibou",
+    "type": "Musique",
+    "description": "Ma Dakou",
+    "date": "2025-12-06",
+    "montant": 100,
+    "paidAmount": 0
+  }
+]

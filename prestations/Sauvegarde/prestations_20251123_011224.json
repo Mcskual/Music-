@@ -1,0 +1,105 @@
+[
+  {
+    "id": 1762456680732,
+    "client": "Wesh B",
+    "type": "Musique",
+    "description": "Moutaya Sema",
+    "date": "2025-10-21",
+    "montant": 110,
+    "paidAmount": 110,
+    "payments": [
+      {
+        "date": "2025-11-06",
+        "amount": 110
+      }
+    ],
+    "paidDate": "2025-11-06"
+  },
+  {
+    "id": 1762456758903,
+    "client": "Wesh B",
+    "type": "Musique",
+    "description": "Bacoco",
+    "date": "2025-10-23",
+    "montant": 80,
+    "paidAmount": 20,
+    "payments": [
+      {
+        "date": "2025-11-06",
+        "amount": 20
+      }
+    ],
+    "paidDate": null
+  },
+  {
+    "id": 1762456863231,
+    "client": "Ibou",
+    "type": "Montage",
+    "description": "Dancehall Mayanna",
+    "date": "2025-08-09",
+    "montant": 80,
+    "paidAmount": 50,
+    "payments": [
+      {
+        "date": "2025-11-06",
+        "amount": 50
+      }
+    ],
+    "paidDate": null
+  },
+  {
+    "id": 1762456961520,
+    "client": "Wesh B",
+    "type": "Musique",
+    "description": "Zalia",
+    "date": "2025-11-06",
+    "montant": 80,
+    "paidAmount": 0,
+    "payments": [],
+    "paidDate": null
+  },
+  {
+    "id": 1762457424799,
+    "client": "Ibou",
+    "type": "Musique",
+    "description": "Zamani",
+    "date": "2025-11-06",
+    "montant": 80,
+    "paidAmount": 0,
+    "payments": [],
+    "paidDate": null
+  },
+  {
+    "id": 1762892721246,
+    "client": "Wesh B",
+    "type": "Musique",
+    "description": "Nissuliya",
+    "date": "2025-11-11",
+    "montant": 80,
+    "paidAmount": 0,
+    "payments": [],
+    "paidDate": null
+  },
+  {
+    "id": 1763405162562,
+    "client": "Ibou",
+    "type": "Musique",
+    "description": "Skine Riddim",
+    "date": "2025-11-17",
+    "montant": 80,
+    "paidAmount": 0,
+    "payments": [],
+    "paidDate": null
+  },
+  {
+    "id": 1763856725688,
+    "client": "Wesh B",
+    "type": "Musique",
+    "description": "Lolo Hay Lolo",
+    "date": "2025-11-23",
+    "montant": 80,
+    "paidAmount": 0,
+    "payments": [],
+    "paidDate": null
+  }
+]
