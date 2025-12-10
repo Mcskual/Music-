@@ -527,6 +527,31 @@
       font-size:11px;
       color:var(--text2);
     }
+    .cap-summary{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+      gap:8px;
+      width:100%;
+      margin:4px 0 14px;
+    }
+    .cap-kpi{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 12px;
+      box-shadow:var(--shadow);
+    }
+    .cap-kpi .label{
+      font-size:10px;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .cap-kpi .value{
+      font-size:16px;
+      font-weight:800;
+      margin-top:4px;
+    }
     .cap-item{
       background:var(--card);
       border:1px solid var(--border);
@@ -1524,17 +1549,40 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       hour:"2-digit", minute:"2-digit"
     });
 
+    const totals = records.reduce((acc, r) => {
+      const montant = Number(r.montant || 0);
+      const paid = getPaid(r);
+      acc.montant += montant;
+      acc.recu += paid;
+      acc.restant += Math.max(0, montant - paid);
+      return acc;
+    }, { montant:0, recu:0, restant:0 });
+
     // NOUVEAU: Détection du thème et ajout du filtre en style en ligne si besoin
-    const isDarkTheme = !document.documentElement.hasAttribute("data-theme") || 
+    const isDarkTheme = !document.documentElement.hasAttribute("data-theme") ||
                         document.documentElement.getAttribute("data-theme") !== "light";
     const logoFilter = isDarkTheme ? 'style="filter:invert(1) hue-rotate(180deg);"' : '';
 
     let html = "";
     html += `
       <div class="cap-header">
-        <img src="${document.querySelector('.logo-wrap img').src}" alt="SZD Studio" ${logoFilter}> 
+        <img src="${document.querySelector('.logo-wrap img').src}" alt="SZD Studio" ${logoFilter}>
         <div class="cap-title">Récapitulatif des prestations</div>
         <div class="cap-sub">Généré le ${dateStr}</div>
+      </div>
+      <div class="cap-summary">
+        <div class="cap-kpi">
+          <div class="label">Total filtré</div>
+          <div class="value">${eur(totals.montant)}</div>
+        </div>
+        <div class="cap-kpi">
+          <div class="label">Déjà reçu</div>
+          <div class="value">${eur(totals.recu)}</div>
+        </div>
+        <div class="cap-kpi">
+          <div class="label">Restant dû</div>
+          <div class="value">${eur(totals.restant)}</div>
+        </div>
       </div>
     `;
 
