@@ -518,7 +518,10 @@
       height:auto;
       border-radius:12px;
       margin-top: -20px; /* AJOUTEZ cette ligne pour décaler le logo vers le bas */
+      transition:filter .2s ease;
     }
+    .cap-logo{ filter: invert(1) brightness(1.15); }
+    [data-theme="light"] .cap-logo{ filter:none; }
     .cap-title{
       font-size:16px;
       font-weight:700;
@@ -558,6 +561,27 @@
       font-size:10px;
       padding:2px 6px;
     }
+
+    .cap-amounts{ display:flex; flex-direction:column; gap:8px; margin:8px 0 6px; }
+    .cap-amount-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    @media(max-width:420px){ .cap-amount-row{ grid-template-columns:1fr; } }
+    .cap-amount{
+      border-radius:12px;
+      padding:10px 12px;
+      color:#0f172a;
+      background:linear-gradient(120deg,#e0f2fe,#dbeafe);
+      border:1px solid rgba(59,130,246,.35);
+      box-shadow:0 6px 12px rgba(15,23,42,.16);
+    }
+    .cap-amount .cap-label{ font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:#0f172a; }
+    .cap-amount .cap-value{ font-size:20px; font-weight:800; margin-top:4px; }
+    .cap-amount.total{ background:linear-gradient(130deg,#2563eb,#3b82f6); color:#e0f2fe; border-color:rgba(59,130,246,.55); }
+    .cap-amount.total .cap-label{ color:#e2e8f0; }
+    .cap-amount.total .cap-value{ color:#f8fafc; }
+    .cap-amount.rest{ background:linear-gradient(130deg,#f59e0b,#f97316); border-color:rgba(249,115,22,.55); color:#0b1727; }
+    .cap-amount.rest .cap-label{ color:#111827; }
+    .cap-amount.paid{ background:linear-gradient(130deg,#16a34a,#22c55e); border-color:rgba(34,197,94,.55); color:#052e16; }
+    .cap-amount.paid .cap-label{ color:#064e3b; }
 
     /* NOUVEAU: Styles pour la barre de progression dans la capture mobile */
     .cap-progress-wrap {
@@ -1524,15 +1548,12 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       hour:"2-digit", minute:"2-digit"
     });
 
-    // NOUVEAU: Détection du thème et ajout du filtre en style en ligne si besoin
-    const isDarkTheme = !document.documentElement.hasAttribute("data-theme") || 
-                        document.documentElement.getAttribute("data-theme") !== "light";
-    const logoFilter = isDarkTheme ? 'style="filter:invert(1) hue-rotate(180deg);"' : '';
+    const logoClass = "cap-logo";
 
     let html = "";
     html += `
       <div class="cap-header">
-        <img src="${document.querySelector('.logo-wrap img').src}" alt="SZD Studio" ${logoFilter}> 
+        <img class="${logoClass}" src="${document.querySelector('.logo-wrap img').src}" alt="SZD Studio">
         <div class="cap-title">Récapitulatif des prestations</div>
         <div class="cap-sub">Généré le ${dateStr}</div>
       </div>
@@ -1565,14 +1586,21 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           <div class="cap-row">
             <span>Date</span><span>${r.date || ""}</span>
           </div>
-          <div class="cap-row">
-            <span>Montant</span><span>${eur(r.montant || 0)}</span>
-          </div>
-          <div class="cap-row">
-            <span>Reçu</span><span>${eur(paid)}</span>
-          </div>
-          <div class="cap-row">
-            <span>Restant</span><span>${eur(remaining)}</span>
+          <div class="cap-amounts">
+            <div class="cap-amount total">
+              <div class="cap-label">Montant total</div>
+              <div class="cap-value">${eur(r.montant || 0)}</div>
+            </div>
+            <div class="cap-amount-row">
+              <div class="cap-amount rest">
+                <div class="cap-label">Restant dû</div>
+                <div class="cap-value">${eur(remaining)}</div>
+              </div>
+              <div class="cap-amount paid">
+                <div class="cap-label">Déjà reçu</div>
+                <div class="cap-value">${eur(paid)}</div>
+              </div>
+            </div>
           </div>
           
           <div class="cap-progress-wrap">
