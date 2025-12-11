@@ -19,7 +19,7 @@
   .pad{padding:20px}
   .header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:1px solid var(--line)}
   .brand{display:flex;gap:16px;align-items:center}
-  .logo img{display:block;max-width:220px;height:auto}
+  .logo img{display:block;max-width:220px;height:auto;filter:grayscale(1);mix-blend-mode:multiply}
   .meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;border:1px solid var(--line);padding:10px;background:#fff}
   .meta .row strong{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
   .meta input{border:none;border-bottom:1px solid var(--line);padding:6px 4px;background:#fff;width:100%}
@@ -48,6 +48,7 @@
     .wrap{margin:0;max-width:none}
     .paper{border:none}
     input, textarea{border:none !important}
+    .logo img{filter:grayscale(1) contrast(1.2)}
   }
 </style>
 </head>
@@ -68,6 +69,7 @@
         <div class="row"><strong>Date de facture</strong><input id="m-date" type="date"></div>
         <div class="row"><strong>Date de vente</strong><input id="m-vente" type="date"></div>
         <div class="row"><strong>N° de facture</strong><input id="m-num" placeholder="FAS/DEC/2025/08/0001"></div>
+        <div class="row"><strong>Titre de la musique</strong><input id="m-titre" placeholder="Titre ou référence de la musique"></div>
       </div>
     </div>
 
