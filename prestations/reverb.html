@@ -56,6 +56,18 @@
       margin-bottom:16px;
     }
     .nav-brand{ font-weight:800; letter-spacing:.03em; }
+    .brand-row{ display:flex; align-items:center; gap:12px; }
+    .brand-logo{
+      width:46px;
+      height:46px;
+      padding:6px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(168,85,247,.14)),var(--card);
+      box-shadow:var(--shadow);
+    }
+    .brand-logo img{ width:100%; height:100%; object-fit:contain; display:block; }
+    .brand-meta{ display:flex; flex-direction:column; gap:4px; }
     .nav-links{ display:flex; gap:8px; flex-wrap:wrap; }
     .nav-link{
       color:var(--text2);
@@ -76,6 +88,24 @@
       border-color:transparent;
       box-shadow:0 10px 22px rgba(124,58,237,.35);
     }
+    .nav-link.rdv-link,
+    .nav-link.rdv-link.active{
+      background:linear-gradient(135deg,#7c3aed,#2563eb);
+      color:#fff;
+      border-color:transparent;
+      box-shadow:0 12px 22px rgba(124,58,237,.35);
+    }
+    .nav-link.contrat-link,
+    .nav-link.contrat-link.active{
+      background:linear-gradient(135deg,#f59e0b,#ef4444);
+      color:#fff;
+      border-color:transparent;
+      box-shadow:0 12px 22px rgba(239,68,68,.32);
+    }
+    .nav-link.rdv-link:hover,
+    .nav-link.contrat-link:hover{ transform:translateY(-1px); }
+    [data-theme="light"] .nav-link.rdv-link,
+    [data-theme="light"] .nav-link.contrat-link{ color:#fff; }
 
     header.hero{
       display:flex;
@@ -176,15 +206,24 @@
 <body>
   <div class="container">
     <nav class="top-nav" aria-label="Navigation principale">
-      <div class="row" style="gap:10px;">
-        <span class="nav-brand">SZD Studio</span>
-        <span class="pill">Suite créative</span>
+      <div class="brand-row">
+        <div class="brand-logo">
+          <img
+            src="szd_logo_white.png"
+            data-dark-src="szd_logo_white.png"
+            data-light-src="szd_logo_black.png"
+            alt="SZD Studio">
+        </div>
+        <div class="brand-meta">
+          <span class="nav-brand">SZD Studio</span>
+          <span class="pill">Suite créative</span>
+        </div>
       </div>
       <div class="nav-links">
         <a class="nav-link" href="index.html">Prestations</a>
         <a class="nav-link" href="facturation.html">Facturation</a>
-        <a class="nav-link" href="rdv.html">Ajouter un RDV</a>
-        <a class="nav-link" href="licence.html">Contrat instrumentale</a>
+        <a class="nav-link rdv-link" href="rdv.html">Ajouter un RDV</a>
+        <a class="nav-link contrat-link" href="licence.html">Contrat instrumentale</a>
         <a class="nav-link active" href="reverb.html">Outils reverb vintage</a>
       </div>
     </nav>
