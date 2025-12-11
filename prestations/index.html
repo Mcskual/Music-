@@ -50,7 +50,7 @@
     .top-nav{
       display:flex;
       align-items:center;
-      justify-content:space-between;
+      gap:14px;
       background:linear-gradient(120deg,rgba(59,130,246,.14),rgba(34,197,94,.08)),var(--card);
       border:1px solid var(--border);
       border-radius:14px;
@@ -58,11 +58,23 @@
       box-shadow:var(--shadow);
       margin-bottom:14px;
     }
+    .nav-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+    }
     .nav-brand{
       font-weight:800;
       letter-spacing:.03em;
     }
-    .nav-links{ display:flex; gap:8px; flex-wrap:wrap; }
+    .brand-stack{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .nav-links{ display:flex; gap:8px; flex-wrap:wrap; flex:1; justify-content:center; }
     .nav-link{
       color:var(--text2);
       text-decoration:none;
@@ -110,6 +122,11 @@
       border-radius:14px;
       transition:transform .2s ease, opacity .2s ease;
     }
+    .logo-compact{
+      padding:6px 10px;
+      border-radius:14px;
+    }
+    .logo-compact img{ width:160px; }
 
     h1 { font-size:clamp(26px,4vw,40px); margin:0; }
     h2 { margin:0 0 12px; font-size:18px; }
@@ -490,6 +507,23 @@
     .switch input:checked + .slider::before{
       transform:translateX(14px);
     }
+    .theme-toggle{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      margin-left:auto;
+      padding:6px 10px;
+      background:rgba(15,23,42,.6);
+      border:1px solid var(--border);
+      border-radius:12px;
+      box-shadow:var(--shadow);
+    }
+    [data-theme="light"] .theme-toggle{ background:#f8fafc; }
+    .theme-icon{
+      font-size:14px;
+      line-height:1;
+      filter:drop-shadow(0 2px 6px rgba(0,0,0,.25));
+    }
 
     .debug-zone{
       margin-top:10px;
@@ -718,9 +752,18 @@
 <body>
   <div class="container">
     <nav class="top-nav" aria-label="Navigation principale">
-      <div class="row" style="gap:10px;">
-        <span class="nav-brand">SZD Studio</span>
-        <span class="pill">Suite créative</span>
+      <div class="nav-left">
+        <div class="logo-wrap logo-compact">
+          <img
+            src="szd_logo_white.png"
+            data-dark-src="szd_logo_white.png"
+            data-light-src="szd_logo_black.png"
+            alt="SZD Studio">
+        </div>
+        <div class="brand-stack">
+          <span class="nav-brand">SZD Studio</span>
+          <span class="pill">Suite créative</span>
+        </div>
       </div>
       <div class="nav-links">
         <a class="nav-link active" href="index.html">Prestations</a>
@@ -730,16 +773,15 @@
         <a class="nav-link" href="famille.html">Famille</a>
         <a class="nav-link" href="reverb.html">Outils reverb vintage</a>
       </div>
+      <div class="theme-toggle">
+        <span class="theme-icon" aria-hidden="true">🌙</span>
+        <label class="switch" aria-label="Basculer le thème nuit/jour">
+          <input type="checkbox" id="themeToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
     </nav>
     <header class="app">
-      <div class="logo-wrap">
-        <img
-          src="szd_logo_white.png"
-          data-dark-src="szd_logo_white.png"
-          data-light-src="szd_logo_black.png"
-          alt="SZD Studio">
-      </div>
-
       <div>
         <h1>Prestations — Clips & Musique</h1>
         <div class="row" style="margin:4px 0 2px;">
@@ -751,18 +793,7 @@
           Données stockées en localStorage. Si le stockage est bloqué, l'application bascule en mode secours (sauvegarde JSON).
         </p>
       </div>
-
-      <!-- Switch thème nuit / jour -->
-      <label class="switch" style="margin-left:auto;">
-        <input type="checkbox" id="themeToggle">
-        <span class="slider"></span>
-      </label>
     </header>
-
-    <div class="sub">
-      Ajoute tes prestations, saisis les montants et enregistre les paiements partiels.
-      Données stockées en localStorage. Si le stockage est bloqué, l'application bascule en mode secours (sauvegarde JSON).
-    </div>
 
     <div id="status" class="alert" style="display:none;"></div>
 
@@ -1622,12 +1653,17 @@ if (captureBtn && typeof html2canvas !== "undefined") {
     (function(){
       const THEME_KEY = "szd_theme";
       const root = document.documentElement;
+      const themeIcon = document.querySelector(".theme-icon");
 
       function applyTheme(theme){
         if(theme === "light"){
           root.setAttribute("data-theme","light");
         }else{
           root.removeAttribute("data-theme"); // dark par défaut
+        }
+
+        if (themeIcon) {
+          themeIcon.textContent = theme === "light" ? "☀️" : "🌙";
         }
 
         if (typeof updateThemeLogos === "function") {
