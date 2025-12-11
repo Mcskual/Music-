@@ -39,6 +39,16 @@ img,svg,video,canvas{max-width:100%;height:auto}
 .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:14px 0}
 .footer{margin:24px 0 16px;color:var(--muted);font-size:12px;text-align:center}
 
+/* Navigation principale */
+.top-nav{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(120deg,rgba(96,165,250,.12),rgba(110,231,183,.08)),var(--panel);border:1px solid var(--border);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow);margin-bottom:8px;gap:10px;flex-wrap:wrap}
+.nav-brand{font-weight:800;letter-spacing:.03em}
+.nav-links{display:flex;gap:8px;flex-wrap:wrap}
+.nav-link{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.03);font-size:13px;transition:.15s background,.15s border-color,.15s color}
+.nav-link:hover{border-color:var(--acc-2);color:var(--text)}
+.nav-link.active{background:linear-gradient(135deg,var(--acc-2),var(--acc));color:#fff;border-color:transparent;box-shadow:0 10px 22px rgba(96,165,250,.35)}
+.pill{padding:6px 10px;border-radius:999px;border:1px solid var(--border);color:var(--muted);font-size:12px;background:rgba(255,255,255,.04)}
+@media(max-width:720px){ .top-nav{align-items:flex-start;} }
+
 /* Vue dense: 2 colonnes sur grands écrans */
 @media (min-width:1200px){
   body.dense .grid{grid-template-columns:1fr 1fr}
@@ -131,6 +141,20 @@ header.topbar{display:flex;gap:16px;align-items:center;justify-content:space-bet
 </head>
 <body>
 <div class="container">
+  <nav class="top-nav" aria-label="Navigation principale">
+    <div class="row" style="gap:10px;">
+      <span class="nav-brand">SZD Studio</span>
+      <span class="pill">Suite créative</span>
+    </div>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">Prestations</a>
+      <a class="nav-link" href="facturation.html">Facturation</a>
+      <a class="nav-link" href="rdv.html">Ajouter un RDV</a>
+      <a class="nav-link" href="licence.html">Contrat instrumentale</a>
+      <a class="nav-link active" href="famille.html">Famille</a>
+      <a class="nav-link" href="reverb.html">Outils reverb vintage</a>
+    </div>
+  </nav>
   <header class="topbar" role="banner">
     <div class="brand" aria-label="Tableau de bord familial">
       <div class="brand-logo" aria-hidden="true">
