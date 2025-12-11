@@ -47,6 +47,44 @@
 
     .container { max-width:1200px; margin:36px auto; padding:0 16px; }
 
+    .top-nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background:linear-gradient(120deg,rgba(59,130,246,.14),rgba(34,197,94,.08)),var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:10px 14px;
+      box-shadow:var(--shadow);
+      margin-bottom:14px;
+    }
+    .nav-brand{
+      font-weight:800;
+      letter-spacing:.03em;
+    }
+    .nav-links{ display:flex; gap:8px; flex-wrap:wrap; }
+    .nav-link{
+      color:var(--text2);
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:rgba(15,23,42,.6);
+      font-size:13px;
+      transition:.15s background,.15s border-color,.15s color;
+    }
+    [data-theme="light"] .nav-link{
+      background:#f8fafc;
+    }
+    .nav-link:hover{ border-color:var(--accent); color:#fff; }
+    [data-theme="light"] .nav-link:hover{ color:var(--accent); }
+    .nav-link.active{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;
+      border-color:transparent;
+      box-shadow:0 10px 22px rgba(37,99,235,.45);
+    }
+
     header.app {
       display:flex;
       gap:16px;
@@ -683,6 +721,16 @@
 </head>
 <body>
   <div class="container">
+    <nav class="top-nav" aria-label="Navigation principale">
+      <div class="row" style="gap:10px;">
+        <span class="nav-brand">SZD Studio</span>
+        <span class="pill">Suite créative</span>
+      </div>
+      <div class="nav-links">
+        <a class="nav-link active" href="index.html">Prestations</a>
+        <a class="nav-link" href="reverb.html">Outils reverb vintage</a>
+      </div>
+    </nav>
     <header class="app">
       <div class="logo-wrap">
         <img
