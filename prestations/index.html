@@ -408,6 +408,20 @@
       color:#991b1b;
     }
 
+    /* Bloc assistant et analytics */
+    .insights-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin:12px 0 6px; }
+    .kpi-card{ background:linear-gradient(145deg,rgba(37,99,235,.06),rgba(16,185,129,.05)), var(--card); border:1px solid var(--border); border-radius:14px; padding:12px; box-shadow:var(--shadow); }
+    .kpi-label{ color:var(--text2); font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+    .kpi-value{ font-size:22px; font-weight:800; margin:4px 0; }
+    .kpi-sub{ color:var(--muted); font-size:12px; }
+    .insight-trend{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:rgba(16,185,129,.08); color:#34d399; border:1px solid rgba(16,185,129,.3); font-size:12px; }
+    .insight-trend.neg{ background:rgba(248,113,113,.08); color:#f87171; border-color:rgba(248,113,113,.35); }
+    .suggestions{ display:grid; gap:10px; margin-top:10px; }
+    .suggestion{ padding:10px; border-radius:12px; border:1px solid var(--border); background:linear-gradient(145deg,rgba(59,130,246,.04),rgba(15,23,42,.12)); }
+    .suggestion h4{ margin:0 0 6px; font-size:15px; }
+    .suggestion .muted{ color:var(--text2); font-size:13px; }
+    .pill-inline{ display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:10px; background:rgba(15,23,42,.4); border:1px solid var(--border); font-size:12px; }
+
     .checkbox-toggle{ display:flex; align-items:center; gap:8px; }
 
     .alert{
@@ -913,6 +927,14 @@
           </div>
         </div>
 
+        <div class="card" style="margin-top:14px; background:rgba(15,23,42,.35);">
+          <h2>Assistant productivité</h2>
+          <p class="sub">Synthèse automatique, priorités et rappels pour encaisser plus vite.</p>
+          <div class="insights-grid" id="insightsKpis"></div>
+          <div id="insightTrend" style="margin:10px 0 2px;"></div>
+          <div class="suggestions" id="suggestionsList"></div>
+        </div>
+
         <div class="small" id="lsStatus" style="margin-top:6px;"></div>
 
         <div class="debug-zone" id="debug-zone" style="display:none;">
@@ -1002,6 +1024,9 @@
       const search = $("search");
       const filterStatus = $("filterStatus");
       const filterType = $("filterType");
+      const insightsKpis = $("insightsKpis");
+      const suggestionsList = $("suggestionsList");
+      const insightTrend = $("insightTrend");
 
       const client = $("client");
       const type = $("type");
@@ -1046,6 +1071,25 @@
           return false;
         }
       })();
+
+      function daysSince(dateStr){
+        if(!dateStr) return null;
+        const d = new Date(dateStr);
+        if(Number.isNaN(d)) return null;
+        const diff = Date.now() - d.getTime();
+        return Math.floor(diff / 86400000);
+      }
+
+      function groupByMonth(list){
+        return list.reduce((acc, r) => {
+          if(!r.date) return acc;
+          const d = new Date(r.date);
+          if(Number.isNaN(d)) return acc;
+          const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
+          acc[key] = (acc[key] || 0) + Number(r.montant||0);
+          return acc;
+        }, {});
+      }
 
       function showStatus(msg, ok=true){
         if(!status) return;
@@ -1137,6 +1181,103 @@
         if(totalMontantEl) totalMontantEl.textContent = eur(totalMontant);
         if(totalRecuEl) totalRecuEl.textContent = eur(totalRecu);
         if(totalRestantEl) totalRestantEl.textContent = eur(totalRestant);
+
+        renderInsights(totalMontant, totalRecu, totalRestant);
+      }
+
+      function renderInsights(totalMontant=0, totalRecu=0, totalRestant=0){
+        if(!insightsKpis || !suggestionsList) return;
+
+        const active = data.length;
+        const tauxReglement = totalMontant > 0 ? Math.round((totalRecu/totalMontant)*100) : 0;
+        const ticketMoyen = active ? totalMontant / active : 0;
+        const enRetard = data.filter(r => getRemaining(r) > 0 && (daysSince(r.date) ?? 0) > 30).length;
+        const plusGros = data
+          .filter(r => getRemaining(r) > 0)
+          .sort((a,b) => getRemaining(b) - getRemaining(a))[0];
+
+        insightsKpis.innerHTML = `
+          <div class="kpi-card">
+            <div class="kpi-label">Taux de règlement</div>
+            <div class="kpi-value">${tauxReglement}%</div>
+            <div class="kpi-sub">Reçu ${eur(totalRecu)} / ${eur(totalMontant)}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Restant prioritaire</div>
+            <div class="kpi-value">${eur(totalRestant)}</div>
+            <div class="kpi-sub">${plusGros ? `Client clé : ${plusGros.client}` : "Aucun reste"}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Ticket moyen</div>
+            <div class="kpi-value">${eur(ticketMoyen)}</div>
+            <div class="kpi-sub">${active || "0"} prestation(s) suivies</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Dossiers en retard</div>
+            <div class="kpi-value">${enRetard}</div>
+            <div class="kpi-sub">+30 jours sans règlement complet</div>
+          </div>
+        `;
+
+        renderTrendBadge();
+        renderSuggestions();
+      }
+
+      function renderTrendBadge(){
+        if(!insightTrend) return;
+        const monthly = groupByMonth(data);
+        const months = Object.keys(monthly).sort();
+        if(months.length < 2){
+          insightTrend.innerHTML = '<span class="pill-inline">Pas encore assez d\'historique pour la tendance.</span>';
+          return;
+        }
+
+        const last = months[months.length-1];
+        const prev = months[months.length-2];
+        const delta = monthly[last] - monthly[prev];
+        const perc = monthly[prev] ? Math.round((delta/monthly[prev])*100) : 100;
+        const neg = perc < 0;
+        insightTrend.innerHTML = `<span class="insight-trend ${neg ? "neg" : ""}">${neg ? "▼" : "▲"} ${Math.abs(perc)}% · évolution ${last}</span>`;
+      }
+
+      function renderSuggestions(){
+        if(!suggestionsList) return;
+        const pending = data.filter(r => getRemaining(r) > 0);
+
+        if(!pending.length){
+          suggestionsList.innerHTML = '<div class="suggestion"><h4>Rien à encaisser</h4><div class="muted">Toutes les prestations sont soldées. Pense à exporter une sauvegarde JSON.</div></div>';
+          return;
+        }
+
+        function riskScore(r){
+          const remaining = getRemaining(r);
+          const age = daysSince(r.date) ?? 0;
+          const partialFactor = getPaid(r) > 0 ? 0.85 : 1;
+          const typeWeight = r.type === "Clip" ? 1.1 : 1;
+          const urgency = age > 45 ? 1.2 : age > 25 ? 1.1 : 1;
+          return (remaining * 0.6 * partialFactor * typeWeight) + (age * 12 * urgency);
+        }
+
+        const sorted = pending.slice().sort((a,b) => riskScore(b) - riskScore(a)).slice(0,3);
+        suggestionsList.innerHTML = sorted.map(r => {
+          const age = daysSince(r.date) ?? 0;
+          const risk = Math.round(riskScore(r));
+          return `
+            <div class="suggestion">
+              <h4>${r.client || "Client"} — ${r.type || "Prestation"}</h4>
+              <div class="muted">${r.description || ""}</div>
+              <div class="row" style="margin-top:6px; gap:8px; flex-wrap:wrap;">
+                <span class="pill-inline">Restant : ${eur(getRemaining(r))}</span>
+                <span class="pill-inline">Âge : ${age >= 0 ? age + ' j' : 'n/a'}</span>
+                <span class="pill-inline">Risque : ${risk}</span>
+              </div>
+            </div>
+          `;
+        }).join("");
+
+        if(sorted.length === 0){
+          suggestionsList.innerHTML = '<div class="suggestion"><h4>Suivi tranquille</h4><div class="muted">Aucun encaissement prioritaire détecté.</div></div>';
+        }
       }
 
       function render(){
