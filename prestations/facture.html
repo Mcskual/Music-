@@ -6,34 +6,58 @@
 <title>Facture — 19‑91 Films</title>
 <style>
   :root{
-    --ink:#0b1220; --muted:#606b7b; --line:#e6e9f0; --bg:#ffffff; --bg-alt:#f7f9fc; --accent:#111827;
+    --bg:#0b0f14; --bg-alt:#0f172a; --surface:#0f172a; --paper:#0f172a;
+    --ink:#e5e7eb; --muted:#94a3b8; --line:#1f2937;
+    --accent:#f97316; --accent-2:#ec4899;
+    --btn-primary:#f97316; --btn-primary-text:#0b0f14;
+    --btn-light-bg:#111827; --btn-light-text:#e5e7eb;
+    --shadow:0 14px 30px rgba(0,0,0,.28);
+  }
+  :root[data-theme="light"]{
+    --bg:#ffffff; --bg-alt:#f7f9fc; --surface:#ffffff; --paper:#ffffff;
+    --ink:#0b1220; --muted:#606b7b; --line:#e6e9f0;
+    --accent:#111827; --accent-2:#111827;
+    --btn-primary:#111827; --btn-primary-text:#fff;
+    --btn-light-bg:#fff; --btn-light-text:#0b1220;
+    --shadow:0 12px 26px rgba(17,24,39,.12);
   }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{margin:0;background:var(--bg-alt);color:var(--ink);font:14px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial}
   .wrap{max-width:930px;margin:28px auto 80px;padding:0 16px}
-  .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#111827;color:#fff;text-decoration:none;font-weight:700;cursor:pointer}
-  .btn-light{background:#fff;color:var(--ink)}
-  .paper{background:#fff;border:1px solid var(--line)}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap}
+  .toolbar-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--btn-primary);color:var(--btn-primary-text);text-decoration:none;font-weight:700;cursor:pointer}
+  .btn-light{background:var(--btn-light-bg);color:var(--btn-light-text)}
+  .paper{background:var(--paper);border:1px solid var(--line);box-shadow:var(--shadow)}
+  .theme-toggle{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
+  .theme-icon{font-size:14px;line-height:1}
+  .switch{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer;user-select:none}
+  .switch input{display:none}
+  .switch span.slider{width:36px;height:18px;border-radius:999px;background:#0f172a;border:1px solid #1f2937;position:relative;transition:.16s background,.16s border-color}
+  [data-theme="light"] .switch span.slider{background:#e5e7eb;border-color:#d1d5db}
+  .switch span.slider::before{content:"";position:absolute;top:1px;left:1px;width:14px;height:14px;border-radius:999px;background:#e5e7eb;transition:.16s transform,.16s background;box-shadow:0 1px 3px rgba(15,23,42,.5)}
+  [data-theme="light"] .switch span.slider::before{background:#fff}
+  .switch input:checked + .slider{background:linear-gradient(135deg,var(--accent),var(--accent-2));border-color:transparent}
+  .switch input:checked + .slider::before{transform:translateX(16px)}
   .pad{padding:20px}
   .header{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:1px solid var(--line)}
   .brand{display:flex;gap:16px;align-items:center}
   .logo img{display:block;max-width:220px;height:auto}
-  .meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;border:1px solid var(--line);padding:10px;background:#fff}
+  .meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;border:1px solid var(--line);padding:10px;background:var(--surface)}
   .meta .row strong{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
-  .meta input{border:none;border-bottom:1px solid var(--line);padding:6px 4px;background:#fff;width:100%}
+  .meta input{border:none;border-bottom:1px solid var(--line);padding:6px 4px;background:var(--surface);color:var(--ink);width:100%}
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
-  .card{border:1px solid var(--line);padding:12px;background:#fff}
+  .card{border:1px solid var(--line);padding:12px;background:var(--surface);border-radius:12px}
   .card .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-  .card input,.card textarea{width:100%;border:none;border-bottom:1px solid var(--line);padding:8px 4px;background:#fff}
+  .card input,.card textarea{width:100%;border:none;border-bottom:1px solid var(--line);padding:8px 4px;background:var(--surface);color:var(--ink)}
   .card textarea{min-height:54px;resize:vertical}
   h2{font-size:18px;margin:16px 0 8px;text-align:center;letter-spacing:.02em}
   table{width:100%;border-collapse:separate;border-spacing:0;margin-top:10px;font-size:14px}
   th,td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;text-align:left;background:#fff}
+  th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;text-align:left;background:var(--surface)}
   td.right, th.right{text-align:right}
-  td input{width:100%;border:none;border-bottom:1px solid var(--line);padding:6px 4px;background:#fff;text-align:right}
+  td input{width:100%;border:none;border-bottom:1px solid var(--line);padding:6px 4px;background:var(--surface);color:var(--ink);text-align:right}
   td .desc{text-align:left}
   .sums{max-width:520px;margin-left:auto;margin-top:12px;border:1px solid var(--line)}
   .sums td{border-bottom:1px solid var(--line);padding:10px}
@@ -55,13 +79,22 @@
 <div class="wrap">
   <div class="toolbar">
     <a class="btn btn-light" href="index.html">← Prestations</a>
-    <button id="btnPrint" class="btn">🖨️ Imprimer</button>
+    <div class="toolbar-actions">
+      <div class="theme-toggle" role="group" aria-label="Changer de thème">
+        <span class="theme-icon" aria-hidden="true">🌙</span>
+        <label class="switch" for="themeToggle">
+          <input type="checkbox" id="themeToggle" aria-label="Activer le thème sombre">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <button id="btnPrint" class="btn" type="button">🖨️ Imprimer</button>
+    </div>
   </div>
 
   <div class="paper">
     <div class="pad header">
       <div class="brand">
-        <a class="logo" href="index.html" aria-label="Revenir aux prestations"><img src="szd_logo_black.png" alt="Logo"></a>
+        <a class="logo" href="index.html" aria-label="Revenir aux prestations"><img src="szd_logo_white.png" data-dark-src="szd_logo_white.png" data-light-src="szd_logo_black.png" alt="Logo"></a>
       </div>
       <div class="meta" style="min-width:360px">
         <div class="row"><strong>Lieu de facture</strong><input id="m-lieu" value="Montlouis‑sur‑Loire"></div>
@@ -139,6 +172,41 @@
     </div>
   </div>
 </div>
+
+<script>
+(function(){
+  const THEME_KEY='szd_theme';
+  const root=document.documentElement;
+  const icon=document.querySelector('.theme-icon');
+
+  function applyTheme(theme){
+    if(theme === 'light') root.setAttribute('data-theme','light');
+    else root.removeAttribute('data-theme');
+
+    if(icon) icon.textContent = theme === 'light' ? '☀️' : '🌙';
+    document.querySelectorAll('[data-light-src][data-dark-src]').forEach(img=>{
+      const target = theme === 'light' ? img.dataset.lightSrc : img.dataset.darkSrc;
+      if(target) img.setAttribute('src', target);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const toggle=document.getElementById('themeToggle');
+    let saved=null;
+    try{ saved=localStorage.getItem(THEME_KEY); }catch(e){}
+    const initial = saved==='light' ? 'light' : 'dark';
+    applyTheme(initial);
+    if(toggle){
+      toggle.checked = initial==='dark';
+      toggle.addEventListener('change', ()=>{
+        const mode = toggle.checked ? 'dark' : 'light';
+        applyTheme(mode);
+        try{ localStorage.setItem(THEME_KEY, mode); }catch(e){}
+      });
+    }
+  });
+})();
+</script>
 
 <script>
 (function(){
