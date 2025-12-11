@@ -231,7 +231,7 @@
 
     .totals{
       display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
       gap:8px;
       margin-top:10px;
     }
@@ -260,6 +260,13 @@
       color:#64748b;
       margin-top:2px;
     }
+    .kpi-full{ grid-column:1 / -1; }
+    .kpi-due{ background:linear-gradient(145deg, rgba(245,166,35,.12), rgba(245,166,35,.04)); border-color:rgba(245,166,35,.35); }
+    .kpi-due .label, .kpi-due .value{ color:#f5a623; }
+    .kpi-paid{ background:linear-gradient(145deg, rgba(39,174,96,.14), rgba(39,174,96,.05)); border-color:rgba(39,174,96,.35); }
+    .kpi-paid .label, .kpi-paid .value{ color:#27ae60; }
+    .kpi-total{ background:linear-gradient(145deg, rgba(44,62,80,.18), rgba(44,62,80,.07)); border-color:rgba(44,62,80,.4); }
+    .kpi-total .label, .kpi-total .value{ color:#2c3e50; }
 
     .progress{
       height:6px;
@@ -529,7 +536,7 @@
     }
     .cap-summary{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
       gap:8px;
       width:100%;
       margin:4px 0 14px;
@@ -551,7 +558,15 @@
       font-size:16px;
       font-weight:800;
       margin-top:4px;
+      color:var(--text);
     }
+    .cap-kpi-full{ grid-column:1 / -1; }
+    .cap-kpi-due{ background:linear-gradient(145deg, rgba(245,166,35,.18), rgba(245,166,35,.06)); border-color:rgba(245,166,35,.45); }
+    .cap-kpi-due .label, .cap-kpi-due .value{ color:#f5a623; }
+    .cap-kpi-paid{ background:linear-gradient(145deg, rgba(39,174,96,.2), rgba(39,174,96,.08)); border-color:rgba(39,174,96,.45); }
+    .cap-kpi-paid .label, .cap-kpi-paid .value{ color:#27ae60; }
+    .cap-kpi-total{ background:linear-gradient(145deg, rgba(44,62,80,.22), rgba(44,62,80,.1)); border-color:rgba(44,62,80,.5); }
+    .cap-kpi-total .label, .cap-kpi-total .value{ color:#2c3e50; }
     .cap-item{
       background:var(--card);
       border:1px solid var(--border);
@@ -721,20 +736,20 @@
         </div>
 
         <div class="totals">
-          <div class="kpi">
-            <div class="label">Total facturé</div>
-            <div class="value" id="totalMontant">0 €</div>
-            <div class="sub">Somme des prestations</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Total reçu</div>
-            <div class="value" id="totalRecu">0 €</div>
-            <div class="sub">Somme des paiements</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Total restant</div>
+          <div class="kpi kpi-due">
+            <div class="label">Montant dû</div>
             <div class="value" id="totalRestant">0 €</div>
             <div class="sub">À encaisser</div>
+          </div>
+          <div class="kpi kpi-paid">
+            <div class="label">Montant reçu / payé</div>
+            <div class="value" id="totalRecu">0 €</div>
+            <div class="sub">Paiements enregistrés</div>
+          </div>
+          <div class="kpi kpi-total kpi-full">
+            <div class="label">Montant total des prestations</div>
+            <div class="value" id="totalMontant">0 €</div>
+            <div class="sub">Somme des prestations filtrées</div>
           </div>
         </div>
 
@@ -1571,17 +1586,17 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         <div class="cap-sub">Généré le ${dateStr}</div>
       </div>
       <div class="cap-summary">
-        <div class="cap-kpi">
-          <div class="label">Total filtré</div>
-          <div class="value">${eur(totals.montant)}</div>
+        <div class="cap-kpi cap-kpi-due">
+          <div class="label">Montant dû</div>
+          <div class="value">${eur(totals.restant)}</div>
         </div>
-        <div class="cap-kpi">
-          <div class="label">Déjà reçu</div>
+        <div class="cap-kpi cap-kpi-paid">
+          <div class="label">Montant reçu / payé</div>
           <div class="value">${eur(totals.recu)}</div>
         </div>
-        <div class="cap-kpi">
-          <div class="label">Restant dû</div>
-          <div class="value">${eur(totals.restant)}</div>
+        <div class="cap-kpi cap-kpi-total cap-kpi-full">
+          <div class="label">Montant total des prestations</div>
+          <div class="value">${eur(totals.montant)}</div>
         </div>
       </div>
     `;
