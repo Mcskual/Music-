@@ -488,8 +488,28 @@
     .kpi .label{ font-size:12px; color:var(--muted); }
     .kpi .value{ font-size:20px; font-weight:800; margin-top:6px;}
     .actions button{ margin-right:6px;}
-    .searchbar{ display:grid; grid-template-columns: 1fr 150px 160px; gap:10px; }
+    .searchbar{ display:grid; grid-template-columns:1.2fr .8fr .8fr; gap:12px; }
     @media(max-width:780px){ .searchbar{ grid-template-columns:1fr;} .totals{ grid-template-columns:1fr; } }
+
+    .filter-card{
+      background:linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:12px 14px;
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      transition:.15s transform,.15s border-color,.15s box-shadow;
+    }
+    .filter-card:hover{
+      transform:translateY(-1px);
+      border-color:rgba(37,99,235,.45);
+      box-shadow:0 12px 24px rgba(0,0,0,.25);
+    }
+    .filter-card label{
+      margin:0;
+    }
 
     /* calendar centered narrow */
     #bloc-calendar{max-width:900px;margin:24px auto;}
@@ -538,8 +558,14 @@
       background:var(--card);
       border:1px solid var(--border);
       border-radius:12px;
-      padding:10px 12px;
+      padding:12px;
       box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      text-align:center;
     }
     .cap-kpi .label{
       font-size:10px;
@@ -550,7 +576,7 @@
     .cap-kpi .value{
       font-size:16px;
       font-weight:800;
-      margin-top:4px;
+      margin-top:2px;
     }
     .cap-item{
       background:var(--card);
@@ -694,11 +720,11 @@
       <div class="card">
         <h2>Recherche & filtre</h2>
         <div class="searchbar">
-          <div>
+          <div class="filter-card">
             <label for="search">Filtre texte</label>
             <input type="text" id="search" placeholder="Client, type, description…">
           </div>
-          <div>
+          <div class="filter-card">
             <label for="filterStatus">Statut</label>
             <select id="filterStatus">
               <option value="all">Tous</option>
@@ -707,7 +733,7 @@
               <option value="paid">Payé / soldé</option>
             </select>
           </div>
-          <div>
+          <div class="filter-card">
             <label for="filterType">Type</label>
             <select id="filterType">
               <option value="all">Tous</option>
