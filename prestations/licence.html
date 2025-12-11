@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contrat de licence instrumentale — SZD Studio</title>
+  <style>
+    :root {
+      --bg:#0f172a;
+      --card:#111827;
+      --muted:#6b7280;
+      --accent:#2563eb;
+      --accent2:#16a34a;
+      --border:#1e293b;
+      --text:#e5e7eb;
+      --text2:#cbd5e1;
+      --shadow:0 10px 30px rgba(0,0,0,.25);
+      --bg-gradient:
+        radial-gradient(circle at 0% 0%, rgba(59,130,246,.22), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,.16), transparent 55%),
+        linear-gradient(120deg,#020617,#020617 40%,#020617 60%,#020617);
+    }
+
+    [data-theme="light"] {
+      --bg:#f3f4f6;
+      --card:#ffffff;
+      --text:#0f172a;
+      --text2:#4b5563;
+      --border:#e5e7eb;
+      --muted:#6b7280;
+      --shadow:0 16px 40px rgba(15,23,42,.12);
+      --bg-gradient:
+        radial-gradient(circle at 0% 0%, rgba(59,130,246,.12), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,.10), transparent 55%),
+        linear-gradient(120deg,#f9fafb,#f3f4f6 40%,#e5e7eb 60%,#f9fafb);
+    }
+
+    *{box-sizing:border-box}
+
+    body {
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background: var(--bg-gradient);
+      color:var(--text);
+      margin:0;
+    }
+
+    .container { max-width:1200px; margin:36px auto; padding:0 16px; }
+
+    .top-nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background:linear-gradient(120deg,rgba(59,130,246,.14),rgba(34,197,94,.08)),var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:10px 14px;
+      box-shadow:var(--shadow);
+      margin-bottom:14px;
+    }
+    .nav-brand{
+      font-weight:800;
+      letter-spacing:.03em;
+    }
+    .nav-links{ display:flex; gap:8px; flex-wrap:wrap; }
+    .nav-link{
+      color:var(--text2);
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:rgba(15,23,42,.6);
+      font-size:13px;
+      transition:.15s background,.15s border-color,.15s color;
+    }
+    [data-theme="light"] .nav-link{
+      background:#f8fafc;
+    }
+    .nav-link:hover{ border-color:var(--accent); color:#fff; }
+    [data-theme="light"] .nav-link:hover{ color:var(--accent); }
+    .nav-link.active{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;
+      border-color:transparent;
+      box-shadow:0 10px 22px rgba(37,99,235,.45);
+    }
+
+    header.app {
+      display:flex;
+      gap:16px;
+      align-items:center;
+      margin-bottom:8px;
+      flex-wrap:wrap;
+    }
+
+    .logo-wrap{
+      background:var(--card);
+      border-radius:18px;
+      padding:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:var(--shadow);
+      border:1px solid var(--border);
+    }
+    .logo-wrap img{
+      width:220px;
+      height:auto;
+      display:block;
+      border-radius:14px;
+      transition:transform .2s ease, opacity .2s ease;
+    }
+
+    h1 { font-size:clamp(26px,4vw,40px); margin:0; }
+    h2 { margin:0 0 12px; font-size:18px; }
+    .sub{ color:var(--text2); margin-bottom:16px; font-size:14px;}
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      box-shadow:var(--shadow);
+      padding:16px;
+      margin-top:16px;
+    }
+
+    .grid{ display:grid; gap:16px; }
+    @media(max-width:960px){
+      header.app{ justify-content:flex-start; }
+    }
+
+    label{
+      display:block;
+      font-size:13px;
+      margin-bottom:6px;
+      color:var(--text2);
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea{
+      width:100%;
+      padding:10px 11px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:var(--card);
+      color:var(--text);
+      font-size:14px;
+      outline:none;
+      transition:.16s border-color,.16s box-shadow,.16s background,.16s transform;
+    }
+    input::placeholder,
+    textarea::placeholder{ color:#6b7280; font-size:13px;}
+    input:focus,
+    select:focus,
+    textarea:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(37,99,235,.35);
+      background:var(--card);
+      transform:translateY(-1px);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:8px 14px;
+      border-radius:999px;
+      border:none;
+      cursor:pointer;
+      font-size:13px;
+      font-weight:600;
+      letter-spacing:.01em;
+      background:#111827;
+      color:#e5e7eb;
+      border:1px solid #1f2937;
+      transition:.15s background,.15s transform,.15s box-shadow,.15s border-color,.15s opacity;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      border-color:transparent;
+      color:#fff;
+      box-shadow:0 10px 18px rgba(37,99,235,.45);
+    }
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 26px rgba(37,99,235,.6);
+      opacity:0.97;
+    }
+    .btn-outline{
+      background:transparent;
+      color:var(--text2);
+      border-color:#1f2937;
+    }
+    [data-theme="light"] .btn-outline{
+      border-color:#e5e7eb;
+    }
+    .btn-outline:hover{ background:rgba(255,255,255,.06); }
+
+    .hint{ color:var(--text2); font-size:13px; margin-top:-4px; }
+    .small{ color:var(--text2); font-size:12px; }
+
+    .row{ display:flex; gap:8px; align-items:center; }
+    .pill{ display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:999px; border:1px solid var(--border); font-size:12px; color:var(--text2); }
+
+    .switch{ position:relative; display:inline-block; width:44px; height:24px; }
+    .switch input{ opacity:0; width:0; height:0; }
+    .slider{ position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background:#1f2937; transition:.2s; border-radius:24px; border:1px solid var(--border); }
+    .slider:before{ position:absolute; content:""; height:18px; width:18px; left:3px; bottom:2.5px; background:white; transition:.2s; border-radius:50%; }
+    input:checked + .slider{ background:#2563eb; }
+    input:checked + .slider:before{ transform:translateX(18px); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="top-nav" aria-label="Navigation principale">
+      <div class="row" style="gap:10px;">
+        <span class="nav-brand">SZD Studio</span>
+        <span class="pill">Suite créative</span>
+      </div>
+      <div class="nav-links">
+        <a class="nav-link" href="index.html">Prestations</a>
+        <a class="nav-link" href="facturation.html">Facturation</a>
+        <a class="nav-link" href="rdv.html">Ajouter un RDV</a>
+        <a class="nav-link active" href="licence.html">Contrat instrumentale</a>
+        <a class="nav-link" href="reverb.html">Outils reverb vintage</a>
+      </div>
+    </nav>
+    <header class="app">
+      <div class="logo-wrap">
+        <img
+          src="szd_logo_white.png"
+          data-dark-src="szd_logo_white.png"
+          data-light-src="szd_logo_black.png"
+          alt="SZD Studio">
+      </div>
+
+      <div>
+        <h1>Contrat de licence d'instrumentale</h1>
+        <div class="row" style="margin:4px 0 2px;">
+          <span class="pill">Version 1.0</span>
+          <span class="pill">Export .doc</span>
+        </div>
+        <p class="sub">
+          Remplis les infos, choisis la fonction (Artiste / Manager / Autre), puis clique sur « Générer le contrat instrumental (.doc) ».
+        </p>
+      </div>
+
+      <label class="switch" style="margin-left:auto;">
+        <input type="checkbox" id="themeToggle">
+        <span class="slider"></span>
+      </label>
+    </header>
+
+    <section class="card" id="bloc-contrat-artiste" style="max-width:900px;margin:24px auto;">
+      <h2>Contrat de licence d'instrumentale</h2>
+      <p class="hint">
+        Remplis les infos, choisis la fonction (Artiste / Manager / Autre), puis clique sur « Générer le contrat instrumental (.doc) ».
+      </p>
+
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">
+
+        <div>
+          <label for="ca-nom-artiste">Nom / prénom de la personne (obligatoire)</label>
+          <input type="text" id="ca-nom-artiste" placeholder="Nom complet de la personne">
+        </div>
+
+        <div>
+          <label for="ca-fonction">Fonction (obligatoire)</label>
+          <select id="ca-fonction">
+            <option value="Artiste" selected>Artiste</option>
+            <option value="Manager">Manager / Responsable d'artiste</option>
+            <option value="Autre">Autre</option>
+          </select>
+        </div>
+
+        <div id="ca-wrapper-nom-scene">
+          <label for="ca-nom-scene">Nom de scène (si Artiste)</label>
+          <input type="text" id="ca-nom-scene" placeholder="Ex : HAMADA">
+        </div>
+
+        <div id="ca-wrapper-artiste-represente" style="display:none;">
+          <label for="ca-artiste-represente">Artiste représenté (obligatoire si Manager)</label>
+          <input type="text" id="ca-artiste-represente" placeholder="Nom de l'artiste représenté">
+        </div>
+
+        <div id="ca-wrapper-fonction-detail" style="display:none;">
+          <label for="ca-fonction-detaillee">Préciser la fonction (obligatoire si Autre)</label>
+          <input type="text" id="ca-fonction-detaillee" placeholder="Ex : Producteur exécutif">
+        </div>
+
+        <div>
+          <label for="ca-adresse-artiste">Adresse</label>
+          <input type="text" id="ca-adresse-artiste" placeholder="Adresse complète">
+        </div>
+
+        <div>
+          <label for="ca-cp-ville-artiste">Code postal / Ville</label>
+          <input type="text" id="ca-cp-ville-artiste" placeholder="Ex : 71170 Chauffailles">
+        </div>
+
+        <div>
+          <label for="ca-date-contrat">Date du contrat</label>
+          <input type="date" id="ca-date-contrat">
+        </div>
+
+        <div>
+          <label for="ca-lieu-signature">Lieu de signature</label>
+          <input type="text" id="ca-lieu-signature" placeholder="Ex : Montlouis-sur-Loire">
+        </div>
+
+        <div>
+          <label for="ca-titre-oeuvre">Titre de l'instrumentale</label>
+          <input type="text" id="ca-titre-oeuvre" placeholder="Titre de la prod">
+        </div>
+
+        <div>
+          <label for="ca-type-licence">Type de licence</label>
+          <select id="ca-type-licence">
+            <option value="non exclusive" selected>Non exclusive</option>
+            <option value="exclusive">Exclusive</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="ca-montant">Montant payé (€)</label>
+          <input type="number" id="ca-montant" placeholder="Ex : 100" min="0">
+        </div>
+      </div>
+
+      <div class="toolbar" style="margin-top:12px;">
+        <button type="button" class="btn btn-primary" id="ca-generate">
+          Générer le contrat instrumental (.doc)
+        </button>
+      </div>
+
+      <p class="small">
+        Le fichier généré sera un .doc modifiable (Word / LibreOffice), que tu pourras ensuite exporter en PDF pour signature.
+      </p>
+    </section>
+  </div>
+
+  <textarea id="template-contrat-artiste" style="display:none; white-space:pre-wrap;">
+
+[[LIEU_SIGNATURE]], le [[DATE_CONTRAT]]
+
+[[NOM_PERSONNE]]
+[[ADRESSE_ARTISTE]]
+[[CP_VILLE_ARTISTE]]
+
+Objet : Contrat de licence d'instrumentale ([[TYPE_LICENCE_MAJ]])
+
+Madame, Monsieur,
+[[APPEL_CLIENT]]
+
+Par le présent courrier, il est convenu ce qui suit entre :
+
+[[NOM_PRODUCTEUR]] (ci-après « le Producteur » ou « le Beatmaker »),
+
+et
+
+[[BLOC_CLIENT]]
+
+--------------------------------------------------
+ARTICLE 1 – OBJET
+--------------------------------------------------
+Le présent contrat a pour objet de définir les conditions dans lesquelles le Producteur concède à l'Artiste une licence [[TYPE_LICENCE]] d'utilisation de l'instrumentale intitulée « [[TITRE_OEUVRE]] » (ci-après « l'Instrumentale »).
+
+--------------------------------------------------
+ARTICLE 2 – PRIX, ACOMPTE, MODALITÉS DE PAIEMENT ET RETOUCHES
+--------------------------------------------------
+En contrepartie de la Licence concédée et du travail de production réalisé, l’Artiste s’engage à verser au Producteur la somme de :
+
+MONTANT TOTAL : [[MONTANT]] € TTC
+
+ACOMPTE :
+Un acompte obligatoire de trente pour cent (30%) du montant total doit être réglé pour permettre au Producteur de démarrer la production.
+Aucun travail (composition, arrangement, mix, structure ou tout élément de production) ne sera initié tant que cet acompte n’aura pas été reçu.
+
+SOLDE :
+Le solde restant (70%) doit être réglé dans un délai maximum de trente (30) jours à compter de la livraison de la première version de l’Instrumentale ou de l’émission de la demande de paiement correspondante.
+Le paiement complet est indispensable pour valider définitivement la Licence.
+Aucun fichier final (export, stems, projet, ou élément définitif) ne sera livré tant que le règlement total n’aura pas été reçu.
+
+MODES DE PAIEMENT ACCEPTÉS :
+- Virement bancaire (coordonnées ci-dessous)
+- PayPal ou Lydia (adresse communiquée sur demande)
+- Espèces (uniquement en main propre)
+
+Coordonnées bancaires du Producteur :
+Nom : Armel Abdoulatif ALI
+IBAN : FR80 2043 3026 26N2 6178 8757 833
+BIC : NTSBFRM1XXX
+
+RETOUCHES :
+L’Artiste bénéficie de deux (2) retouches gratuites, à condition qu’elles soient demandées dans un délai maximum de quinze (15) jours après la livraison initiale.
+Une retouche correspond à une modification raisonnable n’altérant pas la structure ou l’identité de l’œuvre.
+
+RETOUCHES SUPPLÉMENTAIRES :
+Toute retouche supplémentaire au-delà des deux incluses sera facturée dix euros (10 €) par retouche.
+Les retouches supplémentaires doivent obligatoirement être réglées avant le début de leur réalisation.
+
+PROTECTIONS :
+Le Producteur se réserve le droit de refuser toute demande excessive ou abusive.
+En cas de non-paiement dans les délais impartis (y compris l'acompte ou le solde), la prestation peut être suspendue ou annulée sans préavis.
+--------------------------------------------------
+ARTICLE 3 – NATURE DE LA LICENCE
+--------------------------------------------------
+3.1 Licence non exclusive
+Lorsque la licence choisie est NON EXCLUSIVE, l’Artiste peut exploiter librement l’Instrumentale, mais le Producteur conserve le droit de vendre la même Instrumentale à d’autres artistes.
+
+3.2 Licence exclusive
+Lorsque la licence choisie est EXCLUSIVE, l’Artiste obtient un droit exclusif d’exploitation de l'Instrumentale à compter de la date du contrat.
+Le Producteur ne pourra plus vendre cette Instrumentale à un autre artiste après cette date.
+
+Le type de licence choisi est : [[TYPE_LICENCE_MAJ]].
+
+--------------------------------------------------
+ARTICLE 4 – TERRITOIRE ET DURÉE
+--------------------------------------------------
+La licence est accordée pour le monde entier et pour toute la durée légale de protection de l'œuvre au titre du droit d’auteur.
+
+--------------------------------------------------
+ARTICLE 5 – DROITS ACCORDÉS
+--------------------------------------------------
+L’Artiste est autorisé à :
+- enregistrer un ou plusieurs morceaux avec l’Instrumentale ;
+- diffuser ces morceaux sur les plateformes de streaming (Spotify, Apple Music, Deezer, etc.) ;
+- diffuser ces morceaux sur YouTube, TikTok, réseaux sociaux, radios, TV ;
+- utiliser ces morceaux dans des clips, concerts, showcases, événements promotionnels.
+
+L’Artiste n’est pas autorisé à :
+- revendre l’Instrumentale seule ;
+- mettre l’Instrumentale seule à disposition en pack, banque de sons, kit de production ;
+- revendiquer la qualité de producteur ou de beatmaker de l’Instrumentale.
+
+--------------------------------------------------
+ARTICLE 6 – MENTION OBLIGATOIRE DU PRODUCTEUR
+--------------------------------------------------
+L’Artiste s'engage à créditer le Producteur de manière claire et visible sur toutes les exploitations du morceau utilisant l’Instrumentale, notamment, à titre d’exemple :
+
+« Prod. par [[NOM_PRODUCTEUR]] »
+
+Cette mention devra apparaître, dans la mesure du possible :
+- dans les métadonnées des plateformes (Spotify, Apple Music, Deezer, etc.) ;
+- dans les descriptions des vidéos YouTube ;
+- sur la pochette ou le visuel du single / projet ;
+- sur les visuels promotionnels et publications réseaux sociaux.
+
+--------------------------------------------------
+ARTICLE 7 – PROPRIÉTÉ INTELLECTUELLE
+--------------------------------------------------
+Le Producteur reste, en toutes circonstances, seul titulaire des droits d’auteur sur l’Instrumentale.
+
+La licence concédée à l’Artiste n’emporte aucun transfert de propriété, mais uniquement une autorisation d’utilisation dans le cadre défini par le présent contrat.
+
+--------------------------------------------------
+ARTICLE 8 – GARANTIE D’UTILISATION
+--------------------------------------------------
+L’Artiste s’engage à ne pas utiliser l’Instrumentale ni les morceaux qui en découlent dans des contenus :
+- diffamatoires,
+- haineux,
+- discriminatoires,
+- contraires aux lois et règlements français.
+
+--------------------------------------------------
+ARTICLE 9 – RÉSILIATION
+--------------------------------------------------
+En cas de non-respect grave des obligations du présent contrat (par exemple : diffusion de l’Instrumentale seule, absence systématique de crédit du Producteur, cession non autorisée de la licence), le Producteur pourra procéder à la résiliation du contrat après mise en demeure écrite restée sans effet pendant un délai de quinze (15) jours.
+
+La résiliation ne remet pas en cause les sommes déjà versées au titre de la licence.
+
+--------------------------------------------------
+ARTICLE 10 – DROIT APPLICABLE ET JURIDICTION
+--------------------------------------------------
+Le présent contrat est régi par le droit français.
+
+En cas de litige relatif à son interprétation ou à son exécution, et à défaut de résolution amiable, les Parties conviennent de soumettre le différend aux tribunaux compétents du ressort du domicile du Producteur.
+
+Fait à [[LIEU_SIGNATURE]], le [[DATE_CONTRAT]].
+
+Le Producteur
+[[NOM_PRODUCTEUR]]
+Signature :
+
+L'Artiste
+[[NOM_ARTISTE]]
+Alias [[NOM_SCENE]]
+Signature :
+
+</textarea>
+
+  <script>
+    function updateThemeLogos(theme){
+      const mode = theme === "light" ? "light" : "dark";
+
+      document.querySelectorAll('[data-light-src][data-dark-src]').forEach((img) => {
+        const target = mode === "light" ? img.dataset.lightSrc : img.dataset.darkSrc;
+        if (target) {
+          img.setAttribute("src", target);
+        }
+      });
+    }
+  </script>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('ca-generate');
+    const tplEl = document.getElementById('template-contrat-artiste');
+    if (!btn || !tplEl) return;
+
+    const fFonction = document.getElementById('ca-fonction');
+    const wrapNomScene = document.getElementById('ca-wrapper-nom-scene');
+    const wrapArtisteRep = document.getElementById('ca-wrapper-artiste-represente');
+    const wrapFonctionDetail = document.getElementById('ca-wrapper-fonction-detail');
+
+    function g(id) {
+      const el = document.getElementById(id);
+      return el ? el.value.trim() : "";
+    }
+
+    function updateFonctionUI(){
+      const f = g('ca-fonction') || "Artiste";
+      if (f === "Artiste") {
+        if (wrapNomScene) wrapNomScene.style.display = "";
+        if (wrapArtisteRep) wrapArtisteRep.style.display = "none";
+        if (wrapFonctionDetail) wrapFonctionDetail.style.display = "none";
+      } else if (f === "Manager") {
+        if (wrapNomScene) wrapNomScene.style.display = "none";
+        if (wrapArtisteRep) wrapArtisteRep.style.display = "";
+        if (wrapFonctionDetail) wrapFonctionDetail.style.display = "none";
+      } else { // Autre
+        if (wrapNomScene) wrapNomScene.style.display = "none";
+        if (wrapArtisteRep) wrapArtisteRep.style.display = "none";
+        if (wrapFonctionDetail) wrapFonctionDetail.style.display = "";
+      }
+    }
+
+    if (fFonction) {
+      fFonction.addEventListener('change', updateFonctionUI);
+      updateFonctionUI();
+    }
+
+    btn.addEventListener('click', function () {
+      let tpl = tplEl.value;
+      if (!tpl || !tpl.trim()) {
+        alert('Le modèle de contrat est vide. Vérifie le bloc <textarea id="template-contrat-artiste"> dans le code.');
+        return;
+      }
+
+      const nomPersonne = g('ca-nom-artiste');
+      const fonction = g('ca-fonction') || "Artiste";
+      const artisteRep = g('ca-artiste-represente');
+      const fonctionDetaillee = g('ca-fonction-detaillee');
+
+      if (!nomPersonne) {
+        alert("Le nom / prénom de la personne est obligatoire.");
+        return;
+      }
+
+      if (fonction === "Manager" && !artisteRep) {
+        alert("Merci de préciser l'artiste représenté (obligatoire pour un manager).");
+        return;
+      }
+
+      if (fonction === "Autre" && !fonctionDetaillee) {
+        alert("Merci de préciser la fonction (obligatoire si 'Autre').");
+        return;
+      }
+
+      let nomArtisteContrat;
+      if (fonction === "Artiste") {
+        nomArtisteContrat = nomPersonne;
+      } else if (fonction === "Manager") {
+        nomArtisteContrat = artisteRep || nomPersonne;
+      } else {
+        nomArtisteContrat = nomPersonne;
+      }
+
+      let nomScene = "";
+      if (fonction === "Artiste") {
+        nomScene = g('ca-nom-scene') || nomArtisteContrat;
+      } else if (fonction === "Manager") {
+        nomScene = artisteRep || nomArtisteContrat;
+      } else {
+        nomScene = nomArtisteContrat;
+      }
+
+      let appelClient;
+      if (fonction === "Artiste") {
+        appelClient = `Cher/Chère ${nomArtisteContrat} (alias ${nomScene}),`;
+      } else if (fonction === "Manager") {
+        appelClient = `Cher/Chère ${nomPersonne}, manager de ${nomArtisteContrat},`;
+      } else {
+        appelClient = `Cher/Chère ${nomPersonne},`;
+      }
+
+      let blocClient;
+      if (fonction === "Artiste") {
+        blocClient = `${nomArtisteContrat}, également connu sous le nom de scène ${nomScene}, demeurant ${g('ca-adresse-artiste')} ${g('ca-cp-ville-artiste')} (ci-après « l'Artiste »).`;
+      } else if (fonction === "Manager") {
+        blocClient = `${nomPersonne}, agissant en qualité de manager de ${nomArtisteContrat}, demeurant ${g('ca-adresse-artiste')} ${g('ca-cp-ville-artiste')} (le manager, représentant l'Artiste).`;
+      } else {
+        blocClient = `${nomPersonne}, agissant en qualité de ${fonctionDetaillee}, demeurant ${g('ca-adresse-artiste')} ${g('ca-cp-ville-artiste')} (ci-après « le Client »).`;
+      }
+
+      const nomProducteur = "Armel ALI";
+
+      tpl = tpl
+        .replaceAll('[[NOM_PERSONNE]]', nomPersonne || nomArtisteContrat)
+        .replaceAll('[[APPEL_CLIENT]]', appelClient)
+        .replaceAll('[[BLOC_CLIENT]]', blocClient)
+        .replaceAll('[[NOM_ARTISTE]]', nomArtisteContrat)
+        .replaceAll('[[NOM_SCENE]]', nomScene || nomArtisteContrat)
+        .replaceAll('[[ADRESSE_ARTISTE]]', g('ca-adresse-artiste'))
+        .replaceAll('[[CP_VILLE_ARTISTE]]', g('ca-cp-ville-artiste'))
+        .replaceAll('[[DATE_CONTRAT]]', g('ca-date-contrat'))
+        .replaceAll('[[LIEU_SIGNATURE]]', g('ca-lieu-signature'))
+        .replaceAll('[[TITRE_OEUVRE]]', g('ca-titre-oeuvre') || "Instrumentale")
+        .replaceAll('[[TYPE_LICENCE]]', g('ca-type-licence') || "non exclusive")
+        .replaceAll('[[TYPE_LICENCE_MAJ]]', (g('ca-type-licence') || "non exclusive").toUpperCase())
+        .replaceAll('[[MONTANT]]', g('ca-montant') || "0")
+        .replaceAll('[[NOM_PRODUCTEUR]]', nomProducteur);
+
+      const blob = new Blob([tpl], { type: "application/msword" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const safeName = (nomScene || nomArtisteContrat || "Artiste").replace(/\s+/g, "_");
+
+      a.href = url;
+      a.download = "Contrat_Licence_Instrumentale_" + safeName + ".doc";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+  });
+  </script>
+
+  <script>
+    (function(){
+      const THEME_KEY = "szd_theme";
+      const root = document.documentElement;
+
+      function applyTheme(theme){
+        if(theme === "light"){
+          root.setAttribute("data-theme","light");
+        }else{
+          root.removeAttribute("data-theme");
+        }
+
+        if (typeof updateThemeLogos === "function") {
+          updateThemeLogos(theme);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", function(){
+        var toggle = document.getElementById("themeToggle");
+        if(!toggle) return;
+
+        var saved = null;
+        try {
+          saved = localStorage.getItem(THEME_KEY);
+        } catch(e) {}
+
+        if(saved === "light"){
+          applyTheme("light");
+          toggle.checked = false;
+        } else {
+          applyTheme("dark");
+          toggle.checked = true;
+        }
+
+        toggle.addEventListener("change", function(){
+          if(toggle.checked){
+            applyTheme("dark");
+            try { localStorage.setItem(THEME_KEY,"dark"); } catch(e) {}
+          } else {
+            applyTheme("light");
+            try { localStorage.setItem(THEME_KEY,"light"); } catch(e) {}
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
