@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Outils Reverb — SZD Studio</title>
+  <style>
+    :root {
+      --bg:#0f172a;
+      --card:#111827;
+      --muted:#9ca3af;
+      --accent:#7c3aed;
+      --accent2:#a855f7;
+      --border:#1e293b;
+      --text:#e5e7eb;
+      --text2:#cbd5e1;
+      --shadow:0 12px 32px rgba(0,0,0,.28);
+      --bg-gradient:
+        radial-gradient(circle at 0% 0%, rgba(124,58,237,.18), transparent 52%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,.16), transparent 52%),
+        linear-gradient(130deg,#0a0f1f,#0b1124 46%,#0a0d1a 80%);
+    }
+
+    [data-theme="light"] {
+      --bg:#f5f3ff;
+      --card:#ffffff;
+      --text:#0f172a;
+      --text2:#4b5563;
+      --border:#e5e7eb;
+      --muted:#6b7280;
+      --shadow:0 16px 40px rgba(76,29,149,.18);
+      --bg-gradient:
+        radial-gradient(circle at 0% 0%, rgba(124,58,237,.10), transparent 52%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,.12), transparent 52%),
+        linear-gradient(130deg,#f8fafc,#ede9fe 46%,#f4f1ff 80%);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      font-family: 'Inter', system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg-gradient);
+      color:var(--text);
+      margin:0;
+    }
+    .container{ max-width:1100px; margin:34px auto; padding:0 16px; }
+
+    .top-nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background:linear-gradient(135deg,rgba(124,58,237,.18),rgba(168,85,247,.14)),var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:10px 14px;
+      box-shadow:var(--shadow);
+      margin-bottom:16px;
+    }
+    .nav-brand{ font-weight:800; letter-spacing:.03em; }
+    .nav-links{ display:flex; gap:8px; flex-wrap:wrap; }
+    .nav-link{
+      color:var(--text2);
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:rgba(15,23,42,.6);
+      font-size:13px;
+      transition:.15s background,.15s border-color,.15s color;
+    }
+    [data-theme="light"] .nav-link{ background:#f8fafc; }
+    .nav-link:hover{ border-color:var(--accent); color:#fff; }
+    [data-theme="light"] .nav-link:hover{ color:var(--accent); }
+    .nav-link.active{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;
+      border-color:transparent;
+      box-shadow:0 10px 22px rgba(124,58,237,.35);
+    }
+
+    header.hero{
+      display:flex;
+      flex-wrap:wrap;
+      gap:18px;
+      align-items:center;
+      margin-bottom:12px;
+    }
+    .logo-wrap{
+      background:var(--card);
+      border-radius:16px;
+      padding:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:var(--shadow);
+      border:1px solid var(--border);
+    }
+    .logo-wrap img{ width:190px; height:auto; display:block; filter:drop-shadow(0 6px 22px rgba(124,58,237,.35)); }
+    [data-theme="light"] .logo-wrap img{ filter:none; }
+
+    h1{ margin:0; font-size:clamp(26px,4vw,40px); }
+    .sub{ color:var(--text2); margin:6px 0 12px; max-width:760px; }
+
+    .valhalla-grid{ display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); }
+    .valhalla-card{
+      position:relative;
+      background:linear-gradient(160deg, rgba(124,58,237,.15), rgba(12,16,35,.92)), var(--card);
+      border:1px solid rgba(124,58,237,.4);
+      border-radius:16px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      isolation:isolate;
+    }
+    .valhalla-card::after{
+      content:"";
+      position:absolute;
+      inset:-30% auto auto 40%;
+      width:200px;
+      height:200px;
+      background:radial-gradient(circle at center, rgba(168,85,247,.35), transparent 55%);
+      filter:blur(12px);
+      opacity:.7;
+      z-index:0;
+    }
+    .valhalla-card h2{ margin:0 0 6px; display:flex; align-items:center; gap:8px; }
+    .valhalla-card .tag{ font-size:11px; padding:3px 8px; border-radius:999px; border:1px solid rgba(124,58,237,.4); color:var(--text2); background:rgba(255,255,255,.04); }
+    label{ display:block; font-size:13px; color:var(--text2); margin:10px 0 6px; }
+    input, select, output{
+      width:100%;
+      padding:10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(15,23,42,.65);
+      color:var(--text);
+      font-size:14px;
+      outline:none;
+    }
+    [data-theme="light"] input,[data-theme="light"] select,[data-theme="light"] output{
+      background:#f8fafc;
+    }
+    .result{
+      margin-top:10px;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(124,58,237,.35);
+      background:rgba(124,58,237,.10);
+      color:var(--text);
+      line-height:1.6;
+      z-index:1;
+      position:relative;
+    }
+    .muted{ color:var(--muted); font-size:13px; }
+    .pill{ font-size:12px; padding:3px 8px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,.04); color:var(--text2); }
+    .row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+
+    .switch{ position:relative; display:inline-flex; align-items:center; gap:6px; font-size:11px; color:var(--muted); cursor:pointer; user-select:none; }
+    .switch input{ display:none; }
+    .switch span.slider{
+      width:36px; height:18px; border-radius:999px; background:#0b1220; border:1px solid var(--border); position:relative;
+    }
+    [data-theme="light"] .switch span.slider{ background:#e5e7eb; }
+    .switch span.slider::before{
+      content:""; position:absolute; top:1px; left:1px; width:14px; height:14px; border-radius:999px; background:#e5e7eb; transition:.16s transform;
+    }
+    [data-theme="light"] .switch span.slider::before{ background:#fff; }
+    .switch input:checked + .slider{ background:linear-gradient(135deg,var(--accent),var(--accent2)); border-color:transparent; }
+    .switch input:checked + .slider::before{ transform:translateX(16px); }
+
+    .footer{ margin:18px 0 12px; text-align:center; color:var(--muted); font-size:12px; }
+    @media(max-width:720px){ .top-nav{flex-direction:column; align-items:flex-start;} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="top-nav" aria-label="Navigation principale">
+      <div class="row" style="gap:10px;">
+        <span class="nav-brand">SZD Studio</span>
+        <span class="pill">Suite créative</span>
+      </div>
+      <div class="nav-links">
+        <a class="nav-link" href="index.html">Prestations</a>
+        <a class="nav-link active" href="reverb.html">Outils reverb vintage</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="logo-wrap">
+        <img src="szd_logo.png" alt="SZD Studio">
+      </div>
+      <div>
+        <h1>Valhalla Room – Calculs rapides</h1>
+        <p class="sub">
+          Affine tes pré-delays et tes tails comme dans une interface Valhalla Room vintage : BPM sync, distances, RT60 et équilibre early/late.
+          Conserve le logo et l'esprit du studio sur tes outils techniques.
+        </p>
+        <div class="row" style="gap:8px;">
+          <span class="pill">BPM sync</span>
+          <span class="pill">RT60 Sabine</span>
+          <label class="switch" style="margin-left:auto;">
+            <input type="checkbox" id="themeToggle">
+            <span class="slider"></span>
+            <span>Mode clair</span>
+          </label>
+        </div>
+      </div>
+    </header>
+
+    <div class="valhalla-grid">
+      <section class="valhalla-card">
+        <h2>Pré-delay & synchronisation <span class="tag">Feel vintage</span></h2>
+        <label for="bpm">Tempo (BPM)</label>
+        <input id="bpm" type="number" min="40" max="240" value="120">
+
+        <label for="note">Subdivision</label>
+        <select id="note">
+          <option value="1">Noire (1/4)</option>
+          <option value="0.5">Croche (1/8)</option>
+          <option value="0.25">Double-croche (1/16)</option>
+          <option value="0.333">Triolet de croche</option>
+          <option value="0.75">Croche pointée</option>
+          <option value="2">Blanche (1/2)</option>
+        </select>
+
+        <label for="distance">Distance source-micro (m)</label>
+        <input id="distance" type="number" min="0" step="0.1" value="2.5">
+
+        <div class="result" id="predelayResult"></div>
+        <p class="muted">Astuce : garde 10–25 ms d'air pour laisser respirer la voix avant l'entrée du champ diffus.</p>
+      </section>
+
+      <section class="valhalla-card">
+        <h2>RT60 & taille de pièce <span class="tag">Espace</span></h2>
+        <label for="length">Longueur (m)</label>
+        <input id="length" type="number" min="1" step="0.1" value="6">
+
+        <label for="width">Largeur (m)</label>
+        <input id="width" type="number" min="1" step="0.1" value="4">
+
+        <label for="height">Hauteur (m)</label>
+        <input id="height" type="number" min="1" step="0.1" value="2.6">
+
+        <label for="absorption">Coefficient d'absorption moyen</label>
+        <input id="absorption" type="number" min="0.05" max="1" step="0.05" value="0.28">
+
+        <div class="result" id="rt60Result"></div>
+        <p class="muted">Calque tes décays : 0.6–0.8 s pour une room serrée, 1.4 s pour un hall plus luxuriant façon Valhalla.</p>
+      </section>
+
+      <section class="valhalla-card">
+        <h2>Balance Early / Late <span class="tag">Couleur</span></h2>
+        <label for="early">Énergie early (%)</label>
+        <input id="early" type="range" min="20" max="80" value="45">
+
+        <label for="damping">Damping hautes fréquences (%)</label>
+        <input id="damping" type="range" min="10" max="80" value="55">
+
+        <label for="mix">Mix reverb (%)</label>
+        <input id="mix" type="range" min="0" max="100" value="22">
+
+        <div class="result" id="textureResult"></div>
+        <p class="muted">Boost un peu les early pour garder l'attaque pop, puis étire les late pour la profondeur Valhalla Room.</p>
+      </section>
+    </div>
+
+    <div class="footer">Inspiré par les interfaces Valhalla : des outils rapides, rétro et précis pour tes mix.</div>
+  </div>
+
+  <script>
+    (function(){
+      const THEME_KEY = "szd_theme";
+      const root = document.documentElement;
+      const toggle = document.getElementById('themeToggle');
+
+      function applyTheme(theme){
+        if(theme === 'light') root.setAttribute('data-theme','light');
+        else root.removeAttribute('data-theme');
+      }
+
+      const saved = localStorage.getItem(THEME_KEY);
+      applyTheme(saved);
+      if(toggle){
+        toggle.checked = saved === 'light';
+        toggle.addEventListener('change', ()=>{
+          const mode = toggle.checked ? 'light' : 'dark';
+          applyTheme(mode);
+          localStorage.setItem(THEME_KEY, mode);
+        });
+      }
+    })();
+
+    (function(){
+      const speedOfSound = 343; // m/s
+      const bpm = document.getElementById('bpm');
+      const note = document.getElementById('note');
+      const distance = document.getElementById('distance');
+      const out = document.getElementById('predelayResult');
+
+      function update(){
+        const tempo = Math.max(40, Number(bpm.value)||120);
+        const subdivision = Number(note.value);
+        const beatMs = 60000/tempo;
+        const predelayMs = Math.round((Number(distance.value||0) / speedOfSound) * 1000);
+        const targetMs = Math.round(beatMs*subdivision);
+        const airy = Math.max(10, Math.min(35, predelayMs + 8));
+
+        out.innerHTML = `⏱️ Pré-delay conseillé : <strong>${predelayMs} ms</strong><br>`+
+          `🎛️ Sync subdivision : <strong>${targetMs} ms</strong> (${subdivision} temps)<br>`+
+          `🌫️ Laisse ${airy} ms d'air avant la queue pour un grain Valhalla.`;
+      }
+
+      [bpm,note,distance].forEach(el=>el.addEventListener('input', update));
+      update();
+    })();
+
+    (function(){
+      const length = document.getElementById('length');
+      const width = document.getElementById('width');
+      const height = document.getElementById('height');
+      const absorption = document.getElementById('absorption');
+      const out = document.getElementById('rt60Result');
+
+      function update(){
+        const L = Math.max(1, Number(length.value)||1);
+        const W = Math.max(1, Number(width.value)||1);
+        const H = Math.max(1, Number(height.value)||1);
+        const alpha = Math.min(1, Math.max(0.05, Number(absorption.value)||0.2));
+        const volume = L*W*H;
+        const surface = 2*(L*W + L*H + W*H);
+        const A = surface * alpha;
+        const rt60 = Math.max(0.2, Math.min(4, 0.161 * volume / (A || 1)));
+
+        out.innerHTML = `📐 Volume: <strong>${volume.toFixed(1)} m³</strong> — Surface: <strong>${surface.toFixed(1)} m²</strong><br>`+
+          `🕰️ RT60 estimé: <strong>${rt60.toFixed(2)} s</strong><br>`+
+          `💡 Régle ton decay autour de ${rt60.toFixed(2)} s puis ajuste la brillance avec le damping.`;
+      }
+
+      [length,width,height,absorption].forEach(el=>el.addEventListener('input', update));
+      update();
+    })();
+
+    (function(){
+      const early = document.getElementById('early');
+      const damping = document.getElementById('damping');
+      const mix = document.getElementById('mix');
+      const out = document.getElementById('textureResult');
+
+      function update(){
+        const earlyVal = Number(early.value);
+        const lateVal = 100 - earlyVal;
+        const damp = Number(damping.value);
+        const mixVal = Number(mix.value);
+
+        out.innerHTML = `🎚️ Early / Late: <strong>${earlyVal}%</strong> early | <strong>${lateVal}%</strong> late<br>`+
+          `🎛️ Damping HF: <strong>${damp}%</strong> • Mix global: <strong>${mixVal}%</strong><br>`+
+          `✨ Conseil : pousse les early à ${earlyVal}% pour garder le punch, puis filtre vers ${damp}% pour lisser la queue.`;
+      }
+
+      [early,damping,mix].forEach(el=>el.addEventListener('input', update));
+      update();
+    })();
+  </script>
+</body>
+</html>
