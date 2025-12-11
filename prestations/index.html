@@ -422,6 +422,19 @@
     .suggestion .muted{ color:var(--text2); font-size:13px; }
     .pill-inline{ display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:10px; background:rgba(15,23,42,.4); border:1px solid var(--border); font-size:12px; }
 
+    /* Graphiques compacts */
+    .chart-grid{ display:grid; grid-template-columns:2fr 1fr; gap:12px; margin-top:12px; }
+    .chart-card{ background:var(--card); border:1px solid var(--border); border-radius:14px; padding:12px; box-shadow:var(--shadow); min-height:240px; }
+    .chart-title{ margin:0 0 6px; font-size:15px; display:flex; align-items:center; gap:8px; }
+    .chart-sub{ margin:0 0 10px; color:var(--muted); font-size:12px; }
+    .chart-legend{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; font-size:12px; color:var(--muted); }
+    .legend-item{ display:inline-flex; align-items:center; gap:6px; }
+    .legend-dot{ width:10px; height:10px; border-radius:10px; display:inline-block; }
+    canvas.chart{ width:100%; height:220px; border-radius:12px; background:radial-gradient(circle at 20% 20%, rgba(59,130,246,.08), transparent 45%), radial-gradient(circle at 80% 30%, rgba(16,185,129,.08), transparent 40%), rgba(15,23,42,.45); border:1px solid var(--border); }
+    [data-theme="light"] canvas.chart{ background:radial-gradient(circle at 20% 20%, rgba(59,130,246,.08), transparent 45%), radial-gradient(circle at 80% 30%, rgba(16,185,129,.06), transparent 40%), #f8fafc; }
+
+    @media(max-width:1024px){ .chart-grid{ grid-template-columns:1fr; } }
+
     .checkbox-toggle{ display:flex; align-items:center; gap:8px; }
 
     .alert{
@@ -935,6 +948,25 @@
           <div class="suggestions" id="suggestionsList"></div>
         </div>
 
+        <div class="card" style="margin-top:14px; background:rgba(15,23,42,.32);">
+          <h2>Visualisations avancées</h2>
+          <p class="sub">Vue synthétique des flux mensuels et de la charge d'encaissement restante.</p>
+          <div class="chart-grid">
+            <div class="chart-card">
+              <div class="chart-title">Flux mensuels</div>
+              <p class="chart-sub">Montants facturés vs reçus (6 derniers mois).</p>
+              <canvas id="chartMonthly" class="chart" width="720" height="240"></canvas>
+              <div class="chart-legend" id="legendMonthly"></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title">Statuts & priorités</div>
+              <p class="chart-sub">Répartition des dossiers selon l'état d'encaissement.</p>
+              <canvas id="chartStatus" class="chart" width="420" height="240"></canvas>
+              <div class="chart-legend" id="legendStatus"></div>
+            </div>
+          </div>
+        </div>
+
         <div class="small" id="lsStatus" style="margin-top:6px;"></div>
 
         <div class="debug-zone" id="debug-zone" style="display:none;">
@@ -1027,6 +1059,10 @@
       const insightsKpis = $("insightsKpis");
       const suggestionsList = $("suggestionsList");
       const insightTrend = $("insightTrend");
+      const chartMonthly = $("chartMonthly");
+      const chartStatus = $("chartStatus");
+      const legendMonthly = $("legendMonthly");
+      const legendStatus = $("legendStatus");
 
       const client = $("client");
       const type = $("type");
@@ -1089,6 +1125,163 @@
           acc[key] = (acc[key] || 0) + Number(r.montant||0);
           return acc;
         }, {});
+      }
+
+      function monthlySeries(list){
+        const totals = {};
+        const received = {};
+
+        list.forEach(r => {
+          if(!r.date) return;
+          const d = new Date(r.date);
+          if(Number.isNaN(d)) return;
+          const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`;
+          totals[key] = (totals[key] || 0) + Number(r.montant||0);
+          received[key] = (received[key] || 0) + getPaid(r);
+        });
+
+        const months = Array.from(new Set([...Object.keys(totals), ...Object.keys(received)])).sort();
+        const recent = months.slice(-6);
+        return {
+          labels: recent,
+          factures: recent.map(m => totals[m] || 0),
+          encaisses: recent.map(m => received[m] || 0)
+        };
+      }
+
+      function statusBreakdown(list){
+        let paidAmount = 0, partialAmount = 0, pendingAmount = 0;
+        let paid = 0, partial = 0, pending = 0;
+        let riskTotal = 0;
+
+        list.forEach(r => {
+          const remaining = getRemaining(r);
+          const paidVal = getPaid(r);
+          if(isSettled(r)){
+            paidAmount += paidVal;
+            paid += 1;
+          }else if(paidVal > 0){
+            partialAmount += remaining;
+            partial += 1;
+          }else{
+            pendingAmount += remaining;
+            pending += 1;
+          }
+
+          const age = daysSince(r.date) ?? 0;
+          const urgency = age > 45 ? 1.2 : age > 25 ? 1.1 : 1;
+          riskTotal += (remaining * 0.4) + (age * 10 * urgency);
+        });
+
+        const totalAmount = paidAmount + partialAmount + pendingAmount;
+        const avgRisk = list.length ? Math.round(riskTotal / list.length) : 0;
+        return { paidAmount, partialAmount, pendingAmount, paid, partial, pending, totalAmount, avgRisk };
+      }
+
+      function formatMonthLabel(key){
+        const [y,m] = key.split("-");
+        return `${m}/${String(y).slice(2)}`;
+      }
+
+      function drawLineChart(canvas, labels, series){
+        if(!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if(!ctx){ return; }
+        const width = canvas.width;
+        const height = canvas.height;
+        ctx.clearRect(0,0,width,height);
+
+        const padding = 30;
+        const maxVal = Math.max(1, ...series.flatMap(s => s.values));
+        const stepX = (width - padding*2) / Math.max(1, labels.length-1);
+
+        ctx.strokeStyle = "rgba(255,255,255,.08)";
+        ctx.lineWidth = 1;
+        for(let i=0;i<4;i++){
+          const y = padding + ((height - padding*2)/3)*i;
+          ctx.beginPath();
+          ctx.moveTo(padding, y);
+          ctx.lineTo(width-padding, y);
+          ctx.stroke();
+        }
+
+        series.forEach(s => {
+          ctx.beginPath();
+          s.values.forEach((v, idx) => {
+            const x = padding + stepX*idx;
+            const y = height - padding - ((v/maxVal) * (height - padding*2));
+            if(idx === 0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+          });
+          ctx.strokeStyle = s.color;
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+
+          s.values.forEach((v, idx) => {
+            const x = padding + stepX*idx;
+            const y = height - padding - ((v/maxVal) * (height - padding*2));
+            ctx.fillStyle = s.color;
+            ctx.beginPath();
+            ctx.arc(x,y,4,0,Math.PI*2);
+            ctx.fill();
+          });
+        });
+
+        ctx.fillStyle = "#9ca3af";
+        ctx.font = "11px sans-serif";
+        labels.forEach((label, idx) => {
+          const x = padding + stepX*idx;
+          ctx.fillText(formatMonthLabel(label), x-12, height - 8);
+        });
+      }
+
+      function drawStatusChart(canvas, breakdown){
+        if(!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if(!ctx) return;
+        const width = canvas.width;
+        const height = canvas.height;
+        ctx.clearRect(0,0,width,height);
+
+        const values = [breakdown.pendingAmount, breakdown.partialAmount, breakdown.paidAmount];
+        const colors = ["#f87171", "#facc15", "#22c55e"];
+        const labels = ["Non payé", "Partiel", "Payé"];
+        const total = values.reduce((a,b) => a+b, 0) || 1;
+
+        const barHeight = 24;
+        const padding = 40;
+        const barWidth = width - padding*2;
+        let y = height/2 - barHeight/2;
+
+        let cursor = padding;
+        values.forEach((v, idx) => {
+          const w = (v/total) * barWidth;
+          const r = 12;
+          const effectiveW = Math.max(8,w);
+          const x = cursor;
+          ctx.fillStyle = colors[idx];
+          ctx.beginPath();
+          ctx.moveTo(x + r, y);
+          ctx.lineTo(x + effectiveW - r, y);
+          ctx.quadraticCurveTo(x + effectiveW, y, x + effectiveW, y + r);
+          ctx.lineTo(x + effectiveW, y + barHeight - r);
+          ctx.quadraticCurveTo(x + effectiveW, y + barHeight, x + effectiveW - r, y + barHeight);
+          ctx.lineTo(x + r, y + barHeight);
+          ctx.quadraticCurveTo(x, y + barHeight, x, y + barHeight - r);
+          ctx.lineTo(x, y + r);
+          ctx.quadraticCurveTo(x, y, x + r, y);
+          ctx.fill();
+          cursor += w;
+        });
+
+        ctx.fillStyle = "#e5e7eb";
+        ctx.font = "12px sans-serif";
+        ctx.fillText(`Enjeux: ${eur(breakdown.pendingAmount + breakdown.partialAmount)}`, padding, y - 10);
+        ctx.fillText(`Risque moyen: ${breakdown.avgRisk}`, padding, y + barHeight + 18);
+
+        ctx.fillStyle = "#9ca3af";
+        labels.forEach((label, idx) => {
+          ctx.fillText(`${label} (${values[idx] ? eur(values[idx]) : "0 €"})`, padding, height - 20 - idx*14);
+        });
       }
 
       function showStatus(msg, ok=true){
@@ -1221,6 +1414,45 @@
 
         renderTrendBadge();
         renderSuggestions();
+        renderCharts();
+      }
+
+      function renderCharts(){
+        const monthly = monthlySeries(data);
+        if(chartMonthly){
+          const ctx = chartMonthly.getContext("2d");
+          if(ctx){ ctx.clearRect(0,0,chartMonthly.width,chartMonthly.height); }
+        }
+
+        if(chartMonthly && monthly.labels.length){
+          drawLineChart(chartMonthly, monthly.labels, [
+            { label:"Facturé", values: monthly.factures, color:"#3b82f6" },
+            { label:"Reçu", values: monthly.encaisses, color:"#22c55e" }
+          ]);
+          if(legendMonthly){
+            legendMonthly.innerHTML = `
+              <span class="legend-item"><span class="legend-dot" style="background:#3b82f6"></span>Facturé</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#22c55e"></span>Reçu</span>
+            `;
+          }
+        }else if(legendMonthly){
+          legendMonthly.textContent = "Ajoute des prestations datées pour afficher la tendance.";
+        }
+
+        const breakdown = statusBreakdown(data);
+        if(chartStatus){
+          const ctx = chartStatus.getContext("2d");
+          if(ctx){ ctx.clearRect(0,0,chartStatus.width, chartStatus.height); }
+          drawStatusChart(chartStatus, breakdown);
+          if(legendStatus){
+            legendStatus.innerHTML = `
+              <span class="legend-item"><span class="legend-dot" style="background:#f87171"></span>Non payé (${breakdown.pending})</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#facc15"></span>Partiel (${breakdown.partial})</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#22c55e"></span>Payé (${breakdown.paid})</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#8b5cf6"></span>Indice risque ${breakdown.avgRisk}</span>
+            `;
+          }
+        }
       }
 
       function renderTrendBadge(){
