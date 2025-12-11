@@ -754,15 +754,6 @@
 <body>
   <div class="container">
     <nav class="top-nav" aria-label="Navigation principale">
-      <div class="nav-left">
-        <a class="logo-wrap logo-compact" href="index.html" aria-label="Revenir aux prestations">
-          <img
-            src="szd_logo_white.png"
-            data-dark-src="szd_logo_white.png"
-            data-light-src="szd_logo_black.png"
-            alt="Logo">
-        </a>
-      </div>
       <div class="nav-links">
         <a class="nav-link active" href="index.html">Prestations</a>
         <a class="nav-link" href="facturation.html">Facturation</a>
@@ -967,16 +958,6 @@
           img.setAttribute("src", target);
         }
       });
-    }
-
-    function currentLogoForTheme(theme){
-      const mode = theme === "light" ? "light" : "dark";
-      const img = document.querySelector('[data-light-src][data-dark-src]');
-      if (!img) return "";
-
-      return mode === "light"
-        ? (img.dataset.lightSrc || img.getAttribute("src") || "")
-        : (img.dataset.darkSrc || img.getAttribute("src") || "");
     }
   </script>
 
@@ -1522,16 +1503,9 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       return acc;
     }, { montant:0, recu:0, restant:0 });
 
-    // Détecte le thème pour choisir le bon logo
-    const isDarkTheme = !document.documentElement.hasAttribute("data-theme") ||
-                        document.documentElement.getAttribute("data-theme") !== "light";
-    const currentTheme = isDarkTheme ? "dark" : "light";
-    const logoSrc = currentLogoForTheme(currentTheme) || (isDarkTheme ? "szd_logo_white.png" : "szd_logo_black.png");
-
     let html = "";
     html += `
       <div class="cap-header">
-        <img src="${logoSrc}" alt="Logo">
         <div class="cap-title">Récapitulatif des prestations</div>
         <div class="cap-sub">Généré le ${dateStr}</div>
       </div>
