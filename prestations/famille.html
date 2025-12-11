@@ -46,6 +46,8 @@ img,svg,video,canvas{max-width:100%;height:auto}
 .nav-link{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.03);font-size:13px;transition:.15s background,.15s border-color,.15s color}
 .nav-link:hover{border-color:var(--acc-2);color:var(--text)}
 .nav-link.active{background:linear-gradient(135deg,var(--acc-2),var(--acc));color:#fff;border-color:transparent;box-shadow:0 10px 22px rgba(96,165,250,.35)}
+.nav-logo{display:flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:12px;border:1px solid var(--border);background:var(--panel);text-decoration:none;color:inherit;box-shadow:var(--shadow)}
+.nav-logo img{width:140px;height:auto;display:block;border-radius:10px}
 .pill{padding:6px 10px;border-radius:999px;border:1px solid var(--border);color:var(--muted);font-size:12px;background:rgba(255,255,255,.04)}
 @media(max-width:720px){ .top-nav{align-items:flex-start;} }
 
@@ -142,10 +144,13 @@ header.topbar{display:flex;gap:16px;align-items:center;justify-content:space-bet
 <body>
 <div class="container">
   <nav class="top-nav" aria-label="Navigation principale">
-    <div class="row" style="gap:10px;">
-      <span class="nav-brand">SZD Studio</span>
-      <span class="pill">Suite créative</span>
-    </div>
+    <a class="nav-logo" href="index.html" aria-label="Revenir aux prestations">
+      <img
+        src="szd_logo_white.png"
+        data-dark-src="szd_logo_white.png"
+        data-light-src="szd_logo_black.png"
+        alt="Logo">
+    </a>
     <div class="nav-links">
       <a class="nav-link" href="index.html">Prestations</a>
       <a class="nav-link" href="facturation.html">Facturation</a>

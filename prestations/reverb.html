@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Outils Reverb — SZD Studio</title>
+  <title>Outils Reverb</title>
   <style>
     :root {
       --bg:#0f172a;
@@ -93,12 +93,19 @@
       justify-content:center;
       box-shadow:var(--shadow);
       border:1px solid var(--border);
+      text-decoration:none;
+      color:inherit;
     }
     .logo-wrap img{
       width:190px;
       height:auto;
       display:block;
     }
+    .logo-compact{
+      padding:6px 10px;
+      border-radius:14px;
+    }
+    .logo-compact img{ width:160px; }
 
     h1{ margin:0; font-size:clamp(26px,4vw,40px); }
     .sub{ color:var(--text2); margin:6px 0 12px; max-width:760px; }
@@ -176,10 +183,13 @@
 <body>
   <div class="container">
     <nav class="top-nav" aria-label="Navigation principale">
-      <div class="row" style="gap:10px;">
-        <span class="nav-brand">SZD Studio</span>
-        <span class="pill">Suite créative</span>
-      </div>
+      <a class="logo-wrap logo-compact" href="index.html" aria-label="Revenir aux prestations">
+        <img
+          src="szd_logo_white.png"
+          data-dark-src="szd_logo_white.png"
+          data-light-src="szd_logo_black.png"
+          alt="Logo">
+      </a>
       <div class="nav-links">
         <a class="nav-link" href="index.html">Prestations</a>
         <a class="nav-link" href="facturation.html">Facturation</a>
@@ -191,13 +201,13 @@
     </nav>
 
     <header class="hero">
-      <div class="logo-wrap">
+      <a class="logo-wrap" href="index.html" aria-label="Revenir aux prestations">
         <img
           src="szd_logo_white.png"
           data-dark-src="szd_logo_white.png"
           data-light-src="szd_logo_black.png"
-          alt="SZD Studio">
-      </div>
+          alt="Logo">
+      </a>
       <div>
         <h1>Valhalla Room – Calculs rapides</h1>
         <p class="sub">

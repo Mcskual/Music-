@@ -114,6 +114,8 @@
       justify-content:center;
       box-shadow:var(--shadow);
       border:1px solid var(--border);
+      text-decoration:none;
+      color:inherit;
     }
     .logo-wrap img{
       width:220px;
@@ -753,17 +755,13 @@
   <div class="container">
     <nav class="top-nav" aria-label="Navigation principale">
       <div class="nav-left">
-        <div class="logo-wrap logo-compact">
+        <a class="logo-wrap logo-compact" href="index.html" aria-label="Revenir aux prestations">
           <img
             src="szd_logo_white.png"
             data-dark-src="szd_logo_white.png"
             data-light-src="szd_logo_black.png"
-            alt="SZD Studio">
-        </div>
-        <div class="brand-stack">
-          <span class="nav-brand">SZD Studio</span>
-          <span class="pill">Suite créative</span>
-        </div>
+            alt="Logo">
+        </a>
       </div>
       <div class="nav-links">
         <a class="nav-link active" href="index.html">Prestations</a>
@@ -1533,7 +1531,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
     let html = "";
     html += `
       <div class="cap-header">
-        <img src="${logoSrc}" alt="SZD Studio">
+        <img src="${logoSrc}" alt="Logo">
         <div class="cap-title">Récapitulatif des prestations</div>
         <div class="cap-sub">Généré le ${dateStr}</div>
       </div>
