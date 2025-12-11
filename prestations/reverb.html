@@ -98,9 +98,7 @@
       width:190px;
       height:auto;
       display:block;
-      filter:invert(1) brightness(1.15) drop-shadow(0 6px 22px rgba(124,58,237,.35));
     }
-    [data-theme="light"] .logo-wrap img{ filter:none; }
 
     h1{ margin:0; font-size:clamp(26px,4vw,40px); }
     .sub{ color:var(--text2); margin:6px 0 12px; max-width:760px; }
@@ -191,7 +189,11 @@
 
     <header class="hero">
       <div class="logo-wrap">
-        <img src="szd_logo.png" alt="SZD Studio">
+        <img
+          src="szd_logo_white.png"
+          data-dark-src="szd_logo_white.png"
+          data-light-src="szd_logo_black.png"
+          alt="SZD Studio">
       </div>
       <div>
         <h1>Valhalla Room – Calculs rapides</h1>
@@ -275,10 +277,16 @@
       const THEME_KEY = "szd_theme";
       const root = document.documentElement;
       const toggle = document.getElementById('themeToggle');
+      const logo = document.querySelector('[data-light-src][data-dark-src]');
 
       function applyTheme(theme){
         if(theme === 'light') root.setAttribute('data-theme','light');
         else root.removeAttribute('data-theme');
+
+        if (logo) {
+          const target = theme === 'light' ? logo.dataset.lightSrc : logo.dataset.darkSrc;
+          if (target) logo.setAttribute('src', target);
+        }
       }
 
       const saved = localStorage.getItem(THEME_KEY);
