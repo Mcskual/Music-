@@ -9,30 +9,30 @@
       --bg:#0f172a;
       --card:#111827;
       --muted:#6b7280;
-      --accent:#2563eb;
-      --accent2:#16a34a;
+      --accent:#f97316;
+      --accent2:#a855f7;
       --border:#1e293b;
       --text:#e5e7eb;
       --text2:#cbd5e1;
       --shadow:0 10px 30px rgba(0,0,0,.25);
       --bg-gradient:
-        radial-gradient(circle at 0% 0%, rgba(59,130,246,.22), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(34,197,94,.16), transparent 55%),
-        linear-gradient(120deg,#020617,#020617 40%,#020617 60%,#020617);
+        radial-gradient(circle at 0% 0%, rgba(249,115,22,.18), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,.16), transparent 55%),
+        linear-gradient(120deg,#0c0e1a,#0b1020 40%,#0c1324 70%,#0a0d1a);
     }
 
     [data-theme="light"] {
-      --bg:#f3f4f6;
+      --bg:#f8fafc;
       --card:#ffffff;
       --text:#0f172a;
       --text2:#4b5563;
       --border:#e5e7eb;
       --muted:#6b7280;
-      --shadow:0 16px 40px rgba(15,23,42,.12);
+      --shadow:0 16px 40px rgba(236,72,153,.12);
       --bg-gradient:
-        radial-gradient(circle at 0% 0%, rgba(59,130,246,.12), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(34,197,94,.10), transparent 55%),
-        linear-gradient(120deg,#f9fafb,#f3f4f6 40%,#e5e7eb 60%,#f9fafb);
+        radial-gradient(circle at 0% 0%, rgba(249,115,22,.12), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(168,85,247,.10), transparent 55%),
+        linear-gradient(120deg,#fdf2e9,#f8fafc 42%,#f4f1ff 70%,#f8fafc);
     }
 
     *{box-sizing:border-box}
@@ -50,7 +50,7 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
-      background:linear-gradient(120deg,rgba(59,130,246,.14),rgba(34,197,94,.08)),var(--card);
+      background:linear-gradient(135deg,rgba(249,115,22,.18),rgba(168,85,247,.16)),var(--card);
       border:1px solid var(--border);
       border-radius:14px;
       padding:10px 14px;
@@ -121,6 +121,27 @@
       box-shadow:var(--shadow);
       padding:16px;
       margin-top:16px;
+    }
+
+    .hero-card{
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(160deg, rgba(249,115,22,.07), rgba(168,85,247,.08)), var(--card);
+      border:1px solid rgba(168,85,247,.35);
+      box-shadow:0 16px 42px rgba(0,0,0,.32);
+      isolation:isolate;
+    }
+    .hero-card::after{
+      content:"";
+      position:absolute;
+      inset:-25% auto auto 55%;
+      width:360px;
+      height:360px;
+      background:radial-gradient(circle at center, rgba(249,115,22,.16), transparent 60%);
+      filter:blur(18px);
+      opacity:.8;
+      z-index:-1;
+      pointer-events:none;
     }
 
     .grid{ display:grid; gap:16px; }
@@ -253,7 +274,7 @@
       </label>
     </header>
 
-    <section class="card" id="bloc-contrat-artiste" style="max-width:900px;margin:24px auto;">
+    <section class="card hero-card" id="bloc-contrat-artiste" style="margin:24px 0;">
       <h2>Contrat de licence d'instrumentale</h2>
       <p class="hint">
         Remplis les infos, choisis la fonction (Artiste / Manager / Autre), puis clique sur « Générer le contrat instrumental (.doc) ».
