@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="fr" data-theme="auto">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Tableau de bord familial</title>
+<meta name="description" content="Tâches, crédits, emploi du temps, barème des pénalités par catégories et listes de courses. 100% local via localStorage."/>
+<style>
+/* ===== Thèmes ===== */
+:root{
+  --bg:#0b0f14; --panel:#121923; --text:#e6edf3; --text-strong:#fff; --muted:#94a3b8;
+  --border:#223042; --acc:#6ee7b7; --acc-2:#60a5fa; --warn:#f59e0b; --danger:#ef4444; --ok:#22c55e;
+  --shadow:0 10px 30px rgba(0,0,0,.3); --radius:18px;
+}
+:root[data-theme="light"]{
+  --bg:#f6f7fb; --panel:#fff; --text:#0f172a; --text-strong:#0b1220; --muted:#475569;
+  --border:#e5e7eb; --shadow:0 10px 25px rgba(2,6,23,.08);
+}
+:root[data-theme="dark"]{ /* idem root sombre */ }
+@media (prefers-color-scheme: light){
+  :root[data-theme="auto"]{ --bg:#f6f7fb; --panel:#fff; --text:#0f172a; --text-strong:#0b1220; --muted:#475569; --border:#e5e7eb; --shadow:0 10px 25px rgba(2,6,23,.08); }
+}
+
+/* ===== Reset / anti débordement ===== */
+*,*::before,*::after{box-sizing:border-box}
+html,body{height:100%;width:100%}
+body{margin:0;overflow-x:hidden;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans","Apple Color Emoji","Segoe UI Emoji";background:var(--bg);color:var(--text)}
+img,svg,video,canvas{max-width:100%;height:auto}
+.sr-only{position:absolute;left:-10000px}
+
+/* ===== Layout vertical (1 colonne) ===== */
+.container{max-width:1100px;margin:0 auto;padding:clamp(12px,3vw,24px)}
+.grid{display:grid;grid-template-columns:1fr;gap:18px;grid-auto-flow:row dense}
+.card{grid-column:1/-1;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;min-width:0}
+.card.wide{grid-column:1/-1}
+.card .head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-bottom:1px dashed var(--border);flex-wrap:wrap}
+.card .head h2{margin:0;font-size:18px}
+.card .body{padding:16px}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:14px 0}
+.footer{margin:24px 0 16px;color:var(--muted);font-size:12px;text-align:center}
+
+/* Vue dense: 2 colonnes sur grands écrans */
+@media (min-width:1200px){
+  body.dense .grid{grid-template-columns:1fr 1fr}
+  body.dense .card{grid-column:auto}
+  body.dense .card.wide{grid-column:1/-1}
+}
+
+/* Topbar */
+header.topbar,.week-grid,.day,.row{min-width:0;max-width:100%}
+header.topbar{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:16px 0;position:sticky;top:0;backdrop-filter:blur(6px);z-index:9;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-logo{width:42px;height:42px;display:grid;place-items:center;background:linear-gradient(135deg,var(--acc),var(--acc-2));border-radius:12px;box-shadow:var(--shadow)}
+.brand h1{margin:0;font-size:20px;letter-spacing:.3px;white-space:normal}
+.top-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.search{width:min(440px,100%)}
+
+/* UI */
+.btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer;display:inline-flex;gap:8px;align-items:center;box-shadow:var(--shadow);transition:transform .05s ease,background .2s}
+.btn:hover{transform:translateY(-1px)}
+.btn.small{padding:7px 10px;border-radius:10px;font-size:14px}
+.btn.icon{padding:8px;width:36px;height:36px;justify-content:center}
+.btn.ghost{background:transparent;box-shadow:none}
+.btn.acc{background:linear-gradient(135deg,rgba(110,231,183,.15),rgba(96,165,250,.15));border-color:transparent}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.field{display:flex;flex-direction:column;gap:6px;min-width:120px}
+.field label{font-size:12px;color:var(--muted)}
+.input,select,textarea{background:transparent;border:1px solid var(--border);border-radius:12px;padding:10px 12px;color:var(--text);outline:none;max-width:100%}
+.list{display:flex;flex-direction:column;gap:10px}
+.task{display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:14px;padding:10px}
+.task .title{flex:1;min-width:0}
+.muted{color:var(--muted);font-size:12px}
+.badge{font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:999px;white-space:nowrap}
+.badge.warn{color:var(--danger);border-color:var(--danger)}
+.neg{color:var(--danger);font-weight:700}
+.chip{border-radius:999px;padding:4px 8px;font-size:12px;border:1px solid var(--border);opacity:.9}
+.chip.due{background:rgba(245,158,11,.12)}
+.chip.points{background:rgba(96,165,250,.12)}
+.chip.assignee{background:rgba(110,231,183,.12)}
+.chips{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.actions{display:flex;gap:6px}
+
+/* Cartes enfants */
+.child-cards{display:grid;grid-template-columns:1fr;gap:12px}
+.child{border:1px solid var(--border);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px;background:radial-gradient(1100px 200px at -200px -200px,rgba(110,231,183,.18),transparent 55%)}
+.child .top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.avatar{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(96,165,250,.18);font-weight:600}
+.money{font-size:18px;font-weight:700}
+.ledger{margin-top:8px;border-top:1px dashed var(--border);padding-top:8px;display:flex;flex-direction:column;gap:6px;max-height:160px;overflow:auto}
+.entry{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12px}
+
+/* Emploi du temps + DnD */
+.week-grid{display:grid;grid-template-columns:1fr;gap:10px}
+.day{border:1px solid var(--border);border-radius:14px;padding:10px;min-height:120px}
+.day h4{margin:0 0 8px 0;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.8px}
+.day.drag-over{outline:2px dashed var(--acc-2);outline-offset:-4px}
+.event{border:1px solid var(--border);border-radius:12px;padding:6px 8px;font-size:12px;margin-bottom:6px;background:rgba(148,163,184,.08);display:flex;align-items:flex-start;justify-content:flex-start;gap:6px;flex-wrap:wrap}
+.event .meta{display:flex;gap:6px;align-items:center;min-width:0;flex:1 1 auto;overflow-wrap:anywhere}
+.event .muted{flex:0 0 auto;margin-left:auto}
+.event.dragging{opacity:.6}
+
+/* Courses */
+.glist{display:grid;grid-template-columns:1fr;gap:8px}
+.gitem{display:flex;align-items:center;gap:10px;border:1px solid var(--border);border-radius:14px;padding:10px}
+.gitem .name{flex:1;min-width:0}
+.category{font-size:11px;padding:2px 6px;border-radius:999px;border:1px solid var(--border)}
+
+/* ===== Pénalités (catégories + suggestions + barème actif) ===== */
+.pen-wrap{display:flex;flex-direction:column;gap:12px}
+.cat-bar{display:flex;gap:8px;overflow:auto;padding:2px}
+.cat-pill{border:1px solid var(--border);background:transparent;border-radius:999px;padding:6px 10px;white-space:nowrap;cursor:pointer}
+.cat-pill.active{background:linear-gradient(135deg,rgba(110,231,183,.15),rgba(96,165,250,.15));border-color:transparent}
+.pen-layout{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:900px){ .pen-layout{grid-template-columns:1fr 1fr} }
+.panel{border:1px dashed var(--border);border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:10px;min-height:160px}
+.panel h4{margin:0;font-size:14px}
+.panel .hint{color:var(--muted);font-size:12px}
+.suggest{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:12px;padding:8px;background:rgba(148,163,184,.06)}
+.suggest[draggable="true"]{cursor:grab}
+.suggest .grow{flex:1;min-width:0}
+.suggest .pts{font-weight:700}
+.pen-active-item{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:12px;padding:8px;background:rgba(148,163,184,.08)}
+.pen-active-item.dragsrc{opacity:.6}
+.pen-active-list.drop-target{outline:2px dashed var(--acc-2);outline-offset:-4px}
+.segmented{display:inline-flex;border:1px solid var(--border);border-radius:999px;overflow:hidden}
+.segmented button{border:none;background:transparent;padding:6px 10px;cursor:pointer}
+.segmented button.active{background:linear-gradient(135deg,rgba(110,231,183,.15),rgba(96,165,250,.15))}
+.inline-form{display:flex;gap:8px;flex-wrap:wrap}
+.inline-form .input{padding:8px 10px;border-radius:10px}
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="topbar" role="banner">
+    <div class="brand" aria-label="Tableau de bord familial">
+      <div class="brand-logo" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 2L3 7v10l9 5 9-5V7l-9-5Z" stroke="white" stroke-width="1.5"/>
+          <path d="M7 9h10v9H7z" stroke="white" stroke-width="1.5"/>
+          <path d="M9.5 13.5h5" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div>
+        <h1>Tableau de bord familial</h1>
+        <div class="muted">Tâches · Crédits · Emploi du temps · Pénalités · Courses</div>
+      </div>
+    </div>
+    <div class="top-actions" role="toolbar">
+      <input id="search" class="input search" placeholder="Rechercher… (tâches, courses)" aria-label="Rechercher"/>
+      <button class="btn small" id="btn-export" title="Exporter">⤓ Exporter</button>
+      <label class="btn small" for="import-file" title="Importer">⤒ Importer</label>
+      <input class="sr-only" type="file" id="import-file" accept="application/json"/>
+      <button class="btn small" id="btn-settings" title="Paramètres">⚙️ Paramètres</button>
+      <button class="btn small" id="btn-dense" title="Deux colonnes grand écran">▦ Vue dense</button>
+      <button class="btn small" id="btn-theme" title="Thème système / sombre / clair">🌓 Thème</button>
+    </div>
+  </header>
+
+  <main class="grid" role="main">
+    <!-- KPIs -->
+    <section class="card wide" aria-labelledby="kpis-title">
+      <div class="head"><h2 id="kpis-title">Vue d’ensemble</h2><div class="muted" id="kpi-date"></div></div>
+      <div class="body kpis" id="kpis">
+        <div class="kpi"><div class="muted">Tâches à faire</div><strong id="kpi-todo">0</strong></div>
+        <div class="kpi"><div class="muted">Tâches terminées (7j)</div><strong id="kpi-done7">0</strong></div>
+        <div class="kpi"><div class="muted">Crédits attribués (7j)</div><strong id="kpi-credits7">0 pt</strong></div>
+        <div class="kpi"><div class="muted">Valeur (€)</div><strong id="kpi-value7">0 €</strong></div>
+      </div>
+    </section>
+
+    <!-- Tâches -->
+    <section class="card" aria-labelledby="tasks-title">
+      <div class="head">
+        <h2 id="tasks-title">Tâches ménagères</h2>
+        <div class="row">
+          <select id="filter-assignee" title="Filtrer par personne"><option value="">— Tout le monde —</option></select>
+          <select id="filter-due" title="Filtrer par échéance">
+            <option value="">— Échéance —</option><option value="today">Aujourd’hui</option>
+            <option value="week">Cette semaine</option><option value="late">En retard</option>
+          </select>
+        </div>
+      </div>
+      <div class="body">
+        <form id="task-form" class="row" autocomplete="off">
+          <div class="field" style="min-width:220px;flex:1 1 260px"><label for="task-title">Titre</label><input id="task-title" class="input" placeholder="Ex: Passer l’aspirateur" required/></div>
+          <div class="field"><label for="task-assignee">Attribuer</label><select id="task-assignee" required></select></div>
+          <div class="field" style="max-width:110px"><label for="task-points">Points</label><input id="task-points" type="number" class="input" value="5" min="0" step="1" required/></div>
+          <div class="field"><label for="task-due">Échéance</label><input id="task-due" type="date" class="input"/></div>
+          <div class="field"><label for="task-repeat">Récurrence</label><select id="task-repeat"><option value="none">Aucune</option><option value="daily">Quotidienne</option><option value="weekly">Hebdomadaire</option></select></div>
+          <div class="field" style="align-self:flex-end"><button class="btn acc" type="submit">➕ Ajouter</button></div>
+        </form>
+        <div class="divider"></div>
+        <div id="task-list" class="list" aria-live="polite"></div>
+        <details id="done-panel" style="margin-top:10px;">
+          <summary>Historique des tâches terminées</summary>
+          <div id="done-list" class="list" style="margin-top:10px;"></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Crédits -->
+    <section class="card" aria-labelledby="credits-title">
+      <div class="head">
+        <h2 id="credits-title">Crédits / Argent de poche</h2>
+        <div class="row">
+          <button class="btn small" id="btn-payout">💸 Payer (remise à zéro)</button>
+          <button class="btn small" id="btn-add-credit">➕ Crédit manuel</button>
+        </div>
+      </div>
+      <div class="body">
+        <div class="muted">1 point = <span id="pt-euro"></span>. Modifie l’équivalence dans Paramètres.</div>
+        <div class="child-cards" id="child-cards"></div>
+      </div>
+    </section>
+
+    <!-- Pénalités (catégories + suggestions + barème actif) -->
+    <section class="card" aria-labelledby="penalty-title">
+      <div class="head">
+        <h2 id="penalty-title">Actions / Retrait de points</h2>
+        <div class="row" style="align-items:center;gap:12px">
+          <div class="field"><label for="penalty-child">Enfant</label><select id="penalty-child"></select></div>
+          <div class="field">
+            <label>Sévérité</label>
+            <div class="segmented" id="penalty-mult">
+              <button class="seg" data-mul="1">×1</button>
+              <button class="seg" data-mul="2">×2</button>
+              <button class="seg" data-mul="3">×3</button>
+            </div>
+          </div>
+          <div class="muted" id="penalty-hint"></div>
+        </div>
+      </div>
+      <div class="body pen-wrap">
+        <!-- Menu catégories -->
+        <div id="pen-cats" class="cat-bar" aria-label="Catégories de pénalités"></div>
+
+        <div class="pen-layout">
+          <!-- Suggestions -->
+          <div class="panel" id="panel-suggest">
+            <h4 id="suggest-title">Suggestions</h4>
+            <div class="hint">Glisse une suggestion vers le barème actif, ou clique “+”.</div>
+            <form id="suggest-add" class="inline-form" autocomplete="off" style="margin:.25rem 0">
+              <input id="suggest-label" class="input" placeholder="Ajouter une idée dans la catégorie…" required/>
+              <input id="suggest-pts" class="input" type="number" min="1" value="1" style="max-width:100px"/>
+              <button class="btn small acc" type="submit">Ajouter à la catégorie</button>
+            </form>
+            <input id="suggest-search" class="input" placeholder="Rechercher dans les suggestions…"/>
+            <div id="pen-suggest" class="list" aria-live="polite"></div>
+          </div>
+
+          <!-- Barème actif -->
+          <div class="panel" id="panel-active">
+            <h4>Barème actif (clique pour appliquer)</h4>
+            <div class="hint">Appuie sur un élément pour retirer des points à l’enfant choisi. Sévérité actuelle <strong id="sev-label">×1</strong>.</div>
+            <div id="pen-active" class="pen-active-list list" aria-live="polite"></div>
+            <div class="row">
+              <button class="btn small" id="pen-clear">Vider le barème</button>
+              <button class="btn small" id="pen-reset">Barème par défaut</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Emploi du temps -->
+    <section id="calendar" class="card wide" aria-labelledby="calendar-title">
+      <div class="head">
+        <h2 id="calendar-title">Emploi du temps (semaine)</h2>
+        <div class="row" style="align-items:center;gap:8px">
+          <button class="btn small" id="btn-calendar-expand" title="Agrandir / Réduire">⤢ Agrandir</button>
+          <button class="btn small" id="btn-print-calendar" title="Imprimer le planning">🖨️ Imprimer planning</button>
+        </div>
+        <form id="event-form" class="row" autocomplete="off">
+          <div class="field" style="min-width:180px"><label for="event-title">Intitulé</label><input id="event-title" class="input" placeholder="Ex: Foot, Piano…" required/></div>
+          <div class="field"><label for="event-assignee">Pour</label><select id="event-assignee" required></select></div>
+          <div class="field"><label for="event-day">Jour</label>
+            <select id="event-day" required>
+              <option value="1">Lun</option><option value="2">Mar</option><option value="3">Mer</option>
+              <option value="4">Jeu</option><option value="5">Ven</option><option value="6">Sam</option><option value="0">Dim</option>
+            </select>
+          </div>
+          <div class="field"><label for="event-start">Début</label><input id="event-start" type="time" class="input" required/></div>
+          <div class="field"><label for="event-end">Fin</label><input id="event-end" type="time" class="input" required/></div>
+          <div class="field" style="align-self:flex-end"><button class="btn acc" type="submit">➕ Ajouter</button></div>
+        </form>
+      </div>
+      <div class="body"><div class="week-grid" id="week-grid"></div></div>
+    </section>
+
+    <!-- Courses -->
+    <section class="card" aria-labelledby="grocery-title">
+      <div class="head">
+        <h2 id="grocery-title">Liste de courses</h2>
+        <div class="row">
+          <button class="btn small" id="btn-print">🖨️ Imprimer</button>
+          <button class="btn small" id="btn-clear-bought">Nettoyer achetés</button>
+        </div>
+      </div>
+      <div class="body">
+        <form id="grocery-form" class="row" autocomplete="off">
+          <div class="field" style="min-width:170px;flex:1 1 190px"><label for="g-name">Produit</label><input id="g-name" class="input" placeholder="Ex: Lait" required/></div>
+          <div class="field" style="max-width:100px"><label for="g-qty">Qté</label><input id="g-qty" type="number" class="input" value="1" min="1"/></div>
+          <div class="field"><label for="g-cat">Catégorie</label>
+            <select id="g-cat"><option>Général</option><option>Frais</option><option>Épicerie</option><option>Boissons</option><option>Hygiène</option><option>Ménage</option></select>
+          </div>
+          <div class="field" style="align-self:flex-end"><button class="btn acc" type="submit">➕ Ajouter</button></div>
+        </form>
+        <div class="divider"></div>
+        <div class="row" style="justify-content:space-between;align-items:center">
+          <label class="chip" style="gap:6px"><input type="checkbox" id="hide-bought"> Masquer les achetés</label>
+          <div class="muted">Astuce: coche pour marquer comme acheté</div>
+        </div>
+        <div class="glist" id="glist"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer">Données locales (localStorage). Export/Import en haut à droite.</div>
+</div>
+
+<!-- Paramètres -->
+<dialog class="card" id="settings-modal" aria-labelledby="settings-title" style="max-width:min(720px,95vw);padding:0">
+  <div class="head">
+    <h2 id="settings-title">Paramètres</h2>
+    <button class="btn icon ghost" id="close-settings" aria-label="Fermer">✕</button>
+  </div>
+  <div class="body">
+    <div class="row" style="align-items:flex-end;gap:14px">
+      <div class="field" style="min-width:220px;flex:1 1 260px"><label>Ajouter un enfant</label><input id="child-name" class="input" placeholder="Prénom"/></div>
+      <div class="field" style="max-width:120px"><label>Couleur</label><input id="child-color" class="input" type="color" value="#60a5fa"/></div>
+      <button class="btn acc" id="add-child">➕ Ajouter</button>
+    </div>
+
+    <div class="divider"></div>
+    <h3 style="margin:8px 0">Enfants</h3>
+    <div id="children-list" class="list"></div>
+
+    <div class="divider"></div>
+    <div class="row">
+      <div class="field"><label>Conversion point → €</label><input id="conv" class="input" type="number" step="0.01" min="0"/><div class="muted">Ex: 0.50 = 1 pt vaut 0,50 €</div></div>
+      <div class="field"><label>Devise</label><input id="currency" class="input" value="€" maxlength="3"/></div>
+      <div class="field"><label>Accent</label><input id="accent" class="input" type="color" value="#6ee7b7"/></div>
+    </div>
+    <div style="margin-top:12px"><button class="btn" id="save-settings">💾 Enregistrer</button></div>
+    <div class="divider"></div>
+    <div class="row"><button class="btn" id="reset-demo">🔄 Réinitialiser (démo)</button><div class="muted">Efface toutes les données locales.</div></div>
+  </div>
+</dialog>
+
+<!-- Crédit manuel -->
+<dialog class="card" id="credit-modal" aria-labelledby="credit-title" style="max-width:min(720px,95vw);padding:0">
+  <div class="head"><h2 id="credit-title">Crédit manuel</h2><button class="btn icon ghost" id="close-credit" aria-label="Fermer">✕</button></div>
+  <div class="body">
+    <form id="credit-form" class="row">
+      <div class="field"><label>Enfant</label><select id="credit-child" required></select></div>
+      <div class="field"><label>Points</label><input id="credit-points" type="number" class="input" value="1" min="0" step="1" required/></div>
+      <div class="field" style="min-width:220px;flex:1 1 240px"><label>Motif</label><input id="credit-reason" class="input" placeholder="Ex: Bonus, aide exceptionnelle…"/></div>
+      <div class="field" style="align-self:flex-end"><button class="btn acc" type="submit">Valider</button></div>
+    </form>
+  </div>
+</dialog>
+
+<div id="toast" style="position:fixed;bottom:16px;right:16px;background:var(--panel);border:1px solid var(--border);padding:10px 14px;border-radius:12px;box-shadow:var(--shadow);display:none"></div>
+
+<script>
+/* ===== Helpers ===== */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const uid=()=> (crypto.randomUUID?crypto.randomUUID():Math.random().toString(36).slice(2));
+const fmt=new Intl.DateTimeFormat('fr-FR',{dateStyle:'medium'});
+const STORAGE_KEY='familyDashboard.v7', THEME_KEY='fd.theme', DENSE_KEY='fd.dense';
+const PEN_MULT_KEY='fd.penalty.mult', PEN_CAT_KEY='fd.penalty.cat';
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t._to);t._to=setTimeout(()=>t.style.display='none',2200);}
+function withAlpha(hex,a){const m=/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i.exec(hex||'');if(!m) return `rgba(148,163,184,${a})`;const [r,g,b]=m.slice(1).map(h=>parseInt(h,16));return `rgba(${r},${g},${b},${a})`;}
+
+/* ===== Données par défaut ===== */
+function cat(id,name,items){return {id,name,items:items.map(x=>({id:uid(),label:x[0],points:x[1]}))};}
+const DEFAULT_CATALOG = [
+  cat('c-compo','Comportement',[
+    ['Parler grossièrement / gros mots',2],
+    ['Crier ou hurler sans raison',1],
+    ['Se moquer / insulter (frère/soeur/camarade)',3],
+    ['Ne pas écouter les consignes',2],
+    ['Geste violent (pousser, frapper)',5],
+    ['Mentir',3],
+    ['Provoquer / déranger volontairement',2],
+  ]),
+  cat('c-taches','Tâches et responsabilités',[
+    ['Ne pas ranger sa chambre',2],
+    ['Laisser traîner ses affaires',1],
+    ['Oublier de nourrir un animal',3],
+    ['Ne pas mettre ses vêtements au panier',1],
+    ['Refuser d’aider quand on le demande',2],
+  ]),
+  cat('c-sco','Travail scolaire',[
+    ['Ne pas faire ses devoirs',3],
+    ['Devoirs bâclés / à moitié',2],
+    ['Oublier son matériel scolaire',2],
+    ['Ne pas réviser avant un contrôle',2],
+    ['Ne pas respecter le temps d’étude',1],
+  ]),
+  cat('c-poli','Politesse et vie sociale',[
+    ['Oublier bonjour / merci / SVP',1],
+    ['Couper la parole aux adultes',1],
+    ['Refuser de prêter / partager',2],
+    ['Ignorer un adulte qui parle',1],
+  ]),
+  cat('c-hyg','Hygiène et santé',[
+    ['Ne pas se laver les mains avant de manger',1],
+    ['Ne pas se brosser les dents',2],
+    ['Refuser douche / bain prévu',3],
+    ['Laisser des déchets traîner',1],
+    ['Grignoter sans autorisation',2],
+  ]),
+  cat('c-screen','Écrans & technologie',[
+    ['Dépasser le temps d’écran',2],
+    ['Utiliser un appareil sans autorisation',3],
+    ['Refuser d’éteindre à la demande',2],
+    ['Regarder un contenu interdit',5],
+  ]),
+  cat('c-autres','Autres',[])
+];
+
+const DEFAULT_ACTIVE = [
+  {id:uid(),label:'Retard',points:1,cat:'c-compo'},
+  {id:uid(),label:'Devoirs non faits',points:3,cat:'c-sco'},
+  {id:uid(),label:'Chambre en désordre',points:2,cat:'c-taches'},
+  {id:uid(),label:'Temps d’écran dépassé',points:2,cat:'c-screen'},
+];
+
+/* ===== State ===== */
+const state = load() || {
+  settings:{
+    pointToEuro:0.5,currency:'€',accent:'#6ee7b7',
+    penaltyCatalog: DEFAULT_CATALOG,
+    penalties: DEFAULT_ACTIVE
+  },
+  children:[
+    {id:uid(),name:'Kenan',color:'#60a5fa',points:0,ledger:[]},
+    {id:uid(),name:'Sofian',color:'#22c55e',points:0,ledger:[]},
+    {id:uid(),name:'Jade',color:'#f472b6',points:0,ledger:[]}
+  ],
+  tasks:[],
+  events:[],
+  groceries:[{id:uid(),name:'Lait',qty:2,cat:'Frais',bought:false}]
+};
+function save(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));}
+function load(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY));}catch(e){return null}}
+
+let penaltyMult = parseInt(localStorage.getItem(PEN_MULT_KEY)||'1',10);
+if(![1,2,3].includes(penaltyMult)) penaltyMult=1;
+let currentCatId = localStorage.getItem(PEN_CAT_KEY) || state.settings.penaltyCatalog[0]?.id || 'c-compo';
+
+/* ===== Thème & Vue dense ===== */
+(function(){
+  const savedTheme=localStorage.getItem(THEME_KEY)||'auto';
+  document.documentElement.setAttribute('data-theme',savedTheme);
+  $('#btn-theme').textContent=savedTheme==='auto'?'🌓 Thème (auto)':(savedTheme==='dark'?'🌙 Sombre':'☀️ Clair');
+
+  const dense = localStorage.getItem(DENSE_KEY)==='1';
+  if(dense) document.body.classList.add('dense');
+  $('#btn-dense').textContent = dense ? '▥ Vue dense (on)' : '▦ Vue dense';
+})();
+$('#btn-theme').onclick=()=>{
+  const order=['auto','dark','light']; const cur=document.documentElement.getAttribute('data-theme')||'auto';
+  const next=order[(order.indexOf(cur)+1)%order.length];
+  document.documentElement.setAttribute('data-theme',next); localStorage.setItem(THEME_KEY,next);
+  $('#btn-theme').textContent=next==='auto'?'🌓 Thème (auto)':(next==='dark'?'🌙 Sombre':'☀️ Clair');
+  toast('Thème: '+(next==='auto'?'auto (suivi système)':(next==='dark'?'sombre':'clair')));
+};
+$('#btn-dense').onclick=()=>{
+  document.body.classList.toggle('dense');
+  const on = document.body.classList.contains('dense');
+  localStorage.setItem(DENSE_KEY, on?'1':'0');
+  $('#btn-dense').textContent = on ? '▥ Vue dense (on)' : '▦ Vue dense';
+  toast(on?'Vue dense activée':'Vue dense désactivée');
+};
+
+/* ===== Renders globaux ===== */
+function renderAll(){
+  ensureChildNames();
+  renderAssignees();
+  renderKpis();
+  renderTasks();
+  renderChildren();
+  renderPenaltyUI();
+  renderWeek();
+  renderGroceries();
+  document.documentElement.style.setProperty('--acc', state.settings.accent);
+  $('#pt-euro').textContent = state.settings.pointToEuro.toFixed(2)+' '+state.settings.currency;
+  $('#kpi-date').textContent = 'Aujourd’hui · '+fmt.format(new Date());
+}
+function ensureChildNames(){let c=false;state.children.forEach((ch,i)=>{if(!ch.name||!String(ch.name).trim()){ch.name='Enfant '+(i+1);c=true}});if(c)save();}
+function renderAssignees(){
+  const selTask=$('#task-assignee'), selFilter=$('#filter-assignee'), selEvent=$('#event-assignee'), selCredit=$('#credit-child'), selPenalty=$('#penalty-child');
+  [selTask,selEvent,selCredit,selPenalty].forEach(el=>el.innerHTML=''); if(selFilter) selFilter.innerHTML='<option value="">— Tout le monde —</option>';
+  state.children.forEach(ch=>{[selTask,selEvent,selCredit,selPenalty,selFilter].forEach(el=>el && el.add(new Option(ch.name,ch.id)));});
+}
+function renderKpis(){
+  const seven=Date.now()-7*24*3600*1000;
+  const todo=state.tasks.filter(t=>t.status!=='done').length;
+  const done7=state.tasks.filter(t=>t.status==='done'&&t.doneAt>=seven).length;
+  const credits7=state.children.reduce((s,ch)=>s+ch.ledger.filter(e=>e.time>=seven&&e.type==='credit').reduce((a,x)=>a+x.points,0),0);
+  const val7=credits7*state.settings.pointToEuro;
+  $('#kpi-todo').textContent=todo; $('#kpi-done7').textContent=done7; $('#kpi-credits7').textContent=credits7+' pt'; $('#kpi-value7').textContent=val7.toFixed(2)+' '+state.settings.currency;
+}
+function taskMatches(t){
+  const q=$('#search').value.trim().toLowerCase(), ass=$('#filter-assignee')?.value, due=$('#filter-due')?.value;
+  if(q && !t.title.toLowerCase().includes(q)) return false;
+  if(ass && t.assignee!==ass) return false;
+  if(due){
+    const d=t.due?new Date(t.due):null, now=new Date();
+    const startWeek=new Date(now); startWeek.setDate(now.getDate()-((now.getDay()+6)%7));
+    const endWeek=new Date(startWeek); endWeek.setDate(startWeek.getDate()+6);
+    if(due==='today' && (!d || d.toDateString()!==now.toDateString())) return false;
+    if(due==='week' && (!d || d<startWeek || d>endWeek)) return false;
+    if(due==='late'){ if(!d) return false; const today=new Date(); today.setHours(0,0,0,0); if(!(d<today && t.status!=='done')) return false; }
+  }
+  return true;
+}
+function renderTasks(){
+  const wrap=$('#task-list'), doneWrap=$('#done-list'); wrap.innerHTML=''; doneWrap.innerHTML='';
+  state.tasks.slice().sort((a,b)=>{
+    const aDue=a.due?new Date(a.due).getTime():Infinity, bDue=b.due?new Date(b.due).getTime():Infinity;
+    if(a.status!==b.status) return a.status!=='done'?-1:1;
+    if(aDue!==bDue) return aDue-bDue;
+    return b.createdAt-a.createdAt;
+  }).forEach(t=>{
+    if(!taskMatches(t)) return;
+    const child=state.children.find(c=>c.id===t.assignee);
+    const assName=child?child.name:'—', color=child?child.color:'#94a3b8';
+    const late=t.due && new Date(t.due)<new Date() && t.status!=='done';
+    const el=document.createElement('div'); el.className='task';
+    el.innerHTML=`
+      <button class="btn icon" data-action="toggle" title="${t.status!=='done'?'Terminer':'Annuler'}">${t.status!=='done'?'✔️':'↩️'}</button>
+      <div class="title">
+        <div><strong>${t.title}</strong></div>
+        <div class="chips">
+          <span class="chip assignee" style="border-color:${color}">👤 ${assName}</span>
+          <span class="chip points">⭐ ${t.points||0} pt</span>
+          ${t.due?`<span class="chip due">📅 ${fmt.format(new Date(t.due))}${late?' · <span class="neg">En retard</span>':''}</span>`:''}
+          ${t.repeat && t.repeat!=='none'?`<span class="badge">🔁 ${t.repeat==='daily'?'Quotidien':'Hebdo'}</span>`:''}
+        </div>
+      </div>
+      <div class="actions"><button class="btn small" data-action="edit">✏️</button><button class="btn small" data-action="delete">🗑️</button></div>`;
+    el.querySelector('[data-action="toggle"]').onclick=()=>toggleTask(t.id);
+    el.querySelector('[data-action="edit"]').onclick=()=>editTask(t.id);
+    el.querySelector('[data-action="delete"]').onclick=()=>deleteTask(t.id);
+    (t.status!=='done'?wrap:doneWrap).appendChild(el);
+  });
+}
+function renderChildren(){
+  const cont=$('#child-cards'); cont.innerHTML='';
+  state.children.forEach(ch=>{
+    const euro = ch.points>0 ? (ch.points*state.settings.pointToEuro).toFixed(2)+' '+state.settings.currency : '0 '+state.settings.currency;
+    const deficit = ch.points<0 ? `<span class="badge warn">Déficit ${Math.abs(ch.points)} pt</span>` : '';
+    const pts = ch.points<0 ? `<span class="neg">${ch.points} pt</span>` : `${ch.points} pt`;
+    const card=document.createElement('div'); card.className='child';
+    card.innerHTML=`
+      <div class="top">
+        <div style="display:flex;gap:8px;align-items:center">
+          <div class="avatar" style="background:${withAlpha(ch.color,.25)};border:1px solid ${withAlpha(ch.color,.5)}">${ch.name.slice(0,1)}</div>
+          <div><div><strong>${ch.name}</strong> ${deficit}</div><div class="muted">${pts} • <span class="money">${euro}</span></div></div>
+        </div>
+        <div class="actions"><button class="btn small" data-action="debit">➖</button><button class="btn small" data-action="credit">➕</button></div>
+      </div>
+      <div class="ledger">${(ch.ledger.slice().reverse().slice(0,6).map(e=>`<div class="entry"><span>${e.type==='credit'?'⭐ +':''}${e.points} pt — ${e.reason||'Tâche'}</span><span class="muted">${fmt.format(new Date(e.time))}</span></div>`).join(''))||'<div class="muted">Aucune entrée</div>'}</div>`;
+    cont.appendChild(card);
+    const [minus,plus]=card.querySelectorAll('button'); minus.onclick=()=>adjustCredit(ch.id,-1); plus.onclick=()=>adjustCredit(ch.id,+1);
+  });
+}
+
+/* ===== Pénalités UI ===== */
+function findCat(id){ return state.settings.penaltyCatalog.find(c=>c.id===id); }
+function renderPenaltyUI(){
+  // enfant + sévérité
+  $$('#penalty-mult .seg').forEach(b=>{
+    b.classList.toggle('active', parseInt(b.dataset.mul,10)===penaltyMult);
+    b.onclick=()=>{ penaltyMult=parseInt(b.dataset.mul,10); localStorage.setItem(PEN_MULT_KEY,String(penaltyMult)); renderPenaltyUI(); };
+  });
+  $('#penalty-hint').textContent = 'Chaque clic applique ×'+penaltyMult;
+  $('#sev-label').textContent = '×'+penaltyMult;
+
+  // catégories
+  const bar=$('#pen-cats'); bar.innerHTML='';
+  state.settings.penaltyCatalog.forEach(cat=>{
+    const pill=document.createElement('button'); pill.type='button'; pill.className='cat-pill'+(cat.id===currentCatId?' active':'');
+    pill.textContent=cat.name; pill.onclick=()=>{ currentCatId=cat.id; localStorage.setItem(PEN_CAT_KEY, currentCatId); renderPenaltyUI(); };
+    bar.appendChild(pill);
+  });
+
+  // titre suggestions
+  const cat=findCat(currentCatId) || state.settings.penaltyCatalog[0];
+  $('#suggest-title').innerHTML = 'Suggestions — <strong>'+ (cat?.name||'') +'</strong>';
+
+  // formulaire ajout suggestion dans catégorie
+  $('#suggest-add').onsubmit=(e)=>{e.preventDefault();
+    const label=$('#suggest-label').value.trim(); const pts=Math.max(1,parseInt($('#suggest-pts').value||'1',10));
+    if(!label) return;
+    (cat.items ||= []).push({id:uid(),label,points:pts});
+    save(); $('#suggest-label').value=''; $('#suggest-pts').value='1'; renderPenaltyUI(); toast('Suggestion ajoutée à '+cat.name);
+  };
+
+  // suggestions (filtrées)
+  const q=$('#suggest-search').value?.trim().toLowerCase()||'';
+  const suggest=$('#pen-suggest'); suggest.innerHTML='';
+  (cat.items||[]).filter(it=>!q || it.label.toLowerCase().includes(q)).forEach(it=>{
+    const row=document.createElement('div'); row.className='suggest'; row.draggable=true; row.dataset.cat=cat.id; row.dataset.sid=it.id;
+    row.innerHTML=`<div class="grow"><strong>${it.label}</strong></div><span class="chip">Cat: ${cat.name}</span><span class="pts">−${it.points} pt</span><button class="btn small" title="Ajouter au barème" data-add>+</button>`;
+    // drag depuis suggestions
+    row.addEventListener('dragstart',ev=>{
+      ev.dataTransfer.setData('text/plain', JSON.stringify({type:'suggest',catId:cat.id,itemId:it.id}));
+      ev.dataTransfer.effectAllowed='copy';
+    });
+    row.querySelector('[data-add]').onclick=()=>{ addPenaltyFromSuggestion(cat.id,it.id); };
+    suggest.appendChild(row);
+  });
+  $('#suggest-search').oninput=()=>renderPenaltyUI();
+
+  // barème actif (cliquable pour appliquer)
+  renderActivePenalties();
+}
+function addPenaltyFromSuggestion(catId,itemId){
+  const cat=findCat(catId); const it=(cat?.items||[]).find(x=>x.id===itemId); if(!it) return;
+  state.settings.penalties.push({id:uid(),label:it.label,points:it.points,cat:catId});
+  save(); renderActivePenalties(); toast('Ajouté au barème');
+}
+function renderActivePenalties(){
+  const wrap=$('#pen-active'); wrap.innerHTML='';
+  // zone drop (depuis suggestions)
+  wrap.classList.add('drop-target');
+  wrap.addEventListener('dragover',ev=>{ ev.preventDefault(); wrap.classList.add('drop-target'); ev.dataTransfer.dropEffect='copyMove'; });
+  wrap.addEventListener('dragleave',()=>wrap.classList.remove('drop-target'));
+  wrap.addEventListener('drop',ev=>{
+    ev.preventDefault(); wrap.classList.remove('drop-target');
+    try{
+      const data=JSON.parse(ev.dataTransfer.getData('text/plain')||'{}');
+      if(data.type==='suggest'){ addPenaltyFromSuggestion(data.catId,data.itemId); }
+      else if(data.type==='active'){ reorderActiveByDrop(data.id, ev); }
+    }catch{}
+  }, {once:true}); // rebind à chaque render
+
+  // items actifs
+  state.settings.penalties.forEach((p,idx)=>{
+    const cat=findCat(p.cat)||{name:'—'};
+    const row=document.createElement('div'); row.className='pen-active-item'; row.draggable=true; row.dataset.id=p.id;
+    row.innerHTML=`
+      <span class="chip">Cat: ${cat.name}</span>
+      <div class="grow"><strong>${p.label}</strong></div>
+      <span class="pts">−${p.points} pt</span>
+      <button class="btn small" data-edit title="Modifier">✏️</button>
+      <button class="btn small" data-del title="Supprimer">🗑️</button>
+    `;
+    // appliquer la pénalité
+    row.addEventListener('click',ev=>{
+      if(ev.target.closest('button')) return; // évite click sur edit/del
+      const child=$('#penalty-child').value;
+      applyPenalty(child, p.label, p.points * penaltyMult);
+    });
+    // édition
+    row.querySelector('[data-edit]').onclick=(ev)=>{
+      ev.stopPropagation();
+      const nl=prompt('Intitulé',p.label); if(nl!==null) p.label=nl.trim()||p.label;
+      const np=prompt('Points',String(p.points)); if(np!==null) p.points=Math.max(1,parseInt(np||'1',10));
+      save(); renderActivePenalties();
+    };
+    // suppression
+    row.querySelector('[data-del]').onclick=(ev)=>{
+      ev.stopPropagation();
+      if(confirm('Retirer du barème ?')){ state.settings.penalties = state.settings.penalties.filter(x=>x.id!==p.id); save(); renderActivePenalties(); }
+    };
+    // drag pour réordonner
+    row.addEventListener('dragstart',ev=>{
+      row.classList.add('dragsrc');
+      ev.dataTransfer.setData('text/plain', JSON.stringify({type:'active',id:p.id}));
+      ev.dataTransfer.effectAllowed='move';
+    });
+    row.addEventListener('dragend',()=>row.classList.remove('dragsrc'));
+    row.addEventListener('dragover',ev=>{
+      ev.preventDefault();
+      const rect=row.getBoundingClientRect();
+      row.style.borderTop = (ev.clientY - rect.top) < rect.height/2 ? '2px solid var(--acc-2)' : '1px solid var(--border)';
+      row.style.borderBottom = (ev.clientY - rect.top) >= rect.height/2 ? '2px solid var(--acc-2)' : '1px solid var(--border)';
+    });
+    row.addEventListener('dragleave',()=>{ row.style.borderTop='1px solid var(--border)'; row.style.borderBottom='1px solid var(--border)'; });
+    row.addEventListener('drop',ev=>{
+      ev.preventDefault();
+      row.style.borderTop='1px solid var(--border)'; row.style.borderBottom='1px solid var(--border)';
+      const data=JSON.parse(ev.dataTransfer.getData('text/plain')||'{}');
+      if(data.type==='active'){ reorderActive(data.id, p.id, (ev.clientY - row.getBoundingClientRect().top) < row.getBoundingClientRect().height/2); }
+      if(data.type==='suggest'){ addPenaltyFromSuggestion(data.catId,data.itemId); }
+    });
+    wrap.appendChild(row);
+  });
+
+  // reset/clear
+  $('#pen-clear').onclick=()=>{ if(confirm('Vider entièrement le barème actif ?')){ state.settings.penalties=[]; save(); renderActivePenalties(); } };
+  $('#pen-reset').onclick=()=>{ if(confirm('Remettre le barème par défaut ?')){ state.settings.penalties = DEFAULT_ACTIVE.map(x=>({...x,id:uid()})); save(); renderActivePenalties(); } };
+}
+function reorderActive(dragId, targetId, before){
+  const list=state.settings.penalties.slice();
+  const a=list.find(x=>x.id===dragId), b=list.find(x=>x.id===targetId);
+  if(!a||!b) return;
+  const ia=list.indexOf(a), ib=list.indexOf(b);
+  list.splice(ia,1); list.splice(before?ib:ib+1,0,a);
+  state.settings.penalties=list; save(); renderActivePenalties();
+}
+function reorderActiveByDrop(dragId, ev){
+  // drop dans la zone vide -> à la fin
+  const list=state.settings.penalties.slice();
+  const a=list.find(x=>x.id===dragId); if(!a) return;
+  list.splice(list.indexOf(a),1); list.push(a);
+  state.settings.penalties=list; save(); renderActivePenalties();
+}
+function applyPenalty(childId,label,points){
+  const ch=state.children.find(c=>c.id===childId); if(!ch){alert('Choisis un enfant.');return;}
+  const amount = Math.max(1, Math.round(points));
+  ch.points -= amount; // solde négatif autorisé
+  ch.ledger.push({type:'debit',points:amount,reason:label,time:Date.now()});
+  save(); renderChildren(); renderKpis(); toast(`−${amount} pt pour ${ch.name} · ${label}`);
+}
+
+/* ===== Emploi du temps — DnD (jour ↔ jour + réordonnancement) ===== */
+let draggingId=null;
+function ensureOrders(){
+  state.events.forEach(e=>{
+    if(e.order==null){
+      const m=parseInt((e.start||'00:00').slice(0,2))*60 + parseInt((e.start||'00:00').slice(3,5));
+      e.order = m + Math.random()/1000;
+    }
+  });
+}
+function renderWeek(){
+  ensureOrders();
+  const grid=$('#week-grid'); grid.innerHTML=''; const names=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  for(let i=1;i<=7;i++){
+    const day=i%7; const col=document.createElement('div'); col.className='day'; col.dataset.day=day;
+    col.innerHTML=`<h4>${names[day]}</h4>`;
+    col.addEventListener('dragover',ev=>{ev.preventDefault(); col.classList.add('drag-over'); ev.dataTransfer.dropEffect='move';});
+    col.addEventListener('dragleave',()=>col.classList.remove('drag-over'));
+    col.addEventListener('drop',ev=>{
+      ev.preventDefault(); col.classList.remove('drag-over');
+      const id=ev.dataTransfer.getData('text/plain'); const evn=state.events.find(x=>x.id===id); if(!evn) return;
+      evn.day=day;
+      const maxOrder=Math.max(-1,...state.events.filter(x=>x.day==day).map(x=>x.order??0));
+      evn.order = maxOrder + 1;
+      save(); renderWeek(); toast('Déplacé → '+names[day]);
+    });
+
+    state.events
+      .filter(e=>e.day==day)
+      .sort((a,b)=>(a.order??0)-(b.order??0))
+      .forEach(e=>{
+        const ch=state.children.find(c=>c.id===e.assignee);
+        const tag=document.createElement('div'); tag.className='event'; tag.draggable=true; tag.dataset.id=e.id;
+        tag.style.borderColor=withAlpha(ch?.color||'#94a3b8',.5);
+        tag.innerHTML=`<div class="meta"><span class="badge" style="background:${withAlpha(ch?.color||'#94a3b8',.15)}">${ch?ch.name:'—'}</span> <strong>${e.title}</strong></div><div class="muted">${e.start}–${e.end}</div>`;
+
+        tag.addEventListener('dragstart',ev=>{ draggingId=e.id; tag.classList.add('dragging'); ev.dataTransfer.setData('text/plain', e.id); ev.dataTransfer.effectAllowed='move'; });
+        tag.addEventListener('dragend',()=>{ draggingId=null; tag.classList.remove('dragging'); });
+
+        tag.addEventListener('dragover',ev=>{
+          ev.preventDefault();
+          const rect=tag.getBoundingClientRect();
+          tag.style.borderTop = (ev.clientY - rect.top) < rect.height/2 ? '2px solid var(--acc-2)' : '1px solid var(--border)';
+          tag.style.borderBottom = (ev.clientY - rect.top) >= rect.height/2 ? '2px solid var(--acc-2)' : '1px solid var(--border)';
+        });
+        tag.addEventListener('dragleave',()=>{ tag.style.borderTop='1px solid var(--border)'; tag.style.borderBottom='1px solid var(--border)'; });
+        tag.addEventListener('drop',ev=>{
+          ev.preventDefault(); ev.stopPropagation();
+          tag.style.borderTop='1px solid var(--border)'; tag.style.borderBottom='1px solid var(--border)';
+          const dragged = state.events.find(x=>x.id===draggingId); if(!dragged || dragged.id===e.id) return;
+          reorderEvent(dragged, day, e, (ev.clientY - tag.getBoundingClientRect().top) < tag.getBoundingClientRect().height/2);
+        });
+
+        tag.onclick=()=>editEvent(e.id);
+        col.appendChild(tag);
+    });
+    grid.appendChild(col);
+  }
+}
+function reorderEvent(dragged, day, target, placeBefore){
+  dragged.day = day;
+  const list = state.events.filter(x=>x.day==day && x.id!==dragged.id).sort((a,b)=>(a.order??0)-(b.order??0));
+  const idx = list.findIndex(x=>x.id===target.id);
+  const insertAt = Math.max(0, placeBefore ? idx : idx+1);
+  list.splice(insertAt, 0, dragged);
+  list.forEach((evn,i)=> evn.order = i);
+  save(); renderWeek(); toast('Ordre mis à jour');
+}
+
+/* ===== Courses ===== */
+function renderGroceries(){
+  const list=$('#glist'); list.innerHTML=''; const q=$('#search').value.trim().toLowerCase(), hide=$('#hide-bought')?.checked;
+  state.groceries.filter(x=>!q||x.name.toLowerCase().includes(q)).filter(x=>!hide||!x.bought).forEach(it=>{
+    const row=document.createElement('div'); row.className='gitem';
+    row.innerHTML=`<input type="checkbox" ${it.bought?'checked':''}/> <div class="name"><strong>${it.name}</strong> <span class="muted">×${it.qty}</span></div> <span class="category">${it.cat}</span> <div class="actions"><button class="btn small" data-action="edit">✏️</button><button class="btn small" data-action="delete">🗑️</button></div>`;
+    const [cb]=row.querySelectorAll('input'); cb.onchange=()=>{it.bought=cb.checked; save(); renderGroceries();};
+    row.querySelector('[data-action="edit"]').onclick=()=>editGrocery(it.id);
+    row.querySelector('[data-action="delete"]').onclick=()=>deleteGrocery(it.id);
+    list.appendChild(row);
+  });
+}
+
+/* ===== Actions ===== */
+// Tâches
+$('#task-form').onsubmit=(e)=>{e.preventDefault();
+  const t={id:uid(),title:$('#task-title').value.trim(),assignee:$('#task-assignee').value,points:Math.max(0,parseInt($('#task-points').value||'0',10)),due:$('#task-due').value,repeat:$('#task-repeat').value,status:'todo',createdAt:Date.now()};
+  if(!t.title) return; state.tasks.unshift(t); save(); $('#task-title').value=''; $('#task-points').value='5'; $('#task-due').value=''; $('#task-repeat').value='none'; renderTasks(); renderKpis();
+};
+function toggleTask(id){
+  const t=state.tasks.find(x=>x.id===id); if(!t) return;
+  if(t.status!=='done'){
+    t.status='done'; t.doneAt=Date.now();
+    const ch=state.children.find(c=>c.id===t.assignee); if(ch && t.points>0){ ch.points += t.points; ch.ledger.push({type:'credit',points:t.points,reason:t.title,time:Date.now()});}
+    if(t.repeat && t.repeat!=='none'){ const next={...t,id:uid(),status:'todo',doneAt:undefined}; const d=t.due?new Date(t.due):new Date(); if(t.repeat==='daily') d.setDate(d.getDate()+1); else d.setDate(d.getDate()+7); next.due=d.toISOString().slice(0,10); state.tasks.push(next); }
+  } else {
+    const ch=state.children.find(c=>c.id===t.assignee); if(ch && t.points>0){ ch.points -= t.points; ch.ledger.push({type:'debit',points:t.points,reason:'Annulation '+t.title,time:Date.now()}); }
+    t.status='todo'; delete t.doneAt;
+  }
+  save(); renderTasks(); renderChildren(); renderKpis();
+}
+function editTask(id){
+  const t=state.tasks.find(x=>x.id===id); if(!t) return;
+  const title=prompt('Modifier le titre',t.title); if(title===null) return; t.title=title.trim()||t.title;
+  const points=prompt('Points',String(t.points||0)); if(points!==null) t.points=Math.max(0,parseInt(points||'0',10));
+  const due=prompt('Échéance (AAAA-MM-JJ, vide = aucune)',t.due||''); if(due!==null) t.due=due.trim();
+  save(); renderTasks();
+}
+function deleteTask(id){ if(!confirm('Supprimer cette tâche ?')) return; const i=state.tasks.findIndex(x=>x.id===id); if(i>=0) state.tasks.splice(i,1); save(); renderTasks(); renderKpis(); }
+
+// Crédits + Payout
+function adjustCredit(childId,delta){
+  const ch=state.children.find(c=>c.id===childId); if(!ch) return;
+  ch.points += delta; // autorise négatif
+  ch.ledger.push({type:delta>0?'credit':'debit',points:Math.abs(delta),reason:delta>0?'Ajustement +' : 'Ajustement -',time:Date.now()});
+  save(); renderChildren(); renderKpis();
+}
+$('#btn-payout').onclick=()=>{ if(!confirm('Confirmer le paiement et remettre à zéro les points positifs ?')) return;
+  state.children.forEach(ch=>{ if(ch.points>0){ ch.ledger.push({type:'debit',points:ch.points,reason:'Payout',time:Date.now()}); ch.points=0; } });
+  save(); renderChildren(); renderKpis();
+};
+
+// Crédit manuel (modale)
+const creditModal=$('#credit-modal');
+$('#btn-add-credit').onclick=()=>creditModal.showModal();
+$('#close-credit').onclick=()=>creditModal.close();
+$('#credit-form').onsubmit=(e)=>{e.preventDefault();
+  const child=$('#credit-child').value, pts=parseInt($('#credit-points').value||'0',10), rsn=$('#credit-reason').value.trim();
+  const ch=state.children.find(c=>c.id===child); if(!ch) return;
+  ch.points += Math.max(0,pts); ch.ledger.push({type:'credit',points:Math.max(0,pts),reason:rsn||'Bonus',time:Date.now()});
+  save(); renderChildren(); renderKpis(); creditModal.close();
+};
+
+/* Export / Import */
+$('#btn-export').onclick=()=>{ const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='dashboard-familial.json'; a.click(); URL.revokeObjectURL(a.href); };
+$('#import-file').onchange=(e)=>{ const file=e.target.files?.[0]; if(!file) return; const r=new FileReader(); r.onload=()=>{ try{ const data=JSON.parse(r.result); if(!confirm('Importer ces données ? (remplace)')) return; Object.assign(state,data); save(); renderAll(); toast('Import effectué'); }catch{ alert('Fichier invalide'); } }; r.readAsText(file); };
+
+/* Paramètres */
+const settingsModal=$('#settings-modal');
+$('#btn-settings').onclick=()=>{ renderChildrenSettings(); settingsModal.showModal(); };
+$('#close-settings').onclick=()=>settingsModal.close();
+$('#add-child').onclick=()=>{ const name=$('#child-name').value.trim(); if(!name) return; const color=$('#child-color').value||'#60a5fa';
+  state.children.push({id:uid(),name,color,points:0,ledger:[]}); save(); $('#child-name').value=''; renderAssignees(); renderChildren(); renderChildrenSettings(); toast('Enfant ajouté');
+};
+function renderChildrenSettings(){
+  const list=$('#children-list'); list.innerHTML='';
+  state.children.forEach(ch=>{
+    const row=document.createElement('div'); row.className='gitem';
+    row.innerHTML=`<div class="avatar" style="background:${withAlpha(ch.color,.25)};border:1px solid ${withAlpha(ch.color,.5)}">${ch.name.slice(0,1)}</div>
+      <div style="flex:1"><div><strong>${ch.name}</strong></div><div class="muted">Couleur: ${ch.color} · Points: ${ch.points}</div></div>
+      <div class="actions"><button class="btn small" data-action="rename">Renommer</button><button class="btn small" data-action="recolor">Couleur</button><button class="btn small" data-action="reset">RAZ pts</button><button class="btn small" data-action="remove">Supprimer</button></div>`;
+    list.appendChild(row);
+    const [rename,recolor,reset,remove]=row.querySelectorAll('button');
+    rename.onclick=()=>{const nv=prompt('Nouveau prénom',ch.name); if(nv){ch.name=nv.trim()||ch.name; save(); renderAll();}};
+    recolor.onclick=()=>{const nv=prompt('Couleur hex',ch.color); if(nv){ch.color=nv; save(); renderAll();}};
+    reset.onclick=()=>{if(confirm('Remettre les points à zéro ?')){ch.ledger.push({type:'debit',points:ch.points>0?ch.points:0,reason:'RAZ',time:Date.now()}); ch.points=0; save(); renderChildren(); renderChildrenSettings(); renderKpis();}};
+    remove.onclick=()=>{if(confirm('Supprimer cet enfant ?')){state.children=state.children.filter(c=>c.id!==ch.id); state.tasks.forEach(t=>{if(t.assignee===ch.id) t.assignee=null;}); save(); renderAll();}};
+  });
+  $('#conv').value=state.settings.pointToEuro; $('#currency').value=state.settings.currency; $('#accent').value=state.settings.accent;
+}
+$('#save-settings').onclick=()=>{ state.settings.pointToEuro=parseFloat($('#conv').value||'0')||0; state.settings.currency=$('#currency').value||'€'; state.settings.accent=$('#accent').value||'#6ee7b7'; save(); renderAll(); toast('Paramètres enregistrés'); };
+$('#reset-demo').onclick=()=>{ if(confirm('Tout effacer et repartir sur l’exemple ?')){ localStorage.removeItem(STORAGE_KEY); location.reload(); } };
+
+/* Calendrier plein écran + impression */
+const btnCalExpand=$('#btn-calendar-expand'); if(btnCalExpand){ btnCalExpand.onclick=()=>{ document.body.classList.toggle('calendar-full'); const full=document.body.classList.contains('calendar-full'); btnCalExpand.textContent=full?'⤡ Réduire':'⤢ Agrandir'; if(full) $('#calendar').scrollIntoView({behavior:'smooth',block:'start'}); }; }
+$('#btn-print-calendar').onclick=()=>window.print();
+
+/* Init */
+renderAll();
+toast('Catégories + suggestions (drag & drop) prêtes. Sévérité ×1/×2/×3.');
+</script>
+</body>
+</html>
