@@ -529,7 +529,7 @@
     }
     .cap-summary{
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
       gap:8px;
       width:100%;
       margin:4px 0 14px;
@@ -546,6 +546,26 @@
       justify-content:center;
       gap:6px;
       text-align:center;
+    }
+    .cap-kpi .label,
+    .cap-kpi .value{
+      text-align:center;
+    }
+    .cap-kpi.due{
+      background:#F5A623;
+      border-color:#d98c16;
+      color:#0f172a;
+    }
+    .cap-kpi.received{
+      background:#27AE60;
+      border-color:#1f8a4b;
+      color:#ecfdf3;
+    }
+    .cap-kpi.total{
+      background:#2C3E50;
+      border-color:#23303f;
+      color:#e5e7eb;
+      grid-column:1 / -1;
     }
     .cap-kpi .label{
       font-size:10px;
@@ -1621,17 +1641,17 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         <div class="cap-sub">Généré le ${dateStr}</div>
       </div>
       <div class="cap-summary">
-        <div class="cap-kpi">
-          <div class="label">Total filtré</div>
-          <div class="value">${eur(totals.montant)}</div>
+        <div class="cap-kpi due">
+          <div class="label">Montant dû</div>
+          <div class="value">${eur(totals.restant)}</div>
         </div>
-        <div class="cap-kpi">
-          <div class="label">Déjà reçu</div>
+        <div class="cap-kpi received">
+          <div class="label">Montant reçu / payé</div>
           <div class="value">${eur(totals.recu)}</div>
         </div>
-        <div class="cap-kpi">
-          <div class="label">Restant dû</div>
-          <div class="value">${eur(totals.restant)}</div>
+        <div class="cap-kpi total">
+          <div class="label">Montant total des prestations</div>
+          <div class="value">${eur(totals.montant)}</div>
         </div>
       </div>
     `;
