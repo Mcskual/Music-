@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Facturation — SZD Studio</title>
+  <style>
+    :root {
+      --bg:#0b0f1a;
+      --card:#0f172a;
+      --muted:#cbd5e1;
+      --accent:#f97316;
+      --accent2:#ec4899;
+      --border:#1f2937;
+      --text:#f8fafc;
+      --text2:#cbd5e1;
+      --shadow:0 14px 40px rgba(0,0,0,.32);
+      --bg-gradient:
+        radial-gradient(circle at 0% 0%, rgba(249,115,22,.16), transparent 50%),
+        radial-gradient(circle at 100% 100%, rgba(236,72,153,.16), transparent 52%),
+        linear-gradient(125deg,#0a0e1a,#0c1324 48%,#0a0f1a 80%);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg-gradient);
+      color:var(--text);
+    }
+    .container{ max-width:1200px; margin:34px auto 48px; padding:0 16px; }
+
+    .top-nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background:linear-gradient(135deg,rgba(249,115,22,.18),rgba(236,72,153,.18)),var(--card);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:10px 14px;
+      box-shadow:var(--shadow);
+      margin-bottom:16px;
+    }
+    .nav-brand{ font-weight:800; letter-spacing:.03em; }
+    .nav-links{ display:flex; gap:8px; flex-wrap:wrap; }
+    .nav-link{
+      color:var(--text2);
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:rgba(10,15,26,.8);
+      font-size:13px;
+      transition:.15s background,.15s border-color,.15s color;
+    }
+    .nav-link:hover{ border-color:var(--accent); color:#fff; }
+    .nav-link.active{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      color:#fff;
+      border-color:transparent;
+      box-shadow:0 10px 22px rgba(236,72,153,.35);
+    }
+
+    header.hero{
+      display:flex;
+      flex-wrap:wrap;
+      gap:18px;
+      align-items:center;
+      margin-bottom:12px;
+    }
+    .logo-wrap{
+      background:var(--card);
+      border-radius:16px;
+      padding:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      box-shadow:var(--shadow);
+      border:1px solid var(--border);
+    }
+    .logo-wrap img{ width:210px; height:auto; display:block; filter:invert(1) brightness(1.2); }
+    h1{ margin:0; font-size:clamp(26px,4vw,40px); }
+    .sub{ color:var(--text2); margin:6px 0 12px; max-width:820px; }
+
+    .grid{ display:grid; gap:16px; }
+    .grid-2{ grid-template-columns:1.1fr .9fr; }
+    @media(max-width:980px){ .grid-2{ grid-template-columns:1fr; } }
+
+    .card{
+      background:linear-gradient(160deg, rgba(255,255,255,.02), rgba(236,72,153,.04)), var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:16px;
+      box-shadow:var(--shadow);
+    }
+
+    label{ display:block; font-size:13px; margin-bottom:6px; color:var(--text2); }
+    input, textarea, select{
+      width:100%;
+      padding:10px 11px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.02);
+      color:var(--text);
+      font-size:14px;
+      outline:none;
+      transition:.16s border-color,.16s background,.16s transform;
+    }
+    input:focus, textarea:focus, select:focus{
+      border-color:var(--accent);
+      background:rgba(255,255,255,.04);
+      transform:translateY(-1px);
+    }
+
+    .toolbar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:9px 14px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      cursor:pointer;
+      font-weight:700;
+      letter-spacing:.01em;
+      transition:.18s transform,.18s box-shadow,.18s background,.18s border-color;
+    }
+    .btn-primary{
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      border-color:transparent;
+      color:#fff;
+      box-shadow:0 10px 20px rgba(236,72,153,.35);
+    }
+    .btn:hover{ transform:translateY(-1px); }
+    .btn[disabled]{ opacity:.45; cursor:not-allowed; transform:none; }
+
+    table{ width:100%; border-collapse:collapse; margin-top:10px; font-size:13px; }
+    th,td{ padding:9px 8px; border-bottom:1px solid #1f2937; text-align:left; vertical-align:top; }
+    th{ font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; background:rgba(255,255,255,.02); }
+    tr:nth-child(even) td{ background:rgba(255,255,255,.02); }
+    .pill{ display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:999px; border:1px solid var(--border); font-size:12px; color:var(--text2); }
+
+    .stat-grid{ display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); margin-top:12px; }
+    .stat{
+      background:linear-gradient(140deg, rgba(249,115,22,.12), rgba(236,72,153,.08));
+      border:1px solid rgba(249,115,22,.35);
+      border-radius:12px;
+      padding:12px;
+      box-shadow:var(--shadow);
+    }
+    .stat .label{ font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; }
+    .stat .value{ font-size:22px; font-weight:800; margin-top:6px; }
+
+    .status{ margin-top:10px; padding:10px 12px; border-radius:12px; border:1px solid #1f2937; background:rgba(255,255,255,.03); color:var(--text2); }
+    .status.ok{ border-color:rgba(34,197,94,.5); color:#bbf7d0; background:rgba(34,197,94,.12); }
+    .status.err{ border-color:rgba(248,113,113,.6); color:#fecaca; background:rgba(248,113,113,.16); }
+
+    /* Prévisualisation facture */
+    #invoiceWrapper{ margin-top:18px; }
+    .invoice-card{
+      background:#0b1020;
+      border:1px solid rgba(236,72,153,.3);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:0 18px 40px rgba(0,0,0,.45);
+      position:relative;
+      overflow:hidden;
+      isolation:isolate;
+    }
+    .invoice-card::before{
+      content:"";
+      position:absolute;
+      inset:-40% -10% auto auto;
+      width:180%; height:60%;
+      background:radial-gradient(circle at 60% 40%, rgba(236,72,153,.25), transparent 45%);
+      z-index:0;
+    }
+    .invoice-head{ display:flex; justify-content:space-between; gap:16px; align-items:flex-start; position:relative; z-index:1; flex-wrap:wrap; }
+    .invoice-meta{ text-align:right; font-size:13px; color:var(--text2); }
+    .invoice-meta strong{ display:block; color:#fff; font-size:16px; }
+    .divider{ border:1px dashed rgba(255,255,255,.08); margin:12px 0; }
+    .invoice-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; position:relative; z-index:1; }
+    @media(max-width:720px){ .invoice-grid{ grid-template-columns:1fr; } .invoice-meta{text-align:left;} }
+    .invoice-section{ background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); border-radius:12px; padding:12px; }
+    .invoice-section h3{ margin:0 0 6px; font-size:14px; letter-spacing:.03em; color:#e2e8f0; }
+    .invoice-section .muted{ color:#cbd5e1; font-size:13px; }
+    .invoice-lines{ width:100%; border-collapse:collapse; margin-top:10px; }
+    .invoice-lines th, .invoice-lines td{ padding:8px; border-bottom:1px solid rgba(255,255,255,.06); }
+    .invoice-lines th{ text-transform:uppercase; letter-spacing:.06em; font-size:11px; color:#cbd5e1; }
+    .invoice-lines td:last-child, .invoice-lines th:last-child{ text-align:right; }
+    .total-box{ margin-top:10px; text-align:right; font-size:16px; font-weight:800; color:#fff; }
+
+    @media print{
+      body{ background:#fff; color:#111; }
+      .top-nav, .toolbar, .sub, .card:not(#invoiceWrapper){ display:none !important; }
+      #invoiceWrapper{ margin:0; box-shadow:none; border:none; }
+      .invoice-card{ box-shadow:none; background:#0b1020; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="top-nav" aria-label="Navigation principale">
+      <div class="row" style="display:flex; gap:10px; align-items:center;">
+        <span class="nav-brand">SZD Studio</span>
+        <span class="pill" style="background:rgba(249,115,22,.12); border-color:rgba(249,115,22,.35); color:#fed7aa;">Facturation premium</span>
+      </div>
+      <div class="nav-links">
+        <a class="nav-link" href="index.html">Prestations</a>
+        <a class="nav-link active" href="facturation.html">Facturation</a>
+        <a class="nav-link" href="reverb.html">Outils reverb vintage</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="logo-wrap">
+        <img src="szd_logo.png" alt="SZD Studio">
+      </div>
+      <div>
+        <h1>Facturation des prestations payées</h1>
+        <p class="sub">Visualise instantanément les prestations soldées, personnalise la facture avec le nom, le prénom et l'adresse de l'artiste, puis exporte le tout en PDF au design luxueux.</p>
+        <div class="pill" style="background:rgba(236,72,153,.14); border-color:rgba(236,72,153,.4); color:#fce7f3;">Palette rosée & sunrise</div>
+      </div>
+    </header>
+
+    <div class="grid grid-2">
+      <section class="card">
+        <h2 style="margin-top:0; margin-bottom:10px;">Prestations payées</h2>
+        <p class="sub" style="margin-top:-4px;">Nous récupérons automatiquement les prestations payées depuis le tableau principal. Sélectionne celles à inclure dans la facture.</p>
+
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="label">Prestations soldées</div>
+            <div class="value" id="statCount">0</div>
+          </div>
+          <div class="stat">
+            <div class="label">Total encaissé</div>
+            <div class="value" id="statTotal">0 €</div>
+          </div>
+          <div class="stat">
+            <div class="label">Prêtes pour facture</div>
+            <div class="value" id="statReady">0</div>
+          </div>
+        </div>
+
+        <div class="toolbar" style="margin-top:12px; justify-content:space-between;">
+          <div class="pill">Coche les prestations à facturer</div>
+          <button class="btn" id="toggleAll" type="button">Tout sélectionner</button>
+        </div>
+
+        <table aria-label="Prestations payées">
+          <thead>
+            <tr>
+              <th style="width:40px;">Inclure</th>
+              <th>Client / Type</th>
+              <th style="width:120px;">Date</th>
+              <th style="width:120px;">Montant</th>
+            </tr>
+          </thead>
+          <tbody id="paidBody">
+            <tr><td colspan="4" class="sub" style="color:#fbcfe8;">Chargement des prestations...</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2 style="margin-top:0; margin-bottom:10px;">Détails de la facture</h2>
+        <p class="sub" style="margin-top:-4px;">Renseigne le destinataire avant de générer la facture. Les infos du vendeur sont pré-remplies.</p>
+        <div class="grid" style="grid-template-columns:1fr 1fr; gap:12px;">
+          <div>
+            <label for="artistLast">Nom</label>
+            <input id="artistLast" type="text" placeholder="Nom de famille" autocomplete="name">
+          </div>
+          <div>
+            <label for="artistFirst">Prénom</label>
+            <input id="artistFirst" type="text" placeholder="Prénom" autocomplete="given-name">
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <label for="artistAddress">Adresse de l'artiste</label>
+          <textarea id="artistAddress" rows="3" placeholder="Rue, code postal, ville"></textarea>
+        </div>
+
+        <div class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:12px;">
+          <div>
+            <label for="invoiceNumber">N° de facture</label>
+            <input id="invoiceNumber" type="text" placeholder="FAC-2025-001">
+          </div>
+          <div>
+            <label for="invoiceDate">Date</label>
+            <input id="invoiceDate" type="date">
+          </div>
+          <div>
+            <label for="invoiceCity">Lieu</label>
+            <input id="invoiceCity" type="text" placeholder="Paris">
+          </div>
+        </div>
+
+        <div class="toolbar" style="margin-top:12px;">
+          <button class="btn btn-primary" id="prepare" type="button">Préparer la facture</button>
+          <button class="btn" id="exportPdf" type="button" disabled>Exporter en PDF</button>
+        </div>
+        <div id="status" class="status" style="display:none;"></div>
+      </section>
+    </div>
+
+    <section class="card" id="invoiceWrapper">
+      <h2 style="margin-top:0;">Prévisualisation</h2>
+      <p class="sub" style="margin-top:-6px;">Le visuel ci-dessous est prêt à être exporté en PDF. Nous conservons uniquement les prestations marquées comme payées.</p>
+      <div id="invoiceCard" class="invoice-card" aria-live="polite">
+        <p class="sub">Commence par sélectionner des prestations payées et renseigner l'artiste pour générer la facture.</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    (() => {
+      const storageKey = "prestations_v1";
+      const eur = (n) => new Intl.NumberFormat("fr-FR", {style:"currency", currency:"EUR"}).format(n || 0);
+      const paidBody = document.getElementById("paidBody");
+      const status = document.getElementById("status");
+      const invoiceCard = document.getElementById("invoiceCard");
+      const btnPdf = document.getElementById("exportPdf");
+      const statCount = document.getElementById("statCount");
+      const statTotal = document.getElementById("statTotal");
+      const statReady = document.getElementById("statReady");
+
+      function showStatus(msg, ok=true){
+        if(!status) return;
+        status.textContent = msg;
+        status.className = "status " + (ok ? "ok" : "err");
+        status.style.display = "block";
+      }
+
+      function loadData(){
+        try {
+          const raw = localStorage.getItem(storageKey);
+          if(!raw) return [];
+          return JSON.parse(raw) || [];
+        } catch(e){
+          showStatus("Impossible de lire les prestations sauvegardées.", false);
+          return [];
+        }
+      }
+
+      function filterPaid(list){
+        return list.filter((r) => {
+          const montant = Number(r.montant || 0);
+          const paid = Number(r.paidAmount || 0);
+          return montant > 0 && paid + 0.01 >= montant; // tolérance arrondi
+        });
+      }
+
+      const allRecords = loadData();
+      const paidRecords = filterPaid(allRecords);
+
+      function renderTable(){
+        paidBody.innerHTML = "";
+        if(!paidRecords.length){
+          paidBody.innerHTML = '<tr><td colspan="4" class="sub" style="color:#fecdd3;">Aucune prestation soldée trouvée. Enregistre d\'abord les paiements dans l\'onglet Prestations.</td></tr>';
+          statCount.textContent = "0";
+          statTotal.textContent = eur(0);
+          statReady.textContent = "0";
+          return;
+        }
+
+        let total = 0;
+        paidRecords.forEach((r, idx) => {
+          total += Number(r.montant || 0);
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td><input type="checkbox" class="row-check" data-idx="${idx}" checked></td>
+            <td>
+              <strong>${r.client || "Artiste"}</strong><br>
+              <span class="sub" style="font-size:12px; color:#e2e8f0;">${r.type || ""}${r.description ? " — " + r.description : ""}</span>
+            </td>
+            <td>${r.date || ""}</td>
+            <td>${eur(r.montant || 0)}</td>
+          `;
+          paidBody.appendChild(tr);
+        });
+
+        statCount.textContent = paidRecords.length;
+        statTotal.textContent = eur(total);
+        statReady.textContent = paidRecords.length;
+      }
+
+      renderTable();
+
+      document.getElementById("toggleAll")?.addEventListener("click", () => {
+        const checks = Array.from(document.querySelectorAll(".row-check"));
+        const shouldCheckAll = checks.some(c => !c.checked);
+        checks.forEach(c => c.checked = shouldCheckAll);
+        statReady.textContent = String(shouldCheckAll ? checks.length : 0);
+      });
+
+      document.getElementById("paidBody")?.addEventListener("change", (e) => {
+        if(e.target.classList.contains("row-check")){
+          const checks = Array.from(document.querySelectorAll(".row-check"));
+          statReady.textContent = String(checks.filter(c => c.checked).length);
+        }
+      });
+
+      function selectedRecords(){
+        const checks = Array.from(document.querySelectorAll(".row-check"));
+        const pickedIdx = checks.filter(c => c.checked).map(c => Number(c.dataset.idx));
+        return paidRecords.filter((_, idx) => pickedIdx.includes(idx));
+      }
+
+      function buildInvoice(){
+        const selected = selectedRecords();
+        const last = document.getElementById("artistLast").value.trim();
+        const first = document.getElementById("artistFirst").value.trim();
+        const address = document.getElementById("artistAddress").value.trim();
+        const invoiceNumber = document.getElementById("invoiceNumber").value.trim();
+        const invoiceDate = document.getElementById("invoiceDate").value;
+        const invoiceCity = document.getElementById("invoiceCity").value.trim();
+
+        if(!selected.length){
+          showStatus("Sélectionne au moins une prestation payée pour générer la facture.", false);
+          btnPdf.disabled = true;
+          invoiceCard.innerHTML = '<p class="sub">Choisis des prestations payées pour voir la prévisualisation.</p>';
+          return;
+        }
+        if(!last || !first || !address){
+          showStatus("Renseigne nom, prénom et adresse de l'artiste.", false);
+          btnPdf.disabled = true;
+          return;
+        }
+
+        const total = selected.reduce((acc,r) => acc + Number(r.montant || 0), 0);
+        const today = invoiceDate || new Date().toISOString().slice(0,10);
+        const city = invoiceCity || "Paris";
+        const num = invoiceNumber || `FAC-${today.replace(/-/g, '')}`;
+
+        let lines = "";
+        selected.forEach((r, i) => {
+          lines += `
+            <tr>
+              <td>${i+1}</td>
+              <td>${r.client || "Artiste"}</td>
+              <td>${r.type || "Prestation"}</td>
+              <td>${eur(r.montant || 0)}</td>
+            </tr>
+          `;
+        });
+
+        invoiceCard.innerHTML = `
+          <div class="invoice-head">
+            <div>
+              <div class="pill" style="background:rgba(249,115,22,.15); border-color:rgba(249,115,22,.4); color:#fed7aa;">Facture premium</div>
+              <h2 style="margin:6px 0 4px;">${num}</h2>
+              <div style="color:#e2e8f0;">${city}, le ${today}</div>
+            </div>
+            <div class="invoice-meta">
+              <strong>SZD Studio</strong>
+              <span>19‑91 Films</span>
+              <span>14 Rue Francis Poulenc</span>
+              <span>37270 Montlouis-sur-Loire</span>
+              <span style="color:#fbcfe8;">contact.szdtv@gmail.com</span>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="invoice-grid">
+            <div class="invoice-section">
+              <h3>Facturé à</h3>
+              <div class="muted">${first} ${last}<br>${address.replace(/\n/g,'<br>')}</div>
+            </div>
+            <div class="invoice-section">
+              <h3>Résumé</h3>
+              <div class="muted">${selected.length} prestation(s) payée(s)</div>
+              <div class="muted">Total encaissé : <strong style="color:#fff;">${eur(total)}</strong></div>
+            </div>
+          </div>
+
+          <table class="invoice-lines" aria-label="Lignes de facture">
+            <thead><tr><th>#</th><th>Client</th><th>Type</th><th>Montant</th></tr></thead>
+            <tbody>${lines}</tbody>
+          </table>
+          <div class="total-box">Total TTC : ${eur(total)}</div>
+        `;
+
+        btnPdf.disabled = false;
+        showStatus("Facture prête : lance l'export PDF.", true);
+      }
+
+      document.getElementById("prepare")?.addEventListener("click", buildInvoice);
+      btnPdf?.addEventListener("click", () => {
+        window.print();
+      });
+
+      // Pré-remplissage
+      const today = new Date().toISOString().slice(0,10);
+      document.getElementById("invoiceDate").value = today;
+      document.getElementById("invoiceNumber").value = `FAC-${today.replace(/-/g,'')}-001`;
+      document.getElementById("invoiceCity").value = "Montlouis-sur-Loire";
+
+      if(paidRecords.length){
+        showStatus("Prestations payées importées : personnalise puis exporte la facture.", true);
+      }
+    })();
+  </script>
+</body>
+</html>
