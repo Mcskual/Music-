@@ -214,6 +214,13 @@
     .followup-pill{ box-shadow:0 4px 16px rgba(16,185,129,.16); }
     .followup-actions{ display:flex; flex-direction:column; gap:6px; margin-top:12px; }
     .followup-btn-row{ display:flex; flex-wrap:wrap; gap:8px; }
+    .relance-btn{ color:#fff; border-color:transparent; }
+    .relance-soft{ background:linear-gradient(135deg,#22c55e,#15803d); box-shadow:0 10px 20px rgba(16,185,129,.28); }
+    .relance-soft:hover{ background:linear-gradient(135deg,#34d399,#16a34a); }
+    .relance-firm{ background:linear-gradient(135deg,#f59e0b,#d97706); box-shadow:0 10px 20px rgba(245,158,11,.28); }
+    .relance-firm:hover{ background:linear-gradient(135deg,#fbbf24,#f59e0b); }
+    .relance-critical{ background:linear-gradient(135deg,#ef4444,#b91c1c); box-shadow:0 12px 22px rgba(239,68,68,.3); }
+    .relance-critical:hover{ background:linear-gradient(135deg,#f87171,#ef4444); }
 
     @media(max-width:640px){
       .followup-head{ flex-direction:column; }
@@ -467,6 +474,14 @@
     .status-pill.muted .dot{
       background:#ef4444;
     }
+    .status-pill.critical{
+      background:rgba(248,113,113,.22);
+      border-color:#ef4444;
+      color:#ffe4e6;
+    }
+    .status-pill.critical .dot{
+      background:#f87171;
+    }
 
     /* États de pastilles (jour) */
     [data-theme="light"] .status-pill.paid{
@@ -481,6 +496,11 @@
     }
     [data-theme="light"] .status-pill.muted{
       background:rgba(248,113,113,.18);
+      border-color:#ef4444;
+      color:#991b1b;
+    }
+    [data-theme="light"] .status-pill.critical{
+      background:rgba(254,226,226,.9);
       border-color:#ef4444;
       color:#991b1b;
     }
@@ -992,33 +1012,18 @@
 
         <div class="small" id="lsStatus" style="margin-top:6px;"></div>
 
-        <div class="debug-zone" id="debug-zone" style="display:none;">
-          <div>Console locale :</div>
-          <pre id="debugOut"></pre>
-        </div>
+      <div class="debug-zone" id="debug-zone" style="display:none;">
+        <div>Console locale :</div>
+        <pre id="debugOut"></pre>
       </div>
     </div>
+  </div>
 
-    <div class="card whatsapp-card">
-      <h2><span class="wa-icon">💚</span>Relances automatiques</h2>
-      <div class="row" style="justify-content:space-between; align-items:center; gap:10px;">
-        <p class="small" style="margin:0; max-width:620px;">Clients à relancer après 15 jours sans paiement ; à 30 jours, la relance devient prioritaire. Prépare tout pour WhatsApp en un coup d'œil.</p>
-        <span class="wa-chip">💬 Mode WhatsApp prêt</span>
-      </div>
-      <div class="row wa-legend" style="align-items:center; margin:10px 0 6px; flex-wrap:wrap;">
-        <span class="pill">15 jours : relance douce</span>
-        <span class="pill">30 jours : relance urgente</span>
-        <span class="pill">40 jours : relance critique</span>
-        <span class="pill" id="followupCounts">0 relance en attente</span>
-      </div>
-      <div id="followupList" class="grid followup-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
-    </div>
-
-    <div class="card" style="margin-top:20px;">
-      <h2>Prestations enregistrées</h2>
-      <div class="small">Clique sur "Encaisser" pour enregistrer un paiement partiel ou total.</div>
-      <div class="toolbar" style="margin-top:10px;">
-        <button type="button" class="btn btn-outline" id="captureRecap">📸 Capture </button>
+  <div class="card" style="margin-top:20px;">
+    <h2>Prestations enregistrées</h2>
+    <div class="small">Clique sur "Encaisser" pour enregistrer un paiement partiel ou total.</div>
+    <div class="toolbar" style="margin-top:10px;">
+      <button type="button" class="btn btn-outline" id="captureRecap">📸 Capture </button>
       </div>
       <table>
         <thead>
@@ -1033,14 +1038,29 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody id="tbody">
-          <tr><td colspan="10" class="small">Aucune prestation ne correspond.</td></tr>
-        </tbody>
-      </table>
-    </div>
+      <tbody id="tbody">
+        <tr><td colspan="10" class="small">Aucune prestation ne correspond.</td></tr>
+      </tbody>
+    </table>
+  </div>
 
-    <!-- Zone de capture mobile cachée -->
-    <div id="capture-mobile"></div>
+  <div class="card whatsapp-card" style="margin-top:20px;">
+    <h2><span class="wa-icon">💚</span>Relances automatiques</h2>
+    <div class="row" style="justify-content:space-between; align-items:center; gap:10px;">
+      <p class="small" style="margin:0; max-width:620px;">Clients à relancer après 15 jours sans paiement ; à 30 jours la relance devient prioritaire, et à 45 jours elle passe en mode critique. Prépare tout pour WhatsApp en un coup d'œil.</p>
+      <span class="wa-chip">💬 Mode WhatsApp prêt</span>
+    </div>
+    <div class="row wa-legend" style="align-items:center; margin:10px 0 6px; flex-wrap:wrap;">
+      <span class="pill">15 jours : relance douce</span>
+      <span class="pill">30 jours : relance urgente</span>
+      <span class="pill">45 jours : relance critique</span>
+      <span class="pill" id="followupCounts">0 relance en attente</span>
+    </div>
+    <div id="followupList" class="grid followup-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
+  </div>
+
+  <!-- Zone de capture mobile cachée -->
+  <div id="capture-mobile"></div>
 
   </div>
 
@@ -1126,10 +1146,10 @@
           tone: "firm"
         },
         {
-          threshold: 40,
-          label: "Relance 40j (urgent)",
-          template: `Bonjour [Prénom],\nMalgré mes précédentes relances, le règlement du solde n’a pas encore été effectué.\nSans régularisation rapide, la prestation pourra être remise en disponibilité conformément aux conditions initiales.\nMerci de me tenir informé rapidement.`,
-          tone: "urgent"
+          threshold: 45,
+          label: "Relance 45j (critique)",
+          template: `Bonjour [Prénom],\nCela fait désormais 45 jours que le solde est en attente malgré mes précédentes relances.\nMerci de régulariser la situation immédiatement afin d'éviter toute interruption de la prestation.\nJe reste disponible en cas de besoin.`,
+          tone: "critical"
         }
       ];
 
@@ -1280,7 +1300,7 @@
         if(!followupList) return;
 
         followupList.innerHTML = "";
-        let soft = 0, urgent = 0;
+        let soft = 0, firm = 0, critical = 0;
 
         const items = data
           .map(r => ({...r, days: daysSince(r.date), remaining: getRemaining(r)}))
@@ -1297,16 +1317,16 @@
         }
 
         items.forEach(r => {
-          const urgentFlag = (r.days || 0) >= 30;
-          if(urgentFlag) urgent++; else soft++;
+          const urgency = (r.days || 0) >= 45 ? "critical" : (r.days || 0) >= 30 ? "firm" : "soft";
+          if(urgency === "critical") critical++; else if(urgency === "firm") firm++; else soft++;
 
           const item = document.createElement("div");
           item.className = "cap-item followup-card";
 
-          const actionLabel = urgentFlag ? "Relance urgente" : "Relance à prévoir";
-          const pillClass = urgentFlag ? "muted" : "partial";
-          const actionIcon = urgentFlag ? "🚀" : "🌱";
-          const paceLabel = urgentFlag ? "Prioritaire" : "Douce";
+          const actionLabel = urgency === "critical" ? "Relance critique" : urgency === "firm" ? "Relance urgente" : "Relance à prévoir";
+          const pillClass = urgency === "critical" ? "critical" : (urgency === "firm" ? "muted" : "partial");
+          const actionIcon = urgency === "critical" ? "🚨" : urgency === "firm" ? "🚀" : "🌱";
+          const paceLabel = urgency === "critical" ? "Critique" : urgency === "firm" ? "Prioritaire" : "Douce";
           const availableLevels = WHATSAPP_LEVELS.filter(level => (r.days || 0) >= level.threshold);
 
           item.innerHTML = `
@@ -1350,7 +1370,7 @@
           availableLevels.forEach(level => {
             const btn = document.createElement("button");
             btn.type = "button";
-            btn.className = "btn btn-outline";
+            btn.className = `btn relance-btn relance-${level.tone}`;
             btn.textContent = level.label;
             btn.addEventListener("click", () => {
               const url = buildWhatsAppUrl(extractFirstName(r.client), level);
@@ -1368,7 +1388,8 @@
         if(followupCounts){
           const parts = [];
           if(soft) parts.push(`${soft} à relancer`);
-          if(urgent) parts.push(`${urgent} urgentes`);
+          if(firm) parts.push(`${firm} urgentes`);
+          if(critical) parts.push(`${critical} critiques`);
           followupCounts.textContent = parts.join(" • ");
         }
       }
