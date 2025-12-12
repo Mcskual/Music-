@@ -923,6 +923,17 @@
     </div>
 
     <div class="card">
+      <h2>Relances WhatsApp manuelles</h2>
+      <p class="small">Prépare un message selon l'ancienneté de l'acompte et ouvre WhatsApp sans envoi automatique.</p>
+      <div class="row" style="gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+        <span class="pill">15 jours : rappel doux</span>
+        <span class="pill">30 jours : relance ferme</span>
+        <span class="pill">40 jours : relance urgente</span>
+      </div>
+      <div id="whatsappFollowupList" class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px;"></div>
+    </div>
+
+    <div class="card">
       <h2>Relances automatiques</h2>
       <p class="small">Clients à relancer après 15 jours sans paiement ; à 30 jours, la relance devient prioritaire.</p>
       <div class="row" style="gap:10px; align-items:center; margin-bottom:8px;">
@@ -1030,6 +1041,28 @@
       const captureBtn = $("captureRecap");
       const followupList = $("followupList");
       const followupCounts = $("followupCounts");
+      const whatsappFollowupList = $("whatsappFollowupList");
+
+      const WHATSAPP_LEVELS = [
+        {
+          threshold: 15,
+          label: "Relance 15j",
+          template: `Salut [Prénom],\nPetit rappel concernant ta prestation : il te reste encore 15 jours pour finaliser le règlement du solde.\nN’hésite pas à me contacter si tu as la moindre question.\nÀ bientôt.`,
+          tone: "soft"
+        },
+        {
+          threshold: 30,
+          label: "Relance 30j",
+          template: `Bonjour [Prénom],\nLa date limite des 30 jours pour le règlement du solde est atteinte.\nMerci de régulariser la situation rapidement afin de conserver la réservation de la prestation.\nJe reste disponible si besoin.`,
+          tone: "firm"
+        },
+        {
+          threshold: 40,
+          label: "Relance 40j (urgent)",
+          template: `Bonjour [Prénom],\nMalgré mes précédentes relances, le règlement du solde n’a pas encore été effectué.\nSans régularisation rapide, la prestation pourra être remise en disponibilité conformément aux conditions initiales.\nMerci de me tenir informé rapidement.`,
+          tone: "urgent"
+        }
+      ];
 
       let data = [];
       let editingId = null;
@@ -1120,6 +1153,18 @@
         const diff = now - d;
         if(diff < 0) return 0;
         return Math.floor(diff / (1000*60*60*24));
+      }
+
+      function extractFirstName(full){
+        if(!full) return "client";
+        const parts = full.trim().split(/\s+/);
+        return parts[0] || "client";
+      }
+
+      function buildWhatsAppUrl(name, level){
+        const targetName = name || "client";
+        const message = (level?.template || "").replace("[Prénom]", targetName);
+        return "https://wa.me/?text=" + encodeURIComponent(message);
       }
 
       function filterRecords(list){
@@ -1216,6 +1261,59 @@
         }
       }
 
+      function renderWhatsAppFollowups(){
+        if(!whatsappFollowupList) return;
+
+        whatsappFollowupList.innerHTML = "";
+
+        const items = data
+          .map(r => ({...r, days: daysSince(r.date), remaining: getRemaining(r)}))
+          .filter(r => r.remaining > 0 && r.days !== null && r.days >= 15)
+          .sort((a,b) => (b.days||0) - (a.days||0));
+
+        if(!items.length){
+          const empty = document.createElement("div");
+          empty.className = "small";
+          empty.textContent = "Aucune relance WhatsApp nécessaire pour le moment.";
+          whatsappFollowupList.appendChild(empty);
+          return;
+        }
+
+        items.forEach(r => {
+          const availableLevels = WHATSAPP_LEVELS.filter(level => (r.days || 0) >= level.threshold);
+          const item = document.createElement("div");
+          item.className = "cap-item";
+          item.innerHTML = `
+            <div class="cap-client">${r.client || "Client"}</div>
+            <div class="cap-subtitle">${r.type || ""}${r.description ? " — " + r.description : ""}</div>
+            <div class="cap-row"><span>Restant dû</span><span>${eur(r.remaining)}</span></div>
+            <div class="cap-row"><span>Ancienneté acompte</span><span>${r.days} jours</span></div>
+            <div class="cap-row"><span>Messages prêts</span><span>${availableLevels.map(l => l.label).join(" • ")}</span></div>
+          `;
+
+          const btnRow = document.createElement("div");
+          btnRow.style.display = "flex";
+          btnRow.style.flexWrap = "wrap";
+          btnRow.style.gap = "6px";
+          btnRow.style.marginTop = "8px";
+
+          availableLevels.forEach(level => {
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "btn btn-outline";
+            btn.textContent = level.label;
+            btn.addEventListener("click", () => {
+              const url = buildWhatsAppUrl(extractFirstName(r.client), level);
+              window.open(url, "_blank", "noopener");
+            });
+            btnRow.appendChild(btn);
+          });
+
+          item.appendChild(btnRow);
+          whatsappFollowupList.appendChild(item);
+        });
+      }
+
       function render(){
         if(!tbody) return;
         tbody.innerHTML = "";
@@ -1231,6 +1329,7 @@
           tbody.appendChild(tr);
           updateTotals();
           updateFollowUps();
+          renderWhatsAppFollowups();
           return;
         }
 
@@ -1378,6 +1477,7 @@
 
         updateTotals();
         updateFollowUps();
+        renderWhatsAppFollowups();
       }
 
       function resetForm(){
