@@ -143,6 +143,81 @@
       margin-top:16px;
     }
 
+    .whatsapp-card{
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(34,197,94,.35);
+      background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(16,185,129,.04)),var(--card);
+    }
+    .whatsapp-card::after{
+      content:"";
+      position:absolute;
+      inset:-40% auto auto 40%;
+      width:360px;
+      height:360px;
+      background:radial-gradient(circle at center, rgba(16,185,129,.18), transparent 55%);
+      opacity:.8;
+      pointer-events:none;
+      filter:blur(8px);
+    }
+    .whatsapp-card h2{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+    .wa-icon{ width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; }
+    .wa-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(34,197,94,.18);
+      color:#bbf7d0;
+      border:1px solid rgba(34,197,94,.45);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.01em;
+    }
+    [data-theme="light"] .wa-chip{ color:#0f5132; background:rgba(16,185,129,.16); }
+    .wa-legend{ gap:8px; }
+
+    .followup-grid{ position:relative; z-index:1; }
+    .followup-card{
+      position:relative;
+      border:1px solid rgba(34,197,94,.32);
+      background:linear-gradient(120deg,rgba(16,185,129,.09),rgba(16,185,129,.02));
+      box-shadow:0 12px 30px rgba(16,185,129,.12);
+      isolation:isolate;
+    }
+    .followup-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg,rgba(16,185,129,.18),transparent 55%);
+      opacity:.4;
+      pointer-events:none;
+      border-radius:inherit;
+      z-index:0;
+    }
+    .followup-card > *{ position:relative; z-index:1; }
+    .followup-head{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
+    .followup-meta{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; margin-top:10px; }
+    .followup-stat{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      padding:8px 10px;
+      border-radius:10px;
+      background:rgba(15,23,42,.4);
+      border:1px solid rgba(34,197,94,.25);
+    }
+    [data-theme="light"] .followup-stat{ background:rgba(240,253,244,.9); }
+    .followup-stat .label{ font-size:12px; color:var(--muted); display:inline-flex; gap:6px; align-items:center; }
+    .followup-stat .value{ font-weight:700; font-size:14px; }
+    .followup-pill{ box-shadow:0 4px 16px rgba(16,185,129,.16); }
+
+    @media(max-width:640px){
+      .followup-head{ flex-direction:column; }
+      .followup-pill{ align-self:flex-start; }
+    }
+
     .grid{ display:grid; gap:16px; }
     .grid-2{ grid-template-columns:1.15fr .85fr; }
     @media(max-width:960px){
@@ -933,15 +1008,18 @@
       <div id="whatsappFollowupList" class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px;"></div>
     </div>
 
-    <div class="card">
-      <h2>Relances automatiques</h2>
-      <p class="small">Clients à relancer après 15 jours sans paiement ; à 30 jours, la relance devient prioritaire.</p>
-      <div class="row" style="gap:10px; align-items:center; margin-bottom:8px;">
+    <div class="card whatsapp-card">
+      <h2><span class="wa-icon">💚</span>Relances automatiques</h2>
+      <div class="row" style="justify-content:space-between; align-items:center; gap:10px;">
+        <p class="small" style="margin:0; max-width:620px;">Clients à relancer après 15 jours sans paiement ; à 30 jours, la relance devient prioritaire. Prépare tout pour WhatsApp en un coup d'œil.</p>
+        <span class="wa-chip">💬 Mode WhatsApp prêt</span>
+      </div>
+      <div class="row wa-legend" style="align-items:center; margin:10px 0 6px; flex-wrap:wrap;">
         <span class="pill">15 jours : relance douce</span>
         <span class="pill">30 jours : relance urgente</span>
         <span class="pill" id="followupCounts">0 relance en attente</span>
       </div>
-      <div id="followupList" class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
+      <div id="followupList" class="grid followup-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
     </div>
 
     <div class="card" style="margin-top:20px;">
@@ -1232,21 +1310,37 @@
           if(urgentFlag) urgent++; else soft++;
 
           const item = document.createElement("div");
-          item.className = "cap-item";
+          item.className = "cap-item followup-card";
 
           const actionLabel = urgentFlag ? "Relance urgente" : "Relance à prévoir";
           const pillClass = urgentFlag ? "muted" : "partial";
+          const actionIcon = urgentFlag ? "🚀" : "🌱";
+          const paceLabel = urgentFlag ? "Prioritaire" : "Douce";
 
           item.innerHTML = `
-            <div class="cap-client">${r.client || "Client"}</div>
-            <div class="cap-subtitle">${r.type || ""}${r.description ? " — " + r.description : ""}</div>
-            <div class="cap-row"><span>Restant dû</span><span>${eur(r.remaining)}</span></div>
-            <div class="cap-row"><span>Ancienneté</span><span>${r.days} jours</span></div>
-            <div class="cap-row"><span>Action</span>
-              <span class="status-pill ${pillClass}">
+            <div class="followup-head">
+              <div>
+                <div class="cap-client">${r.client || "Client"}</div>
+                <div class="cap-subtitle">${r.type || ""}${r.description ? " — " + r.description : ""}</div>
+              </div>
+              <span class="status-pill ${pillClass} followup-pill">
                 <span class="dot"></span>
-                <span>${actionLabel}</span>
+                <span>${actionIcon} ${actionLabel}</span>
               </span>
+            </div>
+            <div class="followup-meta">
+              <div class="followup-stat">
+                <span class="label">💶 Restant dû</span>
+                <span class="value">${eur(r.remaining)}</span>
+              </div>
+              <div class="followup-stat">
+                <span class="label">⏳ Ancienneté</span>
+                <span class="value">${r.days} jours</span>
+              </div>
+              <div class="followup-stat">
+                <span class="label">💬 Niveau WhatsApp</span>
+                <span class="value">${paceLabel}</span>
+              </div>
             </div>
           `;
 
