@@ -212,6 +212,8 @@
     .followup-stat .label{ font-size:12px; color:var(--muted); display:inline-flex; gap:6px; align-items:center; }
     .followup-stat .value{ font-weight:700; font-size:14px; }
     .followup-pill{ box-shadow:0 4px 16px rgba(16,185,129,.16); }
+    .followup-actions{ display:flex; flex-direction:column; gap:6px; margin-top:12px; }
+    .followup-btn-row{ display:flex; flex-wrap:wrap; gap:8px; }
 
     @media(max-width:640px){
       .followup-head{ flex-direction:column; }
@@ -997,17 +999,6 @@
       </div>
     </div>
 
-    <div class="card">
-      <h2>Relances WhatsApp manuelles</h2>
-      <p class="small">Prépare un message selon l'ancienneté de l'acompte et ouvre WhatsApp sans envoi automatique.</p>
-      <div class="row" style="gap:8px; flex-wrap:wrap; margin-bottom:10px;">
-        <span class="pill">15 jours : rappel doux</span>
-        <span class="pill">30 jours : relance ferme</span>
-        <span class="pill">40 jours : relance urgente</span>
-      </div>
-      <div id="whatsappFollowupList" class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px;"></div>
-    </div>
-
     <div class="card whatsapp-card">
       <h2><span class="wa-icon">💚</span>Relances automatiques</h2>
       <div class="row" style="justify-content:space-between; align-items:center; gap:10px;">
@@ -1017,6 +1008,7 @@
       <div class="row wa-legend" style="align-items:center; margin:10px 0 6px; flex-wrap:wrap;">
         <span class="pill">15 jours : relance douce</span>
         <span class="pill">30 jours : relance urgente</span>
+        <span class="pill">40 jours : relance critique</span>
         <span class="pill" id="followupCounts">0 relance en attente</span>
       </div>
       <div id="followupList" class="grid followup-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
@@ -1119,7 +1111,6 @@
       const captureBtn = $("captureRecap");
       const followupList = $("followupList");
       const followupCounts = $("followupCounts");
-      const whatsappFollowupList = $("whatsappFollowupList");
 
       const WHATSAPP_LEVELS = [
         {
@@ -1316,6 +1307,7 @@
           const pillClass = urgentFlag ? "muted" : "partial";
           const actionIcon = urgentFlag ? "🚀" : "🌱";
           const paceLabel = urgentFlag ? "Prioritaire" : "Douce";
+          const availableLevels = WHATSAPP_LEVELS.filter(level => (r.days || 0) >= level.threshold);
 
           item.innerHTML = `
             <div class="followup-head">
@@ -1344,52 +1336,16 @@
             </div>
           `;
 
-          followupList.appendChild(item);
-        });
+          const actions = document.createElement("div");
+          actions.className = "followup-actions";
 
-        if(followupCounts){
-          const parts = [];
-          if(soft) parts.push(`${soft} à relancer`);
-          if(urgent) parts.push(`${urgent} urgentes`);
-          followupCounts.textContent = parts.join(" • ");
-        }
-      }
-
-      function renderWhatsAppFollowups(){
-        if(!whatsappFollowupList) return;
-
-        whatsappFollowupList.innerHTML = "";
-
-        const items = data
-          .map(r => ({...r, days: daysSince(r.date), remaining: getRemaining(r)}))
-          .filter(r => r.remaining > 0 && r.days !== null && r.days >= 15)
-          .sort((a,b) => (b.days||0) - (a.days||0));
-
-        if(!items.length){
-          const empty = document.createElement("div");
-          empty.className = "small";
-          empty.textContent = "Aucune relance WhatsApp nécessaire pour le moment.";
-          whatsappFollowupList.appendChild(empty);
-          return;
-        }
-
-        items.forEach(r => {
-          const availableLevels = WHATSAPP_LEVELS.filter(level => (r.days || 0) >= level.threshold);
-          const item = document.createElement("div");
-          item.className = "cap-item";
-          item.innerHTML = `
-            <div class="cap-client">${r.client || "Client"}</div>
-            <div class="cap-subtitle">${r.type || ""}${r.description ? " — " + r.description : ""}</div>
-            <div class="cap-row"><span>Restant dû</span><span>${eur(r.remaining)}</span></div>
-            <div class="cap-row"><span>Ancienneté acompte</span><span>${r.days} jours</span></div>
-            <div class="cap-row"><span>Messages prêts</span><span>${availableLevels.map(l => l.label).join(" • ")}</span></div>
-          `;
+          const hint = document.createElement("div");
+          hint.className = "small";
+          hint.textContent = "Messages prêts :";
+          actions.appendChild(hint);
 
           const btnRow = document.createElement("div");
-          btnRow.style.display = "flex";
-          btnRow.style.flexWrap = "wrap";
-          btnRow.style.gap = "6px";
-          btnRow.style.marginTop = "8px";
+          btnRow.className = "followup-btn-row";
 
           availableLevels.forEach(level => {
             const btn = document.createElement("button");
@@ -1403,9 +1359,18 @@
             btnRow.appendChild(btn);
           });
 
-          item.appendChild(btnRow);
-          whatsappFollowupList.appendChild(item);
+          actions.appendChild(btnRow);
+          item.appendChild(actions);
+
+          followupList.appendChild(item);
         });
+
+        if(followupCounts){
+          const parts = [];
+          if(soft) parts.push(`${soft} à relancer`);
+          if(urgent) parts.push(`${urgent} urgentes`);
+          followupCounts.textContent = parts.join(" • ");
+        }
       }
 
       function render(){
@@ -1423,7 +1388,6 @@
           tbody.appendChild(tr);
           updateTotals();
           updateFollowUps();
-          renderWhatsAppFollowups();
           return;
         }
 
@@ -1571,7 +1535,6 @@
 
         updateTotals();
         updateFollowUps();
-        renderWhatsAppFollowups();
       }
 
       function resetForm(){
