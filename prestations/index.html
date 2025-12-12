@@ -697,6 +697,99 @@
       padding:2px 6px;
     }
 
+    .relance-pro{
+      background:linear-gradient(140deg, rgba(37,99,235,.12), rgba(16,185,129,.08)), var(--card);
+      border:1px solid var(--border);
+    }
+    .relance-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:8px;
+    }
+    .relance-title{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .relance-badges{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+    }
+    .relance-tag{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:.01em;
+      border:1px solid var(--border);
+      background:rgba(15,23,42,.6);
+      color:var(--text);
+      box-shadow:var(--shadow);
+    }
+    [data-theme="light"] .relance-tag{
+      background:#fff;
+    }
+    .relance-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+      gap:12px;
+    }
+    .relance-panel{
+      border-radius:14px;
+      padding:12px;
+      border:1px solid var(--border);
+      background:linear-gradient(160deg, rgba(255,255,255,.04), rgba(59,130,246,.05));
+      box-shadow:var(--shadow);
+    }
+    [data-theme="light"] .relance-panel{
+      background:linear-gradient(160deg, rgba(59,130,246,.05), rgba(16,185,129,.04));
+    }
+    .relance-panel h3{
+      margin:0 0 6px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:16px;
+    }
+    .relance-panel .small{
+      margin-bottom:10px;
+    }
+    .relance-logos{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .logo-chip{
+      padding:6px 10px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      display:flex;
+      align-items:center;
+      gap:6px;
+      box-shadow:var(--shadow);
+    }
+    [data-theme="light"] .logo-chip{
+      background:#fff;
+    }
+    .logo-chip img{
+      height:32px;
+      width:auto;
+      display:block;
+    }
+    .relance-panel .pill{
+      margin-bottom:6px;
+      display:inline-flex;
+    }
+
     /* NOUVEAU: Styles pour la barre de progression dans la capture mobile */
     .cap-progress-wrap {
       padding: 8px 0;
@@ -922,26 +1015,54 @@
       </div>
     </div>
 
-    <div class="card">
-      <h2>Relances WhatsApp manuelles</h2>
-      <p class="small">Prépare un message selon l'ancienneté de l'acompte et ouvre WhatsApp sans envoi automatique.</p>
-      <div class="row" style="gap:8px; flex-wrap:wrap; margin-bottom:10px;">
-        <span class="pill">15 jours : rappel doux</span>
-        <span class="pill">30 jours : relance ferme</span>
-        <span class="pill">40 jours : relance urgente</span>
+    <div class="card relance-pro">
+      <div class="relance-header">
+        <div class="relance-title">
+          <div class="pill">Suite relances clients</div>
+          <h2>Outil pro : WhatsApp manuel + relances auto</h2>
+          <p class="small">Combine la relance WhatsApp personnalisée et les rappels automatiques à J+15 / J+30 dans un seul hub premium.</p>
+        </div>
+        <div class="relance-logos">
+          <div class="logo-chip">
+            <img src="szd_logo.png" data-light-src="szd_logo_black.png" data-dark-src="szd_logo.png" alt="Logo SZD">
+            <span class="small" style="font-weight:700; color:var(--text2);">WhatsApp Ready</span>
+          </div>
+          <div class="logo-chip">
+            <img src="szd_logo_white.png" data-light-src="szd_logo_black.png" data-dark-src="szd_logo_white.png" alt="Logo relance auto">
+            <span class="small" style="font-weight:700; color:var(--text2);">Relance auto</span>
+          </div>
+        </div>
       </div>
-      <div id="whatsappFollowupList" class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px;"></div>
-    </div>
 
-    <div class="card">
-      <h2>Relances automatiques</h2>
-      <p class="small">Clients à relancer après 15 jours sans paiement ; à 30 jours, la relance devient prioritaire.</p>
-      <div class="row" style="gap:10px; align-items:center; margin-bottom:8px;">
-        <span class="pill">15 jours : relance douce</span>
-        <span class="pill">30 jours : relance urgente</span>
-        <span class="pill" id="followupCounts">0 relance en attente</span>
+      <div class="relance-badges">
+        <span class="relance-tag">🎨 Palette couleur premium</span>
+        <span class="relance-tag">🤝 Relance WhatsApp manuelle</span>
+        <span class="relance-tag">⚡ Rappel automatique 15j/30j</span>
+        <span class="relance-tag" id="followupCounts">0 relance en attente</span>
       </div>
-      <div id="followupList" class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
+
+      <div class="relance-grid">
+        <div class="relance-panel">
+          <h3>💬 Relances WhatsApp manuelles</h3>
+          <p class="small">Prépare un message selon l'ancienneté de l'acompte et ouvre WhatsApp sans envoi automatique.</p>
+          <div class="row" style="gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+            <span class="pill">15 jours : rappel doux</span>
+            <span class="pill">30 jours : relance ferme</span>
+            <span class="pill">40 jours : relance urgente</span>
+          </div>
+          <div id="whatsappFollowupList" class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:10px;"></div>
+        </div>
+
+        <div class="relance-panel">
+          <h3>⚙️ Relances automatiques</h3>
+          <p class="small">Clients à relancer après 15 jours sans paiement ; à 30 jours, la relance devient prioritaire.</p>
+          <div class="row" style="gap:10px; align-items:center; margin-bottom:8px;">
+            <span class="pill">15 jours : relance douce</span>
+            <span class="pill">30 jours : relance urgente</span>
+          </div>
+          <div id="followupList" class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
+        </div>
+      </div>
     </div>
 
     <div class="card" style="margin-top:20px;">
