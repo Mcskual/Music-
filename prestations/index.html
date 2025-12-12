@@ -922,6 +922,17 @@
       </div>
     </div>
 
+    <div class="card">
+      <h2>Relances automatiques</h2>
+      <p class="small">Clients à relancer après 15 jours sans paiement ; à 30 jours, la relance devient prioritaire.</p>
+      <div class="row" style="gap:10px; align-items:center; margin-bottom:8px;">
+        <span class="pill">15 jours : relance douce</span>
+        <span class="pill">30 jours : relance urgente</span>
+        <span class="pill" id="followupCounts">0 relance en attente</span>
+      </div>
+      <div id="followupList" class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
+    </div>
+
     <div class="card" style="margin-top:20px;">
       <h2>Prestations enregistrées</h2>
       <div class="small">Clique sur "Encaisser" pour enregistrer un paiement partiel ou total.</div>
@@ -1017,6 +1028,8 @@
       const resetBtn = $("reset");
       const addDemoBtn = $("addDemo");
       const captureBtn = $("captureRecap");
+      const followupList = $("followupList");
+      const followupCounts = $("followupCounts");
 
       let data = [];
       let editingId = null;
@@ -1099,6 +1112,16 @@
       function getRemaining(r){ return Math.max(0, Number((r.montant||0) - getPaid(r))); }
       function isSettled(r){ return getRemaining(r) <= 0.00001; }
 
+      function daysSince(datestr){
+        if(!datestr) return null;
+        const d = new Date(datestr);
+        if(Number.isNaN(d.getTime())) return null;
+        const now = new Date();
+        const diff = now - d;
+        if(diff < 0) return 0;
+        return Math.floor(diff / (1000*60*60*24));
+      }
+
       function filterRecords(list){
         const q = (search?.value || "").toLowerCase();
         const fStatus = filterStatus?.value || "all";
@@ -1139,6 +1162,60 @@
         if(totalRestantEl) totalRestantEl.textContent = eur(totalRestant);
       }
 
+      function updateFollowUps(){
+        if(!followupList) return;
+
+        followupList.innerHTML = "";
+        let soft = 0, urgent = 0;
+
+        const items = data
+          .map(r => ({...r, days: daysSince(r.date), remaining: getRemaining(r)}))
+          .filter(r => r.remaining > 0 && r.days !== null && r.days >= 15)
+          .sort((a,b) => (b.days||0) - (a.days||0));
+
+        if(!items.length){
+          const empty = document.createElement("div");
+          empty.className = "small";
+          empty.textContent = "Aucune relance nécessaire pour le moment.";
+          followupList.appendChild(empty);
+          if(followupCounts) followupCounts.textContent = "0 relance en attente";
+          return;
+        }
+
+        items.forEach(r => {
+          const urgentFlag = (r.days || 0) >= 30;
+          if(urgentFlag) urgent++; else soft++;
+
+          const item = document.createElement("div");
+          item.className = "cap-item";
+
+          const actionLabel = urgentFlag ? "Relance urgente" : "Relance à prévoir";
+          const pillClass = urgentFlag ? "muted" : "partial";
+
+          item.innerHTML = `
+            <div class="cap-client">${r.client || "Client"}</div>
+            <div class="cap-subtitle">${r.type || ""}${r.description ? " — " + r.description : ""}</div>
+            <div class="cap-row"><span>Restant dû</span><span>${eur(r.remaining)}</span></div>
+            <div class="cap-row"><span>Ancienneté</span><span>${r.days} jours</span></div>
+            <div class="cap-row"><span>Action</span>
+              <span class="status-pill ${pillClass}">
+                <span class="dot"></span>
+                <span>${actionLabel}</span>
+              </span>
+            </div>
+          `;
+
+          followupList.appendChild(item);
+        });
+
+        if(followupCounts){
+          const parts = [];
+          if(soft) parts.push(`${soft} à relancer`);
+          if(urgent) parts.push(`${urgent} urgentes`);
+          followupCounts.textContent = parts.join(" • ");
+        }
+      }
+
       function render(){
         if(!tbody) return;
         tbody.innerHTML = "";
@@ -1153,6 +1230,7 @@
           tr.appendChild(td);
           tbody.appendChild(tr);
           updateTotals();
+          updateFollowUps();
           return;
         }
 
@@ -1299,6 +1377,7 @@
         });
 
         updateTotals();
+        updateFollowUps();
       }
 
       function resetForm(){
