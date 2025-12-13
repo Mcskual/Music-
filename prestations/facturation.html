@@ -68,6 +68,11 @@
     .nav-brand{ font-weight:800; letter-spacing:.03em; }
     .nav-links{ display:flex; gap:8px; flex-wrap:nowrap; align-items:center; justify-content:center; flex:1; min-width:0; }
     .nav-link{
+      min-width:135px;
+      text-align:center;
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
       color:var(--text2);
       text-decoration:none;
       padding:8px 12px;
@@ -328,6 +333,10 @@
         <header class="hero">
       <div>
         <h1>Facturation des prestations payées</h1>
+        <div class="card" id="conseil-dynamique" style="margin-top:20px;">
+          <h2>Conseil du jour</h2>
+          <p id="conseil-texte" class="small"></p>
+        </div>
             <div class="card" style="margin-top:20px;">
                 <h2>Conseils pros pour optimiser ta facturation</h2>
                 <p class="small" style="color:var(--text2); margin-bottom:14px;">
@@ -695,6 +704,101 @@
         });
       });
     })();
+  </script>
+  <script>
+    const conseilsFacturation = [
+"Envoie toujours un devis avant la prestation.",
+"Demande un acompte d’au moins 20%.",
+"Fixe des délais clairs pour le paiement.",
+"Archive chaque facture proprement.",
+"N’envoie jamais la version finale avant paiement complet.",
+"Ajoute une mention ‘retouches limitées’.",
+"Indique les conditions d’annulation.",
+"Automatise les calculs totaux.",
+"Propose des packs pour simplifier.",
+"Protège ton temps : refuse les travaux flous.",
+"Documente chaque prestation facturée.",
+"Utilise des modèles de facture professionnels.",
+"Fais payer plus cher les demandes urgentes.",
+"Rappelle poliment à 7 jours de retard.",
+"Rappelle fermement à 15 jours.",
+"Rappelle de manière critique à 30 jours.",
+"Ne fais jamais crédit.",
+"Indique toujours la date de prestation.",
+"Propose un tarif fidélité.",
+"Ne mélange pas ‘amitié’ et facturation.",
+"Simplifie ta grille tarifaire.",
+"Note immédiatement les paiements partiels.",
+"Ne facture jamais sans signature.",
+"Clarifie le nombre de versions incluses.",
+"Fais payer les extras.",
+"Évite les termes flous sur la facture.",
+"Utilise les relances WhatsApp automatiques.",
+"Ajoute une réduction early-bird si payé à l’avance.",
+"Propose une remise si plusieurs prestations.",
+"Utilise un système de numérotation clair.",
+"Évite les factures manuscrites.",
+"Lis ta facture comme si tu étais le client.",
+"Ajoute ton RIB clairement.",
+"Indique les délais de livraison.",
+"Ne change jamais les tarifs sous pression.",
+"Propose une facture simplifiée pour artistes novices.",
+"Garde une trace des retards récurrents.",
+"Fais signer un bon de livraison audio/vidéo.",
+"Prévois un taux horaire pour les extra.",
+"Clarifie la TVA si applicable.",
+"Documente tes dépenses.",
+"Ajoute un QR code de paiement.",
+"Propose le paiement en 2 fois si grosses prestations.",
+"Fais un export PDF propre.",
+"Évite les factures imprécises.",
+"Indique les conditions de stockage des fichiers.",
+"Mets une date limite de paiement.",
+"Utilise un ton professionnel.",
+"Reste ferme sur les conditions.",
+"Ajoute ton logo.",
+"Ne justifie pas tes prix.",
+"Propose un récap annuel.",
+"Archive chaque facture numérique.",
+"Utilise un cloud sécurisé.",
+"Ajoute une pénalité de retard.",
+"Ne livre pas les projets sous pression financière.",
+"Refuse les paiements en nature.",
+"Privilégie virement bancaire.",
+"Planifie les relances.",
+"Automatise ton processus d’édition.",
+"Ne laisse jamais 2 mois sans relancer.",
+"Propose un contrat lors de prestations longues.",
+"Évite les arrondis étranges.",
+"Respecte ta politique tarifaire.",
+"Établis un calendrier de facturation.",
+"Ne donne jamais accès aux fichiers sources avant paiement.",
+"Relis toujours avant de valider.",
+"Négocie des packs à l’année.",
+"Ne casse jamais tes prix.",
+"Formule clairement les droits inclus.",
+"Archiver = protection.",
+"Précise les heures supplémentaires.",
+"Ne mélange pas personnel et professionnel.",
+"Évite les paiements tard le soir.",
+"Planifie le suivi post-prestation.",
+"Contrôle tes modèles de facture régulièrement.",
+"Note les habitudes des clients.",
+"Récompense les bons payeurs.",
+"Propose des tarifs entreprise / artiste.",
+"Liste les livrables en détail.",
+"Reste professionnel sur les relances.",
+"Utilise une signature mail propre.",
+"Ne promets pas l’impossible.",
+"Un client qui paye bien est un bon client.",
+"Évite les sous-estimations de temps.",
+"Connais ton coût par heure réelle.",
+"Le professionnalisme commence par la facture."
+];
+
+    const conseils = conseilsFacturation;
+    document.getElementById("conseil-texte").textContent =
+      conseils[Math.floor(Math.random() * conseils.length)];
   </script>
 </body>
 </html>

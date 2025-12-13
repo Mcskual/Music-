@@ -81,6 +81,11 @@
     }
     .nav-links{ display:flex; gap:8px; flex-wrap:nowrap; flex:1; justify-content:center; align-items:center; min-width:0; }
     .nav-link{
+      min-width:135px;
+      text-align:center;
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
       color:var(--text2);
       text-decoration:none;
       padding:8px 12px;
@@ -956,6 +961,10 @@
     <header class="app">
       <div>
         <h1>Prestations — Clips & Musique</h1>
+        <div class="card" id="conseil-dynamique" style="margin-top:20px;">
+          <h2>Conseil du jour</h2>
+          <p id="conseil-texte" class="small"></p>
+        </div>
         <div class="row" style="margin:4px 0 2px;">
           <span class="pill">Version 1.4</span>
           <span class="pill">LocalStorage</span>
@@ -2153,6 +2162,103 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         });
       });
     })();
+  </script>
+
+  <script>
+    const conseilsPrestations = [
+"Clarifie toujours le cadre de la prestation avant de commencer.",
+"Demande des références musicales pour guider la direction artistique.",
+"Ne commence jamais une prestation sans acompte.",
+"Prépare ton matériel la veille, pas le jour même.",
+"Évite les improvisations : structure ton workflow.",
+"Demande une note vocale pour valider l'ambiance du morceau.",
+"Fixe une limite de retouches pour ne pas t'épuiser.",
+"Repère un lieu de tournage 24h avant.",
+"Pose un marqueur lumière lors des shootings.",
+"Commence par une prise test pour régler le gain.",
+"Ne laisse jamais un client attendre.",
+"Archive chaque version exportée proprement.",
+"Aie toujours un câble XLR de secours.",
+"Garde un micro de backup.",
+"Utilise un template de projet pour chaque type de prestation.",
+"Rappelle les règles d’annulation avant la prestation.",
+"Propose systématiquement un plan A et un plan B.",
+"Si le client est stressé, simplifie ton discours.",
+"Nomme clairement tes fichiers (Date_Client_Version).",
+"Utilise une check-list matériel.",
+"En tournage, apporte un réflecteur.",
+"Installe ton décor avant l’arrivée du client.",
+"Comprends toujours le ‘pourquoi’ du client.",
+"Évite les téléchargements le jour d’un tournage.",
+"Simplifie tes outils de travail.",
+"Explique le coût des retouches supplémentaires.",
+"Définis les rôles de chacun lors d’un tournage.",
+"Asseois l’artiste pour réduire le stress.",
+"Garde le contrôle du planning.",
+"Note toutes les idées, même petites.",
+"Travaille avec un moodboard pour les clips.",
+"Identifie les clients chronophages et cadre-les.",
+"Évite les sessions trop longues.",
+"Enregistre une prise ‘sécurité’.",
+"Rappelle le temps restant en séance.",
+"Aie un plan indoor en cas de météo instable.",
+"Fais des sauvegardes incrémentales.",
+"Mets à jour ton matériel hors saison.",
+"Décide maintenant, évite les reports.",
+"Un bon briefing vaut une heure de travail.",
+"Annonce les contraintes dès le début.",
+"Fournis une version client + une version propre.",
+"Vérifie ta carte SD avant chaque tournage.",
+"Teste la lumière dans différentes conditions.",
+"Arrive 10 minutes en avance.",
+"Fais signer une feuille de présence.",
+"Garde un kit nettoyage micro.",
+"Explique ton workflow au client.",
+"Reste calme même si le client panique.",
+"Donne toujours un export brouillon en fin de séance.",
+"Un client satisfait t’en apporte trois autres.",
+"Demande un retour à chaud.",
+"Propose une prise dynamique supplémentaire.",
+"Rappelle l’importance des pauses.",
+"Reste maître de la séance.",
+"Teste les angles de caméra avant de filmer.",
+"Explique pourquoi tu choisis certains réglages.",
+"Valorise le travail du client.",
+"Limite les choix (maximum 2 options).",
+"Refuse poliment les changements incohérents.",
+"Adapte ton énergie au client.",
+"Garde une communication simple.",
+"N’affiche pas de version non finalisée.",
+"Éclaire la cabine avec un ton chaleureux.",
+"Prends des photos backstage.",
+"Propose un pack prestation + mix.",
+"Organise tes projets par année.",
+"Ne travaille pas épuisé.",
+"Repose tes oreilles régulièrement.",
+"Automatise les tâches répétitives.",
+"En tournage, filme légèrement trop.",
+"Souviens-toi des préférences clients.",
+"Reste transparent sur les délais.",
+"Refuse les projets flous.",
+"Prends un plan sonore d’ambiance.",
+"Fuis les clients irrespectueux.",
+"Vérifie ton matériel avant de partir.",
+"Teste ton casque avant une session.",
+"Utilise un front-light doux.",
+"Gère la séance avec rythme.",
+"Propose un pré-mix rapide.",
+"Aie des templates par genre musical.",
+"Teste tes presets.",
+"Crée une ambiance confortable.",
+"Vérifie la synchro audio/vidéo.",
+"Dirige le client avec bienveillance.",
+"Aie une sauvegarde cloud externe.",
+"Valorise ton expertise par ton organisation."
+];
+
+    const conseils = conseilsPrestations;
+    document.getElementById("conseil-texte").textContent =
+      conseils[Math.floor(Math.random() * conseils.length)];
   </script>
 
 </body>

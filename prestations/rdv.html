@@ -74,6 +74,11 @@
     }
     .nav-links{ display:flex; gap:8px; flex-wrap:nowrap; align-items:center; justify-content:center; flex:1; min-width:0; }
     .nav-link{
+      min-width:135px;
+      text-align:center;
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
       color:var(--text2);
       text-decoration:none;
       padding:9px 13px;
@@ -399,6 +404,10 @@
     <header class="app">
       <div>
         <h1>Ajouter un RDV (Google Calendar)</h1>
+        <div class="card" id="conseil-dynamique" style="margin-top:20px;">
+          <h2>Conseil du jour</h2>
+          <p id="conseil-texte" class="small"></p>
+        </div>
         <div class="row" style="margin:4px 0 2px;">
           <span class="pill">Version 1.0</span>
           <span class="pill">Création rapide</span>
@@ -798,6 +807,102 @@
       const randomTip = tips[Math.floor(Math.random() * tips.length)];
       target.textContent = randomTip;
     });
+  </script>
+  <script>
+    const conseilsRDV = [
+"Confirme chaque rendez-vous 24h avant.",
+"Demande un vocal de l’artiste pour préparer la séance.",
+"Fixe une durée claire et respecte-la.",
+"Demande 3 références musicales.",
+"Prépare l’espace avant l’arrivée.",
+"Clarifie les objectifs.",
+"Demande si l’artiste veut ad-libs, doubles, etc.",
+"Utilise un calendrier partagé.",
+"Ne laisse jamais un client attendre.",
+"En tournage : vérifie la météo.",
+"Rappelle les conditions d’annulation.",
+"Aie toujours une bouteille d'eau.",
+"Demande le mood exact.",
+"Prépare ton matériel 1h avant.",
+"Propose deux créneaux alternatifs.",
+"Enregistre un test avant la vraie prise.",
+"Clarifie les limites horaires.",
+"Prévois un tampon de 10 minutes.",
+"Enregistre une note vocale récap.",
+"Demande si besoin d’autotune.",
+"Vérifie le BPM avec l’artiste.",
+"Prévois un casque propre.",
+"Note les préférences de l’artiste.",
+"Explique ton process.",
+"Envoie un message 1h avant.",
+"Rappelle l'adresse exacte.",
+"Clarifie si c’est un mix, une prise, ou un choix de prod.",
+"Propose un accueil chaleureux.",
+"Demande la tonalité du morceau.",
+"Prévois une chaise confortable.",
+"Vérifie ton micro.",
+"Teste la carte son.",
+"Ne commence jamais fatigué.",
+"Propose un draft rapide.",
+"Évite les discussions longues hors sujet.",
+"Clarifie les retouches incluses.",
+"Demande une playlist mood.",
+"Propose un café ou thé.",
+"Verrouille la porte du studio.",
+"Rappelle le temps restant.",
+"Propose deux prises alternatives.",
+"En tournage : fais un plan ambiance.",
+"Fais une photo du setup.",
+"Ne force jamais la créativité.",
+"Propose un fun take à la fin.",
+"Évite les RDV serrés en fin de journée.",
+"Sois poli mais ferme.",
+"Relis les demandes.",
+"Prépare les presets.",
+"Utilise une lumière apaisante.",
+"Fais un mini brief avant.",
+"Explique le gain et le signal.",
+"Demande si l’artiste veut un retour casque personnalisé.",
+"Teste les niveaux.",
+"Note les idées du client.",
+"Propose une pause courte.",
+"Reste calme en toutes situations.",
+"Propose deux harmonies.",
+"Ne donne pas trop d’informations.",
+"Valorise l’artiste.",
+"Aie un backup session.",
+"Fais un export test.",
+"Vérifie la sauvegarde.",
+"Reste focus.",
+"Ne dépasse jamais le temps.",
+"Ne travaille pas sous pression négative.",
+"Envoie un message après la séance.",
+"Demande un retour.",
+"Archive la session.",
+"Range ton matériel.",
+"Optimise ton template.",
+"Évalue la séance.",
+"Propose une prochaine date.",
+"Évite les clients agressifs.",
+"Fais une respiration avant chaque séance.",
+"Planifie ton énergie.",
+"Préviens en cas de retard.",
+"Ne laisse rien au hasard.",
+"Respecte ton planning.",
+"Relis tes notes de séance précédente.",
+"Toujours demander le texte final.",
+"Propose une version clean.",
+"Donne une bonne impression en 2 minutes.",
+"Accompagne l’artiste, ne le dirige pas trop.",
+"Sois souriant.",
+"Crée un environnement de confiance.",
+"Ne sois jamais en mode rush.",
+"Un bon accueil = un client fidèle."
+    ];
+
+    const conseils = conseilsRDV;
+    document.getElementById("conseil-texte").textContent =
+      conseils[Math.floor(Math.random() * conseils.length)];
   </script>
 </body>
 </html>
