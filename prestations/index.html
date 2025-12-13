@@ -1092,6 +1092,45 @@
     }
   </script>
 
+  <!-- Chargement automatique du dernier JSON dans /Sauvegarde -->
+  <script>
+    (function(){
+      const LISTING_URL = "api/list_sauvegardes.php"; // Petit endpoint PHP qui liste les sauvegardes
+      const SAVE_DIR = "Sauvegarde/";                 // Dossier de sauvegarde côté serveur
+      const GLOBAL_KEY = "dernierJsonSauvegarde";     // Nom de la variable globale exposée
+
+      async function chargerDernierJson(){
+        try {
+          const listingResponse = await fetch(LISTING_URL, { cache: "no-store" });
+          if (!listingResponse.ok) {
+            throw new Error("Liste des sauvegardes inaccessible (" + listingResponse.status + ")");
+          }
+
+          const listing = await listingResponse.json();
+          if (!listing || !listing.latest) {
+            throw new Error("Aucune sauvegarde JSON trouvée dans /Sauvegarde");
+          }
+
+          const latestUrl = SAVE_DIR + encodeURIComponent(listing.latest);
+          const dataResponse = await fetch(latestUrl, { cache: "no-store" });
+          if (!dataResponse.ok) {
+            throw new Error("Lecture impossible pour " + latestUrl + " (" + dataResponse.status + ")");
+          }
+
+          const data = await dataResponse.json();
+          window[GLOBAL_KEY] = data;
+
+          console.log("Dernière sauvegarde chargée:", listing.latest, data);
+        } catch (err) {
+          console.warn("Impossible de charger la sauvegarde la plus récente :", err);
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", chargerDernierJson);
+      window.chargerDernierJson = chargerDernierJson; // Exposé pour rechargement manuel si besoin
+    })();
+  </script>
+
   <!-- SCRIPT PRESTATIONS -->
   <script>
     (() => {
