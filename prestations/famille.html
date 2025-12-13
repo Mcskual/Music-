@@ -45,6 +45,7 @@ img,svg,video,canvas{max-width:100%;height:auto}
 .nav-left{display:flex;align-items:center;gap:10px;min-width:0;flex-shrink:0;height:100%}
 .nav-links{display:flex;gap:8px;flex-wrap:nowrap;align-items:center;justify-content:center;flex:1;min-width:0}
 .nav-link{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.03);font-size:13px;transition:.15s background,.15s border-color,.15s color}
+.nav-link{min-width:135px;text-align:center;display:inline-flex;justify-content:center;align-items:center}
 .nav-link:hover{border-color:var(--acc-2);color:var(--text)}
 .nav-link.active{background:linear-gradient(135deg,var(--acc-2),var(--acc));color:#fff;border-color:transparent;box-shadow:0 10px 22px rgba(96,165,250,.35)}
 .nav-logo{display:flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:12px;border:1px solid var(--border);background:var(--panel);text-decoration:none;color:inherit;box-shadow:var(--shadow)}
@@ -195,6 +196,10 @@ header.topbar{display:flex;gap:16px;align-items:center;justify-content:space-bet
       </div>
       <div>
         <h1>Tableau de bord familial</h1>
+        <div class="card" id="conseil-dynamique" style="margin-top:20px;">
+          <h2>Conseil du jour</h2>
+          <p id="conseil-texte" class="small"></p>
+        </div>
         <div class="muted">Tâches · Crédits · Emploi du temps · Pénalités · Courses</div>
       </div>
     </div>
@@ -972,6 +977,103 @@ $('#btn-print-calendar').onclick=()=>window.print();
 /* Init */
 renderAll();
 toast('Catégories + suggestions (drag & drop) prêtes. Sévérité ×1/×2/×3.');
+</script>
+<script>
+const conseilsFamille = [
+"Planifie 30 minutes par jour pour un moment calme avec tes enfants.",
+"Explique ton travail à ta famille : ils seront fiers.",
+"Fais participer tes enfants à la musique.",
+"Fixe un créneau sans écrans.",
+"Ne mélange pas fatigue et famille.",
+"Une discussion calme vaut mille excuses.",
+"Fais une playlist familiale.",
+"Organise un moment spécial pour chaque enfant.",
+"Apprends-leur à gérer leurs émotions.",
+"Valorise leurs réussites.",
+"Garde ton téléphone hors du salon.",
+"Fais une promenade par semaine.",
+"Ton couple nécessite une communication claire.",
+"Ne sacrifie pas tous tes week-ends.",
+"Planifie une soirée par semaine en famille.",
+"Respire 2 minutes avant de rentrer.",
+"Offre un vrai regard, pas un demi-temps.",
+"Lève-toi 10 minutes plus tôt pour le calme.",
+"Partage ton rêve avec ta famille.",
+"Fais un album photo annuel.",
+"Amène un enfant voir ton studio une fois.",
+"Fais une activité créative ensemble.",
+"Soutiens les devoirs calmement.",
+"Prépare une journée surprise par mois.",
+"Reste patient, même fatigué.",
+"Ne punis jamais sous colère.",
+"Parle doucement pour désamorcer.",
+"Baisse les lumières en soirée.",
+"Joue un jeu de société régulièrement.",
+"Fais un dessert ensemble.",
+"Partage une musique qui te touche.",
+"Apprends une compétence ensemble.",
+"Fais un rituel du soir.",
+"Apprends-leur à protéger leurs rêves.",
+"Encourage la curiosité.",
+"Évite les critiques inutiles.",
+"Rappelle que tu es présent.",
+"Donne-leur l'occasion d’essayer seul.",
+"Ne fais pas tout à leur place.",
+"Fais un petit compliment quotidien.",
+"Explique tes limites calmement.",
+"Reste cohérent dans les règles.",
+"Valorise le respect.",
+"Montre l'exemple en respirant.",
+"Fais une activité sportive ensemble.",
+"Apprends-leur la gratitude.",
+"Planifie un repas tous ensemble.",
+"Ne parle pas de travail à table.",
+"Observe ton enfant 5 minutes sans parler.",
+"Prends-leur dans les bras plus souvent.",
+"Ne minimise pas leurs émotions.",
+"Rappelle-toi que tu étais enfant aussi.",
+"Accepte leurs forces et leurs faiblesses.",
+"Donne-leur une mission hebdomadaire.",
+"Apprends la gestion de l’argent.",
+"Fais une sortie culturelle.",
+"Joue un morceau au piano pour eux.",
+"Apprends-leur une danse.",
+"Partage un souvenir d’enfance.",
+"Aide-les à mieux dormir.",
+"Raconte une histoire improvisée.",
+"Ne compare jamais tes enfants.",
+"La famille, c’est ton premier public.",
+"Lâche ton téléphone le soir.",
+"Travaille pour eux, mais vis avec eux.",
+"Pose-toi avec ton conjoint.",
+"Fais une journée zéro travail par mois.",
+"Ne ferme jamais une conversation.",
+"Regarde leurs dessins avec attention.",
+"Range le studio avant d’aller dormir.",
+"Planifie les vacances tôt.",
+"Ne punis pas pour un échec.",
+"Encourage les efforts.",
+"Aide-les à rêver grand.",
+"Montre-leur la patience.",
+"Récompense le courage.",
+"Demande-leur leur avis.",
+"Écoute vraiment.",
+"Ne te mets pas trop la pression.",
+"Respire quand c’est dur.",
+"Cherche l’harmonie, pas la perfection.",
+"Rappelle-toi : ils t’aiment pour qui tu es.",
+"Fais-leur une surprise musicale.",
+"Montre ton amour chaque jour.",
+"N’abandonne jamais la communication.",
+"L’équilibre vie pro/famille = ta richesse.",
+"Tu es un pilier, pas un robot.",
+"La famille est ton moteur.",
+"Construis des souvenirs, pas des regrets."
+];
+
+const conseils = conseilsFamille;
+document.getElementById("conseil-texte").textContent =
+  conseils[Math.floor(Math.random() * conseils.length)];
 </script>
 </body>
 </html>

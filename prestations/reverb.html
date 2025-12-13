@@ -61,6 +61,11 @@
     .nav-left{ display:flex; align-items:center; gap:10px; min-width:0; flex-shrink:0; height:100%; }
     .nav-links{ display:flex; gap:8px; flex-wrap:nowrap; align-items:center; justify-content:center; flex:1; min-width:0; }
     .nav-link{
+      min-width:135px;
+      text-align:center;
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
       color:var(--text2);
       text-decoration:none;
       padding:8px 12px;
@@ -259,6 +264,10 @@
     <header class="hero">
       <div>
         <h1>Valhalla Room – Calculs rapides</h1>
+        <div class="card" id="conseil-dynamique" style="margin-top:20px;">
+          <h2>Conseil du jour</h2>
+          <p id="conseil-texte" class="small"></p>
+        </div>
         <p class="sub">
           Affine tes pré-delays et tes tails comme dans une interface Valhalla Room vintage : BPM sync, distances, RT60 et équilibre early/late.
         </p>
@@ -440,6 +449,96 @@
       [early,damping,mix].forEach(el=>el.addEventListener('input', update));
       update();
     })();
+  </script>
+  <script>
+    const conseilsReverb = [
+"Toujours comparer avant/après reverb.",
+"Utilise un pre-delay pour dégager la voix.",
+"Coupe les graves sous 200 Hz dans la reverb.",
+"Écoute en mono.",
+"Moins de reverb = mix plus pro.",
+"Utilise deux reverbs différentes.",
+"Sidechaine la reverb pour moderniser.",
+"Fais des automations.",
+"Utilise une plate pour les leads.",
+"La reverb ne corrige pas une mauvaise prise.",
+"Utilise des rooms courtes.",
+"Spring reverb = vibe vintage.",
+"Valide ton decay.",
+"Ne noie jamais la voix.",
+"Utilise un bus reverb commun.",
+"Test A/B obligatoire.",
+"Note tes presets gagnants.",
+"Utilise la reverb comme un instrument.",
+"Évite la reverb sur le kick.",
+"Ralentis le decay pour la drill.",
+"Anecdote : un mix sauvé en retirant 40% de reverb.",
+"Ne compense jamais un mauvais EQ par la reverb.",
+"Utilise un coupe-bas sur le bus reverb.",
+"Choisis un espace cohérent.",
+"Évite les reverbs trop larges.",
+"Fais respirer la dynamique.",
+"Teste différents pre-delays.",
+"Automatise le wet/dry.",
+"Ne copie jamais la reverb de référence à l’identique.",
+"Utilise un plugin léger.",
+"Calibre le tail sur le BPM.",
+"Voix principale plus sèche que les back.",
+"Évite les reverbs boueuses.",
+"Utilise des early reflections naturelles.",
+"Choisis le bon espace selon le genre.",
+"Reverb sombre = mix plus chaud.",
+"Reverb brillante = mix plus pop.",
+"Fais attention au sibilant.",
+"Évite les reverbs plates sur les basses.",
+"Compresse la reverb légèrement.",
+"Donne un espace à la voix.",
+"Utilise des reverbs stéréo.",
+"Contrôle le temps de déclin.",
+"Évite d'accumuler plusieurs reverbs.",
+"Crée des tailles différentes.",
+"Test en solo puis en contexte.",
+"Réduis le wet si tu doutes.",
+"Mix à bas volume pour réglage reverb.",
+"Évite les reverbs par défaut.",
+"Analyse des mixes pros.",
+"Utilise la reverb sur des percussions douces.",
+"Ajoute un slapback avant une reverb longue.",
+"Donne un espace émotionnel.",
+"Reverb très courte = professionnalisme.",
+"Balance L/R modérée.",
+"Automatise la fin des phrases.",
+"Reverb gated pour un effet 80s.",
+"Ne rend jamais la voix trop lointaine.",
+"Test sur plusieurs casques.",
+"Ajuste selon la tessiture.",
+"Baisse le wet pendant les couplets.",
+"Monte le wet pendant les hooks.",
+"Choisis des reverbs réalistes.",
+"Reverb convolution pour naturel.",
+"Réfléchis émotionnellement.",
+"Ne surcharge pas la stéréo.",
+"Garde de l’air au centre.",
+"Ralentis les reflexions.",
+"Souviens-toi : la reverb doit se sentir, pas s’entendre.",
+"Utilise des reverbs signature.",
+"Évite les reverbs bon marché.",
+"Test en système mono téléphone.",
+"Fais confiance à ton oreille.",
+"Analyse le decay visuellement.",
+"Utilise un transient shaper avant reverb.",
+"Test différentes tailles.",
+"Adapte la reverb au flow.",
+"Garde le contrôle total.",
+"La reverb raconte une histoire.",
+"C’est l’espace émotionnel du mix.",
+"Ne laisse jamais la reverb dominer.",
+"Maîtrise le pre-delay = professionnalisme."
+    ];
+
+    const conseils = conseilsReverb;
+    document.getElementById("conseil-texte").textContent =
+      conseils[Math.floor(Math.random() * conseils.length)];
   </script>
 </body>
 </html>
