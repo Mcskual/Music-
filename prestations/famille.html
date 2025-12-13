@@ -40,16 +40,17 @@ img,svg,video,canvas{max-width:100%;height:auto}
 .footer{margin:24px 0 16px;color:var(--muted);font-size:12px;text-align:center}
 
 /* Navigation principale */
-.top-nav{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(120deg,rgba(96,165,250,.12),rgba(110,231,183,.08)),var(--panel);border:1px solid var(--border);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow);margin-bottom:8px;gap:10px;flex-wrap:wrap}
+.top-nav{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(120deg,rgba(96,165,250,.12),rgba(110,231,183,.08)),var(--panel);border:1px solid var(--border);border-radius:14px;padding:0 18px;box-shadow:var(--shadow);margin-bottom:8px;gap:10px;flex-wrap:nowrap;height:68px}
 .nav-brand{font-weight:800;letter-spacing:.03em}
-.nav-links{display:flex;gap:8px;flex-wrap:wrap}
+.nav-left{display:flex;align-items:center;gap:10px;min-width:0;flex-shrink:0;height:100%}
+.nav-links{display:flex;gap:8px;flex-wrap:nowrap;align-items:center;justify-content:center;flex:1;min-width:0}
 .nav-link{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,.03);font-size:13px;transition:.15s background,.15s border-color,.15s color}
 .nav-link:hover{border-color:var(--acc-2);color:var(--text)}
 .nav-link.active{background:linear-gradient(135deg,var(--acc-2),var(--acc));color:#fff;border-color:transparent;box-shadow:0 10px 22px rgba(96,165,250,.35)}
 .nav-logo{display:flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:12px;border:1px solid var(--border);background:var(--panel);text-decoration:none;color:inherit;box-shadow:var(--shadow)}
 .nav-logo img{width:140px;height:auto;display:block;border-radius:10px}
-.nav-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-left:auto}
-.theme-toggle{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:12px;border:1px solid var(--border);background:var(--panel);box-shadow:var(--shadow)}
+.nav-actions{display:flex;align-items:center;gap:10px;flex-wrap:nowrap;flex-shrink:0}
+.theme-toggle{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:12px;border:1px solid var(--border);background:var(--panel);box-shadow:var(--shadow);flex-shrink:0}
 [data-theme="light"] .theme-toggle{background:#fff}
 .switch{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);cursor:pointer;user-select:none}
 .switch input{display:none}
@@ -156,13 +157,15 @@ header.topbar{display:flex;gap:16px;align-items:center;justify-content:space-bet
 <body>
 <div class="container">
   <nav class="top-nav" aria-label="Navigation principale">
-    <a class="nav-logo" href="index.html" aria-label="Revenir aux prestations">
-      <img
-        src="szd_logo_white.png"
-        data-dark-src="szd_logo_white.png"
-        data-light-src="szd_logo_black.png"
-        alt="Logo">
-    </a>
+    <div class="nav-left">
+      <a class="nav-logo" href="index.html" aria-label="Revenir aux prestations">
+        <img
+          src="szd_logo_white.png"
+          data-dark-src="szd_logo_white.png"
+          data-light-src="szd_logo_black.png"
+          alt="Logo">
+      </a>
+    </div>
     <div class="nav-links">
       <a class="nav-link" href="index.html">Prestations</a>
       <a class="nav-link" href="facturation.html">Facturation</a>
