@@ -161,6 +161,17 @@
     .hero-list li{ display:flex; gap:8px; align-items:flex-start; color:var(--text2); font-size:14px; }
     .hero-list strong{ color:var(--text); }
 
+    .conseil-pro-box{
+      margin-top:16px;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:linear-gradient(135deg, rgba(249,115,22,.08), rgba(168,85,247,.08)), rgba(255,255,255,.02);
+      box-shadow:0 10px 26px rgba(0,0,0,.18);
+    }
+    .conseil-pro-box strong{ display:block; margin-bottom:6px; letter-spacing:.01em; }
+    .conseil-pro-box p{ margin:0; color:var(--text2); font-size:14px; }
+
     .badge{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid var(--border); color:var(--text2); font-size:12px; }
     .badge.accent{ background:linear-gradient(120deg,var(--accent),var(--accent2)); color:#fff; border-color:transparent; }
 
@@ -402,6 +413,11 @@
             <li><span class="dot"></span><strong>Contrôle qualité</strong> : champs obligatoires vérifiés avant ouverture de Google Calendar.</li>
             <li><span class="dot"></span><strong>Expérience soignée</strong> : badges, métriques et mentions conformes aux standards agence.</li>
           </ul>
+
+          <div class="conseil-pro-box">
+            <strong>Conseil du jour :</strong>
+            <p id="conseil-pro-dynamique"></p>
+          </div>
 
           <div class="metric-grid">
             <div class="metric">
@@ -725,6 +741,51 @@
         });
       });
     })();
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      const tips = [
+        "Prépare un ordre du jour de 3 points max et envoie-le 24h avant : ça cadre le client et réduit les digressions.",
+        "Confirme toujours le lieu exact avec lien Maps ou visio : éviter les arrivées en retard sauve ton planning studio.",
+        "Bloque 10 minutes post-session pour rédiger un récap PDF : décisions, livrables, prochaines étapes.",
+        "Demande au client d’apporter 2 références sonores ou visuelles : tu alignes l’esthétique dès la première prise.",
+        "Check micro + carte son + alimentation 15 minutes avant l’arrivée : zéro panne au moment d’appuyer sur Rec.",
+        "Planifie un buffer de 15% entre deux créneaux : temps de sauvegarde, exports, backup carte SD.",
+        "Note le BPM, la tonalité et le mood dès le brief : ça simplifie le naming des pistes et la suite du mix.",
+        "En tournage, verrouille la météo et les autorisations 48h avant : un no-go clair vaut mieux qu’un rush annulé.",
+        "Envoie un SMS de rappel 2h avant le rendez-vous avec code porte, étage et contact : expérience premium immédiate.",
+        "Prépare un template d’email de follow-up avec deadlines, livrables et mode de validation : moins d’allers-retours.",
+        "Crée une scène d’écoute cohérente : même casque pour le client et l’ingé son pour éviter les divergences.",
+        "Active un enregistrement de secours sur un second device : les prises critiques doivent exister en double.",
+        "Demande la liste des invités en studio : moins de distractions, plus de focus sur la prise vocale.",
+        "En clip, verrouille un plan B lumière (panneau LED portable) : un setup minimal sauve un plan sombre.",
+        "Organise tes stems par couleur et préfixe (DR_, VOX_, FX_) avant le rendez-vous mix : workflow plus fluide.",
+        "Prévois une fiche d’accueil imprimée : Wi-Fi, règles du studio, zones sensibles, timing des pauses.",
+        "En visio, partage un board visuel ou un DAW remote : le client suit en temps réel sans surcompliquer.",
+        "Ajoute un code de fichier standard : Projet_Client_Date_Version.wav pour éviter les confusions en livraison.",
+        "Timebox le creative talk à 15 minutes puis passe en exécution : garder le momentum et l’énergie du client.",
+        "Planifie un test de route micro caméra + son avant chaque prise vidéo : synchro audio évite les retakes.",
+        "Demande les formats de livraison attendus dès le départ (WAV 24 bits, MP4 4K, LUT) pour éviter les surprises.",
+        "Propose un créneau de validation rapide le lendemain : feedback à chaud, corrections moins coûteuses.",
+        "Active une checklist batterie avant session : accordage, câbles, pads anti-vibrations, gaffeur sous la caisse claire.",
+        "En tournage, planifie les plans critiques en début de session tant que l’énergie est haute.",
+        "Prévois une piste guide propre pour les topliners : elle structure l’écriture et réduit les réenregistrements.",
+        "Rappelle la politique d’archives (durée, backup cloud) : ça rassure et justifie un service premium.",
+        "Utilise un minuteur visible pour respecter la durée prévue : signe de rigueur et de respect du budget client.",
+        "Prépare un kit d’urgence (adaptateurs, cartes SD vierges, piles) : moins de stress sur site.",
+        "Envoie la facture proforma ou le devis juste après le rendez-vous confirmé : momentum business conservé.",
+        "Capture un court extrait making-of pour LinkedIn/TikTok (avec accord) : ajoute de la valeur sans casser le flow.",
+        "Verrouille un point de sauvegarde à mi-session : export rapide + backup cloud si connexion stable.",
+        "Planifie une pause calibrée toutes les 90 minutes : fraîcheur d’écoute et décisions plus justes.",
+        "Documente le setup du jour (photos + patch list) : reproduire un son devient instantané sur la prochaine session."
+      ];
+
+      const target = document.getElementById("conseil-pro-dynamique");
+      if(!target || !tips.length) return;
+      const randomTip = tips[Math.floor(Math.random() * tips.length)];
+      target.textContent = randomTip;
+    });
   </script>
 </body>
 </html>
