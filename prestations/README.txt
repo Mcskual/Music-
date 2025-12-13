@@ -16,6 +16,8 @@ Remarques importantes :
 - Gardez la même URL (IP, nom DNS, ou QuickConnect) pour retrouver vos données, car le stockage est "par domaine".
 - Pour sauvegarder sur disque, utilisez **Exporter JSON** et conservez le fichier dans un dossier de votre NAS.
   Vous pourrez plus tard **Importer JSON** pour restaurer vos données.
+- Si vous cherchez manuellement vos exports automatiques, ils sont stockés dans `web/prestations/Sauvegarde/`
+  (ex : `/volume1/web/prestations/Sauvegarde/` sur Synology) et listés par `api/list_sauvegardes.php`.
 - Si vous ne voyez pas la sauvegarde automatique :
     • Vérifiez le message d’état (bandeau vert/rouge en haut).
     • Essayez un montant simple (ex: 800).
