@@ -97,6 +97,62 @@
       box-shadow:0 10px 22px rgba(37,99,235,.45);
     }
 
+    .save-path-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(15,23,42,.65);
+      color:var(--text2);
+      font-size:13px;
+      cursor:pointer;
+      transition:all .2s ease;
+      box-shadow:var(--shadow);
+      min-width:0;
+    }
+    [data-theme="light"] .save-path-badge{ background:#f8fafc; }
+    .save-path-badge .dot{
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:12px;
+      font-weight:700;
+      color:#fff;
+      background:var(--muted);
+      box-shadow:0 0 0 0 rgba(16,185,129,.45);
+    }
+    .save-path-badge .label{ white-space:nowrap; }
+    .save-path-badge.ok{
+      border-color:rgba(34,197,94,.35);
+      background:linear-gradient(135deg,rgba(34,197,94,.18),rgba(34,197,94,.07));
+      color:#befae3;
+    }
+    [data-theme="light"] .save-path-badge.ok{ color:#0f5132; }
+    .save-path-badge.ok .dot{
+      background:var(--accent2);
+      animation:pulse 1.6s infinite;
+    }
+    .save-path-badge.error{
+      border-color:rgba(239,68,68,.35);
+      background:linear-gradient(135deg,rgba(239,68,68,.18),rgba(239,68,68,.05));
+      color:#fecdd3;
+    }
+    [data-theme="light"] .save-path-badge.error{ color:#7f1d1d; }
+    .save-path-badge.error .dot{ background:#ef4444; box-shadow:none; }
+    .save-path-badge.loading .dot{ background:var(--muted); }
+    .save-path-badge:hover{ border-color:var(--accent); color:#fff; }
+    [data-theme="light"] .save-path-badge:hover{ color:var(--accent); }
+    @keyframes pulse{
+      0%{ box-shadow:0 0 0 0 rgba(34,197,94,.45); }
+      70%{ box-shadow:0 0 0 8px rgba(34,197,94,0); }
+      100%{ box-shadow:0 0 0 0 rgba(34,197,94,0); }
+    }
+
     header.app {
       display:flex;
       gap:16px;
@@ -868,6 +924,10 @@
         <a class="nav-link" href="famille.html">Famille</a>
         <a class="nav-link" href="reverb.html">Outils reverb vintage</a>
       </div>
+      <button type="button" class="save-path-badge loading" id="savePathIndicator" aria-live="polite">
+        <span class="dot" aria-hidden="true">…</span>
+        <span class="label">Chemin de sauvegarde ?</span>
+      </button>
       <div class="theme-toggle">
         <span class="theme-icon" aria-hidden="true">🌙</span>
         <label class="switch" aria-label="Basculer le thème nuit/jour">
@@ -1098,35 +1158,59 @@
       const LISTING_URL = "api/list_sauvegardes.php"; // Petit endpoint PHP qui liste les sauvegardes
       const SAVE_DIR = "Sauvegarde/";                 // Dossier de sauvegarde côté serveur
       const GLOBAL_KEY = "dernierJsonSauvegarde";     // Nom de la variable globale exposée
+      const savePathIndicator = document.getElementById("savePathIndicator");
+
+      function updateSavePathIndicator(state, label, symbol){
+        if (!savePathIndicator) return;
+        savePathIndicator.className = "save-path-badge " + (state || "");
+        const labelEl = savePathIndicator.querySelector(".label");
+        const dotEl = savePathIndicator.querySelector(".dot");
+        if (labelEl) labelEl.textContent = label || "";
+        if (dotEl) dotEl.textContent = symbol || "…";
+      }
+
+      updateSavePathIndicator("loading", "Recherche du chemin…", "…");
 
       async function chargerDernierJson(){
         try {
+          updateSavePathIndicator("loading", "Recherche du chemin…", "…");
           const listingResponse = await fetch(LISTING_URL, { cache: "no-store" });
           if (!listingResponse.ok) {
             throw new Error("Liste des sauvegardes inaccessible (" + listingResponse.status + ")");
           }
 
           const listing = await listingResponse.json();
-          if (!listing || !listing.latest) {
+          if (!listing || (!listing.latest && !Array.isArray(listing.files))) {
             throw new Error("Aucune sauvegarde JSON trouvée dans /Sauvegarde");
           }
 
-          const latestUrl = SAVE_DIR + encodeURIComponent(listing.latest);
-          const dataResponse = await fetch(latestUrl, { cache: "no-store" });
-          if (!dataResponse.ok) {
-            throw new Error("Lecture impossible pour " + latestUrl + " (" + dataResponse.status + ")");
+          if (listing.latest) {
+            const latestUrl = SAVE_DIR + encodeURIComponent(listing.latest);
+            const dataResponse = await fetch(latestUrl, { cache: "no-store" });
+            if (!dataResponse.ok) {
+              throw new Error("Lecture impossible pour " + latestUrl + " (" + dataResponse.status + ")");
+            }
+
+            const data = await dataResponse.json();
+            window[GLOBAL_KEY] = data;
+
+            console.log("Dernière sauvegarde chargée:", listing.latest, data);
+            updateSavePathIndicator("ok", "Chemin détecté (« " + listing.latest + " »)", "✔");
+          } else {
+            updateSavePathIndicator("ok", "Chemin détecté (aucune sauvegarde)", "✔");
           }
-
-          const data = await dataResponse.json();
-          window[GLOBAL_KEY] = data;
-
-          console.log("Dernière sauvegarde chargée:", listing.latest, data);
         } catch (err) {
           console.warn("Impossible de charger la sauvegarde la plus récente :", err);
+          updateSavePathIndicator("error", "Chemin introuvable", "!");
         }
       }
 
       document.addEventListener("DOMContentLoaded", chargerDernierJson);
+      if (savePathIndicator) {
+        savePathIndicator.addEventListener("click", () => {
+          chargerDernierJson();
+        });
+      }
       window.chargerDernierJson = chargerDernierJson; // Exposé pour rechargement manuel si besoin
     })();
   </script>
