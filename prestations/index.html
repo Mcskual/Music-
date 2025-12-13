@@ -1180,8 +1180,8 @@
   <!-- Chargement automatique du dernier JSON dans /Sauvegarde -->
   <script>
     (function(){
-      const LISTING_URL = "api/list_sauvegardes.php"; // Petit endpoint PHP qui liste les sauvegardes
-      const SAVE_DIR = "Sauvegarde/";                 // Dossier de sauvegarde côté serveur
+      const LISTING_URL = "/prestations/Sauvegarde/listing.php"; // Endpoint PHP pour lister les sauvegardes sur le NAS
+      const SAVE_DIR = "/prestations/Sauvegarde/";                // Dossier de sauvegarde exposé par le serveur web/NAS
       const GLOBAL_KEY = "dernierJsonSauvegarde";     // Nom de la variable globale exposée
       const LAST_KNOWN_KEY = "dernierJsonSauvegardePath";
       const savePathIndicator = document.getElementById("savePathIndicator");
