@@ -48,15 +48,25 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
+      height:68px;
+      padding:0 18px;
       background:linear-gradient(135deg,rgba(249,115,22,.18),rgba(236,72,153,.18)),var(--card);
       border:1px solid var(--border);
       border-radius:16px;
-      padding:10px 14px;
       box-shadow:var(--shadow);
       margin-bottom:16px;
+      flex-wrap:nowrap;
+    }
+    .nav-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      flex-shrink:0;
+      height:100%;
     }
     .nav-brand{ font-weight:800; letter-spacing:.03em; }
-    .nav-links{ display:flex; gap:8px; flex-wrap:wrap; }
+    .nav-links{ display:flex; gap:8px; flex-wrap:nowrap; align-items:center; justify-content:center; flex:1; min-width:0; }
     .nav-link{
       color:var(--text2);
       text-decoration:none;
@@ -126,12 +136,12 @@
       display:flex;
       align-items:center;
       gap:8px;
-      margin-left:auto;
       padding:6px 10px;
       background:rgba(15,23,42,.6);
       border:1px solid var(--border);
       border-radius:12px;
       box-shadow:var(--shadow);
+      flex-shrink:0;
     }
     [data-theme="light"] .theme-toggle{ background:#f8fafc; }
     .theme-icon{ font-size:14px; line-height:1; filter:drop-shadow(0 2px 6px rgba(0,0,0,.25)); }
@@ -288,7 +298,7 @@
 <body>
   <div class="container">
     <nav class="top-nav" aria-label="Navigation principale">
-      <div class="row" style="display:flex; gap:10px; align-items:center;">
+      <div class="nav-left">
         <a class="logo-wrap logo-compact" href="index.html" aria-label="Revenir aux prestations">
           <img
             src="szd_logo_white.png"
@@ -316,8 +326,25 @@
     </nav>
 
         <header class="hero">
-          <div>
-            <h1>Facturation des prestations payées</h1>
+      <div>
+        <h1>Facturation des prestations payées</h1>
+            <div class="card" style="margin-top:20px;">
+                <h2>Conseils pros pour optimiser ta facturation</h2>
+                <p class="small" style="color:var(--text2); margin-bottom:14px;">
+                    Bonnes pratiques professionnelles pour sécuriser ton temps, tes paiements et le suivi client.
+                </p>
+
+                <ul style="padding-left:20px; line-height:1.6; font-size:14px; color:var(--text2);">
+                    <li>Envoie toujours un devis avant d’accepter un travail.</li>
+                    <li>Demande un acompte (20–50%) pour bloquer une date de clip ou de studio.</li>
+                    <li>Fixe un délai clair pour le paiement du solde (ex : 30 jours max).</li>
+                    <li>Facture les retouches supplémentaires ou modifications hors devis.</li>
+                    <li>Archive chaque facture dans ton dossier Sauvegarde pour un suivi propre.</li>
+                    <li>Note tous les paiements en temps réel pour éviter les erreurs.</li>
+                    <li>Utilise des relances graduelles : douce → urgente → critique.</li>
+                    <li>Livraison finale uniquement après paiement complet.</li>
+                </ul>
+            </div>
         <p class="sub">Visualise instantanément les prestations soldées, personnalise la facture avec le nom, le prénom et l'adresse de l'artiste, puis exporte le tout en PDF au design luxueux.</p>
         <div class="pill" style="background:rgba(236,72,153,.14); border-color:rgba(236,72,153,.4); color:#fce7f3;">Palette rosée & sunrise</div>
       </div>

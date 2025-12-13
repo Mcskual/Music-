@@ -51,18 +51,28 @@
       display:flex;
       align-items:center;
       justify-content:space-between;
+      height:68px;
+      padding:0 18px;
       background:linear-gradient(135deg,rgba(249,115,22,.18),rgba(168,85,247,.16)),var(--card);
       border:1px solid var(--border);
       border-radius:14px;
-      padding:10px 14px;
       box-shadow:var(--shadow);
       margin-bottom:14px;
+      flex-wrap:nowrap;
     }
     .nav-brand{
       font-weight:800;
       letter-spacing:.03em;
     }
-    .nav-links{ display:flex; gap:8px; flex-wrap:wrap; }
+    .nav-left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width:0;
+      flex-shrink:0;
+      height:100%;
+    }
+    .nav-links{ display:flex; gap:8px; flex-wrap:nowrap; align-items:center; justify-content:center; flex:1; min-width:0; }
     .nav-link{
       color:var(--text2);
       text-decoration:none;
@@ -342,12 +352,12 @@
       display:flex;
       align-items:center;
       gap:8px;
-      margin-left:auto;
       padding:6px 10px;
       background:rgba(15,23,42,.6);
       border:1px solid var(--border);
       border-radius:12px;
       box-shadow:var(--shadow);
+      flex-shrink:0;
     }
     [data-theme="light"] .theme-toggle{ background:#f8fafc; }
     .theme-icon{
@@ -360,13 +370,15 @@
 <body>
   <div class="container">
     <nav class="top-nav" aria-label="Navigation principale">
-      <a class="logo-wrap logo-compact" href="index.html" aria-label="Revenir aux prestations">
-        <img
-          src="szd_logo_white.png"
-          data-dark-src="szd_logo_white.png"
-          data-light-src="szd_logo_black.png"
-          alt="Logo">
-      </a>
+      <div class="nav-left">
+        <a class="logo-wrap logo-compact" href="index.html" aria-label="Revenir aux prestations">
+          <img
+            src="szd_logo_white.png"
+            data-dark-src="szd_logo_white.png"
+            data-light-src="szd_logo_black.png"
+            alt="Logo">
+        </a>
+      </div>
       <div class="nav-links">
         <a class="nav-link" href="index.html">Prestations</a>
         <a class="nav-link" href="facturation.html">Facturation</a>
