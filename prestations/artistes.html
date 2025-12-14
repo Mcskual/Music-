@@ -94,6 +94,60 @@
     }
     .hero-logo.is-fallback img { opacity:0; }
     .hero-logo.is-fallback .hero-logo-fallback { opacity:1; }
+    .topbar {
+      position:absolute;
+      top:14px;
+      left:0;
+      width:100%;
+      padding:10px 18px;
+      display:flex;
+      justify-content:center;
+      z-index:10;
+    }
+    .topbar-inner {
+      width:100%;
+      max-width:1100px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:10px 14px;
+      background:rgba(10,13,22,0.65);
+      border:1px solid var(--border);
+      border-radius:14px;
+      backdrop-filter:blur(14px);
+      box-shadow:0 10px 30px rgba(0,0,0,0.26);
+    }
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .brand img {
+      width:52px;
+      height:52px;
+      object-fit:contain;
+      filter:drop-shadow(0 6px 12px rgba(0,0,0,0.45));
+    }
+    .brand .stack {
+      display:grid;
+      gap:2px;
+      font-weight:700;
+    }
+    .brand .stack small { color:var(--muted); font-weight:500; letter-spacing:0.02em; }
+    .pro-chip {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#7dd3fc,#22c55e);
+      color:#041105;
+      font-weight:800;
+      box-shadow:0 12px 24px rgba(34,197,94,0.26);
+      text-transform:uppercase;
+      letter-spacing:0.03em;
+    }
+    .pro-chip svg { width:16px; height:16px; }
     .hero::before {
       content:"";
       position:absolute;
@@ -134,50 +188,7 @@
       min-width:230px;
     }
     .btn.secondary { background:rgba(255,255,255,0.06); color:#e2e8f0; border-color:var(--border); box-shadow:none; }
-    .btn.ghost { background:transparent; border-color:var(--border); color:#e2e8f0; box-shadow:none; }
     .btn:hover { transform:translateY(-2px); }
-    .badge-stack { display:flex; flex-wrap:wrap; gap:8px; }
-    .pill {
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,0.08);
-      border:1px solid var(--border);
-      color:#cbd5e1;
-      font-weight:700;
-      font-size:13px;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-    .pill small { color:var(--muted); font-weight:600; letter-spacing:0.01em; }
-    .beats-hero {
-      display:grid;
-      gap:18px;
-      width:100%;
-      max-width:1000px;
-      align-items:center;
-    }
-    .hero-grid {
-      display:grid;
-      gap:14px;
-      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
-    }
-    .beat-card {
-      padding:14px;
-      border-radius:16px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,0.04);
-      box-shadow:var(--shadow);
-      display:grid;
-      gap:10px;
-    }
-    .beat-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; color:var(--muted); font-size:13px; }
-    .beat-title { margin:0; font-size:18px; }
-    .tags { display:flex; flex-wrap:wrap; gap:6px; }
-    .tag { padding:6px 10px; border-radius:10px; background:rgba(125,211,252,0.12); border:1px solid rgba(125,211,252,0.22); color:#e0f2fe; font-size:12px; }
-    .price-label { font-weight:800; color:#7dd3fc; }
-    .cta-strip { display:flex; gap:8px; align-items:center; justify-content:flex-start; flex-wrap:wrap; }
-    .statline { display:flex; gap:10px; align-items:center; color:var(--muted); font-size:13px; }
 
     .scroll-indicator {
       position:absolute;
@@ -315,63 +326,38 @@
 <body>
   <div class="page">
     <header class="hero" id="top">
-      <div class="container beats-hero" data-animate>
-        <div class="badge-stack">
-          <span class="pill">Marketplace inspirée Beatstars</span>
-          <span class="pill">Packs stems + exclusivité <small>option</small></span>
-          <span class="pill">Mix & master calibrés</span>
-        </div>
-        <h1>La vitrine Ariste pour placer tes sons.</h1>
-        <p class="lead">Découvre tes instrus comme sur Beatstars : player clean, tarifs transparents, CTA prêts à convertir. Je m'occupe de l'image et du rendu.</p>
-        <div class="cta-row">
-          <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%20Je%20veux%20une%20instru%20%2F%20mix%2Bmaster.%20Mon%20style%20%3A%20___.%20Mes%20refs%20%3A%20___." target="_blank" rel="noopener" aria-label="Me contacter sur WhatsApp">
-            Écouter et booker
-          </a>
-          <a class="btn secondary" href="#process">Voir le process</a>
-          <a class="btn ghost" href="#beats">Packs prêts</a>
-        </div>
-        <div class="statline">
-          <span>+150k streams cumulés</span>
-          <span>Livrables WAV + stems</span>
-          <span>Réactivité 48h</span>
+      <div class="topbar">
+        <div class="topbar-inner">
+          <div class="brand">
+            <img src="szd_logo_white.png" alt="SZD Pro">
+            <div class="stack">
+              <span>SZD Studio</span>
+              <small>Accompagnement pro</small>
+            </div>
+          </div>
+          <div class="pro-chip" aria-label="Logo pro et qualité studio">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 12.5 10 18l10-12" stroke="#041105" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Label Pro
+          </div>
         </div>
       </div>
-      <div class="container hero-grid">
-        <div class="beat-card" data-animate>
-          <div class="beat-meta">
-            <span>Drill / 140 BPM</span>
-            <span class="price-label">Leasing 40€</span>
-          </div>
-          <h2 class="beat-title">Ghost City</h2>
-          <div class="tags">
-            <span class="tag">Dark</span>
-            <span class="tag">UK vibe</span>
-            <span class="tag">808 glide</span>
-          </div>
-          <div class="cta-strip">
-            <a class="btn secondary" href="https://wa.me/33760083157?text=Je%20veux%20le%20beat%20Ghost%20City%20pour%20___." target="_blank" rel="noopener">Réserver</a>
-            <a class="btn ghost" href="#contact">Avoir un extrait</a>
-          </div>
-        </div>
-        <div class="beat-card" data-animate>
-          <div class="beat-meta">
-            <span>Afro / 100 BPM</span>
-            <span class="price-label">Exclusive 350€</span>
-          </div>
-          <h2 class="beat-title">Velours</h2>
-          <div class="tags">
-            <span class="tag">Guitares</span>
-            <span class="tag">Bounce</span>
-            <span class="tag">Hook ready</span>
-          </div>
-          <div class="cta-strip">
-            <a class="btn secondary" href="https://wa.me/33760083157?text=Je%20veux%20le%20beat%20Velours%20en%20exclusive.%20Mes%20refs%20%3A%20___." target="_blank" rel="noopener">Parler exclusivité</a>
-            <a class="btn ghost" href="#contact">Pack stems</a>
-          </div>
-        </div>
-        <div class="hero-logo" aria-label="Logo principal SZD Studio" data-animate>
+      <div class="container" aria-label="Logo principal SZD Studio">
+        <div class="hero-logo" data-animate>
           <img src="/assets/szd-logo.png" alt="Logo SZD Studio" loading="lazy" data-fallback-src="szd_logo_white.png">
           <div class="hero-logo-fallback" aria-hidden="true">SZD Studio</div>
+        </div>
+      </div>
+      <div class="container hero-content" data-animate>
+        <span class="eyebrow">Production & mixage · Accompagnement humain</span>
+        <h1>On construit ton son, étape par étape.</h1>
+        <p class="lead">Un cadre clair, un accompagnement humain, un rendu pro. Tu te concentres sur ta vibe, je sécurise le reste.</p>
+        <div class="cta-row">
+          <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%20Je%20veux%20une%20instru%20%2F%20mix%2Bmaster.%20Mon%20style%20%3A%20___.%20Mes%20refs%20%3A%20___." target="_blank" rel="noopener" aria-label="Me contacter sur WhatsApp">
+            Me contacter sur WhatsApp
+          </a>
+          <a class="btn secondary" href="#process">Voir le process</a>
         </div>
       </div>
       <div class="scroll-indicator">
@@ -385,66 +371,6 @@
         </button>
       </div>
     </header>
-
-    <section class="section" id="beats">
-      <div class="container">
-        <div class="card" data-animate>
-          <div class="eyebrow" style="justify-content:flex-start;">Sélection Beatstars style</div>
-          <h2>3 moods pour booker vite</h2>
-          <p class="muted" style="margin-top:-4px;">Playlist claire, tarifs affichés, options stems/exclu comme sur Beatstars. Choisis, on finalise.</p>
-          <div class="hero-grid" style="margin-top:12px;">
-            <div class="beat-card">
-              <div class="beat-meta">
-                <span>Trap Soul / 120 BPM</span>
-                <span class="price-label">Leasing 50€</span>
-              </div>
-              <h3 class="beat-title">Nocturne</h3>
-              <div class="tags">
-                <span class="tag">Pads</span>
-                <span class="tag">Voix chop</span>
-                <span class="tag">R&B</span>
-              </div>
-              <div class="cta-strip">
-                <a class="btn secondary" href="https://wa.me/33760083157?text=Je%20veux%20le%20beat%20Nocturne%20en%20leasing.%20Budget%20___." target="_blank" rel="noopener">Prendre le leasing</a>
-                <a class="btn ghost" href="#contact">Brief custom</a>
-              </div>
-            </div>
-            <div class="beat-card">
-              <div class="beat-meta">
-                <span>Rage / 150 BPM</span>
-                <span class="price-label">Exclusive 420€</span>
-              </div>
-              <h3 class="beat-title">Static</h3>
-              <div class="tags">
-                <span class="tag">Synths</span>
-                <span class="tag">Energetic</span>
-                <span class="tag">Clubs</span>
-              </div>
-              <div class="cta-strip">
-                <a class="btn secondary" href="https://wa.me/33760083157?text=Je%20veux%20l'exclu%20Static.%20Refs%20%3A%20___." target="_blank" rel="noopener">Parler droits</a>
-                <a class="btn ghost" href="#contact">Ecouter avant</a>
-              </div>
-            </div>
-            <div class="beat-card">
-              <div class="beat-meta">
-                <span>Pop / 95 BPM</span>
-                <span class="price-label">Leasing 60€</span>
-              </div>
-              <h3 class="beat-title">Diamond Lane</h3>
-              <div class="tags">
-                <span class="tag">Radio ready</span>
-                <span class="tag">Clean mix</span>
-                <span class="tag">Hook direct</span>
-              </div>
-              <div class="cta-strip">
-                <a class="btn secondary" href="https://wa.me/33760083157?text=Je%20veux%20Diamond%20Lane.%20Usage%20%3A%20___." target="_blank" rel="noopener">Booker</a>
-                <a class="btn ghost" href="#contact">Option stems</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <section class="section pro-section" id="pro-visuals">
       <div class="container">
