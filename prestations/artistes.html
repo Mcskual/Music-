@@ -162,6 +162,8 @@
 
     /* FAQ */
     .faq { display:grid; gap:14px; }
+    .faq-block { display:grid; gap:12px; padding:16px; border:1px solid var(--border); border-radius:18px; background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)); box-shadow:var(--shadow); }
+    .faq-block h3 { margin:0; font-size:18px; letter-spacing:-0.01em; color:#e8edff; }
     .faq-item { border:1px solid var(--border); border-radius:16px; background:linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); box-shadow:var(--shadow); overflow:hidden; }
     .faq-question { width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 18px; background:transparent; border:0; color:var(--text); font-weight:800; letter-spacing:-0.01em; text-align:left; cursor:pointer; }
     .faq-question span { flex:1; }
@@ -233,6 +235,17 @@
     </header>
 
     <main>
+      <section class="section" id="qui-suis-je">
+        <div class="container">
+          <article class="card premium" aria-labelledby="qui-title">
+            <div class="badge">👉 Qui suis-je ?</div>
+            <h2 class="section-title" id="qui-title">Producteur, éditeur & beatmaker – repères solides</h2>
+            <p>Artiste professionnel depuis 2006 sous le nom <strong>MC Skual</strong>, je produis et édite des projets avec une vision complète du parcours artiste.</p>
+            <p>J’apporte un cadre clair, humain et efficace pour transformer ton intention en titre prêt à sortir, sans détour inutile.</p>
+          </article>
+        </div>
+      </section>
+
       <section class="section" id="services">
         <div class="container">
           <h2 class="section-title">Services clairs et premium</h2>
@@ -259,14 +272,14 @@
             </article>
 
             <article class="card premium mix" aria-labelledby="mix-title">
-              <div class="badge" style="background:rgba(34,197,94,0.18); color:#e9fee9; border:1px solid rgba(34,197,94,0.6); box-shadow:0 0 18px rgba(34,197,94,0.25);">Mixage + Mastering — 50 €</div>
+              <div class="badge" style="background:rgba(34,197,94,0.18); color:#e9fee9; border:1px solid rgba(34,197,94,0.6); box-shadow:0 0 18px rgba(34,197,94,0.25);">Mixage + Mastering — 60 €</div>
               <h3 id="mix-title">Préparation complète pour diffusion.</h3>
               <p>Un rendu équilibré, cohérent partout, prêt à sortir.</p>
               <ul class="list" aria-label="Avantages mixage mastering">
-                <li>Mixage équilibré et propre</li>
+                <li>Son propre et équilibré</li>
                 <li>Mastering prêt pour diffusion</li>
-                <li>Son cohérent sur téléphone, voiture, enceinte</li>
-                <li>Format prêt pour Spotify / plateformes</li>
+                <li>Prêt pour Spotify / plateformes</li>
+                <li>Retouches incluses (dans le cadre)</li>
               </ul>
               <p class="section-subtitle" style="margin-top:0; color:#d6ffe3; font-weight:700;">Inclus</p>
               <ul class="rules" aria-label="Inclus mixage mastering">
@@ -327,7 +340,7 @@
             </div>
             <div class="qcm-summary" id="qcm-summary" hidden></div>
             <a id="whatsapp-link" class="whatsapp-btn" href="https://wa.me/33760083157" target="_blank" rel="noopener" hidden>
-              Ouvrir WhatsApp avec mon message
+              Contacter SZD sur WhatsApp
             </a>
           </div>
         </div>
@@ -338,168 +351,146 @@
           <h2 class="section-title">FAQ artistes sérieux</h2>
           <p class="section-subtitle">Des réponses directes pour avancer avec clarté, sans répéter le QCM.</p>
           <div class="faq" aria-label="Questions fréquentes">
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q1 — À quel moment est-ce pertinent de te contacter ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Quand tu as au minimum une intention artistique, même si tout n’est pas encore figé. Mon rôle est aussi d’aider à structurer.</p>
-              </div>
-            </article>
+            <section class="faq-block" aria-label="Démarrage et collaboration">
+              <h3>Démarrage & collaboration</h3>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Quand est-ce pertinent de te contacter ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Quand tu as au minimum une intention artistique, même si tout n’est pas encore figé. Mon rôle est aussi d’aider à structurer.</p>
+                </div>
+              </article>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q2 — Est-ce que tu travailles avec des artistes débutants ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Oui, si l’artiste est motivé, sérieux et prêt à avancer dans un cadre clair.</p>
-              </div>
-            </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Travailles-tu avec des artistes débutants ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Oui, si l’artiste est motivé, sérieux et prêt à avancer dans un cadre clair.</p>
+                </div>
+              </article>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q3 — Est-ce que tu accompagnes uniquement sur un son ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Non. Je peux accompagner sur un titre, plusieurs morceaux, ou une direction artistique globale.</p>
-              </div>
-            </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Est-ce possible de travailler sur plusieurs titres ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Oui. Je peux accompagner sur un titre, plusieurs morceaux, ou une direction artistique globale.</p>
+                </div>
+              </article>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q4 — Est-ce que je peux venir avec mes propres idées très précises ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Oui. Les projets avancent mieux quand l’artiste sait ce qu’il veut ou sait expliquer ce qu’il ressent.</p>
-              </div>
-            </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Accompagnes-tu au-delà du simple son ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Oui. Je suis formé en tant que producteur et éditeur à succès et mon rôle est aussi d’apporter un regard extérieur et expérimenté.</p>
+                </div>
+              </article>
+            </section>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q5 — Et si je ne sais pas exactement ce que je veux ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>C’est possible aussi. Dans ce cas, on travaille par étapes pour clarifier la direction.</p>
-              </div>
-            </article>
+            <section class="faq-block" aria-label="Processus créatif et retours">
+              <h3>Processus créatif & retours</h3>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Comment se passent les échanges ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Principalement via WhatsApp, avec des échanges clairs et structurés.</p>
+                </div>
+              </article>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q6 — Comment éviter les allers-retours inutiles ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>En préparant les retours, en restant clair sur les attentes, et en respectant le cadre des retouches.</p>
-              </div>
-            </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Puis-je venir avec des idées très précises ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Oui. Les projets avancent mieux quand l’artiste sait ce qu’il veut ou sait expliquer ce qu’il ressent.</p>
+                </div>
+              </article>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q7 — Pourquoi limiter le nombre de retouches ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Parce que trop de retouches diluent la direction artistique et ralentissent le projet.</p>
-              </div>
-            </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Et si je ne sais pas exactement ce que je veux ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>C’est possible aussi. Dans ce cas, on travaille par étapes pour clarifier la direction.</p>
+                </div>
+              </article>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q8 — Est-ce que je peux prendre du recul avant de valider ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Oui, dans le délai prévu. Le recul fait partie du processus créatif.</p>
-              </div>
-            </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Comment éviter les allers-retours inutiles ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>En préparant les retours, en restant clair sur les attentes, et en respectant le cadre des retouches.</p>
+                </div>
+              </article>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q9 — Comment se passent les échanges ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Principalement via WhatsApp, avec des échanges clairs et structurés.</p>
-              </div>
-            </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Pourquoi limiter les retouches ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Parce que trop de retouches diluent la direction artistique et ralentissent le projet.</p>
+                </div>
+              </article>
+            </section>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q10 — Est-ce que tu aides à prendre des décisions artistiques ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Oui. Je suis formé en tant que producteur et éditeur à succès et mon rôle est aussi d’apporter un regard extérieur et expérimenté.</p>
-              </div>
-            </article>
+            <section class="faq-block" aria-label="Cadre délais et exploitation">
+              <h3>Cadre, délais & exploitation</h3>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Que se passe-t-il si le projet s’étale dans le temps ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Le projet peut continuer, mais certaines étapes peuvent être réévaluées pour rester cohérentes.</p>
+                </div>
+              </article>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q11 — Est-ce que tu imposes une vision ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Non. Je guide, je propose, je cadre, mais la décision finale reste artistique.</p>
-              </div>
-            </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Le cadre est-il négociable ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Le cadre est là pour protéger le projet. Il peut s’adapter, mais il ne disparaît pas.</p>
+                </div>
+              </article>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q12 — Est-ce que le cadre est négociable ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Le cadre est là pour protéger le projet. Il peut s’adapter, mais il ne disparaît pas.</p>
-              </div>
-            </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Puis-je exploiter le morceau librement ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Oui, selon la licence définie dès le départ (streaming, radio, clip, scène, réseaux).</p>
+                </div>
+              </article>
 
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q13 — Que se passe-t-il si le projet s’étale dans le temps ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Le projet peut continuer, mais certaines étapes peuvent être réévaluées pour rester cohérentes.</p>
-              </div>
-            </article>
-
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q14 — Est-ce que je peux exploiter le morceau librement ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Oui, selon la licence définie dès le départ (streaming, radio, clip, scène, réseaux).</p>
-              </div>
-            </article>
-
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Q15 — Est-ce que tu peux suivre un projet sur la durée ?</span>
-                <span class="faq-icon" aria-hidden="true">+</span>
-              </button>
-              <div class="faq-answer" hidden>
-                <p>Oui, et c’est souvent là que les projets prennent le plus de sens.</p>
-              </div>
-            </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false">
+                  <span>Est-ce que tu aides à prendre des décisions artistiques ?</span>
+                  <span class="faq-icon" aria-hidden="true">+</span>
+                </button>
+                <div class="faq-answer" hidden>
+                  <p>Oui. Je suis formé en tant que producteur et éditeur à succès et mon rôle est aussi d’apporter un regard extérieur et expérimenté.</p>
+                </div>
+              </article>
+            </section>
           </div>
           <p class="sub" style="margin-top:18px; text-align:center; color:#d9e4ff;">Si ces réponses t’aident à y voir plus clair, alors la suite sera plus simple.</p>
-        </div>
-      </section>
-
-      <section class="section" id="qui-suis-je">
-        <div class="container">
-          <article class="card premium" aria-labelledby="qui-title">
-            <div class="badge">👉 Qui suis-je ?</div>
-            <h2 class="section-title" id="qui-title">Producteur, éditeur & beatmaker – Artiste professionnel</h2>
-            <p>Artiste professionnel depuis 2006 sous le nom <strong>MC Skual</strong>, je suis aujourd’hui producteur, éditeur et beatmaker avec une vision complète du parcours artistique.</p>
-            <p>Formé à la production et à l’édition musicale, j’accompagne les artistes de la création jusqu’à la diffusion avec une méthode claire, professionnelle et adaptée à leur identité.</p>
-          </article>
         </div>
       </section>
 
@@ -623,7 +614,7 @@
       ];
 
       qcmSummary.innerHTML = `
-        <strong>Message pré-rempli :</strong>
+        <strong>Parfait. Si ces points te parlent, nous pouvons échanger.</strong>
         <div>${summaryLines.join('<br>')}</div>
         <p style="margin:10px 0 0; color:#0f2b17; background:rgba(214,255,227,0.9); padding:10px 12px; border-radius:12px; font-weight:700;">Ton message reste sur ton appareil, il sert à lancer la discussion sur WhatsApp.</p>
       `;
@@ -632,7 +623,6 @@
       whatsappLink.href = `https://wa.me/33760083157?text=${message}`;
       qcmSummary.hidden = false;
       whatsappLink.hidden = false;
-      document.getElementById('cta-title').scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
     };
 
     qcmNextBtn.addEventListener('click', () => {
@@ -649,11 +639,14 @@
 
     renderQuestion();
 
-    // FAQ accordéon moderne, une question ouverte à la fois
-    const faqItems = document.querySelectorAll('.faq-item');
+    // FAQ accordéon moderne, une question ouverte à la fois par bloc
+    const faqBlocks = document.querySelectorAll('.faq-block');
 
     const toggleFaq = (targetItem) => {
-      faqItems.forEach((item) => {
+      const currentBlock = targetItem.closest('.faq-block');
+      const itemsInBlock = currentBlock.querySelectorAll('.faq-item');
+
+      itemsInBlock.forEach((item) => {
         const button = item.querySelector('.faq-question');
         const answer = item.querySelector('.faq-answer');
         const isTarget = item === targetItem;
@@ -689,9 +682,11 @@
       });
     };
 
-    faqItems.forEach((item) => {
-      const button = item.querySelector('.faq-question');
-      button.addEventListener('click', () => toggleFaq(item));
+    faqBlocks.forEach((block) => {
+      block.querySelectorAll('.faq-item').forEach((item) => {
+        const button = item.querySelector('.faq-question');
+        button.addEventListener('click', () => toggleFaq(item));
+      });
     });
   </script>
 </body>
