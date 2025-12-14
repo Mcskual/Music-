@@ -196,6 +196,8 @@
     .qcm-progress-bar { height:8px; border-radius:999px; background:rgba(255,255,255,0.08); overflow:hidden; }
     .qcm-progress-fill { height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent-strong)); transition:width var(--transition); }
     .qcm-question { margin:0 0 14px; font-size:20px; color:#f8fbff; }
+    .qcm-stage { display:grid; gap:12px; transition:opacity var(--transition), transform var(--transition); }
+    .qcm-stage.is-changing { opacity:0; transform:translateY(8px); }
     .qcm-options { display:grid; gap:10px; }
     .qcm-option { width:100%; padding:14px 12px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,0.04); color:#f7f9ff; text-align:left; font-weight:700; cursor:pointer; transition:transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition); }
     .qcm-option:hover { transform:translateY(-1px); border-color:rgba(125,211,252,0.35); box-shadow:var(--glow); }
@@ -204,6 +206,8 @@
     .qcm-next:disabled { opacity:0.4; cursor:not-allowed; box-shadow:none; }
 
     .qcm-summary { margin-top:16px; padding:16px; border-radius:16px; border:1px solid rgba(34,197,94,0.35); background:rgba(34,197,94,0.08); color:#d6ffe3; box-shadow:0 12px 30px rgba(34,197,94,0.18); display:grid; gap:10px; }
+    .qcm-recap { list-style:none; padding:0; margin:6px 0 0; display:grid; gap:8px; color:#eafef0; }
+    .qcm-recap li::before { content:"•"; margin-right:8px; color:#b9f5cc; }
     .whatsapp-btn { margin-top:12px; display:inline-flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:14px; border-radius:14px; background:#25d366; color:#06230f; font-weight:800; border:1px solid rgba(0,0,0,0.1); box-shadow:0 16px 32px rgba(37,211,102,0.25); }
 
     /* CTA banner */
@@ -342,14 +346,14 @@
         <div class="container">
           <div class="qcm-card" aria-live="polite">
             <h2 class="section-title">Pour bien cadrer notre collaboration</h2>
-            <p class="sub">Réponds à ces questions pour vérifier que nous sommes alignés.</p>
+            <p class="sub">Ces questions t’aident à clarifier ta direction artistique avant d’échanger ensemble.</p>
             <div class="qcm-progress" aria-label="Progression du questionnaire">
               <span id="qcm-step">1 / 5</span>
               <div class="qcm-progress-bar" aria-hidden="true">
                 <div class="qcm-progress-fill" id="qcm-progress-fill"></div>
               </div>
             </div>
-            <div id="qcm-stage">
+            <div id="qcm-stage" class="qcm-stage">
               <p class="qcm-question" id="qcm-question"></p>
               <div class="qcm-options" id="qcm-options"></div>
               <button class="qcm-next" id="qcm-next" type="button" disabled>Question suivante</button>
@@ -532,47 +536,47 @@
     const qcmQuestions = [
       {
         id: 'projet',
-        question: 'Q1 — Ton projet aujourd’hui, c’est :',
+        question: 'Q1 — Ton projet aujourd’hui ressemble plutôt à :',
         options: [
-          'Une idée encore floue',
-          'Une direction claire mais à structurer',
-          'Un projet prêt à avancer'
+          'Une envie artistique à structurer',
+          'Un univers déjà défini',
+          'Un projet prêt à être finalisé'
         ]
       },
       {
-        id: 'retours',
-        question: 'Q2 — Pour les retours, tu préfères :',
+        id: 'ressenti',
+        question: 'Q2 — Quand tu écoutes un morceau que tu aimes, ce qui compte le plus pour toi c’est :',
         options: [
-          'Envoyer des messages au fil de l’écoute',
-          'Faire un retour groupé et clair',
-          'Décider ensemble lors d’un échange'
+          'L’émotion / l’ambiance',
+          'L’énergie et l’impact',
+          'La clarté et le rendu pro'
         ]
       },
       {
-        id: 'delais',
-        question: 'Q3 — Ton rapport aux délais :',
+        id: 'univers',
+        question: 'Q3 — Ton univers se rapproche davantage de :',
         options: [
-          'Je prends mon temps',
-          'J’essaie de respecter un cadre',
-          'J’aime avancer avec des échéances claires'
+          'Quelque chose de sombre / introspectif',
+          'Quelque chose de lumineux / accessible',
+          'Quelque chose d’hybride / expérimental'
         ]
       },
       {
-        id: 'attente',
-        question: 'Q4 — Ton attente principale :',
+        id: 'besoin',
+        question: 'Q4 — Aujourd’hui, ton principal besoin est :',
         options: [
-          'Avoir un bon son',
+          'Clarifier ma direction artistique',
           'Être guidé dans mes choix',
-          'Structurer un projet sérieux'
+          'Finaliser un projet cohérent'
         ]
       },
       {
-        id: 'cadre',
-        question: 'Q5 — Le cadre de travail pour toi :',
+        id: 'rythme',
+        question: 'Q5 — Pour avancer efficacement, tu préfères :',
         options: [
-          'Peut rester flexible',
-          'Doit être clair',
-          'Est indispensable pour avancer'
+          'Prendre le temps d’explorer',
+          'Avancer avec un cadre clair',
+          'Travailler avec des étapes définies'
         ]
       }
     ];
@@ -584,17 +588,19 @@
     const qcmProgressFill = document.getElementById('qcm-progress-fill');
     const qcmSummary = document.getElementById('qcm-summary');
     const whatsappLink = document.getElementById('whatsapp-link');
+    const qcmStage = document.getElementById('qcm-stage');
     let currentIndex = 0;
     const answers = {};
 
     const renderQuestion = () => {
+      qcmStage.classList.add('is-changing');
       const { question, options, id } = qcmQuestions[currentIndex];
       qcmQuestionEl.textContent = question;
       qcmOptionsEl.innerHTML = '';
       qcmNextBtn.disabled = true;
-      qcmNextBtn.textContent = currentIndex === qcmQuestions.length - 1 ? 'Valider et générer le message' : 'Question suivante';
+      qcmNextBtn.textContent = 'Question suivante';
       qcmStepText.textContent = `${currentIndex + 1} / ${qcmQuestions.length}`;
-      qcmProgressFill.style.width = `${((currentIndex) / qcmQuestions.length) * 100}%`;
+      qcmProgressFill.style.width = `${((currentIndex + 1) / qcmQuestions.length) * 100}%`;
 
       options.forEach((optionText) => {
         const button = document.createElement('button');
@@ -610,33 +616,29 @@
         });
         qcmOptionsEl.appendChild(button);
       });
-    };
 
-    const buildWhatsappMessage = () => {
-      return encodeURIComponent(
-        `Salut SZD,\nje viens de la page artistes.\n\nMon projet est : ${answers.projet}\nPour les retours : ${answers.retours}\nMon rapport aux délais : ${answers.delais}\nCe que j’attends : ${answers.attente}\nMon rapport au cadre : ${answers.cadre}\n\nJ’aimerais voir avec toi si on peut avancer ensemble.`
-      );
+      requestAnimationFrame(() => {
+        qcmStage.classList.remove('is-changing');
+      });
     };
 
     const showSummary = () => {
       qcmProgressFill.style.width = '100%';
       qcmStepText.textContent = `${qcmQuestions.length} / ${qcmQuestions.length}`;
       const summaryLines = [
-        `Mon projet est : ${answers.projet}`,
-        `Pour les retours : ${answers.retours}`,
-        `Mon rapport aux délais : ${answers.delais}`,
-        `Ce que j’attends : ${answers.attente}`,
-        `Mon rapport au cadre : ${answers.cadre}`
+        `Ton projet : ${answers.projet}`,
+        `Ce que tu écoutes en priorité : ${answers.ressenti}`,
+        `Ton univers : ${answers.univers}`,
+        `Ton besoin du moment : ${answers.besoin}`,
+        `Ton rythme idéal : ${answers.rythme}`
       ];
 
       qcmSummary.innerHTML = `
-        <strong>Parfait. Si ces points te parlent, nous pouvons échanger.</strong>
-        <div>${summaryLines.join('<br>')}</div>
-        <p style="margin:10px 0 0; color:#0f2b17; background:rgba(214,255,227,0.9); padding:10px 12px; border-radius:12px; font-weight:700;">Ton message reste sur ton appareil, il sert à lancer la discussion sur WhatsApp.</p>
+        <strong>Merci pour tes réponses.</strong>
+        <p style="margin:0; color:#cff7dd;">Elles permettent de mieux comprendre ton univers et d’échanger plus efficacement.</p>
+        <ul class="qcm-recap">${summaryLines.map((line) => `<li>${line}</li>`).join('')}</ul>
       `;
 
-      const message = buildWhatsappMessage();
-      whatsappLink.href = `https://wa.me/33760083157?text=${message}`;
       qcmSummary.hidden = false;
       whatsappLink.hidden = false;
     };
@@ -648,7 +650,7 @@
         currentIndex += 1;
         renderQuestion();
       } else {
-        document.getElementById('qcm-stage').style.display = 'none';
+        qcmStage.style.display = 'none';
         showSummary();
       }
     });
