@@ -164,6 +164,7 @@
     /* Sections */
     .section-title { margin:0 0 10px; font-size:24px; letter-spacing:-0.01em; }
     .section-subtitle { margin:0 0 22px; color:var(--muted); max-width:70ch; }
+    .sub { margin:0; color:var(--muted); }
 
     /* Bio */
     .about-grid { display:grid; gap:16px; }
@@ -206,11 +207,19 @@
     .qcm-status { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.4); color:#d6ffe3; font-weight:700; box-shadow:0 12px 30px rgba(34,197,94,0.18); }
     .accordion.completed { border-color:rgba(34,197,94,0.45); box-shadow:0 18px 36px rgba(34,197,94,0.12); }
 
-    /* FAQ */
-    .faq-grid { display:grid; gap:12px; }
-    .faq-item { padding:14px; border-radius:16px; border:1px solid var(--border); background:linear-gradient(150deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)); box-shadow:var(--shadow); }
-    .faq-item h3 { margin:0 0 6px; font-size:17px; }
-    .faq-item p { margin:0; color:#e0e7ff; }
+    /* FAQ (modern accordion) */
+    .faq-wrapper { display:grid; gap:16px; }
+    .faq-intro { margin:0; color:var(--muted); max-width:70ch; }
+    .faq-accordion { display:grid; gap:10px; margin-top:12px; }
+    .faq-item { border:1px solid var(--border); border-radius:16px; background:linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); box-shadow:var(--shadow); overflow:hidden; }
+    .faq-toggle { width:100%; padding:16px; display:flex; align-items:center; gap:12px; border:0; background:transparent; color:inherit; text-align:left; cursor:pointer; font-weight:800; letter-spacing:-0.01em; }
+    .faq-toggle span { flex:1; }
+    .faq-chevron { transition:transform var(--transition), color var(--transition); color:var(--accent); font-size:18px; }
+    .faq-item.is-open .faq-chevron { transform:rotate(180deg); color:var(--accent-strong); }
+    .faq-panel { padding:0 16px 16px; color:#e0e7ff; line-height:1.65; display:grid; gap:10px; max-height:0; opacity:0; overflow:hidden; transition:max-height 260ms ease, opacity 220ms ease; }
+    .faq-item.is-open .faq-panel { max-height:var(--faq-height, 320px); opacity:1; }
+    .faq-panel p { margin:0; }
+    .faq-cta-bridge { margin:18px 0 0; color:var(--muted); font-weight:700; }
 
     /* Cards */
     .grid { display:grid; gap:18px; }
@@ -433,31 +442,6 @@
         </div>
       </section>
 
-      <section class="section" id="faq">
-        <div class="container">
-          <h2 class="section-title">Questions / Réponses — casser les non-dits</h2>
-          <p class="section-subtitle">Des réponses directes pour que rien ne flotte entre nous.</p>
-          <div class="faq-grid">
-            <article class="faq-item">
-              <h3>Est-ce que tu accompagnes seulement la prod ?</h3>
-              <p>Non. Je couvre l’ensemble du parcours : vision, création, structuration, direction artistique et diffusion.</p>
-            </article>
-            <article class="faq-item">
-              <h3>Pourquoi WhatsApp uniquement ?</h3>
-              <p>Un seul canal = zéro perte d’info, décisions plus rapides, projet plus fluide.</p>
-            </article>
-            <article class="faq-item">
-              <h3>Tu vends du rêve ?</h3>
-              <p>Je vends du cadre et du concret. Mon rôle est de sécuriser chaque étape et d’annoncer clairement ce qui est réaliste.</p>
-            </article>
-            <article class="faq-item">
-              <h3>Comment se passent les retours ?</h3>
-              <p>Retours groupés, datés, par WhatsApp. On valide étape par étape pour avancer sans flou.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
       <section class="section" id="advice">
         <div class="container">
           <h2 class="section-title">Conseil pour garder le cap ensemble</h2>
@@ -524,6 +508,160 @@
               <div class="qcm-status" id="qcm-status" aria-live="polite" hidden>Réponses enregistrées pour toi, l’accordion se replie automatiquement.</div>
             </div>
           </details>
+        </div>
+      </section>
+
+      <!-- FAQ moderne en accordéon (placée avant le CTA WhatsApp) -->
+      <section class="section" id="faq">
+        <div class="container">
+          <div class="faq-wrapper" aria-label="Questions fréquentes sur la collaboration">
+            <h2 class="section-title">Questions fréquentes</h2>
+            <p class="sub faq-intro">Des réponses claires pour collaborer dans de bonnes conditions, sans malentendu.</p>
+
+            <div class="faq-accordion" role="list">
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q1 — Puis-je prendre mon temps pour répondre ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Oui. Les retours sont possibles dans le cadre prévu. Ils sont simplement cadrés pour éviter que le projet s’étire inutilement et perde en cohérence.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q2 — Et si je change d’avis en cours de route ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Les ajustements font partie du processus. Les changements majeurs demandent simplement un nouveau cadre pour rester efficaces.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q3 — Pourquoi un acompte est-il demandé ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>L’acompte permet de sécuriser le temps de travail et de démarrer le projet sereinement, avec un engagement réciproque.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q4 — Combien de retouches sont incluses ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Deux retouches sont incluses dans le délai prévu. Elles servent à affiner, pas à recommencer le projet.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q5 — Et si je dépasse le délai de retouches ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Le projet peut continuer. Les modifications supplémentaires restent possibles et sont simplement facturées.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q6 — Est-ce que tu imposes une direction artistique ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Non. Mon rôle est de guider et structurer, pas d’imposer une vision. Les décisions artistiques restent les tiennes.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q7 — Est-ce que je peux demander beaucoup de versions ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Les versions sont cadrées pour garantir un rendu cohérent. Multiplier les versions nuit souvent à la direction artistique.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q8 — Et si je ne suis pas satisfait de la première version ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>On échange et on ajuste dans le cadre prévu. L’objectif est toujours d’aboutir à un rendu propre et assumé.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q9 — Est-ce que tu travailles avec tous les artistes ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Je travaille avec les artistes prêts à avancer sérieusement, dans un cadre clair, respectueux et constructif.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q10 — Est-ce que tu peux m’accompagner au-delà du son ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Oui. Je suis formé en tant que producteur et éditeur à succès, et je peux guider les artistes sur la structuration, les choix artistiques et les étapes du parcours.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q11 — Est-ce que je peux sortir le morceau partout ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Oui, selon les termes de la licence. Les exploitations sont clairement définies dès le départ (radio, streaming, clip, scène, réseaux).</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q12 — Est-ce que tu aides à prendre les bonnes décisions ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Oui. Mon rôle est aussi d’apporter un regard extérieur, expérimenté et honnête sur le projet.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q13 — Pourquoi ce cadre est-il aussi précis ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Parce qu’un cadre clair protège la créativité, le temps de chacun et la qualité finale du projet.</p>
+                </div>
+              </article>
+
+              <article class="faq-item" role="listitem">
+                <button class="faq-toggle" type="button" aria-expanded="false">
+                  <span>Q14 — Est-ce que je peux travailler avec toi sur plusieurs titres ?</span>
+                  <span class="faq-chevron" aria-hidden="true">⌄</span>
+                </button>
+                <div class="faq-panel" hidden>
+                  <p>Oui, c’est même souvent plus efficace. Un suivi sur plusieurs titres permet une vraie cohérence artistique.</p>
+                </div>
+              </article>
+            </div>
+
+            <p class="faq-cta-bridge">Si ces réponses te parlent, alors nous pouvons travailler dans de bonnes conditions.</p>
+          </div>
         </div>
       </section>
     </main>
@@ -721,6 +859,66 @@
       };
 
       qcmInputs.forEach((input) => input.addEventListener('input', updateQcmState));
+    }
+
+    // FAQ accordéon : une seule réponse ouverte à la fois
+    const faqItems = Array.from(document.querySelectorAll('.faq-item'));
+
+    if (faqItems.length > 0) {
+      const closeItem = (item) => {
+        const panel = item.querySelector('.faq-panel');
+        const toggle = item.querySelector('.faq-toggle');
+
+        if (!panel || !toggle) return;
+
+        panel.style.setProperty('--faq-height', `${panel.scrollHeight}px`);
+
+        requestAnimationFrame(() => {
+          item.classList.remove('is-open');
+          toggle.setAttribute('aria-expanded', 'false');
+          panel.addEventListener(
+            'transitionend',
+            () => {
+              panel.hidden = true;
+              panel.style.removeProperty('--faq-height');
+            },
+            { once: true }
+          );
+        });
+      };
+
+      const openItem = (item) => {
+        const panel = item.querySelector('.faq-panel');
+        const toggle = item.querySelector('.faq-toggle');
+
+        if (!panel || !toggle) return;
+
+        faqItems.forEach((other) => {
+          if (other !== item && other.classList.contains('is-open')) {
+            closeItem(other);
+          }
+        });
+
+        panel.hidden = false;
+        panel.style.setProperty('--faq-height', `${panel.scrollHeight}px`);
+        item.classList.add('is-open');
+        toggle.setAttribute('aria-expanded', 'true');
+      };
+
+      faqItems.forEach((item) => {
+        const toggle = item.querySelector('.faq-toggle');
+
+        if (!toggle) return;
+
+        toggle.addEventListener('click', () => {
+          const isOpen = item.classList.contains('is-open');
+          if (isOpen) {
+            closeItem(item);
+          } else {
+            openItem(item);
+          }
+        });
+      });
     }
   </script>
 </body>
