@@ -160,6 +160,18 @@
     .rules { display:grid; gap:6px; color:#e5ecff; padding:0; list-style:none; margin:14px 0; }
     .rules li::before { content:"•"; margin-right:8px; color:#ffd166; }
 
+    /* FAQ */
+    .faq { display:grid; gap:14px; }
+    .faq-item { border:1px solid var(--border); border-radius:16px; background:linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); box-shadow:var(--shadow); overflow:hidden; }
+    .faq-question { width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 18px; background:transparent; border:0; color:var(--text); font-weight:800; letter-spacing:-0.01em; text-align:left; cursor:pointer; }
+    .faq-question span { flex:1; }
+    .faq-icon { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:12px; background:rgba(125,211,252,0.12); color:var(--accent); font-weight:900; transition:transform var(--transition), background var(--transition); }
+    .faq-question[aria-expanded="true"] .faq-icon { transform:rotate(45deg); background:rgba(34,197,94,0.14); color:var(--accent-strong); }
+    .faq-answer { padding:0 18px 16px; color:var(--muted); max-height:0; opacity:0; overflow:hidden; transition:max-height 280ms ease, opacity 220ms ease; }
+    .faq-item.active .faq-answer { opacity:1; }
+    .faq-answer p { margin:0; }
+    .faq-answer p + p { margin-top:8px; }
+
     /* QCM */
     .qcm-card {
       position:relative;
@@ -321,6 +333,165 @@
         </div>
       </section>
 
+      <section class="section" id="faq">
+        <div class="container">
+          <h2 class="section-title">FAQ artistes sérieux</h2>
+          <p class="section-subtitle">Des réponses directes pour avancer avec clarté, sans répéter le QCM.</p>
+          <div class="faq" aria-label="Questions fréquentes">
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q1 — À quel moment est-ce pertinent de te contacter ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Quand tu as au minimum une intention artistique, même si tout n’est pas encore figé. Mon rôle est aussi d’aider à structurer.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q2 — Est-ce que tu travailles avec des artistes débutants ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Oui, si l’artiste est motivé, sérieux et prêt à avancer dans un cadre clair.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q3 — Est-ce que tu accompagnes uniquement sur un son ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Non. Je peux accompagner sur un titre, plusieurs morceaux, ou une direction artistique globale.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q4 — Est-ce que je peux venir avec mes propres idées très précises ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Oui. Les projets avancent mieux quand l’artiste sait ce qu’il veut ou sait expliquer ce qu’il ressent.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q5 — Et si je ne sais pas exactement ce que je veux ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>C’est possible aussi. Dans ce cas, on travaille par étapes pour clarifier la direction.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q6 — Comment éviter les allers-retours inutiles ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>En préparant les retours, en restant clair sur les attentes, et en respectant le cadre des retouches.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q7 — Pourquoi limiter le nombre de retouches ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Parce que trop de retouches diluent la direction artistique et ralentissent le projet.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q8 — Est-ce que je peux prendre du recul avant de valider ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Oui, dans le délai prévu. Le recul fait partie du processus créatif.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q9 — Comment se passent les échanges ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Principalement via WhatsApp, avec des échanges clairs et structurés.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q10 — Est-ce que tu aides à prendre des décisions artistiques ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Oui. Je suis formé en tant que producteur et éditeur à succès et mon rôle est aussi d’apporter un regard extérieur et expérimenté.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q11 — Est-ce que tu imposes une vision ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Non. Je guide, je propose, je cadre, mais la décision finale reste artistique.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q12 — Est-ce que le cadre est négociable ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Le cadre est là pour protéger le projet. Il peut s’adapter, mais il ne disparaît pas.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q13 — Que se passe-t-il si le projet s’étale dans le temps ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Le projet peut continuer, mais certaines étapes peuvent être réévaluées pour rester cohérentes.</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q14 — Est-ce que je peux exploiter le morceau librement ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Oui, selon la licence définie dès le départ (streaming, radio, clip, scène, réseaux).</p>
+              </div>
+            </article>
+
+            <article class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Q15 — Est-ce que tu peux suivre un projet sur la durée ?</span>
+                <span class="faq-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-answer" hidden>
+                <p>Oui, et c’est souvent là que les projets prennent le plus de sens.</p>
+              </div>
+            </article>
+          </div>
+          <p class="sub" style="margin-top:18px; text-align:center; color:#d9e4ff;">Si ces réponses t’aident à y voir plus clair, alors la suite sera plus simple.</p>
+        </div>
+      </section>
+
       <section class="section" id="qui-suis-je">
         <div class="container">
           <article class="card premium" aria-labelledby="qui-title">
@@ -477,6 +648,51 @@
     });
 
     renderQuestion();
+
+    // FAQ accordéon moderne, une question ouverte à la fois
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    const toggleFaq = (targetItem) => {
+      faqItems.forEach((item) => {
+        const button = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        const isTarget = item === targetItem;
+        const shouldOpen = isTarget && !item.classList.contains('active');
+
+        if (shouldOpen) {
+          item.classList.add('active');
+          button.setAttribute('aria-expanded', 'true');
+          answer.hidden = false;
+          answer.style.maxHeight = '0px';
+          const height = answer.scrollHeight;
+          requestAnimationFrame(() => {
+            answer.style.maxHeight = `${height}px`;
+          });
+          answer.addEventListener('transitionend', () => {
+            if (item.classList.contains('active')) answer.style.maxHeight = 'none';
+          }, { once: true });
+        } else {
+          item.classList.remove('active');
+          button.setAttribute('aria-expanded', 'false');
+          const height = answer.scrollHeight;
+          answer.style.maxHeight = `${height}px`;
+          requestAnimationFrame(() => {
+            answer.style.maxHeight = '0px';
+          });
+          answer.addEventListener('transitionend', () => {
+            if (!item.classList.contains('active')) {
+              answer.hidden = true;
+              answer.style.maxHeight = '0px';
+            }
+          }, { once: true });
+        }
+      });
+    };
+
+    faqItems.forEach((item) => {
+      const button = item.querySelector('.faq-question');
+      button.addEventListener('click', () => toggleFaq(item));
+    });
   </script>
 </body>
 </html>
