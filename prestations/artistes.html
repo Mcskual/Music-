@@ -4,23 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SZD — Landing artistes</title>
-  <meta name="description" content="On construit ton son étape par étape : vision claire, direction artistique assumée, méthode pro et accompagnement humain par Armel (MC Skual).">
+  <meta name="description" content="Landing page pro pour artistes : direction artistique, méthode claire et accompagnement humain avec Armel (MC Skual).">
   <style>
     :root {
       --bg:#05070f;
       --panel:#0b0f1c;
-      --panel-soft:#0f1525;
+      --panel-soft:#10182a;
       --text:#f7f9ff;
       --muted:#c7cede;
       --accent:#7dd3fc;
       --accent-strong:#22c55e;
       --shadow:0 18px 36px rgba(0,0,0,0.35);
       --radius:18px;
-      --border:rgba(255,255,255,0.06);
+      --border:rgba(255,255,255,0.08);
       --glow:0 0 28px rgba(125,211,252,0.25);
       --instru:#8b5cf6;
       --mix:#22c55e;
-      --transition:200ms ease;
+      --text-strong:#e4ecff;
+      --gradient:linear-gradient(140deg, rgba(109,217,255,0.16), rgba(139,92,246,0.08), rgba(34,197,94,0.14));
+      --transition:220ms ease;
     }
 
     *, *::before, *::after { box-sizing:border-box; }
@@ -32,6 +34,9 @@
       color:var(--text);
       line-height:1.6;
       -webkit-font-smoothing:antialiased;
+      background:radial-gradient(circle at 10% 10%, rgba(124,58,237,0.08), transparent 38%),
+        radial-gradient(circle at 80% 0%, rgba(34,197,94,0.08), transparent 38%),
+        #05070f;
     }
 
     img { max-width:100%; display:block; border-radius:14px; }
@@ -45,7 +50,7 @@
 
     .page { min-height:100vh; display:flex; flex-direction:column; }
     .section { padding:76px 18px; }
-    .container { width:100%; max-width:1100px; margin:0 auto; }
+    .container { width:100%; max-width:1180px; margin:0 auto; }
 
     /* HERO */
     .hero {
@@ -56,27 +61,25 @@
       align-items:center;
       text-align:center;
       position:relative;
-      padding:64px 18px 96px;
+      padding:72px 18px 110px;
       overflow:hidden;
       isolation:isolate;
-      background:radial-gradient(circle at 20% 18%, rgba(125,211,252,0.18), transparent 32%),
-        radial-gradient(circle at 82% 22%, rgba(34,197,94,0.18), transparent 32%),
-        linear-gradient(145deg, #0d1222, #070a12 55%, #04060d);
+      background:linear-gradient(145deg, #0d1222, #070a12 55%, #04060d);
     }
     .hero::before {
       content:"";
       position:absolute;
       inset:0;
       background:url('assets/mc-skual-studio.jpg') center/cover no-repeat;
-      opacity:0.28;
-      filter:saturate(0.85);
+      opacity:0.25;
+      filter:saturate(0.9) blur(1px);
       z-index:-2;
     }
     .hero::after {
       content:"";
       position:absolute;
       inset:0;
-      background:linear-gradient(180deg, rgba(5,7,15,0.9), rgba(5,7,15,0.96));
+      background:linear-gradient(180deg, rgba(5,7,15,0.9), rgba(5,7,15,0.97));
       z-index:-1;
     }
     .hero-logo {
@@ -133,8 +136,10 @@
       50% { transform:scale(1.04) rotate(8deg); filter:blur(34px) saturate(125%) hue-rotate(24deg); }
       100% { transform:scale(1.02) rotate(-6deg); filter:blur(33px) saturate(120%) hue-rotate(-18deg); }
     }
-    .hero-title { margin:0 0 10px; font-size:clamp(28px, 7vw, 46px); line-height:1.1; letter-spacing:-0.01em; }
-    .hero-subtitle { margin:0 0 22px; color:#e0e7ff; max-width:56ch; }
+    .hero-title { margin:0 0 12px; font-size:clamp(30px, 6.5vw, 48px); line-height:1.1; letter-spacing:-0.01em; }
+    .hero-subtitle { margin:0 0 24px; color:#e0e7ff; max-width:60ch; }
+    .hero-badges { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:10px 0 22px; }
+    .hero-badge { padding:8px 12px; border-radius:12px; border:1px solid rgba(255,255,255,0.14); background:rgba(255,255,255,0.06); font-weight:700; color:var(--text-strong); box-shadow:0 8px 30px rgba(0,0,0,0.35); }
     .hero-arrow { margin-top:48px; font-size:42px; animation:bounce 1.8s infinite; color:var(--accent); display:inline-flex; }
 
     @keyframes bounce {
@@ -165,13 +170,7 @@
     }
     .card h3 { margin:0; font-size:20px; letter-spacing:-0.01em; }
     .card p { margin:0; color:var(--muted); }
-
-    /* Storytelling emphasis */
-    .story-card {
-      text-align:center;
-      align-items:start;
-    }
-    .card-lead { color:var(--text); }
+    .card strong { color:var(--text-strong); }
 
     /* Premium icons */
     .icon-wrap {
@@ -184,15 +183,28 @@
       background:rgba(255,255,255,0.04);
       border:1px solid rgba(255,255,255,0.08);
       filter:drop-shadow(0 0 12px rgba(125,211,252,0.25)) drop-shadow(0 0 22px rgba(124,58,237,0.18));
-      animation:haloShift 10s ease-in-out infinite alternate;
+      position:relative;
+      overflow:hidden;
+    }
+    .icon-wrap::after {
+      content:"";
+      position:absolute;
+      inset:0;
+      background:var(--gradient);
+      opacity:0.18;
+      z-index:-1;
+      filter:blur(4px);
     }
     svg.premium-icon { width:30px; height:30px; stroke:var(--accent); stroke-width:1.9; fill:none; stroke-linecap:round; stroke-linejoin:round; animation:colorCycle 11s ease-in-out infinite alternate; }
     .story-icon { width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 0 14px rgba(125,211,252,0.25)); }
-    @keyframes haloShift {
-      0% { filter:drop-shadow(0 0 10px rgba(125,211,252,0.24)) drop-shadow(0 0 20px rgba(34,197,94,0.18)); }
-      50% { filter:drop-shadow(0 0 12px rgba(34,197,94,0.26)) drop-shadow(0 0 22px rgba(124,58,237,0.22)); }
-      100% { filter:drop-shadow(0 0 12px rgba(124,58,237,0.26)) drop-shadow(0 0 22px rgba(109,217,255,0.22)); }
-    }
+    .spark { position:absolute; inset:8px; border-radius:12px; background:radial-gradient(circle, rgba(255,255,255,0.18), transparent 60%); opacity:0.7; }
+    .icon-aqua { stroke:#7dd3fc; }
+    .icon-lime { stroke:#22c55e; }
+    .icon-violet { stroke:#a78bfa; }
+    .icon-gold { stroke:#facc15; }
+    .icon-orange { stroke:#fb923c; }
+    .icon-rose { stroke:#fb7185; }
+
     @keyframes colorCycle {
       0% { stroke:var(--accent); }
       50% { stroke:var(--accent-strong); }
@@ -225,12 +237,20 @@
     .btn { padding:14px 18px; border-radius:14px; border:1px solid transparent; background:var(--accent); color:#0b1221; font-weight:800; box-shadow:var(--glow); display:inline-flex; align-items:center; justify-content:center; gap:10px; transition:transform var(--transition), box-shadow var(--transition), background var(--transition); }
     .btn:hover { transform:translateY(-2px); box-shadow:0 20px 40px rgba(125,211,252,0.2); }
 
+    .cta-panel { background:var(--panel-soft); border:1px solid var(--border); padding:18px; border-radius:var(--radius); box-shadow:var(--shadow); display:grid; gap:10px; text-align:left; }
+    .cta-panel h3 { margin:0; }
+    .cta-panel p { margin:0; color:var(--muted); }
+
+    .pill-grid { display:grid; gap:12px; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); }
+    .mini-pill { padding:10px 12px; border-radius:12px; background:rgba(255,255,255,0.04); border:1px solid var(--border); color:var(--text-strong); display:flex; align-items:center; gap:10px; box-shadow:0 10px 30px rgba(0,0,0,0.28); }
+
     /* Responsive */
     @media (min-width: 780px) {
       .section { padding:96px 28px; }
-      .hero { padding:82px 28px 120px; }
+      .hero { padding:96px 28px 120px; }
       .hero-subtitle { margin-left:auto; margin-right:auto; }
       .icon-wrap { width:clamp(64px, 8vw, 72px); height:clamp(64px, 8vw, 72px); }
+      .cta-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items:center; }
     }
   </style>
 </head>
@@ -240,11 +260,17 @@
     <header class="hero" id="top">
       <div class="hero-logo">
         <div class="logo-wrap">
+          <div class="spark" aria-hidden="true"></div>
           <img src="szd_logo_white.png" alt="Logo SZD" loading="lazy">
         </div>
       </div>
-      <h1 class="hero-title">On construit ton son, étape par étape.</h1>
-      <p class="hero-subtitle">Un cadre clair, une méthode professionnelle, un accompagnement humain. Tu te concentres sur la vibe, je sécurise le reste.</p>
+      <h1 class="hero-title">Landing page pro pour les artistes qui veulent un son clair, maîtrisé et assumé.</h1>
+      <p class="hero-subtitle">Direction artistique, production, mixage et guidance humaine : tu restes focus sur la vibe, je sécurise la méthode et la qualité.</p>
+      <div class="hero-badges" aria-label="Preuves de professionnalisme">
+        <span class="hero-badge">MC Skual — 15+ ans de scène</span>
+        <span class="hero-badge">Producteur & éditeur certifié</span>
+        <span class="hero-badge">Méthode en étapes claires</span>
+      </div>
       <a class="hero-arrow" href="#vision" aria-label="Découvrir la suite">↓</a>
     </header>
 
@@ -254,45 +280,49 @@
         <div class="container">
           <div class="section-header">
             <div class="icon-wrap" aria-hidden="true">
-              <svg class="premium-icon" viewBox="0 0 24 24" role="presentation" focusable="false">
-                <circle cx="12" cy="12" r="7" />
-                <path d="M12 9.5v-2" />
-                <path d="M12 14.5v2" />
-                <path d="M9.5 12h-2" />
-                <path d="M14.5 12h2" />
-                <path d="M13.8 10.2 16 8" />
-                <path d="M10.2 10.2 8 8" />
-                <path d="M13.8 13.8 16 16" />
-                <path d="M10.2 13.8 8 16" />
+              <svg class="premium-icon icon-aqua" viewBox="0 0 24 24" role="presentation" focusable="false">
+                <path d="M4.5 7.5 12 4l7.5 3.5v5.5c0 3.5-2.5 6.7-7.5 7.5-5-0.8-7.5-4-7.5-7.5Z" />
+                <path d="M9.5 12.2 12 14l3.5-3" />
               </svg>
             </div>
-            <h2 class="section-title">La vision</h2>
-            <p class="section-subtitle">Comprendre avant de produire, clarifier l’intention et ce que le morceau doit transmettre.</p>
+            <h2 class="section-title">Clarté stratégique</h2>
+            <p class="section-subtitle">On pose l’intention avant la technique : message, énergie, références et axe d’identité.</p>
           </div>
           <div class="story-grid">
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="lightbulb.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-gold" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <circle cx="12" cy="8" r="3.2" />
+                  <path d="M5.8 18.4c0-2.6 2.1-4.7 4.7-4.7h3c2.6 0 4.7 2.1 4.7 4.7" />
+                </svg>
               </div>
-              <h3>Comprendre avant d’agir</h3>
-              <p class="card-lead"><strong>Tout commence par une intention claire.</strong></p>
-              <p>Avant de parler technique, on définit l’univers, l’énergie et le message du titre.</p>
+              <h3>Positionnement précis</h3>
+              <p class="card-lead"><strong>Un son cohérent avec ton identité.</strong></p>
+              <p>On définit la place de ton projet dans le paysage : promesse, influences, public cible.</p>
             </article>
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="lightbulb.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-rose" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M4 9.5c2-3.2 5-5 8-5s6 1.8 8 5" />
+                  <path d="M4 14.5c2 3.2 5 5 8 5s6-1.8 8-5" />
+                  <circle cx="12" cy="12" r="2" />
+                </svg>
               </div>
-              <h3>Intention précise</h3>
-              <p class="card-lead"><strong>Tout commence par une intention claire.</strong></p>
-              <p>Chaque choix (tempo, textures, voix) sert l’émotion que tu veux transmettre.</p>
+              <h3>Repères artistiques</h3>
+              <p class="card-lead"><strong>Des références partagées pour ne pas dévier.</strong></p>
+              <p>Playlist, texture, tempo : on verrouille ce qui doit rester et ce qui peut évoluer.</p>
             </article>
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="lightbulb.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-lime" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M12 4v16" />
+                  <path d="M6 10c2.5-1.5 4.5-1.5 6 0s3.5 1.5 6 0" />
+                  <path d="M6 14c2.5 1.5 4.5 1.5 6 0s3.5-1.5 6 0" />
+                </svg>
               </div>
-              <h3>Repères partagés</h3>
-              <p class="card-lead"><strong>Tout commence par une intention claire.</strong></p>
-              <p>On valide ensemble les références pour que tout le reste du projet reste cohérent.</p>
+              <h3>Vision pilotable</h3>
+              <p class="card-lead"><strong>Une boussole pour chaque décision.</strong></p>
+              <p>On traduit ta vision en critères objectifs : énergie, dynamiques, intentions par section.</p>
             </article>
           </div>
         </div>
@@ -303,39 +333,54 @@
         <div class="container">
           <div class="section-header">
             <div class="icon-wrap" aria-hidden="true">
-              <svg class="premium-icon" viewBox="0 0 24 24" role="presentation" focusable="false">
+              <svg class="premium-icon icon-violet" viewBox="0 0 24 24" role="presentation" focusable="false">
                 <path d="M4 12c2.5-2.5 5.5-4 8-4s5.5 1.5 8 4" />
                 <path d="M4 12c2.5 2.5 5.5 4 8 4s5.5-1.5 8-4" />
                 <path d="M9 12c0 1.657 1.343 3 3 3s3-1.343 3-3-1.343-3-3-3-3 1.343-3 3Z" />
               </svg>
             </div>
-            <h2 class="section-title">Direction artistique</h2>
-            <p class="section-subtitle">Donner une identité claire : textures, énergie, cohérence et audace assumée.</p>
+            <h2 class="section-title">Direction artistique & prod</h2>
+            <p class="section-subtitle">Identité sonore, textures signature et arrangements qui portent ta voix.</p>
           </div>
           <div class="story-grid">
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="waveform.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-orange" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M4 9c4-3.5 12-3.5 16 0" />
+                  <path d="M4 15c4 3.5 12 3.5 16 0" />
+                  <circle cx="9" cy="12" r="1.5" />
+                  <circle cx="15" cy="12" r="1.5" />
+                </svg>
               </div>
-              <h3>Identité sonore</h3>
-              <p class="card-lead"><strong>On construit ton son, étape par étape.</strong></p>
-              <p>On choisit les timbres, la palette sonore et les éléments signature qui te différencient.</p>
+              <h3>Palette sur-mesure</h3>
+              <p class="card-lead"><strong>Textures, drums, bass : ton ADN sonore.</strong></p>
+              <p>On assemble un kit cohérent (synthés, percussions, grains) pour éviter le son générique.</p>
             </article>
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="waveform.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-aqua" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M6 8.5h12" />
+                  <path d="M9 5.5v12.5" />
+                  <path d="M15 5.5v12.5" />
+                  <path d="M6 15.5h12" />
+                </svg>
               </div>
-              <h3>Fil conducteur</h3>
-              <p class="card-lead"><strong>On construit ton son, étape par étape.</strong></p>
-              <p>Chaque décision respecte la ligne artistique : on avance sans perdre le cap.</p>
+              <h3>Arrangements qui respirent</h3>
+              <p class="card-lead"><strong>Chaque section a une intention.</strong></p>
+              <p>Transitions, placements rythmiques et dynamique gérés pour donner du relief sans surcharger.</p>
             </article>
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="waveform.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-rose" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M6 7.5h12" />
+                  <path d="M6 12h7" />
+                  <path d="M6 16.5h4" />
+                  <path d="M16 10.5 19 8v8l-3-2.5Z" />
+                </svg>
               </div>
-              <h3>Énergie maîtrisée</h3>
-              <p class="card-lead"><strong>On construit ton son, étape par étape.</strong></p>
-              <p>Arrangement, placement rythmique, dynamiques : tout sert l’intention initiale.</p>
+              <h3>Vocal coaching</h3>
+              <p class="card-lead"><strong>Toplines et intentions assumées.</strong></p>
+              <p>Guide de prises, adlibs, doubles, harmonie : j’encadre pour que ta voix porte le message.</p>
             </article>
           </div>
         </div>
@@ -346,40 +391,56 @@
         <div class="container">
           <div class="section-header">
             <div class="icon-wrap" aria-hidden="true">
-              <svg class="premium-icon" viewBox="0 0 24 24" role="presentation" focusable="false">
-                <path d="M5 8.5h14" />
-                <rect x="7" y="6" width="4" height="5" rx="1" />
-                <path d="M5 15.5h14" />
-                <rect x="13" y="13" width="4" height="5" rx="1" />
+              <svg class="premium-icon icon-lime" viewBox="0 0 24 24" role="presentation" focusable="false">
+                <path d="M4.5 6.5h15" />
+                <path d="M4.5 12h15" />
+                <path d="M4.5 17.5h15" />
+                <path d="M8.5 4.5v4" />
+                <path d="M12 10v4" />
+                <path d="M15.5 15.5v4" />
               </svg>
             </div>
-            <h2 class="section-title">Méthode</h2>
-            <p class="section-subtitle">Avancer sans tourner en rond : étapes claires, décisions rapides, créativité protégée.</p>
+            <h2 class="section-title">Méthode cadrée</h2>
+            <p class="section-subtitle">Roadmap claire, décisions datées et validations qui protègent la créativité.</p>
           </div>
           <div class="story-grid">
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="stack.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-gold" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M5 15.5h14" />
+                  <rect x="6.5" y="9" width="4.5" height="6.5" rx="1" />
+                  <rect x="13" y="5.5" width="5.5" height="10" rx="1" />
+                </svg>
               </div>
-              <h3>Plan de route</h3>
-              <p class="card-lead"><strong>Un cadre clair pour avancer sans tourner en rond.</strong></p>
-              <p>On découpe le projet en étapes lisibles pour éviter les blocages et prioriser.</p>
+              <h3>Roadmap visible</h3>
+              <p class="card-lead"><strong>On sait toujours où on en est.</strong></p>
+              <p>Brief, pré-prod, prises, retouches : chaque étape est datée avec un livrable attendu.</p>
             </article>
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="stack.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-orange" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M7 12h4.5v7" />
+                  <path d="M12 8.5 15 5l3 3.5" />
+                  <path d="M15 12h2" />
+                  <path d="M7 16.5h2" />
+                </svg>
               </div>
-              <h3>Décisions datées</h3>
-              <p class="card-lead"><strong>Un cadre clair pour avancer sans tourner en rond.</strong></p>
-              <p>Chaque phase se conclut par une validation pour sécuriser les délais et les livrables.</p>
+              <h3>Décisions verrouillées</h3>
+              <p class="card-lead"><strong>Moins d’allers-retours, plus d’avancée.</strong></p>
+              <p>Chaque phase se conclut par une validation claire (structure, prise, mix) avant de passer à la suivante.</p>
             </article>
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="stack.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-violet" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M12 4v4" />
+                  <path d="M7 12c2-1.5 8-1.5 10 0" />
+                  <path d="M8.5 16c1.5 1 5.5 1 7 0" />
+                  <path d="M12 14v6" />
+                </svg>
               </div>
               <h3>Créa protégée</h3>
-              <p class="card-lead"><strong>Un cadre clair pour avancer sans tourner en rond.</strong></p>
-              <p>Le cadre verrouille les contraintes pour que tu restes focus sur la vibe.</p>
+              <p class="card-lead"><strong>Tu restes dans ta vibe.</strong></p>
+              <p>Je sécurise planning, fichiers, exports et retouches pendant que tu restes concentré sur le ressenti.</p>
             </article>
           </div>
         </div>
@@ -390,7 +451,7 @@
         <div class="container">
           <div class="section-header">
             <div class="icon-wrap" aria-hidden="true">
-              <svg class="premium-icon" viewBox="0 0 24 24" role="presentation" focusable="false">
+              <svg class="premium-icon icon-aqua" viewBox="0 0 24 24" role="presentation" focusable="false">
                 <path d="M7 10.5V13a5 5 0 0 0 10 0v-2.5" />
                 <path d="M8.5 7.5a3.5 3.5 0 1 1 7 0v1.5H8.5Z" />
                 <path d="M5.5 12v1.2c0 1 .8 1.8 1.8 1.8H7" />
@@ -399,32 +460,44 @@
               </svg>
             </div>
             <h2 class="section-title">Accompagnement humain</h2>
-            <p class="section-subtitle">Tu n’es pas seul : guidance, cadre et décisions partagées sans imposer une vision.</p>
+            <p class="section-subtitle">Pilotage, coaching et feedbacks utiles sans imposer une vision.</p>
           </div>
           <div class="story-grid">
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="traffic.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-gold" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M5.5 11.5H9l1.5-3 3 7 1.5-4h3.5" />
+                  <path d="M6 16.5h3" />
+                  <path d="M15 16.5h3" />
+                </svg>
               </div>
-              <h3>Dialogue constant</h3>
-              <p class="card-lead"><strong>Tu n’es pas seul dans le processus.</strong></p>
-              <p>Échanges clairs, feedbacks utiles, une seule boucle de communication efficace.</p>
+              <h3>Coaching individuel</h3>
+              <p class="card-lead"><strong>On décide ensemble, en temps réel.</strong></p>
+              <p>Session visio ou studio pour valider les choix clés : structure, topline, intentions, livrables.</p>
             </article>
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="traffic.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-orange" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M7 9h10" />
+                  <path d="M7 12h6" />
+                  <path d="M7 15h4" />
+                  <path d="M16 8.5 19 11l-3 2.5" />
+                </svg>
               </div>
-              <h3>Co-pilotage</h3>
-              <p class="card-lead"><strong>Tu n’es pas seul dans le processus.</strong></p>
-              <p>Je guide et sécurise les choix clés, tu gardes la direction artistique finale.</p>
+              <h3>Communication simple</h3>
+              <p class="card-lead"><strong>Une seule boucle, des feedbacks actionnables.</strong></p>
+              <p>Docs partagés, exports nommés, validations datées : on évite les mails qui s’éternisent.</p>
             </article>
             <article class="card story-card">
               <div class="icon-wrap" aria-hidden="true">
-                <img class="story-icon" src="traffic.svg" alt="" loading="lazy">
+                <svg class="premium-icon icon-rose" viewBox="0 0 24 24" role="presentation" focusable="false">
+                  <path d="M12 5 7.5 8v4c0 3 1.5 5.5 4.5 7 3-1.5 4.5-4 4.5-7V8Z" />
+                  <path d="M10 11.5 12 13l2-1.5" />
+                </svg>
               </div>
-              <h3>Sérénité</h3>
-              <p class="card-lead"><strong>Tu n’es pas seul dans le processus.</strong></p>
-              <p>Tu restes focus sur l’artistique pendant que j’encadre planning, qualité et cohérence.</p>
+              <h3>Sérénité totale</h3>
+              <p class="card-lead"><strong>Tu restes focus sur l’artistique.</strong></p>
+              <p>Je gère les contraintes (planning, technique, qualité) pour libérer ta créativité.</p>
             </article>
           </div>
         </div>
@@ -435,8 +508,8 @@
         <div class="container">
           <article class="card" aria-labelledby="qui-title">
             <h2 class="section-title" id="qui-title">Qui suis-je</h2>
-            <p>Je m’appelle Armel. Artiste depuis 2006 (MC Skual), formé en tant que producteur et éditeur à succès.</p>
-            <p>J’accompagne des artistes qui veulent structurer leur projet, clarifier leur direction et aller jusqu’au bout de leurs morceaux.</p>
+            <p>Je m’appelle Armel (MC Skual). Artiste depuis 2006, producteur et éditeur, j’accompagne des artistes qui veulent structurer leur projet et atteindre un son professionnel sans perdre leur ADN.</p>
+            <p>Je m’implique sur le fond (direction artistique, choix de palette) et sur la forme (structure, prises voix, mixage). Ma promesse : un cadre lisible, des décisions rapides et un accompagnement humain.</p>
           </article>
         </div>
       </section>
@@ -445,13 +518,13 @@
       <section class="section" id="photos">
         <div class="container">
           <div class="section-header">
-            <h2 class="section-title">Photos</h2>
-            <p class="section-subtitle">Scènes et studio : uniquement l’utile, pour visualiser le cadre.</p>
+            <h2 class="section-title">Studio & scène</h2>
+            <p class="section-subtitle">Quelques repères visuels : où et comment on travaille.</p>
           </div>
           <div class="photos-grid" role="list">
             <figure class="card" role="listitem">
               <img src="assets/mc-skual-studio.jpg" alt="Armel au travail en studio" loading="lazy">
-              <figcaption>Session studio – travail cadré</figcaption>
+              <figcaption>Session studio – organisation carrée</figcaption>
             </figure>
             <figure class="card" role="listitem">
               <img src="assets/mc-skual-portrait.jpg" alt="Portrait artistique de MC Skual" loading="lazy">
@@ -466,7 +539,7 @@
         <div class="container">
           <div class="section-header">
             <h2 class="section-title">Les solutions selon ton projet</h2>
-            <p class="section-subtitle">Des cartes lisibles, prêtes à sécuriser ton morceau.</p>
+            <p class="section-subtitle">Des offres simples à activer, avec contrats et validations écrites.</p>
           </div>
           <div class="offer-grid">
             <article class="card instru" aria-labelledby="instru-title">
@@ -477,22 +550,21 @@
                 <li>Instrumentale originale</li>
                 <li>Licence EXCLUSIVE</li>
                 <li>Contrat écrit fourni</li>
-                <li>Utilisations incluses : streaming, radio, clip, réseaux, scène</li>
-                <li>Acompte 30 €</li>
-                <li>Solde sous 30 jours</li>
-                <li>Instrumentale retirée du catalogue</li>
+                <li>Utilisations : streaming, radio, clip, réseaux, scène</li>
+                <li>Acompte 30 € — solde sous 30 jours</li>
+                <li>Retrait du catalogue après signature</li>
               </ul>
             </article>
 
             <article class="card mix" aria-labelledby="mix-title">
               <div class="badge" style="background:rgba(34,197,94,0.18); color:#e9fee9; border:1px solid rgba(34,197,94,0.6); box-shadow:0 0 18px rgba(34,197,94,0.25);">Mixage + Mastering — 60 €</div>
               <h3 id="mix-title">Mixage + Mastering</h3>
-              <p>Son propre, équilibré, prêt pour Spotify et plateformes.</p>
+              <p>Son propre, équilibré et prêt pour les plateformes.</p>
               <ul class="list" aria-label="Inclus mixage mastering">
-                <li>Son propre et équilibré</li>
-                <li>Prêt pour Spotify / plateformes</li>
+                <li>Équilibre et spatialisation pro</li>
+                <li>Rendu optimisé Spotify / plateformes</li>
                 <li>Retouches incluses dans le cadre</li>
-                <li>Rendu professionnel et cohérent</li>
+                <li>Livraisons : wav master + version instru</li>
               </ul>
             </article>
           </div>
@@ -502,9 +574,24 @@
 
     <!-- 9. CTA FINAL -->
     <footer class="cta-final" id="cta-final">
-      <h2>Prêt à avancer ?</h2>
-      <p>On passe sur WhatsApp, on cadre ton projet et on lance la première étape.</p>
-      <a class="btn" href="https://wa.me/33760083157" target="_blank" rel="noopener" aria-label="Parler sur WhatsApp">Parler sur WhatsApp</a>
+      <div class="container">
+        <div class="cta-panel">
+          <div>
+            <h3>Prêt à avancer ?</h3>
+            <p>On cale un appel, on cadre ton projet et on lance la première étape sans perdre de temps.</p>
+            <div class="pill-grid" aria-label="Ce qui est inclus">
+              <div class="mini-pill">⬤ Débrief de ta vision</div>
+              <div class="mini-pill">⬤ Plan d’étapes clair</div>
+              <div class="mini-pill">⬤ Devis et contrats écrits</div>
+              <div class="mini-pill">⬤ Suivi unique sur WhatsApp</div>
+            </div>
+          </div>
+          <div style="display:grid; place-items:center; gap:12px;">
+            <a class="btn" href="https://wa.me/33760083157" target="_blank" rel="noopener" aria-label="Parler sur WhatsApp">Parler sur WhatsApp</a>
+            <small style="color:var(--muted);">Réponse rapide — 9h / 19h</small>
+          </div>
+        </div>
+      </div>
     </footer>
   </div>
 </body>
