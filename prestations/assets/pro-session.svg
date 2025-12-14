@@ -1,0 +1,52 @@
+<svg width="900" height="560" viewBox="0 0 900 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="50" y1="30" x2="820" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0f172a"/>
+      <stop offset="0.35" stop-color="#0a0f1f"/>
+      <stop offset="1" stop-color="#071018"/>
+    </linearGradient>
+    <linearGradient id="flare" x1="130" y1="80" x2="720" y2="360" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7dd3fc" stop-opacity="0.85"/>
+      <stop offset="0.5" stop-color="#22c55e" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#14b8a6" stop-opacity="0.2"/>
+    </linearGradient>
+    <filter id="glow" x="0" y="0" width="900" height="560" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="40" result="blur"/>
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="900" height="560" rx="28" fill="url(#bg)"/>
+  <rect x="70" y="60" width="760" height="440" rx="26" fill="#0d1221" stroke="#1f2937" stroke-width="2"/>
+  <rect x="120" y="110" width="660" height="140" rx="18" fill="#0b1020" stroke="#1f2937"/>
+  <rect x="120" y="280" width="420" height="150" rx="18" fill="#0b1020" stroke="#1f2937"/>
+  <rect x="560" y="280" width="220" height="150" rx="18" fill="#0b1020" stroke="#1f2937"/>
+  <rect x="160" y="160" width="120" height="32" rx="9" fill="#22c55e" fill-opacity="0.18" stroke="#22c55e" stroke-opacity="0.35"/>
+  <rect x="300" y="160" width="90" height="32" rx="9" fill="#7dd3fc" fill-opacity="0.18" stroke="#7dd3fc" stroke-opacity="0.35"/>
+  <rect x="410" y="160" width="120" height="32" rx="9" fill="#a78bfa" fill-opacity="0.18" stroke="#a78bfa" stroke-opacity="0.35"/>
+  <rect x="540" y="160" width="180" height="32" rx="9" fill="#22c55e" fill-opacity="0.18" stroke="#22c55e" stroke-opacity="0.35"/>
+  <circle cx="200" cy="330" r="28" fill="#0f172a" stroke="#22c55e" stroke-width="4"/>
+  <circle cx="268" cy="330" r="28" fill="#0f172a" stroke="#7dd3fc" stroke-width="4"/>
+  <circle cx="336" cy="330" r="28" fill="#0f172a" stroke="#a78bfa" stroke-width="4"/>
+  <rect x="420" y="310" width="210" height="40" rx="10" fill="#111827" stroke="#1f2937"/>
+  <rect x="430" y="320" width="76" height="20" rx="6" fill="#22c55e" fill-opacity="0.85"/>
+  <rect x="516" y="320" width="46" height="20" rx="6" fill="#7dd3fc" fill-opacity="0.75"/>
+  <rect x="572" y="320" width="46" height="20" rx="6" fill="#fbbf24" fill-opacity="0.8"/>
+  <rect x="590" y="430" width="24" height="24" rx="6" fill="#22c55e" fill-opacity="0.65"/>
+  <rect x="624" y="430" width="24" height="24" rx="6" fill="#7dd3fc" fill-opacity="0.65"/>
+  <rect x="658" y="430" width="24" height="24" rx="6" fill="#fbbf24" fill-opacity="0.65"/>
+  <rect x="120" y="450" width="120" height="22" rx="8" fill="#0b1020" stroke="#1f2937"/>
+  <rect x="260" y="450" width="120" height="22" rx="8" fill="#0b1020" stroke="#1f2937"/>
+  <rect x="400" y="450" width="120" height="22" rx="8" fill="#0b1020" stroke="#1f2937"/>
+  <rect x="540" y="450" width="120" height="22" rx="8" fill="#0b1020" stroke="#1f2937"/>
+  <rect x="680" y="450" width="70" height="22" rx="8" fill="#0b1020" stroke="#1f2937"/>
+  <circle cx="750" cy="210" r="26" fill="#22c55e" fill-opacity="0.18" stroke="#22c55e" stroke-opacity="0.45" stroke-width="3"/>
+  <path d="M742 209.5 748 216l14-16" stroke="#22c55e" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="640" cy="220" rx="44" ry="32" fill="#111827" stroke="#1f2937"/>
+  <rect x="600" y="205" width="80" height="14" rx="7" fill="#22c55e" fill-opacity="0.65"/>
+  <rect x="650" y="205" width="20" height="14" rx="7" fill="#7dd3fc" fill-opacity="0.8"/>
+  <rect x="520" y="198" width="20" height="44" rx="7" fill="#7dd3fc" fill-opacity="0.85"/>
+  <rect x="490" y="198" width="20" height="44" rx="7" fill="#22c55e" fill-opacity="0.75"/>
+  <rect x="120" y="102" width="660" height="10" fill="url(#flare)" opacity="0.9" filter="url(#glow)"/>
+  <text x="150" y="136" fill="#e2e8f0" font-size="20" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="700">Session studio premium</text>
+  <text x="150" y="362" fill="#e2e8f0" font-size="18" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="700">Label PRO</text>
+  <text x="150" y="388" fill="#cbd5e1" font-size="15" font-family="'Inter', 'Segoe UI', sans-serif" font-weight="500">Workflow calibré pour le streaming + la scène</text>
+</svg>
