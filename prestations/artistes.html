@@ -3,25 +3,26 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Artistes | Accompagnement musical sur-mesure</title>
+  <title>SZD — Accompagnement artistes</title>
+  <meta name="description" content="Producteur de musique formé, artiste depuis 2006. Cadre clair, accompagnement humain et rendu professionnel.">
   <style>
     :root {
-      --bg:#0a0d16;
-      --panel:#0f1421;
-      --soft:#131a2b;
-      --text:#f5f7fb;
-      --muted:#c3cad8;
+      --bg:#05070f;
+      --panel:#0b0f1c;
+      --panel-soft:#0f1525;
+      --text:#f7f9ff;
+      --muted:#c7cede;
       --accent:#7dd3fc;
       --accent-strong:#22c55e;
-      --border:rgba(255,255,255,0.08);
       --shadow:0 18px 36px rgba(0,0,0,0.35);
       --radius:18px;
-      --transition:180ms ease;
-      --gradient:linear-gradient(135deg,rgba(15,23,42,0.9),rgba(10,13,22,0.94));
-      --card-blur:blur(12px);
+      --border:rgba(255,255,255,0.06);
+      --glow:0 0 28px rgba(125,211,252,0.25);
+      --transition:200ms ease;
     }
 
-    * { box-sizing:border-box; }
+    *, *::before, *::after { box-sizing:border-box; }
+
     body {
       margin:0;
       font-family:"Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -35,13 +36,19 @@
     a { color:inherit; text-decoration:none; }
     button { font:inherit; }
     html { scroll-behavior:smooth; }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior:auto; }
+      *, *::before, *::after {
+        animation-duration:0.001ms !important;
+        animation-iteration-count:1 !important;
+        transition:none !important;
+      }
     }
 
-    .page { display:flex; flex-direction:column; min-height:100vh; background:radial-gradient(circle at 20% 20%, rgba(125,211,252,0.08), transparent 32%), radial-gradient(circle at 90% 10%, rgba(34,197,94,0.12), transparent 28%), var(--bg); }
-    .section { padding:64px 18px; }
-    .container { width:100%; max-width:1100px; margin:0 auto; }
+    .page { min-height:100vh; display:flex; flex-direction:column; }
+    .section { padding:72px 18px; }
+    .container { width:100%; max-width:1080px; margin:0 auto; }
 
     /* HERO */
     .hero {
@@ -51,655 +58,288 @@
       justify-content:center;
       align-items:center;
       position:relative;
+      padding:48px 18px 96px;
       overflow:hidden;
-      color:#fff;
-      padding:32px 18px 72px;
-      background:var(--gradient);
       isolation:isolate;
-    }
-    .hero-logo {
-      margin:0 auto 22px;
-      width:min(320px, 64vw);
-      padding:18px;
-      border-radius:18px;
-      background:radial-gradient(circle at 20% 20%, rgba(125,211,252,0.16), rgba(34,197,94,0.12)),
-        linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-      border:1px solid rgba(255,255,255,0.1);
-      display:grid;
-      place-items:center;
-      position:relative;
-      box-shadow:0 18px 42px rgba(0,0,0,0.38), 0 0 32px rgba(125,211,252,0.18);
-    }
-    .hero-logo img {
-      max-width:100%;
-      height:auto;
-      filter:drop-shadow(0 12px 30px rgba(0,0,0,0.55)) drop-shadow(0 0 18px rgba(125,211,252,0.32));
-      object-fit:contain;
-    }
-    .hero-logo-fallback {
-      position:absolute;
-      inset:0;
-      display:grid;
-      place-items:center;
-      border-radius:inherit;
-      background:radial-gradient(circle at 30% 30%, rgba(125,211,252,0.2), rgba(34,197,94,0.16)),
-        linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-      color:#e0f2fe;
-      font-weight:800;
-      letter-spacing:0.08em;
-      text-transform:uppercase;
       text-align:center;
-      opacity:0;
-      transition:opacity var(--transition);
+      background:radial-gradient(circle at 20% 20%, rgba(125,211,252,0.18), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(34,197,94,0.18), transparent 30%),
+        linear-gradient(145deg, #0d1222, #070a12 55%, #04060d);
     }
-    .hero-logo.is-fallback img { opacity:0; }
-    .hero-logo.is-fallback .hero-logo-fallback { opacity:1; }
     .hero::before {
       content:"";
       position:absolute;
       inset:0;
-      background:url('/assets/hero-studio.jpg') center/cover no-repeat, linear-gradient(135deg,#0b1223,#0a0d16);
-      background-position:center calc(50% + var(--bg-shift, 0px));
-      opacity:0.55;
-      transition:transform var(--transition), background-position var(--transition);
-      will-change:transform, background-position;
+      background:url('assets/hero-studio.jpg') center/cover no-repeat;
+      opacity:0.35;
+      transform:translateY(var(--hero-shift,0px));
+      filter:saturate(0.8);
       z-index:-2;
     }
     .hero::after {
       content:"";
       position:absolute;
       inset:0;
-      background:linear-gradient(180deg,rgba(10,13,22,0.8),rgba(10,13,22,0.95));
+      background:linear-gradient(180deg, rgba(5,7,15,0.8), rgba(5,7,15,0.95));
       z-index:-1;
     }
-    .hero-content { max-width:720px; display:grid; gap:18px; }
-    .eyebrow { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border:1px solid var(--border); border-radius:999px; background:rgba(255,255,255,0.06); font-size:13px; color:var(--muted); }
-    h1 { margin:0; font-size:clamp(28px,7vw,46px); line-height:1.1; letter-spacing:-0.01em; }
-    .lead { margin:0; font-size:16px; color:#e0e7ff; max-width:48ch; }
-    .cta-row { display:flex; flex-wrap:wrap; gap:12px; }
-    .btn {
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:14px 16px;
-      border-radius:14px;
-      border:1px solid transparent;
-      background:linear-gradient(135deg,#22c55e,#16a34a);
-      color:#041105;
-      font-weight:700;
-      cursor:pointer;
-      transition:transform var(--transition), box-shadow var(--transition), background var(--transition);
-      box-shadow:0 12px 26px rgba(34,197,94,0.35);
-      min-width:230px;
-    }
-    .btn.secondary { background:rgba(255,255,255,0.06); color:#e2e8f0; border-color:var(--border); box-shadow:none; }
-    .btn.ghost { background:transparent; border-color:var(--border); color:#e2e8f0; box-shadow:none; }
-    .btn:hover { transform:translateY(-2px); }
-    .badge-stack { display:flex; flex-wrap:wrap; gap:8px; }
-    .pill {
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(255,255,255,0.08);
-      border:1px solid var(--border);
-      color:#cbd5e1;
-      font-weight:700;
-      font-size:13px;
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-    .pill small { color:var(--muted); font-weight:600; letter-spacing:0.01em; }
-    .beats-hero {
-      display:grid;
-      gap:18px;
-      width:100%;
-      max-width:1000px;
-      align-items:center;
-    }
-    .hero-grid {
-      display:grid;
-      gap:14px;
-      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
-    }
-    .beat-card {
-      padding:14px;
-      border-radius:16px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,0.04);
-      box-shadow:var(--shadow);
-      display:grid;
-      gap:10px;
-    }
-    .beat-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; color:var(--muted); font-size:13px; }
-    .beat-title { margin:0; font-size:18px; }
-    .tags { display:flex; flex-wrap:wrap; gap:6px; }
-    .tag { padding:6px 10px; border-radius:10px; background:rgba(125,211,252,0.12); border:1px solid rgba(125,211,252,0.22); color:#e0f2fe; font-size:12px; }
-    .price-label { font-weight:800; color:#7dd3fc; }
-    .cta-strip { display:flex; gap:8px; align-items:center; justify-content:flex-start; flex-wrap:wrap; }
-    .statline { display:flex; gap:10px; align-items:center; color:var(--muted); font-size:13px; }
-
-    .scroll-indicator {
-      position:absolute;
-      inset:auto 0 18px 0;
-      display:flex;
-      justify-content:center;
-      pointer-events:none;
-    }
-    .scroll-down {
-      pointer-events:auto;
-      background:rgba(0,0,0,0.28);
-      color:#e2e8f0;
-      border:1px solid var(--border);
-      border-radius:999px;
-      padding:12px 18px;
-      display:inline-flex;
-      align-items:center;
-      gap:12px;
-      cursor:pointer;
-      backdrop-filter:blur(10px);
-      box-shadow:0 12px 28px rgba(0,0,0,0.36);
-      transition:transform var(--transition), box-shadow var(--transition), background var(--transition);
-    }
-    .scroll-down:hover { transform:translateY(-2px); box-shadow:0 14px 30px rgba(0,0,0,0.38); }
-    .chevrons { display:grid; gap:4px; }
-    .chevron {
-      width:18px;
-      height:10px;
-      border-left:2px solid rgba(255,255,255,0.85);
-      border-bottom:2px solid rgba(255,255,255,0.85);
-      transform:rotate(-45deg);
-      opacity:0.76;
-      animation:float 1.8s ease-in-out infinite;
-    }
-    .chevron:nth-child(2) { opacity:0.58; animation-delay:0.12s; }
-    .chevron:nth-child(3) { opacity:0.42; animation-delay:0.24s; }
-    .scroll-hint { color:var(--muted); font-size:13px; }
-    @keyframes float {
-      0%, 100% { transform:translateY(0) rotate(-45deg); }
-      50% { transform:translateY(6px) rotate(-45deg); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .chevron { animation:none; }
-    }
-
-    /* Cards & layout */
-    .grid { display:grid; gap:14px; }
-    .card {
-      background:rgba(17,24,39,0.82);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
+    .hero-logo {
+      width:min(320px, 70vw);
       padding:18px;
-      backdrop-filter:var(--card-blur);
-    }
-    .card h2 { margin:0 0 10px; font-size:20px; }
-    .muted { color:var(--muted); margin:0; }
-
-    /* Pro visuals */
-    .pro-section { position:relative; }
-    .pro-grid { display:grid; gap:14px; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); }
-    .pro-frame {
+      margin:0 auto 18px;
+      border-radius:24px;
+      background:linear-gradient(140deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow:var(--shadow), 0 0 26px rgba(125,211,252,0.22);
+      display:grid;
+      place-items:center;
       position:relative;
-      border-radius:var(--radius);
-      overflow:hidden;
+    }
+    .hero-logo img {
+      width:100%;
+      height:auto;
+      filter:drop-shadow(0 12px 30px rgba(0,0,0,0.55)) drop-shadow(0 0 16px rgba(125,211,252,0.32));
+    }
+    .hero-title { margin:0 0 10px; font-size:clamp(28px, 7vw, 46px); line-height:1.1; letter-spacing:-0.01em; }
+    .hero-subtitle { margin:0 0 22px; color:#e0e7ff; max-width:56ch; }
+    .tagline { display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,0.05); color:var(--muted); font-size:14px; }
+    .cta-row { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
+    .btn { padding:14px 18px; border-radius:14px; border:1px solid transparent; background:var(--accent); color:#0b1221; font-weight:700; box-shadow:var(--glow); transition:transform var(--transition), box-shadow var(--transition), background var(--transition); }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 20px 40px rgba(125,211,252,0.2); }
+    .btn.secondary { background:transparent; color:var(--text); border-color:var(--border); box-shadow:none; }
+    .hero-arrow { margin-top:48px; font-size:42px; animation:bounce 1.8s infinite; color:var(--accent); }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform:translateY(0); }
+      40% { transform:translateY(10px); }
+      60% { transform:translateY(6px); }
+    }
+
+    /* Cards */
+    .grid { display:grid; gap:18px; }
+    .card {
+      background:linear-gradient(160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
       border:1px solid var(--border);
-      background:rgba(255,255,255,0.02);
+      border-radius:var(--radius);
+      padding:18px;
       box-shadow:var(--shadow);
     }
-    .pro-frame img { width:100%; height:100%; object-fit:cover; display:block; }
-    .pro-caption {
-      position:absolute;
-      inset:auto 12px 12px 12px;
-      padding:10px 12px;
-      border-radius:12px;
-      background:rgba(0,0,0,0.58);
-      border:1px solid var(--border);
-      backdrop-filter:blur(8px);
-      font-weight:700;
-      box-shadow:0 8px 16px rgba(0,0,0,0.4);
-    }
-    .pro-caption small { display:block; color:var(--muted); font-weight:500; margin-top:2px; }
+    .card h3 { margin-top:0; margin-bottom:8px; font-size:18px; }
+    .card p { margin:0; color:var(--muted); }
 
-    /* Story cards */
-    .story { display:grid; gap:12px; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); }
-    .visual {
-      position:relative;
-      border-radius:var(--radius);
-      overflow:hidden;
-      background:linear-gradient(135deg,rgba(125,211,252,0.14),rgba(34,197,94,0.1));
-      min-height:180px;
-      border:1px solid var(--border);
-    }
-    .visual picture, .visual img { width:100%; height:100%; display:block; object-fit:cover; }
+    /* Titles */
+    .section-title { margin:0 0 12px; font-size:24px; letter-spacing:-0.01em; }
+    .section-subtitle { margin:0 0 26px; color:var(--muted); max-width:60ch; }
 
-    /* Process */
-    .process { display:grid; gap:12px; }
-    .step { display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:flex-start; padding:14px; background:rgba(255,255,255,0.03); border-radius:14px; border:1px solid var(--border); }
-    .step-icon { width:38px; height:38px; border-radius:12px; display:grid; place-items:center; background:linear-gradient(135deg,rgba(125,211,252,0.24),rgba(34,197,94,0.28)); color:#0b1329; font-weight:800; }
-    .step-title { margin:0; font-weight:700; }
+    /* Timeline */
+    .timeline { position:relative; padding-left:22px; display:grid; gap:16px; }
+    .timeline::before { content:""; position:absolute; top:8px; left:8px; width:2px; height:100%; background:linear-gradient(180deg, var(--accent), transparent); opacity:0.9; }
+    .step { position:relative; padding:12px 14px 12px 18px; border-radius:14px; background:var(--panel); border:1px solid var(--border); box-shadow:var(--shadow); }
+    .step-number { position:absolute; left:-20px; top:12px; width:28px; height:28px; border-radius:50%; background:var(--accent-strong); color:#041205; display:grid; place-items:center; font-weight:800; box-shadow:0 0 0 4px rgba(34,197,94,0.15); }
+    .step p { margin:0; color:var(--muted); }
 
     /* Pricing */
-    .pricing { display:grid; gap:12px; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); }
-    .price-tag { font-size:26px; font-weight:800; color:#7dd3fc; }
-    .price-card ul { list-style:none; margin:10px 0 0; padding:0; display:grid; gap:6px; color:var(--muted); }
-    .badge { display:inline-flex; align-items:center; gap:6px; padding:8px 10px; background:rgba(125,211,252,0.14); color:#e0f2fe; border-radius:12px; border:1px solid rgba(125,211,252,0.25); font-size:12px; }
+    .pricing { display:grid; gap:16px; }
+    .price-card { background:var(--panel-soft); border:1px solid var(--border); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); }
+    .price-card h3 { margin:0 0 10px; font-size:20px; }
+    .price { font-size:24px; font-weight:800; color:var(--accent); margin:0 0 12px; }
+    .price-card ul { list-style:none; padding:0; margin:0; display:grid; gap:8px; color:var(--muted); }
+    .note { margin-top:12px; color:var(--muted); font-size:14px; }
 
     /* FAQ */
-    .faq { display:grid; gap:10px; }
-    .faq-item { border:1px solid var(--border); border-radius:14px; overflow:hidden; background:rgba(255,255,255,0.02); }
-    .faq-question { padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px; cursor:pointer; }
-    .faq-question h3 { margin:0; font-size:16px; }
-    .faq-icon { width:26px; height:26px; border-radius:50%; display:grid; place-items:center; background:linear-gradient(135deg,#22c55e,#16a34a); color:#041105; font-weight:800; transition:var(--transition); }
-    .faq-answer { max-height:0; opacity:0; overflow:hidden; padding:0 16px; color:var(--muted); transition:max-height 240ms ease, opacity 240ms ease; }
-    .faq-item.open .faq-answer { padding:0 16px 14px; opacity:1; }
-    .faq-item.open .faq-icon { transform:rotate(45deg); }
+    .faq { display:grid; gap:12px; }
+    .faq-item { border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--panel); }
+    .faq-question { width:100%; background:none; border:none; color:var(--text); text-align:left; padding:14px 16px; font-weight:700; display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
+    .faq-answer { max-height:0; overflow:hidden; transition:max-height var(--transition); padding:0 16px; color:var(--muted); }
+    .faq-item.is-open .faq-answer { max-height:200px; padding:0 16px 12px; }
 
-    /* Trust */
-    .testimonials { display:grid; gap:12px; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); }
-    .quote { font-weight:700; margin-bottom:6px; }
-    .wins { margin-top:18px; padding:16px; border-radius:16px; background:linear-gradient(135deg,rgba(125,211,252,0.12),rgba(34,197,94,0.12)); border:1px solid var(--border); }
+    /* Testimonials */
+    .testimonials { display:grid; gap:12px; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); }
+    .quote { border:1px solid var(--border); border-radius:var(--radius); padding:16px; background:linear-gradient(155deg, rgba(125,211,252,0.08), rgba(4,6,13,0.9)); box-shadow:var(--shadow); color:#e0f2fe; }
+    .quote strong { display:block; margin-top:12px; color:var(--text); font-weight:700; }
 
-    /* Final CTA */
-    .cta-final { margin:0; padding:18px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.3); border-radius:var(--radius); display:grid; gap:10px; align-items:center; text-align:center; }
-    .cta-final strong { font-size:20px; }
+    /* CTA banner */
+    .cta-final { padding:48px 18px; text-align:center; background:linear-gradient(120deg, rgba(125,211,252,0.1), rgba(34,197,94,0.12), rgba(5,7,15,0.92)); border-top:1px solid var(--border); }
+    .cta-final h2 { margin:0 0 12px; font-size:26px; }
+    .cta-final p { margin:0 0 18px; color:var(--muted); }
 
-    /* Media */
-    @media (min-width:720px) {
-      .section { padding:86px 24px; }
-      .cta-row { gap:14px; }
-      .hero-content { gap:20px; }
+    /* Responsive */
+    @media (min-width: 720px) {
+      .grid { grid-template-columns:repeat(3, 1fr); }
+      .pricing { grid-template-columns:repeat(2, minmax(0,1fr)); }
+      .section { padding:96px 28px; }
+      .hero { padding:72px 28px 120px; }
+      .hero-subtitle { margin-left:auto; margin-right:auto; }
     }
   </style>
 </head>
 <body>
   <div class="page">
     <header class="hero" id="top">
-      <div class="container beats-hero" data-animate>
-        <div class="badge-stack">
-          <span class="pill">Marketplace inspirée Beatstars</span>
-          <span class="pill">Packs stems + exclusivité <small>option</small></span>
-          <span class="pill">Mix & master calibrés</span>
-        </div>
-        <h1>La vitrine Ariste pour placer tes sons.</h1>
-        <p class="lead">Découvre tes instrus comme sur Beatstars : player clean, tarifs transparents, CTA prêts à convertir. Je m'occupe de l'image et du rendu.</p>
-        <div class="cta-row">
-          <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%20Je%20veux%20une%20instru%20%2F%20mix%2Bmaster.%20Mon%20style%20%3A%20___.%20Mes%20refs%20%3A%20___." target="_blank" rel="noopener" aria-label="Me contacter sur WhatsApp">
-            Écouter et booker
-          </a>
-          <a class="btn secondary" href="#process">Voir le process</a>
-          <a class="btn ghost" href="#beats">Packs prêts</a>
-        </div>
-        <div class="statline">
-          <span>+150k streams cumulés</span>
-          <span>Livrables WAV + stems</span>
-          <span>Réactivité 48h</span>
-        </div>
+      <div class="tagline">Producteur de musique · Artiste depuis 2006 · Accompagnement humain</div>
+      <div class="hero-logo">
+        <img src="szd_logo_white.png" alt="Logo SZD" loading="lazy" onerror="this.parentElement.classList.add('fallback')">
       </div>
-      <div class="container hero-grid">
-        <div class="beat-card" data-animate>
-          <div class="beat-meta">
-            <span>Drill / 140 BPM</span>
-            <span class="price-label">Leasing 40€</span>
-          </div>
-          <h2 class="beat-title">Ghost City</h2>
-          <div class="tags">
-            <span class="tag">Dark</span>
-            <span class="tag">UK vibe</span>
-            <span class="tag">808 glide</span>
-          </div>
-          <div class="cta-strip">
-            <a class="btn secondary" href="https://wa.me/33760083157?text=Je%20veux%20le%20beat%20Ghost%20City%20pour%20___." target="_blank" rel="noopener">Réserver</a>
-            <a class="btn ghost" href="#contact">Avoir un extrait</a>
-          </div>
-        </div>
-        <div class="beat-card" data-animate>
-          <div class="beat-meta">
-            <span>Afro / 100 BPM</span>
-            <span class="price-label">Exclusive 350€</span>
-          </div>
-          <h2 class="beat-title">Velours</h2>
-          <div class="tags">
-            <span class="tag">Guitares</span>
-            <span class="tag">Bounce</span>
-            <span class="tag">Hook ready</span>
-          </div>
-          <div class="cta-strip">
-            <a class="btn secondary" href="https://wa.me/33760083157?text=Je%20veux%20le%20beat%20Velours%20en%20exclusive.%20Mes%20refs%20%3A%20___." target="_blank" rel="noopener">Parler exclusivité</a>
-            <a class="btn ghost" href="#contact">Pack stems</a>
-          </div>
-        </div>
-        <div class="hero-logo" aria-label="Logo principal SZD Studio" data-animate>
-          <img src="/assets/szd-logo.png" alt="Logo SZD Studio" loading="lazy" data-fallback-src="szd_logo_white.png">
-          <div class="hero-logo-fallback" aria-hidden="true">SZD Studio</div>
-        </div>
+      <h1 class="hero-title">On construit ton son, étape par étape.</h1>
+      <p class="hero-subtitle">Producteur de musique formé, artiste depuis 2006. Un cadre clair, un accompagnement humain, un rendu professionnel.</p>
+      <div class="cta-row">
+        <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%20Je%20suis%20artiste%20depuis%20___%2C%20mon%20style%20est%20___%2C%20j%27aimerais%20travailler%20avec%20toi." target="_blank" rel="noopener">Me contacter sur WhatsApp</a>
+        <a class="btn secondary" href="#process">Découvrir le process</a>
       </div>
-      <div class="scroll-indicator">
-        <button class="scroll-down" type="button" aria-label="Faire défiler vers le process">
-          <span class="chevrons" aria-hidden="true">
-            <span class="chevron"></span>
-            <span class="chevron"></span>
-            <span class="chevron"></span>
-          </span>
-          <span class="scroll-hint">Fais défiler</span>
-        </button>
-      </div>
+      <a class="hero-arrow" href="#parcours" aria-label="Découvrir la suite">↓</a>
     </header>
 
-    <section class="section" id="beats">
-      <div class="container">
-        <div class="card" data-animate>
-          <div class="eyebrow" style="justify-content:flex-start;">Sélection Beatstars style</div>
-          <h2>3 moods pour booker vite</h2>
-          <p class="muted" style="margin-top:-4px;">Playlist claire, tarifs affichés, options stems/exclu comme sur Beatstars. Choisis, on finalise.</p>
-          <div class="hero-grid" style="margin-top:12px;">
-            <div class="beat-card">
-              <div class="beat-meta">
-                <span>Trap Soul / 120 BPM</span>
-                <span class="price-label">Leasing 50€</span>
-              </div>
-              <h3 class="beat-title">Nocturne</h3>
-              <div class="tags">
-                <span class="tag">Pads</span>
-                <span class="tag">Voix chop</span>
-                <span class="tag">R&B</span>
-              </div>
-              <div class="cta-strip">
-                <a class="btn secondary" href="https://wa.me/33760083157?text=Je%20veux%20le%20beat%20Nocturne%20en%20leasing.%20Budget%20___." target="_blank" rel="noopener">Prendre le leasing</a>
-                <a class="btn ghost" href="#contact">Brief custom</a>
-              </div>
+    <main>
+      <section class="section" id="parcours">
+        <div class="container">
+          <h2 class="section-title">Mon parcours</h2>
+          <p class="section-subtitle">Identité claire, légitimité assumée : artiste et producteur actif depuis 2006, formé pour offrir un accompagnement humain autant que technique.</p>
+          <div class="grid">
+            <article class="card">
+              <h3>Un parcours construit dans le temps</h3>
+              <p>Artiste depuis 2006, l’évolution naturelle vers la production est venue en construisant mes propres sons.</p>
+            </article>
+            <article class="card">
+              <h3>Une formation solide</h3>
+              <p>Formé en production musicale, je mets cette base technique au service de chaque projet.</p>
+            </article>
+            <article class="card">
+              <h3>Aujourd’hui</h3>
+              <p>J’accompagne des artistes pour structurer leurs projets et les mener à terme dans un cadre professionnel.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="process">
+        <div class="container">
+          <h2 class="section-title">Ma méthode de travail</h2>
+          <p class="section-subtitle">Une timeline claire, pensée pour avancer sans stress et garder le cap créatif.</p>
+          <div class="timeline" aria-label="Etapes de travail">
+            <div class="step">
+              <div class="step-number">1️⃣</div>
+              <p>Échange & direction artistique.</p>
             </div>
-            <div class="beat-card">
-              <div class="beat-meta">
-                <span>Rage / 150 BPM</span>
-                <span class="price-label">Exclusive 420€</span>
-              </div>
-              <h3 class="beat-title">Static</h3>
-              <div class="tags">
-                <span class="tag">Synths</span>
-                <span class="tag">Energetic</span>
-                <span class="tag">Clubs</span>
-              </div>
-              <div class="cta-strip">
-                <a class="btn secondary" href="https://wa.me/33760083157?text=Je%20veux%20l'exclu%20Static.%20Refs%20%3A%20___." target="_blank" rel="noopener">Parler droits</a>
-                <a class="btn ghost" href="#contact">Ecouter avant</a>
-              </div>
+            <div class="step">
+              <div class="step-number">2️⃣</div>
+              <p>Création / production de l’instrumentale.</p>
             </div>
-            <div class="beat-card">
-              <div class="beat-meta">
-                <span>Pop / 95 BPM</span>
-                <span class="price-label">Leasing 60€</span>
-              </div>
-              <h3 class="beat-title">Diamond Lane</h3>
-              <div class="tags">
-                <span class="tag">Radio ready</span>
-                <span class="tag">Clean mix</span>
-                <span class="tag">Hook direct</span>
-              </div>
-              <div class="cta-strip">
-                <a class="btn secondary" href="https://wa.me/33760083157?text=Je%20veux%20Diamond%20Lane.%20Usage%20%3A%20___." target="_blank" rel="noopener">Booker</a>
-                <a class="btn ghost" href="#contact">Option stems</a>
-              </div>
+            <div class="step">
+              <div class="step-number">3️⃣</div>
+              <p>Première version envoyée.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">4️⃣</div>
+              <p>Retouches cadrées.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">5️⃣</div>
+              <p>Validation finale.</p>
+            </div>
+            <div class="step">
+              <div class="step-number">6️⃣</div>
+              <p>Livraison propre (WAV / MP3).</p>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section pro-section" id="pro-visuals">
-      <div class="container">
-        <div class="card" data-animate>
-          <div class="eyebrow" style="justify-content:flex-start;">Logo pro & images de studio</div>
-          <h2>Une identité visuelle crédible</h2>
-          <p class="muted" style="margin-top:-4px;">Logo pro en avant et visuels soignés pour rassurer tes partenaires et futurs auditeurs.</p>
-          <div class="pro-grid" style="margin-top:12px;">
-            <div class="pro-frame">
-              <img src="assets/pro-session.svg" alt="Session studio premium avec logo pro" loading="lazy">
-              <div class="pro-caption">Session studio premium<small>Prêts pour le streaming et la scène</small></div>
-            </div>
-            <div class="pro-frame">
-              <img src="assets/analog-stack.svg" alt="Signal chain pro mixage et mastering" loading="lazy">
-              <div class="pro-caption">Signal chain pro<small>Mixage + Mastering calibrés</small></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="story">
-      <div class="container">
-        <div class="card" data-animate>
-          <div class="story">
-            <div class="card">
-              <h2>Pourquoi j’accompagne les artistes</h2>
-              <p class="muted">Pour que tu ne sois jamais seul·e face au doute. On clarifie ton intention et on avance sans pression inutile.</p>
-            </div>
-            <div class="card">
-              <h2>Ce que tu peux attendre de moi</h2>
-              <p class="muted">Une écoute réelle, des retours précis, et des livrables propres. Tu sais où tu vas et quand.</p>
-            </div>
-            <div class="card">
-              <h2>Comment on travaille ensemble</h2>
-              <p class="muted">Des échanges rapides, un process simple, des étapes validées ensemble. Toujours en transparence.</p>
-            </div>
-            <div class="visual" aria-hidden="true">
-              <picture>
-                <source srcset="/assets/process.jpg" type="image/jpeg">
-                <img src="/assets/process.jpg" alt="" loading="lazy">
-              </picture>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="process">
-      <div class="container">
-        <div class="card" data-animate>
-          <h2>Le process</h2>
-          <p class="muted" style="margin-top:-4px;">6 étapes claires pour avancer vite et bien.</p>
-          <div class="process" style="margin-top:12px;">
-            <div class="step"><div class="step-icon">1</div><div><p class="step-title">Échange & direction artistique</p><p class="muted">On verrouille la vision et les refs.</p></div></div>
-            <div class="step"><div class="step-icon">2</div><div><p class="step-title">Production / Instrumentale</p><p class="muted">Je construis une base solide.</p></div></div>
-            <div class="step"><div class="step-icon">3</div><div><p class="step-title">Première version</p><p class="muted">Tu reçois un export propre pour feedback.</p></div></div>
-            <div class="step"><div class="step-icon">4</div><div><p class="step-title">Retouches</p><p class="muted">2 retouches incluses sous 15 jours.</p></div></div>
-            <div class="step"><div class="step-icon">5</div><div><p class="step-title">Validation + solde</p><p class="muted">On valide ensemble avant la livraison.</p></div></div>
-            <div class="step"><div class="step-icon">6</div><div><p class="step-title">Livraison finale</p><p class="muted">Fichiers prêts à exploiter.</p></div></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="pricing">
-      <div class="container">
-        <div class="card" data-animate>
-          <h2>Tarifs & cadre</h2>
-          <div class="pricing" style="margin-top:12px;">
-            <div class="card price-card">
-              <div class="badge">Instrumentale</div>
-              <div class="price-tag">100 €</div>
+      <section class="section" id="tarifs">
+        <div class="container">
+          <h2 class="section-title">Tarifs & cadre</h2>
+          <p class="section-subtitle">Transparence totale pour avancer sereinement.</p>
+          <div class="pricing">
+            <div class="price-card">
+              <h3>Instrumentale</h3>
+              <p class="price">100 €</p>
               <ul>
-                <li>Acompte 30 € pour démarrer</li>
-                <li>Solde sous 30 jours pour recevoir la version finale</li>
+                <li>Acompte de 30 € pour démarrer.</li>
+                <li>Solde sous 30 jours pour obtenir la version finale.</li>
               </ul>
             </div>
-            <div class="card price-card">
-              <div class="badge">Mixage + Mastering</div>
-              <div class="price-tag">50 €</div>
+            <div class="price-card">
+              <h3>Mixage + Mastering</h3>
+              <p class="price">50 €</p>
               <ul>
-                <li>Export propre et équilibré</li>
-                <li>Livraison rapide</li>
+                <li>Prestation complète cadrée.</li>
+                <li>1 révision incluse.</li>
               </ul>
             </div>
-            <div class="card price-card">
-              <div class="badge">Retouches</div>
-              <div class="price-tag">Inclus puis 10 €</div>
+            <div class="price-card">
+              <h3>Retouches</h3>
+              <p class="price">Cadre clair</p>
               <ul>
-                <li>2 retouches incluses sous 15 jours</li>
-                <li>Au-delà : 10 € / modification</li>
+                <li>2 retouches incluses sous 15 jours.</li>
+                <li>Au-delà : 10 € par modification.</li>
               </ul>
             </div>
           </div>
-          <p class="muted" style="margin-top:14px;">Ce cadre protège ton projet et garantit un rendu propre, sans flou.</p>
+          <p class="note">Ce cadre protège ton projet et garantit un rendu professionnel.</p>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section" id="faq">
-      <div class="container">
-        <div class="card" data-animate>
-          <h2>FAQ express</h2>
-          <div class="faq" style="margin-top:12px;">
+      <section class="section" id="faq">
+        <div class="container">
+          <h2 class="section-title">Questions fréquentes</h2>
+          <p class="section-subtitle">Des réponses directes, sans jargon.</p>
+          <div class="faq">
             <div class="faq-item">
-              <div class="faq-question">
-                <h3>Pourquoi un acompte ?</h3><div class="faq-icon">+</div>
-              </div>
-              <div class="faq-answer">Il verrouille la réservation de temps studio et le suivi prioritaire.</div>
+              <button class="faq-question" aria-expanded="false">Pourquoi un acompte?<span aria-hidden="true">+</span></button>
+              <div class="faq-answer">Il lance officiellement le projet et réserve du temps dédié à ta musique.</div>
             </div>
             <div class="faq-item">
-              <div class="faq-question"><h3>Quand je reçois la version finale ?</h3><div class="faq-icon">+</div></div>
-              <div class="faq-answer">Après validation et solde, sous 2 jours ouvrés maximum.</div>
+              <button class="faq-question" aria-expanded="false">Quand je reçois la version finale?<span aria-hidden="true">+</span></button>
+              <div class="faq-answer">Après validation des retouches et paiement du solde, sous le délai prévu ensemble.</div>
             </div>
             <div class="faq-item">
-              <div class="faq-question"><h3>Combien de retouches ?</h3><div class="faq-icon">+</div></div>
-              <div class="faq-answer">Deux retouches incluses pendant 15 jours après la première version.</div>
+              <button class="faq-question" aria-expanded="false">Combien de retouches sont incluses?<span aria-hidden="true">+</span></button>
+              <div class="faq-answer">Deux retouches cadrées sont incluses pour affiner le morceau.</div>
             </div>
             <div class="faq-item">
-              <div class="faq-question"><h3>Et si je réponds après 15 jours ?</h3><div class="faq-icon">+</div></div>
-              <div class="faq-answer">Les retouches restent possibles : 10 € par modification supplémentaire.</div>
+              <button class="faq-question" aria-expanded="false">Et si je réponds après 15 jours?<span aria-hidden="true">+</span></button>
+              <div class="faq-answer">Les retouches incluses expirent, mais on peut continuer avec un forfait de 10 € par modification.</div>
             </div>
             <div class="faq-item">
-              <div class="faq-question"><h3>Est-ce que tu peux m’accompagner sur plusieurs titres ?</h3><div class="faq-icon">+</div></div>
-              <div class="faq-answer">Oui, on planifie une série et on verrouille les dates ensemble.</div>
+              <button class="faq-question" aria-expanded="false">Est-ce que tu accompagnes sur plusieurs titres?<span aria-hidden="true">+</span></button>
+              <div class="faq-answer">Oui, on peut planifier un accompagnement multi-titres avec un cadre clair dès le départ.</div>
             </div>
             <div class="faq-item">
-              <div class="faq-question"><h3>Quels styles tu maîtrises ?</h3><div class="faq-icon">+</div></div>
-              <div class="faq-answer">Rap, RnB, pop urbaine, afro et dérivés. On adapte les textures à ton identité.</div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-question"><h3>Comment se passent les échanges ?</h3><div class="faq-icon">+</div></div>
-              <div class="faq-answer">WhatsApp uniquement pour rester réactifs et centraliser les retours.</div>
-            </div>
-            <div class="faq-item">
-              <div class="faq-question"><h3>Je n’ai jamais fait de studio, c’est grave ?</h3><div class="faq-icon">+</div></div>
-              <div class="faq-answer">Pas du tout. Je t’accompagne sur chaque étape pour que tu sois à l’aise.</div>
+              <button class="faq-question" aria-expanded="false">Puis-je modifier après validation?<span aria-hidden="true">+</span></button>
+              <div class="faq-answer">Après validation finale, les demandes supplémentaires sont possibles au tarif de retouche.</div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section" id="trust">
-      <div class="container">
-        <div class="card" data-animate>
-          <h2>Preuves / confiance</h2>
-          <div class="visual" style="margin-bottom:12px;" aria-hidden="true">
-            <picture>
-              <source srcset="/assets/trust.jpg" type="image/jpeg">
-              <img src="/assets/trust.jpg" alt="" loading="lazy">
-            </picture>
-          </div>
-          <div class="testimonials" style="margin-top:12px;">
-            <div class="card"><p class="quote">“Carré, rapide, rendu propre.”</p><p class="muted">Artiste indie</p></div>
-            <div class="card"><p class="quote">“Il m’a accompagné jusqu’au bout.”</p><p class="muted">Beatmaker</p></div>
-            <div class="card"><p class="quote">“Cadre clair, ça avance.”</p><p class="muted">Chanteuse</p></div>
-          </div>
-          <div class="wins">
-            <strong>Ce que tu gagnes :</strong>
-            <ul style="list-style:none; padding:8px 0 0; margin:0; display:grid; gap:6px; color:var(--muted);">
-              <li>Un process clair, sans zones grises.</li>
-              <li>Un son cohérent avec tes refs.</li>
-              <li>Un point de contact unique pour tout gérer.</li>
-            </ul>
+      <section class="section" id="confiance">
+        <div class="container">
+          <h2 class="section-title">Confiance</h2>
+          <p class="section-subtitle">Je ne vends pas juste un service, j’accompagne un projet.</p>
+          <div class="testimonials">
+            <div class="quote">“Cadre clair, travail sérieux.”<strong>— Témoignage</strong></div>
+            <div class="quote">“Accompagnement humain, rendu pro.”<strong>— Témoignage</strong></div>
+            <div class="quote">“On avance sans stress.”<strong>— Témoignage</strong></div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
-    <section class="section" id="contact">
+    <footer class="cta-final">
       <div class="container">
-        <div class="cta-final card" data-animate>
-          <strong>Prêt ? Dis-moi ton style et ta vibe.</strong>
-          <p class="muted" style="margin:0;">WhatsApp est le seul canal pour avancer vite et garder tes retours au même endroit.</p>
-          <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%20Je%20veux%20une%20instru%20%2F%20mix%2Bmaster.%20Mon%20style%20%3A%20___.%20Mes%20refs%20%3A%20___." target="_blank" rel="noopener">Parler sur WhatsApp</a>
-        </div>
+        <h2>Parle-moi de ton projet.</h2>
+        <p>Ton style, ta vibe, tes références.</p>
+        <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%0AJe%20suis%20artiste%20depuis%20___%2C%20mon%20style%20est%20___%2C%0Aj%27aimerais%20travailler%20avec%20toi." target="_blank" rel="noopener">WhatsApp — Démarrer</a>
       </div>
-    </section>
+    </footer>
   </div>
 
   <script>
-    // Respect prefers-reduced-motion
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // Hero logo fallback handling
-    const heroLogo = document.querySelector('.hero-logo');
-    const heroLogoImg = heroLogo?.querySelector('img');
-    if (heroLogo && heroLogoImg) {
-      const fallbackSrc = heroLogoImg.dataset.fallbackSrc;
-      let triedFallback = false;
-      const activateFallback = () => heroLogo.classList.add('is-fallback');
-      heroLogoImg.addEventListener('error', () => {
-        if (!triedFallback && fallbackSrc && heroLogoImg.src !== fallbackSrc) {
-          triedFallback = true;
-          heroLogoImg.src = fallbackSrc;
-        } else {
-          activateFallback();
-        }
-      });
-      if (heroLogoImg.complete && heroLogoImg.naturalWidth === 0) {
-        heroLogoImg.dispatchEvent(new Event('error'));
-      }
-    }
-
-    // Parallax hero background
-    if (!prefersReducedMotion) {
-      const hero = document.querySelector('.hero');
-      const handleScroll = () => {
-        const shift = window.scrollY * 0.16;
-        hero.style.setProperty('--bg-shift', `${shift}px`);
-      };
-      window.addEventListener('scroll', () => requestAnimationFrame(handleScroll), { passive:true });
-    }
-
-    // Intersection animations
-    const animated = document.querySelectorAll('[data-animate]');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = 1;
-          entry.target.style.transform = 'translateY(0)';
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2 });
-
-    animated.forEach(el => {
-      el.style.opacity = 0;
-      el.style.transform = 'translateY(20px)';
-      el.style.transition = prefersReducedMotion ? 'opacity 200ms ease' : 'opacity 300ms ease, transform 300ms ease';
-      observer.observe(el);
-    });
-
-    // Scroll indicator
-    const scrollButton = document.querySelector('.scroll-down');
-    if (scrollButton) {
-      scrollButton.addEventListener('click', () => {
-        let target = document.querySelector('#process');
-        if (!target) {
-          target = document.createElement('section');
-          target.id = 'process';
-          target.className = 'section';
-          const inner = document.createElement('div');
-          inner.className = 'container';
-          target.appendChild(inner);
-          const firstSection = document.querySelector('.section');
-          if (firstSection) {
-            firstSection.parentNode.insertBefore(target, firstSection);
-          } else {
-            document.querySelector('.page')?.appendChild(target);
-          }
-        }
-        target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+    // Parallax effect on hero background (light and respectful of prefers-reduced-motion)
+    const hero = document.querySelector('.hero');
+    if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.addEventListener('scroll', () => {
+        const shift = Math.min(window.scrollY * 0.08, 26);
+        hero.style.setProperty('--hero-shift', `${shift}px`);
       });
     }
 
@@ -708,21 +348,9 @@
       const question = item.querySelector('.faq-question');
       const answer = item.querySelector('.faq-answer');
       question.addEventListener('click', () => {
-        const isOpen = item.classList.contains('open');
-        document.querySelectorAll('.faq-item.open').forEach(openItem => {
-          if (openItem !== item) {
-            openItem.classList.remove('open');
-            const a = openItem.querySelector('.faq-answer');
-            a.style.maxHeight = null;
-          }
-        });
-        if (!isOpen) {
-          item.classList.add('open');
-          answer.style.maxHeight = answer.scrollHeight + 'px';
-        } else {
-          item.classList.remove('open');
-          answer.style.maxHeight = null;
-        }
+        const isOpen = item.classList.toggle('is-open');
+        question.setAttribute('aria-expanded', isOpen);
+        answer.style.maxHeight = isOpen ? `${answer.scrollHeight}px` : '0px';
       });
     });
   </script>
