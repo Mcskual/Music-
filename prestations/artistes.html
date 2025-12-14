@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Travailler ensemble — Tarifs, Process & Conditions</title>
+  <style>
+    :root {
+      --bg:#0f172a;
+      --card:#111827;
+      --muted:#94a3b8;
+      --accent:#2563eb;
+      --accent2:#22c55e;
+      --border:#1e293b;
+      --text:#e5e7eb;
+      --text2:#cbd5e1;
+      --shadow:0 14px 40px rgba(0,0,0,.28);
+      --bg-gradient:
+        radial-gradient(circle at 0% 0%, rgba(37,99,235,.18), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,.14), transparent 55%),
+        linear-gradient(125deg,#0b1020,#0d1326 45%,#0a0f1d 70%,#0a0c18);
+    }
+
+    [data-theme="light"] {
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --text2:#475569;
+      --border:#e2e8f0;
+      --muted:#6b7280;
+      --shadow:0 20px 40px rgba(2,6,23,.08);
+      --bg-gradient:
+        radial-gradient(circle at 0% 0%, rgba(37,99,235,.12), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(34,197,94,.10), transparent 55%),
+        linear-gradient(125deg,#f9fafb,#eef2ff 45%,#f3f4f6 70%,#f8fafc);
+    }
+
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background: var(--bg-gradient);
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    .container { max-width:1180px; margin:34px auto 42px; padding:0 16px; }
+
+    .top-nav{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:12px 16px;
+      min-height:70px;
+      background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(34,197,94,.12)),linear-gradient(180deg,rgba(15,23,42,.9),rgba(15,23,42,.82));
+      border:1px solid var(--border);
+      border-radius:18px;
+      box-shadow:0 18px 46px rgba(2,6,23,.32);
+      margin-bottom:16px;
+      overflow:hidden;
+      backdrop-filter:blur(10px);
+    }
+    .top-nav::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg,rgba(255,255,255,.04),transparent 45%,rgba(255,255,255,.08));
+      pointer-events:none;
+    }
+    .nav-left{ display:flex; align-items:center; gap:12px; position:relative; z-index:1; }
+    .nav-brand{ display:flex; flex-direction:column; gap:2px; font-weight:800; letter-spacing:.03em; }
+    .brand-title{ font-size:12px; text-transform:uppercase; letter-spacing:.14em; }
+    .brand-sub{ font-size:11px; color:var(--muted); letter-spacing:.05em; }
+    .nav-links{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:center; flex:1; min-width:0; padding:6px 8px; background:rgba(255,255,255,.02); border:1px solid var(--border); border-radius:14px; box-shadow:inset 0 1px 0 rgba(255,255,255,.04); position:relative; z-index:1; }
+    [data-theme="light"] .nav-links{ background:rgba(15,23,42,.02); }
+    .nav-link{ position:relative; color:var(--text2); text-decoration:none; padding:10px 12px; border-radius:12px; border:1px solid transparent; background:rgba(15,23,42,.6); font-size:13px; font-weight:600; letter-spacing:.01em; transition:.18s background,.18s border-color,.18s color,.18s transform; }
+    [data-theme="light"] .nav-link{ background:#f8fafc; }
+    .nav-link:hover{ border-color:var(--accent); color:#fff; background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(34,197,94,.16)); transform:translateY(-1px); }
+    [data-theme="light"] .nav-link:hover{ color:var(--accent); }
+    .nav-link.active{ background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; border-color:transparent; box-shadow:0 12px 26px rgba(37,99,235,.35); transform:translateY(-1px); }
+    .nav-actions{ display:flex; gap:10px; align-items:center; position:relative; z-index:1; }
+    .theme-toggle{ display:flex; align-items:center; gap:8px; padding:6px 10px; border-radius:12px; border:1px solid var(--border); background:var(--card); box-shadow:var(--shadow); }
+    [data-theme="light"] .theme-toggle{ background:#fff; }
+    .switch{ display:inline-flex; align-items:center; gap:6px; font-size:11px; color:var(--muted); cursor:pointer; user-select:none; }
+    .switch input{ display:none; }
+    .switch .slider{ width:36px; height:18px; border-radius:999px; background:#0b1220; border:1px solid #1f2937; position:relative; transition:.16s background,.16s border-color; }
+    [data-theme="light"] .switch .slider{ background:#e5e7eb; border-color:#d1d5db; }
+    .switch .slider::before{ content:""; position:absolute; top:1px; left:1px; width:14px; height:14px; border-radius:999px; background:#e5e7eb; transition:.16s transform,.16s background; box-shadow:0 1px 3px rgba(0,0,0,.4); }
+    [data-theme="light"] .switch .slider::before{ background:#fff; }
+    .switch input:checked + .slider{ background:linear-gradient(135deg,var(--accent2),var(--accent)); border-color:transparent; }
+    .switch input:checked + .slider::before{ transform:translateX(16px); }
+
+    header.hero{ margin:6px 0 8px; }
+    h1{ margin:0 0 6px; font-size:clamp(26px,4vw,40px); line-height:1.1; }
+    p.sub{ margin:0; color:var(--text2); font-size:15px; max-width:860px; }
+
+    .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; align-items:stretch; }
+    .card{ background:var(--card); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); padding:16px; position:relative; overflow:hidden; }
+    .card h2{ margin:0 0 10px; font-size:18px; display:flex; align-items:center; gap:8px; }
+    .badge{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,.02); color:var(--muted); font-size:12px; }
+    .price{ font-weight:800; font-size:26px; letter-spacing:.01em; }
+    .pill{ display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:12px; background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(34,197,94,.14)); border:1px solid rgba(37,99,235,.35); font-size:12px; color:#c7d2fe; }
+    [data-theme="light"] .pill{ color:#0f172a; border-color:rgba(37,99,235,.25); }
+    ul{ margin:10px 0 0 0; padding-left:18px; color:var(--text2); }
+    ul li{ margin:6px 0; }
+
+    .stack{ display:grid; gap:12px; }
+    .step-list{ display:grid; gap:10px; margin:0; padding:0; list-style:none; }
+    .step{ display:flex; gap:12px; padding:12px; border-radius:12px; border:1px dashed var(--border); background:rgba(255,255,255,.02); align-items:center; }
+    .step .num{ width:32px; height:32px; border-radius:10px; display:grid; place-items:center; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-weight:800; box-shadow:0 6px 14px rgba(37,99,235,.35); }
+
+    .faq{ display:flex; flex-direction:column; gap:10px; }
+    .faq-item{ border:1px solid var(--border); border-radius:14px; background:rgba(255,255,255,.02); overflow:hidden; transition:border-color .2s ease, transform .2s ease; }
+    .faq-item:hover{ border-color:rgba(37,99,235,.45); transform:translateY(-1px); }
+    .faq-question{ padding:14px 16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:10px; font-weight:700; }
+    .faq-question .icon{ width:22px; height:22px; border-radius:999px; display:grid; place-items:center; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#fff; font-size:12px; box-shadow:0 6px 14px rgba(37,99,235,.35); }
+    .faq-answer{ max-height:0; opacity:0; overflow:hidden; transition:max-height .28s ease, opacity .28s ease; padding:0 16px; color:var(--text2); }
+    .faq-item.open .faq-answer{ max-height:300px; opacity:1; padding-bottom:14px; }
+    .faq-item.open .faq-question .icon{ transform:rotate(45deg); }
+
+    .cta-card{ border:1px solid rgba(37,99,235,.35); background:linear-gradient(135deg,rgba(37,99,235,.16),rgba(34,197,94,.08)),var(--card); text-align:left; }
+    .cta-card h2{ margin-bottom:8px; }
+    .cta-card p{ margin:0 0 12px; color:var(--text2); }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 16px; border-radius:12px; border:1px solid transparent; text-decoration:none; font-weight:700; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent2)); box-shadow:0 14px 30px rgba(37,99,235,.32); transition:transform .16s ease, box-shadow .2s ease; }
+    .btn:hover{ transform:translateY(-1px); box-shadow:0 18px 36px rgba(34,197,94,.32); }
+
+    .small{ color:var(--muted); font-size:12px; }
+
+    @media(max-width:720px){
+      .top-nav{ flex-direction:column; align-items:flex-start; }
+      .nav-links{ width:100%; justify-content:flex-start; }
+      .nav-actions{ width:100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="top-nav">
+      <div class="nav-left">
+        <div class="nav-brand">
+          <span class="brand-title">Sazedi Studio</span>
+          <span class="brand-sub">Production · Mixage · Mastering</span>
+        </div>
+      </div>
+      <div class="nav-links" aria-label="Navigation principale">
+        <a class="nav-link" href="index.html">Accueil</a>
+        <a class="nav-link" href="facture.html">Factures</a>
+        <a class="nav-link" href="licence.html">Licences</a>
+        <a class="nav-link active" href="artistes.html">Artistes</a>
+      </div>
+      <div class="nav-actions">
+        <div class="theme-toggle" role="group" aria-label="Changer de thème">
+          <label class="switch">
+            <input type="checkbox" id="themeSwitch" aria-label="Activer le thème clair">
+            <span class="slider"></span>
+            <span>Thème</span>
+          </label>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <h1>Travailler ensemble — Tarifs, Process & Conditions</h1>
+      <p class="sub">Tout est expliqué ici pour collaborer sereinement, dans un cadre clair et professionnel.</p>
+    </header>
+
+    <section class="grid" aria-label="Tarifs et packs">
+      <article class="card">
+        <div class="pill">Tarifs mis à jour</div>
+        <h2>Instrumentale — <span class="price">100 €</span></h2>
+        <ul>
+          <li>Création sur mesure ou sélection catalogue</li>
+          <li>Licence non exclusive</li>
+          <li>1 ajustement inclus</li>
+          <li>Exports WAV + MP3</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="pill">Mixage + Mastering</div>
+        <h2>Mixage + Mastering — <span class="price">50 €</span></h2>
+        <ul>
+          <li>Mixage complet : équilibres, EQ, compression, spatialisation</li>
+          <li>Mastering : niveau, cohérence, export final</li>
+          <li>1 révision incluse</li>
+          <li>Exports standards streaming (WAV/MP3)</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="pill">Packs recommandés</div>
+        <h2>Packs optimisés</h2>
+        <div class="stack">
+          <div>
+            <div class="badge">Pack Création</div>
+            <p class="sub">Instrumentale + Mixage/Mastering → <strong>140 €</strong> (au lieu de 150 €)</p>
+          </div>
+          <div>
+            <div class="badge">Pack Complet</div>
+            <p class="sub">Instrumentale + Mixage/Mastering + extra (optionnel) → <strong>160–170 €</strong></p>
+            <p class="small">Options : stems, version radio edit, acapella (selon le besoin).</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid" aria-label="Cadre et méthode">
+      <article class="card">
+        <div class="pill">Conditions de travail</div>
+        <h2>Cadre clair & serein</h2>
+        <ul>
+          <li>Acompte obligatoire : 30 € pour démarrer une instrumentale</li>
+          <li>Solde à régler sous 30 jours pour obtenir la version finale</li>
+          <li>2 retouches incluses pendant 15 jours après livraison</li>
+          <li>Au-delà : 10 € par modification supplémentaire</li>
+          <li>Modifications majeures = nouveau devis</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <div class="pill">Méthode de travail</div>
+        <h2>Processus étape par étape</h2>
+        <ol class="step-list">
+          <li class="step"><span class="num">1️⃣</span><div><strong>Échange & direction artistique</strong><br><span class="small">Références, mood, vibe</span></div></li>
+          <li class="step"><span class="num">2️⃣</span><div><strong>Création / production</strong><br><span class="small">Construction de l'instrumentale</span></div></li>
+          <li class="step"><span class="num">3️⃣</span><div><strong>Première version envoyée</strong><br><span class="small">Point d'étape partagé</span></div></li>
+          <li class="step"><span class="num">4️⃣</span><div><strong>Retouches incluses</strong><br><span class="small">2 ajustements sous 15 jours</span></div></li>
+          <li class="step"><span class="num">5️⃣</span><div><strong>Validation finale + solde</strong><br><span class="small">Paiement du reste dû</span></div></li>
+          <li class="step"><span class="num">6️⃣</span><div><strong>Livraison finale</strong><br><span class="small">Exports WAV / MP3</span></div></li>
+        </ol>
+      </article>
+
+      <article class="card">
+        <div class="pill">Pourquoi ce cadre ?</div>
+        <h2>Qualité & fluidité</h2>
+        <ul>
+          <li>Un travail de qualité</li>
+          <li>Le respect du temps</li>
+          <li>Des projets finalisés</li>
+          <li>Une collaboration fluide</li>
+        </ul>
+        <p class="sub">« Un cadre clair permet une collaboration créative et efficace. »</p>
+      </article>
+    </section>
+
+    <section class="card" aria-label="Questions fréquentes">
+      <div class="pill">QCM / FAQ</div>
+      <h2>Questions fréquentes des artistes</h2>
+      <div class="faq" id="faq">
+        <div class="faq-item">
+          <div class="faq-question"><span>Q1 : Puis-je payer après la livraison finale ?</span><span class="icon">＋</span></div>
+          <div class="faq-answer">Non. Le solde doit être réglé pour recevoir la version finale.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><span>Q2 : Pourquoi un acompte de 30 € ?</span><span class="icon">＋</span></div>
+          <div class="faq-answer">Il permet de lancer la production en sécurisant le temps de travail.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><span>Q3 : Combien de retouches sont incluses ?</span><span class="icon">＋</span></div>
+          <div class="faq-answer">2 retouches incluses sous 15 jours après livraison.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><span>Q4 : Et si je dépasse les 15 jours ?</span><span class="icon">＋</span></div>
+          <div class="faq-answer">Chaque modification est facturée 10 €.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><span>Q5 : Le mixage + mastering est inclus à 50 € ?</span><span class="icon">＋</span></div>
+          <div class="faq-answer">Oui, c’est une prestation complète cadrée, avec 1 révision incluse.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><span>Q6 : Si je veux modifier l’instrumentale après validation ?</span><span class="icon">＋</span></div>
+          <div class="faq-answer">Les modifications majeures demandent un nouveau devis.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><span>Q7 : Puis-je annuler après l’acompte ?</span><span class="icon">＋</span></div>
+          <div class="faq-answer">L’acompte couvre le temps engagé et n’est pas remboursable.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><span>Q8 : Quand je reçois la version finale ?</span><span class="icon">＋</span></div>
+          <div class="faq-answer">Après validation et règlement du solde (max 30 jours).</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><span>Q9 : Puis-je demander plein de versions différentes ?</span><span class="icon">＋</span></div>
+          <div class="faq-answer">Les versions sont cadrées pour garantir un rendu pro. Extras possibles sur devis.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question"><span>Q10 : Est-ce obligatoire de lire cette page ?</span><span class="icon">＋</span></div>
+          <div class="faq-answer">Oui 🙂 Elle fait partie du cadre de collaboration.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card cta-card" aria-label="Conclusion">
+      <div class="pill">Prêt à démarrer ?</div>
+      <h2>Collaboration sereine & premium</h2>
+      <p>Ce fonctionnement me permet de me concentrer à 100 % sur la création et de livrer un rendu professionnel à chaque artiste.</p>
+      <p>Si tu es aligné avec ce cadre, alors on peut travailler sereinement ensemble.</p>
+      <a class="btn" href="mailto:contact@sazedi.com?subject=Projet%20musical">👉 Me contacter / Démarrer un projet</a>
+    </section>
+  </div>
+
+  <script>
+    // Thème : bascule clair / sombre
+    const root = document.documentElement;
+    const themeSwitch = document.getElementById('themeSwitch');
+    const storedTheme = localStorage.getItem('theme-preference');
+    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    const initialTheme = storedTheme || (prefersLight ? 'light' : 'dark');
+    if (initialTheme === 'light') {
+      root.setAttribute('data-theme','light');
+      themeSwitch.checked = true;
+    }
+    themeSwitch.addEventListener('change', (e) => {
+      const isLight = e.target.checked;
+      root.setAttribute('data-theme', isLight ? 'light' : 'dark');
+      localStorage.setItem('theme-preference', isLight ? 'light' : 'dark');
+    });
+
+    // Accordéon FAQ
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach((item) => {
+      const question = item.querySelector('.faq-question');
+      const answer = item.querySelector('.faq-answer');
+      question.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        faqItems.forEach((i) => {
+          i.classList.remove('open');
+          i.querySelector('.faq-answer').style.maxHeight = null;
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
