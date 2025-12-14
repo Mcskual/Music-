@@ -34,6 +34,10 @@
     img { max-width:100%; display:block; }
     a { color:inherit; text-decoration:none; }
     button { font:inherit; }
+    html { scroll-behavior:smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior:auto; }
+    }
 
     .page { display:flex; flex-direction:column; min-height:100vh; background:radial-gradient(circle at 20% 20%, rgba(125,211,252,0.08), transparent 32%), radial-gradient(circle at 90% 10%, rgba(34,197,94,0.12), transparent 28%), var(--bg); }
     .section { padding:64px 18px; }
@@ -43,6 +47,8 @@
     .hero {
       min-height:100vh;
       display:flex;
+      flex-direction:column;
+      justify-content:center;
       align-items:center;
       position:relative;
       overflow:hidden;
@@ -51,6 +57,43 @@
       background:var(--gradient);
       isolation:isolate;
     }
+    .hero-logo {
+      margin:0 auto 22px;
+      width:min(320px, 64vw);
+      padding:18px;
+      border-radius:18px;
+      background:radial-gradient(circle at 20% 20%, rgba(125,211,252,0.16), rgba(34,197,94,0.12)),
+        linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.1);
+      display:grid;
+      place-items:center;
+      position:relative;
+      box-shadow:0 18px 42px rgba(0,0,0,0.38), 0 0 32px rgba(125,211,252,0.18);
+    }
+    .hero-logo img {
+      max-width:100%;
+      height:auto;
+      filter:drop-shadow(0 12px 30px rgba(0,0,0,0.55)) drop-shadow(0 0 18px rgba(125,211,252,0.32));
+      object-fit:contain;
+    }
+    .hero-logo-fallback {
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      border-radius:inherit;
+      background:radial-gradient(circle at 30% 30%, rgba(125,211,252,0.2), rgba(34,197,94,0.16)),
+        linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      color:#e0f2fe;
+      font-weight:800;
+      letter-spacing:0.08em;
+      text-transform:uppercase;
+      text-align:center;
+      opacity:0;
+      transition:opacity var(--transition);
+    }
+    .hero-logo.is-fallback img { opacity:0; }
+    .hero-logo.is-fallback .hero-logo-fallback { opacity:1; }
     .topbar {
       position:absolute;
       top:14px;
@@ -146,6 +189,50 @@
     }
     .btn.secondary { background:rgba(255,255,255,0.06); color:#e2e8f0; border-color:var(--border); box-shadow:none; }
     .btn:hover { transform:translateY(-2px); }
+
+    .scroll-indicator {
+      position:absolute;
+      inset:auto 0 18px 0;
+      display:flex;
+      justify-content:center;
+      pointer-events:none;
+    }
+    .scroll-down {
+      pointer-events:auto;
+      background:rgba(0,0,0,0.28);
+      color:#e2e8f0;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:12px 18px;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      backdrop-filter:blur(10px);
+      box-shadow:0 12px 28px rgba(0,0,0,0.36);
+      transition:transform var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+    .scroll-down:hover { transform:translateY(-2px); box-shadow:0 14px 30px rgba(0,0,0,0.38); }
+    .chevrons { display:grid; gap:4px; }
+    .chevron {
+      width:18px;
+      height:10px;
+      border-left:2px solid rgba(255,255,255,0.85);
+      border-bottom:2px solid rgba(255,255,255,0.85);
+      transform:rotate(-45deg);
+      opacity:0.76;
+      animation:float 1.8s ease-in-out infinite;
+    }
+    .chevron:nth-child(2) { opacity:0.58; animation-delay:0.12s; }
+    .chevron:nth-child(3) { opacity:0.42; animation-delay:0.24s; }
+    .scroll-hint { color:var(--muted); font-size:13px; }
+    @keyframes float {
+      0%, 100% { transform:translateY(0) rotate(-45deg); }
+      50% { transform:translateY(6px) rotate(-45deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .chevron { animation:none; }
+    }
 
     /* Cards & layout */
     .grid { display:grid; gap:14px; }
@@ -256,6 +343,12 @@
           </div>
         </div>
       </div>
+      <div class="container" aria-label="Logo principal SZD Studio">
+        <div class="hero-logo" data-animate>
+          <img src="/assets/szd-logo.png" alt="Logo SZD Studio" loading="lazy" data-fallback-src="szd_logo_white.png">
+          <div class="hero-logo-fallback" aria-hidden="true">SZD Studio</div>
+        </div>
+      </div>
       <div class="container hero-content" data-animate>
         <span class="eyebrow">Production & mixage · Accompagnement humain</span>
         <h1>On construit ton son, étape par étape.</h1>
@@ -266,6 +359,16 @@
           </a>
           <a class="btn secondary" href="#process">Voir le process</a>
         </div>
+      </div>
+      <div class="scroll-indicator">
+        <button class="scroll-down" type="button" aria-label="Faire défiler vers le process">
+          <span class="chevrons" aria-hidden="true">
+            <span class="chevron"></span>
+            <span class="chevron"></span>
+            <span class="chevron"></span>
+          </span>
+          <span class="scroll-hint">Fais défiler</span>
+        </button>
       </div>
     </header>
 
@@ -454,6 +557,26 @@
     // Respect prefers-reduced-motion
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // Hero logo fallback handling
+    const heroLogo = document.querySelector('.hero-logo');
+    const heroLogoImg = heroLogo?.querySelector('img');
+    if (heroLogo && heroLogoImg) {
+      const fallbackSrc = heroLogoImg.dataset.fallbackSrc;
+      let triedFallback = false;
+      const activateFallback = () => heroLogo.classList.add('is-fallback');
+      heroLogoImg.addEventListener('error', () => {
+        if (!triedFallback && fallbackSrc && heroLogoImg.src !== fallbackSrc) {
+          triedFallback = true;
+          heroLogoImg.src = fallbackSrc;
+        } else {
+          activateFallback();
+        }
+      });
+      if (heroLogoImg.complete && heroLogoImg.naturalWidth === 0) {
+        heroLogoImg.dispatchEvent(new Event('error'));
+      }
+    }
+
     // Parallax hero background
     if (!prefersReducedMotion) {
       const hero = document.querySelector('.hero');
@@ -482,6 +605,29 @@
       el.style.transition = prefersReducedMotion ? 'opacity 200ms ease' : 'opacity 300ms ease, transform 300ms ease';
       observer.observe(el);
     });
+
+    // Scroll indicator
+    const scrollButton = document.querySelector('.scroll-down');
+    if (scrollButton) {
+      scrollButton.addEventListener('click', () => {
+        let target = document.querySelector('#process');
+        if (!target) {
+          target = document.createElement('section');
+          target.id = 'process';
+          target.className = 'section';
+          const inner = document.createElement('div');
+          inner.className = 'container';
+          target.appendChild(inner);
+          const firstSection = document.querySelector('.section');
+          if (firstSection) {
+            firstSection.parentNode.insertBefore(target, firstSection);
+          } else {
+            document.querySelector('.page')?.appendChild(target);
+          }
+        }
+        target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+      });
+    }
 
     // FAQ accordion
     document.querySelectorAll('.faq-item').forEach(item => {
