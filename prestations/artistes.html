@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SZD — Accompagnement artistes</title>
-  <meta name="description" content="Producteur de musique formé, artiste depuis 2006. Cadre clair, accompagnement humain et rendu professionnel.">
+  <meta name="description" content="Armel (MC Skual), producteur de musique. Cadre clair, méthode pro et accompagnement humain pour les artistes.">
   <style>
     :root {
       --bg:#05070f;
@@ -18,6 +18,9 @@
       --radius:18px;
       --border:rgba(255,255,255,0.06);
       --glow:0 0 28px rgba(125,211,252,0.25);
+      --instru:#8b5cf6;
+      --mix:#22c55e;
+      --rules:#fbbf24;
       --transition:200ms ease;
     }
 
@@ -71,18 +74,34 @@
       position:absolute;
       inset:0;
       background:url('assets/hero-studio.jpg') center/cover no-repeat;
-      opacity:0.35;
+      opacity:0.32;
       transform:translateY(var(--hero-shift,0px));
-      filter:saturate(0.8);
+      filter:saturate(0.85);
       z-index:-2;
     }
     .hero::after {
       content:"";
       position:absolute;
       inset:0;
-      background:linear-gradient(180deg, rgba(5,7,15,0.8), rgba(5,7,15,0.95));
+      background:linear-gradient(180deg, rgba(5,7,15,0.85), rgba(5,7,15,0.96));
       z-index:-1;
     }
+    .identity {
+      display:grid;
+      gap:6px;
+      padding:12px 16px;
+      border-radius:16px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.08);
+      box-shadow:0 10px 30px rgba(0,0,0,0.4);
+      margin-bottom:18px;
+      color:#e0e7ff;
+      font-weight:700;
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:0.02em;
+    }
+    .identity span { display:block; font-weight:600; opacity:0.92; }
     .hero-logo {
       width:min(320px, 70vw);
       padding:18px;
@@ -102,11 +121,9 @@
     }
     .hero-title { margin:0 0 10px; font-size:clamp(28px, 7vw, 46px); line-height:1.1; letter-spacing:-0.01em; }
     .hero-subtitle { margin:0 0 22px; color:#e0e7ff; max-width:56ch; }
-    .tagline { display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,0.05); color:var(--muted); font-size:14px; }
     .cta-row { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
     .btn { padding:14px 18px; border-radius:14px; border:1px solid transparent; background:var(--accent); color:#0b1221; font-weight:700; box-shadow:var(--glow); transition:transform var(--transition), box-shadow var(--transition), background var(--transition); }
     .btn:hover { transform:translateY(-2px); box-shadow:0 20px 40px rgba(125,211,252,0.2); }
-    .btn.secondary { background:transparent; color:var(--text); border-color:var(--border); box-shadow:none; }
     .hero-arrow { margin-top:48px; font-size:42px; animation:bounce 1.8s infinite; color:var(--accent); }
 
     @keyframes bounce {
@@ -114,6 +131,10 @@
       40% { transform:translateY(10px); }
       60% { transform:translateY(6px); }
     }
+
+    /* Sections */
+    .section-title { margin:0 0 10px; font-size:24px; letter-spacing:-0.01em; }
+    .section-subtitle { margin:0 0 22px; color:var(--muted); max-width:70ch; }
 
     /* Cards */
     .grid { display:grid; gap:18px; }
@@ -127,36 +148,41 @@
     .card h3 { margin-top:0; margin-bottom:8px; font-size:18px; }
     .card p { margin:0; color:var(--muted); }
 
-    /* Titles */
-    .section-title { margin:0 0 12px; font-size:24px; letter-spacing:-0.01em; }
-    .section-subtitle { margin:0 0 26px; color:var(--muted); max-width:60ch; }
+    .premium {
+      position:relative;
+      overflow:hidden;
+    }
+    .premium::before {
+      content:"";
+      position:absolute;
+      inset:-20% -30%;
+      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08), transparent 50%);
+      opacity:0.8;
+      pointer-events:none;
+    }
+    .badge { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-size:13px; font-weight:700; letter-spacing:0.01em; }
+    .list { list-style:none; padding:0; margin:14px 0; display:grid; gap:8px; color:#e5ecff; }
+    .list li::before { content:"✔"; margin-right:8px; color:#c7ffe2; }
+    .pill-list { list-style:none; padding:0; margin:14px 0 0; display:flex; flex-wrap:wrap; gap:8px; }
+    .pill { padding:6px 10px; border-radius:12px; background:rgba(255,255,255,0.08); color:#f8fbff; font-weight:600; border:1px solid rgba(255,255,255,0.08); }
+    .rules { display:grid; gap:6px; color:#e5ecff; padding:0; list-style:none; margin:14px 0; }
+    .rules li::before { content:"•"; margin-right:8px; color:#ffd166; }
 
-    /* Timeline */
-    .timeline { position:relative; padding-left:22px; display:grid; gap:16px; }
-    .timeline::before { content:""; position:absolute; top:8px; left:8px; width:2px; height:100%; background:linear-gradient(180deg, var(--accent), transparent); opacity:0.9; }
-    .step { position:relative; padding:12px 14px 12px 18px; border-radius:14px; background:var(--panel); border:1px solid var(--border); box-shadow:var(--shadow); }
-    .step-number { position:absolute; left:-20px; top:12px; width:28px; height:28px; border-radius:50%; background:var(--accent-strong); color:#041205; display:grid; place-items:center; font-weight:800; box-shadow:0 0 0 4px rgba(34,197,94,0.15); }
-    .step p { margin:0; color:var(--muted); }
+    .card.instru { border-color:rgba(139,92,246,0.35); box-shadow:0 18px 36px rgba(139,92,246,0.18); background:linear-gradient(145deg, rgba(139,92,246,0.18), rgba(12,12,24,0.8)); }
+    .card.mix { border-color:rgba(34,197,94,0.35); box-shadow:0 18px 36px rgba(34,197,94,0.16); background:linear-gradient(145deg, rgba(34,197,94,0.16), rgba(12,16,24,0.82)); }
+    .card.rules-card { border-color:rgba(251,191,36,0.35); box-shadow:0 18px 36px rgba(251,191,36,0.16); background:linear-gradient(145deg, rgba(251,191,36,0.12), rgba(12,12,18,0.9)); }
 
-    /* Pricing */
-    .pricing { display:grid; gap:16px; }
-    .price-card { background:var(--panel-soft); border:1px solid var(--border); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); }
-    .price-card h3 { margin:0 0 10px; font-size:20px; }
-    .price { font-size:24px; font-weight:800; color:var(--accent); margin:0 0 12px; }
-    .price-card ul { list-style:none; padding:0; margin:0; display:grid; gap:8px; color:var(--muted); }
-    .note { margin-top:12px; color:var(--muted); font-size:14px; }
-
-    /* FAQ */
-    .faq { display:grid; gap:12px; }
-    .faq-item { border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:var(--panel); }
-    .faq-question { width:100%; background:none; border:none; color:var(--text); text-align:left; padding:14px 16px; font-weight:700; display:flex; justify-content:space-between; align-items:center; cursor:pointer; }
-    .faq-answer { max-height:0; overflow:hidden; transition:max-height var(--transition); padding:0 16px; color:var(--muted); }
-    .faq-item.is-open .faq-answer { max-height:200px; padding:0 16px 12px; }
-
-    /* Testimonials */
-    .testimonials { display:grid; gap:12px; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); }
-    .quote { border:1px solid var(--border); border-radius:var(--radius); padding:16px; background:linear-gradient(155deg, rgba(125,211,252,0.08), rgba(4,6,13,0.9)); box-shadow:var(--shadow); color:#e0f2fe; }
-    .quote strong { display:block; margin-top:12px; color:var(--text); font-weight:700; }
+    /* Advice */
+    .advice-box {
+      margin-top:18px;
+      padding:18px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:linear-gradient(150deg, rgba(125,211,252,0.1), rgba(12,16,24,0.9));
+      box-shadow:var(--shadow);
+      font-weight:700;
+      color:#e5ecff;
+    }
 
     /* CTA banner */
     .cta-final { padding:48px 18px; text-align:center; background:linear-gradient(120deg, rgba(125,211,252,0.1), rgba(34,197,94,0.12), rgba(5,7,15,0.92)); border-top:1px solid var(--border); }
@@ -166,7 +192,6 @@
     /* Responsive */
     @media (min-width: 720px) {
       .grid { grid-template-columns:repeat(3, 1fr); }
-      .pricing { grid-template-columns:repeat(2, minmax(0,1fr)); }
       .section { padding:96px 28px; }
       .hero { padding:72px 28px 120px; }
       .hero-subtitle { margin-left:auto; margin-right:auto; }
@@ -176,159 +201,123 @@
 <body>
   <div class="page">
     <header class="hero" id="top">
-      <div class="tagline">Producteur de musique · Artiste depuis 2006 · Accompagnement humain</div>
+      <div class="identity" aria-label="Identité">
+        <span>Armel</span>
+        <span>Producteur de musique · Artiste depuis 2006 (MC Skual)</span>
+        <span>Accompagnement humain</span>
+      </div>
       <div class="hero-logo">
-        <img src="szd_logo_white.png" alt="Logo SZD" loading="lazy" onerror="this.parentElement.classList.add('fallback')">
+        <img src="szd_logo_white.png" alt="Logo SZD" loading="lazy">
       </div>
       <h1 class="hero-title">On construit ton son, étape par étape.</h1>
-      <p class="hero-subtitle">Producteur de musique formé, artiste depuis 2006. Un cadre clair, un accompagnement humain, un rendu professionnel.</p>
+      <p class="hero-subtitle">Un cadre clair, une méthode professionnelle, un accompagnement humain. Tu te concentres sur la vibe, je sécurise le reste.</p>
       <div class="cta-row">
-        <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%20Je%20suis%20artiste%20depuis%20___%2C%20mon%20style%20est%20___%2C%20j%27aimerais%20travailler%20avec%20toi." target="_blank" rel="noopener">Me contacter sur WhatsApp</a>
-        <a class="btn secondary" href="#process">Découvrir le process</a>
+        <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%0AJe%20suis%20artiste%20depuis%20___%2C%20mon%20style%20est%20___%2C%0Aj%27aimerais%20collaborer%20avec%20toi." target="_blank" rel="noopener">Parler sur WhatsApp</a>
       </div>
-      <a class="hero-arrow" href="#parcours" aria-label="Découvrir la suite">↓</a>
+      <a class="hero-arrow" href="#services" aria-label="Découvrir la suite">↓</a>
     </header>
 
     <main>
-      <section class="section" id="parcours">
+      <section class="section" id="services">
         <div class="container">
-          <h2 class="section-title">Mon parcours</h2>
-          <p class="section-subtitle">Identité claire, légitimité assumée : artiste et producteur actif depuis 2006, formé pour offrir un accompagnement humain autant que technique.</p>
+          <h2 class="section-title">Services clairs et premium</h2>
+          <p class="section-subtitle">Deux offres phares, sans détour, prêtes pour une exploitation professionnelle.</p>
           <div class="grid">
-            <article class="card">
-              <h3>Un parcours construit dans le temps</h3>
-              <p>Artiste depuis 2006, l’évolution naturelle vers la production est venue en construisant mes propres sons.</p>
-            </article>
-            <article class="card">
-              <h3>Une formation solide</h3>
-              <p>Formé en production musicale, je mets cette base technique au service de chaque projet.</p>
-            </article>
-            <article class="card">
-              <h3>Aujourd’hui</h3>
-              <p>J’accompagne des artistes pour structurer leurs projets et les mener à terme dans un cadre professionnel.</p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="process">
-        <div class="container">
-          <h2 class="section-title">Ma méthode de travail</h2>
-          <p class="section-subtitle">Une timeline claire, pensée pour avancer sans stress et garder le cap créatif.</p>
-          <div class="timeline" aria-label="Etapes de travail">
-            <div class="step">
-              <div class="step-number">1️⃣</div>
-              <p>Échange & direction artistique.</p>
-            </div>
-            <div class="step">
-              <div class="step-number">2️⃣</div>
-              <p>Création / production de l’instrumentale.</p>
-            </div>
-            <div class="step">
-              <div class="step-number">3️⃣</div>
-              <p>Première version envoyée.</p>
-            </div>
-            <div class="step">
-              <div class="step-number">4️⃣</div>
-              <p>Retouches cadrées.</p>
-            </div>
-            <div class="step">
-              <div class="step-number">5️⃣</div>
-              <p>Validation finale.</p>
-            </div>
-            <div class="step">
-              <div class="step-number">6️⃣</div>
-              <p>Livraison propre (WAV / MP3).</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="tarifs">
-        <div class="container">
-          <h2 class="section-title">Tarifs & cadre</h2>
-          <p class="section-subtitle">Transparence totale pour avancer sereinement.</p>
-          <div class="pricing">
-            <div class="price-card">
-              <h3>Instrumentale</h3>
-              <p class="price">100 €</p>
-              <ul>
-                <li>Acompte de 30 € pour démarrer.</li>
-                <li>Solde sous 30 jours pour obtenir la version finale.</li>
+            <article class="card premium instru" aria-labelledby="instru-title">
+              <div class="badge" style="background:rgba(139,92,246,0.2); color:#ede9fe; border:1px solid rgba(139,92,246,0.6); box-shadow:0 0 18px rgba(139,92,246,0.35);">Instrumentale — 100 €</div>
+              <h3 id="instru-title">Création professionnelle, prête à être exploitée.</h3>
+              <p>Une instrumentale taillée pour ta direction, avec un cadre limpide.</p>
+              <ul class="list" aria-label="Avantages instrumentale">
+                <li>Création sur mesure ou sélection catalogue</li>
+                <li>Licence non exclusive incluse</li>
+                <li>1 ajustement inclus</li>
+                <li>Exports WAV + MP3</li>
               </ul>
-            </div>
-            <div class="price-card">
-              <h3>Mixage + Mastering</h3>
-              <p class="price">50 €</p>
-              <ul>
-                <li>Prestation complète cadrée.</li>
-                <li>1 révision incluse.</li>
+              <p class="section-subtitle" style="margin-top:0; color:#dfe9ff; font-weight:700;">Utilisations autorisées</p>
+              <div class="pill-list" aria-label="Utilisations autorisées">
+                <span class="pill">Radio</span>
+                <span class="pill">Streaming (Spotify, Apple Music, etc.)</span>
+                <span class="pill">Clips & contenus vidéo</span>
+                <span class="pill">Showcase & scènes</span>
+                <span class="pill">Réseaux sociaux</span>
+              </div>
+              <p class="section-subtitle" style="margin-top:18px; color:#dfe9ff; font-weight:700;">Règles</p>
+              <ul class="rules" aria-label="Règles instrumentale">
+                <li>Acompte de 30 € pour démarrer</li>
+                <li>Solde sous 30 jours pour obtenir la version finale</li>
+                <li>Modifications majeures = nouveau devis</li>
               </ul>
-            </div>
-            <div class="price-card">
-              <h3>Retouches</h3>
-              <p class="price">Cadre clair</p>
-              <ul>
-                <li>2 retouches incluses sous 15 jours.</li>
-                <li>Au-delà : 10 € par modification.</li>
+              <p class="section-subtitle" style="margin-top:14px; color:#dfe9ff; font-weight:700;">Garanties</p>
+              <ul class="rules" aria-label="Garanties instrumentale">
+                <li>Instrumentale originale</li>
+                <li>Cadre clair dès le départ</li>
+                <li>Aucun flou sur l’exploitation</li>
               </ul>
-            </div>
+            </article>
+
+            <article class="card premium mix" aria-labelledby="mix-title">
+              <div class="badge" style="background:rgba(34,197,94,0.18); color:#e9fee9; border:1px solid rgba(34,197,94,0.6); box-shadow:0 0 18px rgba(34,197,94,0.25);">Mixage + Mastering — 50 €</div>
+              <h3 id="mix-title">Préparation complète pour diffusion.</h3>
+              <p>Un rendu équilibré, cohérent partout, prêt à sortir.</p>
+              <ul class="list" aria-label="Avantages mixage mastering">
+                <li>Mixage équilibré et propre</li>
+                <li>Mastering prêt pour diffusion</li>
+                <li>Son cohérent sur téléphone, voiture, enceinte</li>
+                <li>Format prêt pour Spotify / plateformes</li>
+              </ul>
+              <p class="section-subtitle" style="margin-top:0; color:#d6ffe3; font-weight:700;">Inclus</p>
+              <ul class="rules" aria-label="Inclus mixage mastering">
+                <li>1 révision incluse</li>
+                <li>Exports WAV / MP3</li>
+              </ul>
+              <p class="section-subtitle" style="margin-top:14px; color:#d6ffe3; font-weight:700;">Règles</p>
+              <ul class="rules" aria-label="Règles mixage mastering">
+                <li>2 retouches incluses sous 15 jours</li>
+                <li>Au-delà : 10 € par modification</li>
+              </ul>
+              <p class="section-subtitle" style="margin-top:14px; color:#d6ffe3; font-weight:700;">Garantie qualité</p>
+              <ul class="rules" aria-label="Garantie qualité mixage">
+                <li>Niveau conforme streaming</li>
+                <li>Pas de saturation</li>
+                <li>Rendu propre et maîtrisé</li>
+              </ul>
+            </article>
+
+            <article class="card premium rules-card" aria-labelledby="rules-title">
+              <div class="badge" style="background:rgba(251,191,36,0.18); color:#fff7d6; border:1px solid rgba(251,191,36,0.55); box-shadow:0 0 18px rgba(251,191,36,0.2);">Cadre & garanties</div>
+              <h3 id="rules-title">Un cadre clair permet une collaboration créative et efficace.</h3>
+              <p>Des règles simples pour rester efficaces ensemble.</p>
+              <p class="section-subtitle" style="margin-top:12px; color:#ffe9b5; font-weight:700;">Règles</p>
+              <ul class="rules" aria-label="Règles générales">
+                <li>Communication claire = projet fluide</li>
+                <li>Retours groupés recommandés</li>
+                <li>Respect des délais de validation</li>
+              </ul>
+              <p class="section-subtitle" style="margin-top:12px; color:#ffe9b5; font-weight:700;">Garanties</p>
+              <ul class="rules" aria-label="Garanties générales">
+                <li>Travail cadré</li>
+                <li>Respect du temps de chacun</li>
+                <li>Objectif : un projet finalisé, pas éternel</li>
+              </ul>
+            </article>
           </div>
-          <p class="note">Ce cadre protège ton projet et garantit un rendu professionnel.</p>
         </div>
       </section>
 
-      <section class="section" id="faq">
+      <section class="section" id="advice">
         <div class="container">
-          <h2 class="section-title">Questions fréquentes</h2>
-          <p class="section-subtitle">Des réponses directes, sans jargon.</p>
-          <div class="faq">
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">Pourquoi un acompte?<span aria-hidden="true">+</span></button>
-              <div class="faq-answer">Il lance officiellement le projet et réserve du temps dédié à ta musique.</div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">Quand je reçois la version finale?<span aria-hidden="true">+</span></button>
-              <div class="faq-answer">Après validation des retouches et paiement du solde, sous le délai prévu ensemble.</div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">Combien de retouches sont incluses?<span aria-hidden="true">+</span></button>
-              <div class="faq-answer">Deux retouches cadrées sont incluses pour affiner le morceau.</div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">Et si je réponds après 15 jours?<span aria-hidden="true">+</span></button>
-              <div class="faq-answer">Les retouches incluses expirent, mais on peut continuer avec un forfait de 10 € par modification.</div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">Est-ce que tu accompagnes sur plusieurs titres?<span aria-hidden="true">+</span></button>
-              <div class="faq-answer">Oui, on peut planifier un accompagnement multi-titres avec un cadre clair dès le départ.</div>
-            </div>
-            <div class="faq-item">
-              <button class="faq-question" aria-expanded="false">Puis-je modifier après validation?<span aria-hidden="true">+</span></button>
-              <div class="faq-answer">Après validation finale, les demandes supplémentaires sont possibles au tarif de retouche.</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="confiance">
-        <div class="container">
-          <h2 class="section-title">Confiance</h2>
-          <p class="section-subtitle">Je ne vends pas juste un service, j’accompagne un projet.</p>
-          <div class="testimonials">
-            <div class="quote">“Cadre clair, travail sérieux.”<strong>— Témoignage</strong></div>
-            <div class="quote">“Accompagnement humain, rendu pro.”<strong>— Témoignage</strong></div>
-            <div class="quote">“On avance sans stress.”<strong>— Témoignage</strong></div>
-          </div>
+          <h2 class="section-title">Conseil du jour pour collaborer efficacement</h2>
+          <p class="section-subtitle">360 conseils pour garder le cap, un par jour, ton subtil et orienté efficacité.</p>
+          <div class="advice-box" id="daily-advice" aria-live="polite">Chargement du conseil...</div>
         </div>
       </section>
     </main>
 
     <footer class="cta-final">
       <div class="container">
-        <h2>Parle-moi de ton projet.</h2>
-        <p>Ton style, ta vibe, tes références.</p>
-        <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%0AJe%20suis%20artiste%20depuis%20___%2C%20mon%20style%20est%20___%2C%0Aj%27aimerais%20travailler%20avec%20toi." target="_blank" rel="noopener">WhatsApp — Démarrer</a>
+        <h2>Si tu es aligné avec ce cadre, alors on peut travailler sereinement ensemble.</h2>
+        <p>Un seul point de contact : WhatsApp.</p>
+        <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%0AJe%20suis%20artiste%20depuis%20___%2C%20mon%20style%20est%20___%2C%0Aj%27aimerais%20collaborer%20avec%20toi." target="_blank" rel="noopener">WhatsApp — démarrer</a>
       </div>
     </footer>
   </div>
@@ -343,16 +332,666 @@
       });
     }
 
-    // FAQ accordion
-    document.querySelectorAll('.faq-item').forEach(item => {
-      const question = item.querySelector('.faq-question');
-      const answer = item.querySelector('.faq-answer');
-      question.addEventListener('click', () => {
-        const isOpen = item.classList.toggle('is-open');
-        question.setAttribute('aria-expanded', isOpen);
-        answer.style.maxHeight = isOpen ? `${answer.scrollHeight}px` : '0px';
-      });
+    // Conseils quotidiens
+    const basePhrases = [
+      "Prépare toujours tes références avant de démarrer un projet.",
+      "Un retour clair vaut mieux que dix messages.",
+      "Un projet avance quand les décisions sont prises.",
+      "Moins de versions, plus de direction.",
+      "La régularité bat la précipitation.",
+      "Un artiste organisé gagne du temps et de l'énergie.",
+      "Un bon projet commence par une bonne communication.",
+      "La clarté artistique évite les retouches inutiles.",
+      "Une deadline réaliste aide à garder le focus.",
+      "Écoute tes exports sur plusieurs supports avant de valider.",
+      "Partage tes stems avec des noms clairs.",
+      "Précise les points forts à conserver dès le début.",
+      "Priorise les décisions qui débloquent le mix.",
+      "Une prise propre fait gagner du temps en post-prod.",
+      "Note tes idées dès qu'elles arrivent, ne compte pas sur la mémoire.",
+      "Les silences valent autant que les notes dans un arrangement.",
+      "Clarifie le mood général avant de parler d'effets.",
+      "Plus la direction est simple, plus le rendu est fort.",
+      "Réserve du temps pour écouter sans écran.",
+      "Ne surcharge pas les pistes : chaque élément doit servir la chanson.",
+      "Une version de référence évite les malentendus.",
+      "Les retours groupés donnent un cap clair.",
+      "Définis ton objectif final avant de lancer la session.",
+      "Moins d'ego, plus d'écoute : la musique prime.",
+      "Un bon vocal guide toute la production.",
+      "Les nuances dynamiques rendent le mix vivant.",
+      "Donne des exemples précis plutôt que des adjectifs vagues.",
+      "Planifie tes prises pour éviter la fatigue vocale.",
+      "Simplifie les arrangements avant d'ajouter des effets.",
+      "Une session bien rangée accélère chaque retouche.",
+      "Laisse respirer ton intro pour installer l'ambiance.",
+      "Un tempo clair dès le départ évite des surprises.",
+      "Respecte les temps de pause pour garder ton oreille fraîche.",
+      "Sauvegarde souvent, surtout avant une prise importante.",
+      "Choisis une couleur sonore et tiens-la jusqu'au master.",
+      "La cohérence des volumes facilite le mastering.",
+      "Un compresseur ne remplace pas une bonne interprétation.",
+      "Envoie tes notes par ordre de priorité.",
+      "Une référence visuelle (moodboard) aide aussi le son.",
+      "Les bonnes questions ouvrent le bon mix.",
+      "Valide chaque étape avant de passer à la suivante.",
+      "Laisse place aux respirations dans le texte.",
+      "La sincérité s'entend autant que la technique.",
+      "Mieux vaut une piste forte que dix moyennes.",
+      "La chaleur vient souvent d'arrangements simples.",
+      "Pense à l'histoire que raconte ton morceau.",
+      "Le groove vient de la précision, pas du volume.",
+      "Limiter les couches révèle les intentions.",
+      "Un délai bien placé ouvre l'espace.",
+      "Ne néglige pas le silence entre deux prises.",
+      "Documente ce qui fonctionne pour toi.",
+      "Définis le rôle de chaque piste avant de mixer.",
+      "Reste cohérent entre couplets et refrains.",
+      "Un bon guide rythmique facilite tout le reste.",
+      "Les voix secondaires méritent un cadre précis.",
+      "Privilégie l'émotion à la surenchère technique.",
+      "Un hook clair est ta meilleure carte de visite.",
+      "Teste ton morceau à faible volume.",
+      "Sépare création et révision pour rester lucide.",
+      "Un fichier propre se mixe mieux qu'un puzzle.",
+      "Annonce tes deadlines dès le début.",
+      "Les harmonies doivent servir la mélodie principale.",
+      "N'empile pas les basses fréquences sans contrôle.",
+      "Une session légère évite les crashs en studio.",
+      "Clarifie qui décide et quand.",
+      "La cohérence des reverbs dessine l'espace.",
+      "Observe tes habitudes pour gagner en efficacité.",
+      "Un plan simple vaut mieux qu'un dossier compliqué.",
+      "La bonne prise est souvent celle où tu es détendu.",
+      "Partage ce que tu ressens, pas seulement ce que tu veux.",
+      "Le contraste donne de la dynamique à ton morceau.",
+      "Prépare des doublages si tu veux un refrain solide.",
+      "Les transitions méritent autant d'attention que le drop.",
+      "Un export test évite une sortie précipitée.",
+      "Travailler en étape courte garde l'énergie.",
+      "Évite les retours contradictoires envoyés séparément.",
+      "Les prises en une fois ne sont pas toujours les meilleures.",
+      "Chaque séance a un objectif : rappelle-le.",
+      "Un kick clair libère la place des autres éléments.",
+      "Les arrangements respirent quand on coupe ce qui est en trop.",
+      "Ajoute du contexte à tes demandes, pas seulement des chiffres.",
+      "Planifie la sortie dès la production.",
+      "Garde une trace des versions pour comparer.",
+      "Les aigus brillants doivent rester maîtrisés.",
+      "Un seul canal de communication évite les pertes.",
+      "Soigne l'intonation avant d'ajouter de l'auto-tune.",
+      "Stabilise le gain avant de chercher des effets.",
+      "Les percussions doivent dialoguer, pas se marcher dessus.",
+      "Autorise-toi à supprimer un élément même tard.",
+      "Une révision efficace commence par les priorités.",
+      "La répétition consciente améliore le flow.",
+      "Garde une version \"propre\" avant chaque expérimentation.",
+      "Fais confiance au process quand la fatigue arrive.",
+      "Un seul message structuré vaut mieux que plusieurs vocaux.",
+      "La précision des placements stéréo crée la largeur.",
+      "Les transitions de tonalité doivent être préparées.",
+      "Vérifie les sibilances avant de valider.",
+      "Rappelle l'intention artistique avant chaque modification.",
+      "Teste ton mix en mono pour vérifier la solidité.",
+      "Ne laisse pas un détail bloquer tout le projet.",
+      "Une basse propre libère le master.",
+      "Évite les traitements extrêmes en cascade.",
+      "Sois transparent sur ton budget et tes attentes.",
+      "Une check-list de livraison évite les oublis.",
+      "L'équilibre voix/instru se décide ensemble.",
+      "Les automations racontent l'histoire du morceau.",
+      "Documente les plugins clés utilisés.",
+      "Réduis le bruit de fond à la source.",
+      "Un bon casque n'élimine pas le besoin d'enceintes.",
+      "Garde une séance juste pour écouter, sans toucher.",
+      "Le volume d'écoute modéré préserve tes oreilles.",
+      "Commence par la vibe, affine ensuite.",
+      "La confiance se construit avec des infos claires.",
+      "Une structure simple se retient mieux.",
+      "Le meilleur moment pour sauvegarder, c'est maintenant.",
+      "Priorise le message avant les effets.",
+      "Anticipe les featuring pour organiser les prises.",
+      "Un plan de sortie évite les improvisations de dernière minute.",
+      "Laisse le master respirer, évite le brickwall inutile.",
+      "Clarifie la tonalité et le BPM avant d'envoyer.",
+      "Ne multiplie pas les canaux de discussion.",
+      "Une prise sincère vaut plus qu'une performance parfaite.",
+      "Sépare les harmonies des adlibs dans tes exports.",
+      "Rappelle la référence sonore à chaque validation.",
+      "Les accents rythmiques peuvent porter tout le morceau.",
+      "Planifie un temps d'écoute extérieure avant sortie.",
+      "Les stems bien équilibrés facilitent le mix.",
+      "Moins de compression sur le bus, plus de dynamique.",
+      "Une bonne diction facilite l'intelligibilité.",
+      "La cohérence des delays évite la confusion.",
+      "Un plan d'uploads évite le stress le jour J.",
+      "Les silences maîtrisés créent de l'attente.",
+      "Partage les paroles pour guider le mix.",
+      "Un récap avant chaque séance gagne du temps.",
+      "Les prises doubles doivent être alignées proprement.",
+      "Utilise un métronome lors des prises pour garder l'énergie.",
+      "Les détails d'arrangement comptent plus que la quantité.",
+      "Évite de valider sur des écouteurs fatigués.",
+      "La cohérence des volumes entre titres construit ton identité.",
+      "Prépare les visuels pendant le mixage pour garder l'élan.",
+      "Un bridge réfléchi relance l'attention.",
+      "La coupe des graves inutiles nettoie le mix.",
+      "Ne laisse pas un plugin mal réglé ruiner la vibe.",
+      "Une restitution claire des attentes évite les tours en rond.",
+      "Les modulations discrètes apportent du mouvement.",
+      "Réfléchis au live en produisant le morceau.",
+      "Les espacements dans le texte créent du relief.",
+      "Teste ton morceau avec des non-musiciens pour l'effet brut.",
+      "Un refrain qui arrive trop tard perd l'auditeur.",
+      "Les voix chuchotées demandent autant de soin.",
+      "Reste ouvert aux suggestions qui servent la chanson.",
+      "Évite de tout faire en une nuit : la fraîcheur compte.",
+      "Le bon arrangement laisse la voix respirer.",
+      "Structure tes sessions par couleur pour t'y retrouver.",
+      "Clarifie les versions : démo, V1, V2, master.",
+      "Les références dynamiques guident le mastering.",
+      "Une ligne de basse lisible fait danser.",
+      "Les transitions sans clic sont plus immersives.",
+      "Un couplet concis donne plus de poids au refrain.",
+      "Les effets stéréo doivent rester compatibles mono.",
+      "Répète tes envois pour éviter les oublis de fichiers.",
+      "Prends le temps de respirer avant d'enregistrer.",
+      "Les hi-hats méritent un équilibre précis.",
+      "Reste cohérent dans les placements d'adlibs.",
+      "Une prise guide peut servir de repère émotionnel.",
+      "Limiter la saturation sur le master évite la fatigue auditive.",
+      "Un pad discret peut soutenir tout un refrain.",
+      "Ne néglige pas le gain staging.",
+      "Les breaks doivent rester lisibles.",
+      "Anticipe l'ordre des pistes pour le live.",
+      "Les filtres automations doivent rester cohérents.",
+      "Un seul objectif par séance maintient le focus.",
+      "La précision des fades évite les clics.",
+      "Les retours doivent inclure ce qui fonctionne, pas seulement ce qui manque.",
+      "Un envoi test sur smartphone révèle beaucoup.",
+      "Les reverbs sombres évitent la dureté sur les voix.",
+      "Garde les prises brutes au cas où.",
+      "Les panoramiques extrêmes nécessitent un centre solide.",
+      "Un mémo vocal peut capturer une intention unique.",
+      "Chaque effet doit avoir un rôle clair.",
+      "Les backings doivent soutenir, pas couvrir.",
+      "Une basse sidechain légère peut libérer le kick.",
+      "Prévois une version instrumentale pour la scène.",
+      "Le dialogue constant avec ton producteur garde le cap.",
+      "Ne sous-estime pas l'impact du silence après un drop.",
+      "Les chorus empilés demandent un placement précis.",
+      "Un bon arrangement économise du mixage.",
+      "Les transitions d'énergie doivent être anticipées.",
+      "Les couches de voix doivent raconter la même histoire.",
+      "Pense à l'ordre des morceaux pour ton projet global.",
+      "Un vocal central doit rester compréhensible même en arrière-plan.",
+      "Les re-recordings ciblés valent mieux qu'une correction lourde.",
+      "Le low-end a besoin d'espace, pas seulement de volume.",
+      "Une automation subtile peut suffire à relancer l'intérêt.",
+      "Évite de tout automatiser : laisse de la place à l'interprétation.",
+      "Un plan de sauvegarde cloud protège ton travail.",
+      "La cohérence des timbres construit ta signature.",
+      "Les notes de studio doivent être archivées.",
+      "Un pré-master calme facilite la validation.",
+      "Les prises multiples offrent des options, pas des hésitations.",
+      "Le rythme de sortie doit rester tenable pour toi.",
+      "La sobriété des effets laisse parler la chanson.",
+      "Préviens quand tu changes de direction artistique.",
+      "Les stems édités gagnent en précision.",
+      "Un bon mix laisse la voix devant sans agressivité.",
+      "Le bus master doit rester respirable.",
+      "Les sons percussifs doivent garder leur attaque.",
+      "Garde une référence de hauteur pour chaque voix.",
+      "Le groove se ressent aussi dans les silences.",
+      "Prépare un plan B si un plugin manque.",
+      "La cohérence rythmique entre couplets évite les cassures.",
+      "Teste le morceau sans effets pour vérifier la structure.",
+      "La clarté des intentions évite les retouches sans fin.",
+      "Un seul canal de feedback centralise les décisions.",
+      "Les transitions de voix doivent être soignées.",
+      "Laisse respirer les reverbs en fin de phrase.",
+      "Les tests sur différentes enceintes révèlent les excès.",
+      "Un bus de parallel peut sauver une voix fine.",
+      "La simplicité est souvent la meilleure finition.",
+      "Les couplets doivent mener naturellement au refrain.",
+      "Utilise des repères temporels dans tes retours.",
+      "Le design sonore sert l'émotion, pas l'inverse.",
+      "Ne valide pas un mix fatigué : repose tes oreilles.",
+      "Les harmonies trop fortes diluent le message.",
+      "Un envoi structuré accélère ma réponse.",
+      "Les stems nommés évitent les doutes.",
+      "La justesse rythmique des adlibs ajoute du relief.",
+      "Prévois des respirations pour la scène.",
+      "Un pad stable évite de surcharger le master.",
+      "La cohérence des kicks sur un projet entier construit la signature.",
+      "Rappelle les priorités avant chaque export.",
+      "Un duo clair entre voix principale et instrumentale crée la solidité.",
+      "Les plugins ne remplacent pas l'intention artistique.",
+      "Prépare des marqueurs dans la session pour tes retours.",
+      "Les segments courts se valident plus vite.",
+      "Un envoi de paroles synchronisées aide le mix.",
+      "Les effets spéciaux doivent rester lisibles.",
+      "Chaque texture doit avoir sa place en fréquence.",
+      "Garde un dossier de versions pour revenir en arrière.",
+      "Les arpèges saturés demandent de la place aux voix.",
+      "Un plan d'intro clair pose la scène.",
+      "Les breaks courts maintiennent l'attention.",
+      "La cohérence du champ stéréo évite la fatigue.",
+      "Ne surcharge pas le bus reverb.",
+      "Prépare une version clean si besoin de diffusion radio.",
+      "Les modulations d'intonation doivent rester naturelles.",
+      "Un rappel du concept global aligne tout le monde.",
+      "Les doublages rythmiques doivent être précis.",
+      "Garde la dynamique sur le master, pas besoin de forcer.",
+      "Les pistes perçues comme secondaires méritent un check final.",
+      "Évite les retours de dernière minute la veille d'une sortie.",
+      "Une check-list de scène rassure tout le monde.",
+      "La cohérence de tonalité entre titres renforce l'identité.",
+      "Les plugins de correction doivent rester transparents.",
+      "Reste curieux, mais garde une direction claire.",
+      "Un comping propre des voix fait gagner des heures.",
+      "Les exports -6 dBFS laissent de la marge pour le master.",
+      "Un visuel cohérent avec le son renforce la sortie.",
+      "Les décisions rapides évitent les doutes prolongés.",
+      "Rappelle la vibe initiale quand tu doutes.",
+      "Une piste témoin des harmonies aide à équilibrer.",
+      "Les retours avec timecode sont imbattables.",
+      "Un planning simple garde la motivation.",
+      "Les textures granuleuses ont besoin d'espace.",
+      "La cohérence des subs évite les surprises en club.",
+      "Prépare des versions instrumentales et TV mix.",
+      "Les gains faibles sur les pistes préservent le headroom.",
+      "Un master ouvert laisse vivre le morceau.",
+      "Les écoutes croisées valident la traduction.",
+      "Chaque sortie mérite une fiche projet claire.",
+      "Le calme avant la prise améliore l'interprétation.",
+      "Les délais synchronisés gardent le groove.",
+      "Un plan d'énergie par section évite les creux.",
+      "Les effets doivent suivre la dynamique du texte.",
+      "Garde des backups hors ligne.",
+      "La cohérence des BPM facilite les transitions live.",
+      "Les voix chuchotées demandent un de-esser doux.",
+      "Un chorus léger peut suffire à ouvrir une voix.",
+      "Les retours écrits restent la référence.",
+      "Prévois un temps d'écoute à froid avant validation finale.",
+      "Les transitions de couplet doivent conserver l'intention.",
+      "Un plan d'export évite les oublis de formats.",
+      "Les percussions légères peuvent porter un refrain.",
+      "La bonne tonalité met en valeur la voix.",
+      "Les retours rapides maintiennent le rythme du projet.",
+      "Une demande concise est plus facile à exécuter.",
+      "Garde l'histoire au centre, la technique autour.",
+      "Les stems dry/wet offrent de la flexibilité.",
+      "Un rappel des objectifs garde tout le monde aligné.",
+      "Les breaks doivent annoncer leur retour.",
+      "Une automation de volume subtile suffit souvent.",
+      "Les reverbs plates peuvent calmer une voix brillante.",
+      "Un seul fichier par piste : pas de doublon.",
+      "Les prises en condition live capturent une énergie unique.",
+      "Garde un dossier d'archives après validation.",
+      "Les sons courts méritent un decay maîtrisé.",
+      "Ne valide pas sans écouter en contexte complet.",
+      "Les tests AB sur master évitent les regrets.",
+      "Un bus parallèle sur la batterie ajoute du glue.",
+      "Les graves stables créent la confiance de l'auditeur.",
+      "Les arrangements sobres laissent la mélodie briller.",
+      "Une prise pilote du refrain guide les harmonies.",
+      "Les transitions bruitées doivent rester discrètes.",
+      "Un mix respirable fatigue moins l'auditeur.",
+      "Les priorités doivent être écrites, pas supposées.",
+      "Une variation rythmique peut relancer un couplet.",
+      "Les harmonies hautes nécessitent une de-ess douce.",
+      "Un rappel du BPM dans le nom de fichier aide tout le monde.",
+      "Les stems en mono pour les basses restent efficaces.",
+      "Prévois une version cappella si utile.",
+      "Les notes de transitions facilitent la post-prod vidéo.",
+      "Un export test sur système voiture est révélateur.",
+      "Les couches de synthés doivent respirer.",
+      "La cohérence des retours permet d'aller vite.",
+      "Un crossfade propre évite les clics entre prises.",
+      "Les adlibs doivent soutenir la lead, pas la masquer.",
+      "Les décisions prises en réunion doivent être récapitulées.",
+      "Une édition rythmique précise prépare un mix solide.",
+      "Les couplets trop longs diluent l'impact.",
+      "La constance de volume entre morceaux respecte l'auditeur.",
+      "Un léger sidechain peut clarifier la voix.",
+      "Les prises doublées doivent être alignées en phase.",
+      "Clarifie la langue principale du morceau.",
+      "Les instruments acoustiques demandent une dynamique respectée.",
+      "Un compresseur lent laisse vivre le groove.",
+      "Les automations de filtre doivent rester cohérentes.",
+      "Un plan de distribution facilite la sortie.",
+      "Les retours datés évitent les confusions.",
+      "Une montée progressive prépare le drop.",
+      "Les retours succincts et précis sont les plus efficaces.",
+      "Un gain staging cohérent facilite le mastering.",
+      "Les stems organisés rassurent le collaborateur.",
+      "Un mix équilibré commence par des niveaux clairs.",
+      "Les claps doivent trouver leur place sans masquer la voix.",
+      "Une bonne prise vaut mieux que plusieurs corrections.",
+      "Les arrangements minimalistes traversent le temps.",
+      "Un pad léger peut relier deux sections.",
+      "Les reverbs longues méritent un contrôle des basses.",
+      "Un renvoi des paroles validées évite les doutes.",
+      "Les transitions avec bruit blanc doivent être dosées.",
+      "La cohérence des drums signe la production.",
+      "Un délai ping-pong doit rester lisible.",
+      "Les mélodies secondaires ne doivent pas voler la vedette.",
+      "Prévois les formats exacts nécessaires avant export.",
+      "Les références de volume en LUFS guident le master.",
+      "Un seul contact pour les décisions évite les divergences.",
+      "Les revisions doivent être programmées, pas improvisées.",
+      "Un cut bien placé peut être plus fort qu'un effet.",
+      "Les voix graves gagnent à être contrôlées en bas.",
+      "La précision des consonnes garde l'intelligibilité.",
+      "Un ordre logique des pistes fluidifie la session.",
+      "Les stems alignés au même point zéro font gagner du temps.",
+      "Un rappel du rendu visé avant mastering aligne les attentes.",
+      "Les pistes inutiles doivent être archivées, pas gardées en session.",
+      "Un filtre passe-haut mal placé peut tuer une voix : vérifie.",
+      "Les coups de batterie doivent être nettoyés des bruits parasites.",
+      "Une automation de reverb peut porter un refrain.",
+      "Les pistes midi doivent être congelées si nécessaire.",
+      "Un planning réaliste respecte tout le monde.",
+      "Les retours avec captures d'écran guident les corrections.",
+      "Les harmonies basses doivent rester lisibles.",
+      "Une prise guide rythmée aide les backings.",
+      "Les références doivent rester cohérentes avec ton style.",
+      "Prévois une marge pour les imprévus.",
+      "Un mix ne doit pas masquer la dynamique du texte.",
+      "Les envois compressés doivent garder la qualité.",
+      "Un export instrumental propre facilite les scènes.",
+      "Les effets d'ambiance doivent rester subtils.",
+      "Une organisation claire du dossier évite les pertes.",
+      "Les délais pour validations doivent être respectés.",
+      "Un rappel des attentes après chaque séance maintient l'élan.",
+      "Les stems alignés simplifient le mastering.",
+      "Une répartition des fréquences équilibrée fait respirer le morceau.",
+      "Les transitions vocales méritent une attention fine.",
+      "Un backing discret peut renforcer le groove.",
+      "Les prises multiples offrent des choix, pas de la confusion.",
+      "Le but est un projet finalisé, pas éternel.",
+      "Les reverbs courtes gardent la présence.",
+      "Un message structuré sur WhatsApp accélère la réponse.",
+      "Les stems doivent être livrés sans clipping.",
+      "La cohérence des accents rythme le morceau.",
+      "Un bus d'effet dédié évite la surcharge.",
+      "Les retours datés sont plus faciles à suivre.",
+      "Un mix équilibré fait confiance à l'arrangement.",
+      "Les percussions doivent soutenir, pas dominer.",
+      "Un résumé de session garde tout le monde aligné.",
+      "Les coupures nettes évitent les artefacts.",
+      "Un planning partagé sécurise les délais.",
+      "Les stems bien rangés inspirent confiance.",
+      "Un rappel du mood au début de chaque séance recentre.",
+      "Les exports WAV restent la référence pour valider.",
+      "Les leads doivent rester en avant sans agressivité.",
+      "Un workflow simple est souvent le plus rapide.",
+      "Les retours doivent préciser les timestamps.",
+      "Une écoute en voiture révèle les basses.",
+      "Les subs contrôlés évitent les saturations masquées.",
+      "Un hook clair simplifie les décisions de mix.",
+      "Les délais synchronisés renforcent le groove.",
+      "Une prise honnête vaut mieux qu'une prise forcée.",
+      "Les percussions électroniques doivent être calibrées.",
+      "Un export propre sans limiter facilite le master.",
+      "Les transitions douces gardent l'auditeur avec toi.",
+      "Les voix doivent rester intelligibles à faible volume.",
+      "Une check-list avant envoi évite les oublis.",
+      "Les stems vocaux séparés simplifient les retouches.",
+      "Un brief clair crée un mix clair.",
+      "Les pistes inutiles doivent être mutées, pas supprimées sans note.",
+      "Une dynamique préservée donne de la vie au morceau.",
+      "Les décisions rapides sur les retours gagnent du temps.",
+      "Un master équilibré se traduit partout.",
+      "Les stems regroupés par famille fluidifient la session.",
+      "Un seul canal WhatsApp centralise tout.",
+      "Les harmonies doivent suivre la mélodie, pas l'inverse.",
+      "Un rappel du calendrier évite les surprises.",
+      "Les reverbs modulées doivent rester cohérentes.",
+      "Une ligne directrice simple donne confiance.",
+      "Les adlibs doivent être dosés avec précision.",
+      "Un message synthétique obtient une réponse rapide.",
+      "Les breaks silencieux peuvent être puissants.",
+      "Un pré-master ouvert laisse la place au streaming.",
+      "Les décisions écrites sont des repères sûrs.",
+      "Une vision claire du single guide chaque choix.",
+      "Les stems en 24 bits offrent de la marge.",
+      "Un export de test avant validation finale est essentiel.",
+      "Les retours alignés sur le concept évitent les dérives.",
+      "Un tempo stable garde le groove serré.",
+      "Les prises de choeurs doivent être calibrées.",
+      "Une cloche ou un pad d'intro peut signer le morceau.",
+      "Les hi-hats serrés demandent un contrôle précis.",
+      "Un bus d'effet commun harmonise les traitements.",
+      "Les retours doivent préciser ce qui change la vibe.",
+      "Un planning hebdo garde le projet vivant.",
+      "Les prises guitare nécessitent un accordage fréquent.",
+      "Un bus vocal propre simplifie le mix.",
+      "Les stems doivent indiquer la tonalité si possible.",
+      "Une dynamique maîtrisée garde la vibe intacte.",
+      "Les exports test doivent être datés.",
+      "Un seul message récap évite les pertes de temps.",
+      "Les percussions organiques méritent une capture soignée.",
+      "Un compresseur parallèle peut ajouter du corps.",
+      "Les voix doivent rester naturelles, même traitées.",
+      "Une vision partagée donne de la vitesse.",
+      "Les tests sur enceinte Bluetooth révèlent l'essentiel.",
+      "Un fade-out propre conclut élégamment.",
+      "Les stems doivent démarrer au même point.",
+      "Une validation par étape sécurise le projet.",
+      "Les kicks et basses doivent être accordés.",
+      "Un métronome calme l'instabilité rythmique.",
+      "Les reverbs longues demandent un sidechain discret.",
+      "Une prise à voix chaude peut changer un titre.",
+      "Les retours tardifs repoussent la sortie : anticipe.",
+      "Un canal unique pour les fichiers évite les doublons.",
+      "Les titres de projet clairs aident à s'y retrouver.",
+      "Un léger drive sur la basse peut suffire.",
+      "Les transitions doivent respecter l'émotion.",
+      "Un rappel de l'intention artistique avant le master est clé.",
+      "Les stems doivent être exportés sans effets de bus non souhaités.",
+      "Une voix posée rend le mix plus facile.",
+      "Les délais doivent suivre le BPM.",
+      "Un brief concis permet un démarrage rapide.",
+      "Les décisions tranchées font avancer la prod.",
+      "Une organisation simple crée la confiance.",
+      "Les retours audio peuvent illustrer une demande.",
+      "Un check mono évite les surprises en club.",
+      "Les retours alignés en une fois gagnent du temps.",
+      "Une vision claire du public cible guide le mix.",
+      "Les versions clean/explicit doivent être anticipées.",
+      "Un seul lien de partage évite les erreurs.",
+      "Les stems nommés en français ou anglais clair suffisent.",
+      "Une signature sonore cohérente traverse les projets.",
+      "Les percussions latines demandent une place dédiée.",
+      "Un back-up disque externe est rassurant.",
+      "Les rythmiques syncopées demandent un mix précis.",
+      "Un compresseur sur le bus batterie doit rester subtil.",
+      "Les retours doivent préciser la priorité des sections.",
+      "Une prise avec sourire s'entend.",
+      "Les stems de choeurs méritent un bus dédié.",
+      "Un mix trop compressé fatigue l'auditeur.",
+      "Les retours en caps lock ne clarifient rien : reste précis.",
+      "Un rappel des dates clés maintient tout le monde aligné.",
+      "Les stems doivent être livrés en phase.",
+      "Un break bien placé crée l'attente.",
+      "Les retours courts et datés accélèrent les décisions.",
+      "Un bus parallèle sur la voix peut ajouter du caractère.",
+      "Les transitions de refrain méritent un soin particulier.",
+      "Un message unique pour chaque vague de retours est idéal.",
+      "Les stems de batterie doivent être propres et édités.",
+      "Une référence visuelle peut inspirer un mix.",
+      "Les idées notées dès qu'elles arrivent ne se perdent pas.",
+      "Un pad stéréo léger peut élargir sans masquer.",
+      "Les retours tardifs coûtent du temps à tout le monde.",
+      "Un export sans clipping garde la marge.",
+      "Les retours alignés sur le BPM évitent les flous.",
+      "Un simple rappel du mood suffit souvent.",
+      "Les stems doivent être consolidés avant envoi.",
+      "Une voix détendue porte l'émotion.",
+      "Les tests en casque et enceintes sont complémentaires.",
+      "Un check final sur smartphone valide la traduction.",
+      "Les retours précis sont le meilleur accélérateur.",
+      "Un mix propre respecte le texte.",
+      "Les stems organisés rendent la collaboration fluide.",
+      "Une direction claire évite les tours en rond.",
+      "Les breaks doivent préparer le retour du refrain.",
+      "Un plan par étape rassure et accélère.",
+      "Les stems doivent rester cohérents en phase.",
+      "Un master équilibré laisse respirer les détails.",
+      "Les retours factuels sont plus simples à traiter.",
+      "Un message unique sur WhatsApp centralise tout.",
+      "Les choix assumés donnent du caractère au morceau.",
+      "Un contrôle des plosives avant mixage est essentiel.",
+      "Les retours groupés montrent la vision globale.",
+      "Une écoute de nuit peut révéler d'autres détails.",
+      "Les stems doivent inclure le BPM et la tonalité si possible.",
+      "Un plan d'action clair évite les improvisations.",
+      "Les tests sur petites enceintes confirment l'équilibre.",
+      "Un refrain mémorable simplifie le mix.",
+      "Les retours écrits sont plus fiables que les souvenirs.",
+      "Un pas après l'autre : méthode et cadre.",
+      "Les stems en 48 kHz peuvent aider la vidéo.",
+      "Un rappel du cap artistique garde la motivation.",
+      "Les décisions partagées rapidement maintiennent le rythme.",
+      "Une voix reposée simplifie la prod.",
+      "Les retours alignés sur l'objectif évitent la dispersion.",
+      "Un seul point de contact fluidifie tout.",
+      "Les stems livrés à l'heure respectent chacun.",
+      "Un cadre clair protège le projet.",
+      "Les conseils quotidiens sont là pour garder le cap.",
+      "Un artiste organisé avance plus loin, plus sereinement.",
+      "La méthode et l'humain vont ensemble.",
+      "Les 360 jours de conseils sont là pour t'aider à rester efficace.",
+      "Ton temps compte : préparons-le bien.",
+      "Reste focalisé : une étape après l'autre.",
+      "Les retours synthétiques respectent le rythme de la prod.",
+      "Un seul message regroupant tes besoins suffit.",
+      "Les décisions assumées rendent le mix évident.",
+      "Moins d'hésitation, plus d'action.",
+      "Chaque jour un conseil, chaque jour un pas.",
+      "Le sérieux n'empêche pas la vibe : il la protège.",
+      "Une intention claire ouvre les bonnes directions.",
+      "Les délais respectés gardent la confiance.",
+      "Un projet finalisé vaut mieux qu'un chantier infini.",
+      "Chaque détail compte, mais l'essentiel d'abord.",
+      "Les stems compressés sans clip sont les bienvenus.",
+      "Un cadre net, une collaboration fluide.",
+      "Les retours structurés gagnent du temps pour tout le monde.",
+      "Les exports test ne mentent pas.",
+      "La rigueur protège la créativité.",
+      "Un seul canal pour les fichiers évite les confusions.",
+      "Les validations rapides gardent la dynamique.",
+      "Un conseil par jour pour rester aligné.",
+      "Les stems propres sont le meilleur point de départ.",
+      "Le professionnalisme, c'est aussi la clarté.",
+      "Un WhatsApp bien structuré accélère tout.",
+      "La collaboration, c'est la confiance + le cadre.",
+      "Les projets avancent quand on parle vrai et clair.",
+      "Une vibe assumée, un plan clair : on avance.",
+      "Chaque décision rapproche du master.",
+      "Les validations dans les temps respectent l'équipe.",
+      "Une méthode simple : communiquer, décider, livrer.",
+      "Les retours datés sont la mémoire du projet.",
+      "Un seul point de contact : efficacité garantie.",
+      "Les stems alignés = mix rapide.",
+      "Les attentes claires = moins de retouches.",
+      "Chaque jour, un rappel pour garder l'élan.",
+      "L'organisation est un acte créatif.",
+      "Ton son mérite un cadre solide.",
+      "Une bonne préparation réduit la post-prod.",
+      "La clarté est une preuve de respect.",
+      "WhatsApp est notre studio de coordination.",
+      "Un projet bien cadré laisse place au feeling.",
+      "Un conseil appliqué aujourd'hui, du temps gagné demain.",
+      "Le cap est fixé : on avance ensemble.",
+      "Garde ta vision, je sécurise le reste.",
+      "Chaque message précis est une heure gagnée.",
+      "Le cadre est là pour protéger la vibe.",
+      "Un seul bouton : WhatsApp, c'est tout.",
+      "Le sérieux, c'est cool quand il fait gagner du temps.",
+      "Chaque jour compte dans un projet bien mené.",
+      "L'écoute sincère nourrit la production.",
+      "Le respect du timing fait la différence.",
+      "La simplicité rend tout plus fluide.",
+      "Un tip par jour pour rester focus.",
+      "La collaboration efficace est un choix quotidien.",
+      "On avance quand on sait où on va.",
+      "Ton énergie mérite un cadre clair.",
+      "Je réponds vite si tes retours sont clairs.",
+      "Moins de flou, plus de musique.",
+      "Le cadre protège la créativité, pas l'inverse.",
+      "Une vibe forte a besoin d'une structure solide.",
+      "Les projets rapides sont ceux qui communiquent bien.",
+      "WhatsApp est notre fil rouge.",
+      "Une intention posée, un mix posé.",
+      "La clarté, c'est du respect.",
+      "Chaque conseil est une brique pour ton projet.",
+      "La cohérence construit la confiance.",
+      "Un seul canal, un seul objectif : ton son.",
+      "On garde la vibe, on cadre le reste.",
+      "Le sérieux donne de la force à ta musique.",
+      "Des décisions claires font gagner des jours.",
+      "Un message, une action, un pas en avant.",
+      "Chaque export clair rapproche de la sortie.",
+      "La discipline artistique nourrit la liberté.",
+      "Les validations rapides maintiennent l'étincelle.",
+      "Un seul bouton contact : WhatsApp, rien d'autre.",
+      "Le cadre fluide est ta meilleure assurance.",
+      "On construit ton son, étape par étape, chaque jour.",
+      "Ton projet mérite un accompagnement humain et cadré.",
+      "La vibe est reine, le cadre est son garde du corps.",
+      "Un seul canal clair, zéro confusion.",
+      "La rigueur de fond rend le résultat premium.",
+      "Un conseil par jour : tu n'es jamais seul.",
+      "On avance, on valide, on livre : simple et efficace.",
+      "La musique aime la clarté des intentions.",
+      "Le cadre posé aujourd'hui évite les retours demain.",
+      "Une communication fluide est déjà une victoire.",
+      "Je garde le cadre, tu gardes la vibe.",
+      "Les décisions nettes donnent du relief au mix.",
+      "Chaque jour, un rappel : la clarté fait gagner du temps.",
+      "Un seul point de contact rend tout plus simple.",
+      "La méthode protège l'inspiration.",
+      "Ton son, mon cadre : duo gagnant.",
+      "Les validations dans le rythme maintiennent l'énergie.",
+      "Une vibe assumée, un cadre solide : on y va."
+    ];
+
+    const tips = Array.from({ length: 360 }, (_, i) => {
+      const suffixes = [
+        "Garde-le en tête aujourd'hui.",
+        "À appliquer sans pression.",
+        "Focus et simplicité.",
+        "Pour garder le projet fluide.",
+        "Une étape de plus vers le master.",
+        "Pour avancer sans flou.",
+        "Clarté et efficacité.",
+        "À mettre en pratique dès maintenant.",
+        "Ton projet le mérite.",
+        "Le cadre protège la vibe.",
+        "Reste concentré sur l'essentiel.",
+        "Fluidifions chaque étape.",
+        "Pour un rendu premium.",
+        "Sérénité et efficacité.",
+        "Simple et pro, toujours."
+      ];
+      const phrase = basePhrases[i % basePhrases.length];
+      const suffix = suffixes[i % suffixes.length];
+      return `Jour ${i + 1} — ${phrase} ${suffix}`;
     });
+
+    const adviceBox = document.getElementById('daily-advice');
+    if (adviceBox) {
+      const today = new Date();
+      const startOfYear = new Date(today.getFullYear(), 0, 0);
+      const diff = today - startOfYear;
+      const oneDay = 1000 * 60 * 60 * 24;
+      const dayOfYear = Math.floor(diff / oneDay);
+      const index = dayOfYear % tips.length;
+      adviceBox.textContent = tips[index];
+    }
   </script>
 </body>
 </html>
