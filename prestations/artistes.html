@@ -102,11 +102,52 @@
       display:grid;
       place-items:center;
       position:relative;
+      overflow:visible;
+    }
+    .logo-wrap {
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      isolation:isolate;
+    }
+    .logo-wrap::before {
+      content:"";
+      position:absolute;
+      inset:-22%;
+      border-radius:30%;
+      background:conic-gradient(from 120deg, rgba(109,217,255,0.38), rgba(124,58,237,0.32), rgba(34,197,94,0.36), rgba(109,217,255,0.42));
+      filter:blur(32px) saturate(120%);
+      opacity:0.9;
+      mix-blend-mode:screen;
+      z-index:-1;
+      animation:glowShift 10s ease-in-out infinite alternate;
+      will-change:transform, filter;
+    }
+    .logo-wrap::after {
+      content:"";
+      position:absolute;
+      inset:-14%;
+      border-radius:32%;
+      background:radial-gradient(circle at 30% 30%, rgba(125,211,252,0.18), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(124,58,237,0.12), transparent 60%);
+      filter:blur(18px);
+      opacity:0.8;
+      z-index:-2;
     }
     .hero-logo img {
       width:100%;
       height:auto;
-      filter:drop-shadow(0 12px 30px rgba(0,0,0,0.55)) drop-shadow(0 0 16px rgba(125,211,252,0.32));
+      filter:drop-shadow(0 12px 30px rgba(0,0,0,0.55)) drop-shadow(0 0 14px rgba(109,217,255,0.28)) drop-shadow(0 0 22px rgba(124,58,237,0.2)) drop-shadow(0 0 32px rgba(34,197,94,0.18));
+      transition:filter var(--transition);
+    }
+    @keyframes glowShift {
+      0% { transform:scale(0.96) rotate(0deg); filter:blur(32px) saturate(115%) hue-rotate(0deg); }
+      50% { transform:scale(1.04) rotate(8deg); filter:blur(34px) saturate(125%) hue-rotate(24deg); }
+      100% { transform:scale(1.02) rotate(-6deg); filter:blur(33px) saturate(120%) hue-rotate(-18deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .logo-wrap::before { animation-duration:24s; animation-iteration-count:1; }
     }
     .hero-title { margin:0 0 10px; font-size:clamp(28px, 7vw, 46px); line-height:1.1; letter-spacing:-0.01em; }
     .hero-subtitle { margin:0 0 22px; color:#e0e7ff; max-width:56ch; }
@@ -228,7 +269,9 @@
   <div class="page">
     <header class="hero" id="top">
       <div class="hero-logo">
-        <img src="szd_logo_white.png" alt="Logo SZD" loading="lazy">
+        <div class="logo-wrap">
+          <img src="szd_logo_white.png" alt="Logo SZD" loading="lazy">
+        </div>
       </div>
       <h1 class="hero-title">On construit ton son, étape par étape.</h1>
       <p class="hero-subtitle">Un cadre clair, une méthode professionnelle, un accompagnement humain. Tu te concentres sur la vibe, je sécurise le reste.</p>
