@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SZD — Accompagnement artistes</title>
-  <meta name="description" content="Armel (MC Skual), producteur et éditeur à succès. Cadre clair, méthode pro et accompagnement humain pour les artistes.">
+  <meta name="description" content="Armel (MC Skual), producteur, éditeur et beatmaker. Cadre clair, méthode pro et accompagnement humain pour les artistes.">
   <style>
     :root {
       --bg:#05070f;
@@ -179,6 +179,35 @@
     .photo-card img { width:100%; height:100%; object-fit:cover; display:block; }
     .photo-caption { position:absolute; left:14px; bottom:14px; padding:10px 12px; border-radius:12px; background:rgba(5,7,15,0.82); color:#f7f9ff; font-weight:700; border:1px solid rgba(255,255,255,0.08); box-shadow:0 12px 30px rgba(0,0,0,0.35); }
 
+    /* Profile */
+    .profile-grid { display:grid; gap:18px; }
+    .profile-card { background:linear-gradient(155deg, rgba(125,211,252,0.06), rgba(34,197,94,0.05)), var(--panel-soft); border-color:rgba(125,211,252,0.25); box-shadow:0 18px 36px rgba(125,211,252,0.15); }
+    .profile-card .badge { background:rgba(125,211,252,0.18); color:#e6f7ff; border:1px solid rgba(125,211,252,0.5); box-shadow:0 0 18px rgba(125,211,252,0.25); text-transform:uppercase; letter-spacing:0.04em; }
+    .profile-card p { color:#e0e7ff; margin:0 0 12px; }
+    .profile-photos { display:grid; gap:14px; }
+    .profile-photo { border-radius:18px; overflow:hidden; position:relative; border:1px solid var(--border); box-shadow:0 18px 36px rgba(0,0,0,0.3); background:var(--panel-soft); }
+    .profile-photo img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(0.98); }
+    .profile-photo::after { content:""; position:absolute; inset:0; box-shadow:0 0 26px rgba(125,211,252,0.18); pointer-events:none; }
+    .profile-photo figcaption { position:absolute; inset:auto 12px 12px 12px; padding:8px 10px; border-radius:12px; background:rgba(5,7,15,0.82); color:#f7f9ff; font-weight:700; border:1px solid rgba(255,255,255,0.08); box-shadow:0 12px 30px rgba(0,0,0,0.35); }
+
+    /* Accordion */
+    .accordion { border:1px solid var(--border); border-radius:16px; background:linear-gradient(150deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); box-shadow:var(--shadow); overflow:hidden; }
+    .accordion summary { list-style:none; display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; font-weight:800; letter-spacing:-0.01em; }
+    .accordion summary::-webkit-details-marker { display:none; }
+    .accordion summary span { flex:1; }
+    .accordion summary .chevron { transition:transform var(--transition), color var(--transition); color:var(--accent); }
+    .accordion[open] summary .chevron { transform:rotate(180deg); color:var(--accent-strong); }
+    .accordion-content { padding:0 16px 16px; display:grid; gap:12px; border-top:1px solid var(--border); animation:fadeIn 220ms ease; }
+    .qcm-grid { display:grid; gap:12px; }
+    .qcm-field { padding:12px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,0.02); box-shadow:inset 0 1px 0 rgba(255,255,255,0.04); }
+    .qcm-field legend { font-weight:700; margin-bottom:8px; }
+    .qcm-options { display:grid; gap:8px; }
+    .qcm-option { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.02); cursor:pointer; transition:background var(--transition), border-color var(--transition), transform var(--transition); }
+    .qcm-option:hover { background:rgba(125,211,252,0.06); border-color:rgba(125,211,252,0.4); transform:translateY(-1px); }
+    .qcm-option input { accent-color:var(--accent); }
+    .qcm-status { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.4); color:#d6ffe3; font-weight:700; box-shadow:0 12px 30px rgba(34,197,94,0.18); }
+    .accordion.completed { border-color:rgba(34,197,94,0.45); box-shadow:0 18px 36px rgba(34,197,94,0.12); }
+
     /* FAQ */
     .faq-grid { display:grid; gap:12px; }
     .faq-item { padding:14px; border-radius:16px; border:1px solid var(--border); background:linear-gradient(150deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)); box-shadow:var(--shadow); }
@@ -243,6 +272,8 @@
       .grid { grid-template-columns:repeat(3, 1fr); }
       .about-grid { grid-template-columns:1.2fr 0.8fr; align-items:start; }
       .photo-grid { grid-template-columns:repeat(2, 1fr); }
+      .profile-grid { grid-template-columns:1.1fr 0.9fr; align-items:start; }
+      .profile-photos { grid-template-columns:repeat(2, 1fr); }
       .faq-grid { grid-template-columns:repeat(2, 1fr); }
       .section { padding:96px 28px; }
       .hero { padding:72px 28px 120px; }
@@ -262,11 +293,6 @@
     </section>
 
     <header class="hero" id="top">
-      <div class="identity" aria-label="Identité">
-        <span>Armel</span>
-        <span>Producteur & éditeur à succès · Artiste depuis 2006 (MC Skual)</span>
-        <span>Accompagnement humain</span>
-      </div>
       <div class="hero-logo">
         <img src="szd_logo_white.png" alt="Logo SZD" loading="lazy">
       </div>
@@ -369,10 +395,10 @@
         <div class="container">
           <div class="about-grid">
             <article class="about-card" aria-labelledby="about-title">
-              <div class="about-pill">Producteur & éditeur à succès</div>
+              <div class="about-pill">Producteur, éditeur & beatmaker — Artiste professionnel</div>
               <h2 class="section-title" id="about-title">Qui je suis</h2>
               <div class="about-text">
-                <p>Je m’appelle Armel. Je suis artiste depuis 2006, connu sous le nom de <span class="about-highlight">MC Skual</span>, et formé en tant que producteur et éditeur à succès.</p>
+                <p>Je m’appelle Armel. Je suis artiste depuis 2006, connu sous le nom de <span class="about-highlight">MC Skual</span>, et formé en tant que producteur, éditeur et beatmaker.</p>
                 <p>Avec l’expérience, j’ai compris qu’un projet musical ne se limite pas à un bon son, mais à une vision, un cadre et des décisions prises au bon moment.</p>
                 <p>Aujourd’hui, j’accompagne des artistes sur l’ensemble de leur parcours : création, structuration, direction artistique, et compréhension des étapes nécessaires pour faire avancer un projet sérieusement.</p>
                 <p>Mon rôle n’est pas de vendre du rêve, mais de guider, cadrer et sécuriser, pour que chaque artiste sache où il va et pourquoi il y va.</p>
@@ -439,6 +465,87 @@
           <h2 class="section-title">Conseil pour garder le cap ensemble</h2>
           <p class="section-subtitle">360 conseils tournants, ton calme et pro, affichés aléatoirement à chaque visite.</p>
           <div class="advice-box" id="daily-advice" aria-live="polite">Chargement du conseil...</div>
+        </div>
+      </section>
+
+      <section class="section" id="qui-suis-je">
+        <div class="container">
+          <div class="profile-grid">
+            <article class="card premium profile-card" aria-labelledby="qui-title">
+              <div class="badge">👉 Qui suis-je ?</div>
+              <h2 class="section-title" id="qui-title">Producteur, éditeur & beatmaker – Artiste professionnel</h2>
+              <p>Artiste professionnel depuis 2006 sous le nom <strong>MC Skual</strong>, je suis aujourd’hui producteur, éditeur et beatmaker avec une vision complète du parcours artistique.</p>
+              <p>Formé à la production et à l’édition musicale, j’accompagne les artistes de la création jusqu’à la diffusion avec une méthode claire, professionnelle et adaptée à leur identité.</p>
+            </article>
+
+            <div class="profile-photos" role="list" aria-label="Photos d'Armel / MC Skual">
+              <figure class="profile-photo" role="listitem">
+                <img src="assets/studio-session.svg" alt="MC Skual au studio" loading="lazy">
+                <figcaption>Session studio</figcaption>
+              </figure>
+              <figure class="profile-photo" role="listitem">
+                <img src="assets/portrait-mc-skual.svg" alt="Portrait artiste MC Skual" loading="lazy">
+                <figcaption>Portrait artiste</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <details class="accordion" id="qcm-accordion">
+            <summary>
+              <span>👉 Avant de travailler ensemble</span>
+              <span class="chevron" aria-hidden="true">⌄</span>
+            </summary>
+            <div class="accordion-content">
+              <p class="section-subtitle" style="margin:0;">Un QCM rapide pour clarifier les essentiels avant de lancer un projet. Les réponses ne sont pas envoyées, elles servent juste à cadrer nos échanges.</p>
+              <form class="qcm-grid" id="artist-qcm" aria-label="QCM artistes">
+                <fieldset class="qcm-field">
+                  <legend>1. As-tu déjà un projet musical en cours ?</legend>
+                  <div class="qcm-options">
+                    <label class="qcm-option"><input type="radio" name="projet" value="en-cours">Oui, il est en cours</label>
+                    <label class="qcm-option"><input type="radio" name="projet" value="a-demarrer">Pas encore, je démarre</label>
+                    <label class="qcm-option"><input type="radio" name="projet" value="a-clarifier">J’ai besoin de clarifier</label>
+                  </div>
+                </fieldset>
+
+                <fieldset class="qcm-field">
+                  <legend>2. As-tu un budget défini ou préfères-tu être accompagné étape par étape ?</legend>
+                  <div class="qcm-options">
+                    <label class="qcm-option"><input type="radio" name="budget" value="defini">Oui, budget posé</label>
+                    <label class="qcm-option"><input type="radio" name="budget" value="palier">Je préfère avancer par paliers</label>
+                    <label class="qcm-option"><input type="radio" name="budget" value="a-discuter">On en discute ensemble</label>
+                  </div>
+                </fieldset>
+
+                <fieldset class="qcm-field">
+                  <legend>3. Souhaites-tu sortir un morceau, un EP ou un projet long ?</legend>
+                  <div class="qcm-options">
+                    <label class="qcm-option"><input type="radio" name="format" value="single">Un single</label>
+                    <label class="qcm-option"><input type="radio" name="format" value="ep">Un EP</label>
+                    <label class="qcm-option"><input type="radio" name="format" value="long">Un projet long</label>
+                  </div>
+                </fieldset>
+
+                <fieldset class="qcm-field">
+                  <legend>4. As-tu déjà distribué ta musique (Spotify, YouTube, etc.) ?</legend>
+                  <div class="qcm-options">
+                    <label class="qcm-option"><input type="radio" name="distribution" value="oui">Oui, déjà en ligne</label>
+                    <label class="qcm-option"><input type="radio" name="distribution" value="non">Pas encore</label>
+                    <label class="qcm-option"><input type="radio" name="distribution" value="accompagnement">J’aimerais être guidé</label>
+                  </div>
+                </fieldset>
+
+                <fieldset class="qcm-field">
+                  <legend>5. Cherches-tu uniquement une prod ou un accompagnement global ?</legend>
+                  <div class="qcm-options">
+                    <label class="qcm-option"><input type="radio" name="accompagnement" value="prod">Une prod uniquement</label>
+                    <label class="qcm-option"><input type="radio" name="accompagnement" value="global">Un accompagnement global</label>
+                    <label class="qcm-option"><input type="radio" name="accompagnement" value="a-preciser">À préciser ensemble</label>
+                  </div>
+                </fieldset>
+              </form>
+              <div class="qcm-status" id="qcm-status" aria-live="polite" hidden>Réponses enregistrées pour toi, l’accordion se replie automatiquement.</div>
+            </div>
+          </details>
         </div>
       </section>
     </main>
@@ -605,6 +712,37 @@
         target.textContent = conseilChoisi;
       }
     });
+
+    // QCM repliable
+    const qcmDetails = document.getElementById('qcm-accordion');
+    const qcmForm = document.getElementById('artist-qcm');
+    const qcmStatus = document.getElementById('qcm-status');
+
+    if (qcmDetails && qcmForm) {
+      const fieldsets = Array.from(qcmForm.querySelectorAll('fieldset'));
+
+      const updateQcmState = () => {
+        const allAnswered = fieldsets.every((field) => field.querySelector('input:checked'));
+
+        if (qcmStatus) {
+          qcmStatus.hidden = false;
+          qcmStatus.textContent = allAnswered
+            ? "Réponses enregistrées pour toi, l’accordion se replie automatiquement."
+            : "Réponds aux questions qui te concernent, rien n'est envoyé.";
+        }
+
+        if (allAnswered) {
+          qcmDetails.classList.add('completed');
+          setTimeout(() => {
+            qcmDetails.open = false;
+          }, 520);
+        } else {
+          qcmDetails.classList.remove('completed');
+        }
+      };
+
+      qcmForm.addEventListener('change', updateQcmState);
+    }
   </script>
 </body>
 </html>
