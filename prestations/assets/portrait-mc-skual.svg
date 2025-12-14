@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" role="img" aria-labelledby="title desc">
+  <title id="title">MC Skual — portrait</title>
+  <desc id="desc">Portrait artistique de MC Skual, sourire et appareil photo en bandoulière.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#111827" />
+      <stop offset="40%" stop-color="#0b1220" />
+      <stop offset="100%" stop-color="#020617" />
+    </linearGradient>
+    <radialGradient id="halo" cx="45%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#f0abfc" stop-opacity="0.24" />
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0" />
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.05" />
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg)" />
+  <rect width="900" height="1200" fill="url(#halo)" />
+  <g filter="url(#grain)">
+    <rect width="900" height="1200" fill="#000" opacity="0.32" />
+  </g>
+  <g transform="translate(240,260)">
+    <path d="M140 380 q-26 -80 -10 -170 q16 -86 70 -136 q54 -50 136 -36 q82 14 122 92 q20 38 26 94 q6 56 10 96 q6 66 42 124 q10 16 4 30 q-6 14 -24 16 q-52 4 -100 20 q-48 16 -120 18 q-132 4 -188 -78 q-56 -82 -68 -170 z" fill="#0f172a" stroke="#cbd5e1" stroke-width="6" opacity="0.8" />
+    <circle cx="220" cy="210" r="120" fill="#111" opacity="0.7" stroke="#fbbf24" stroke-width="10" />
+    <path d="M160 180 q30 20 60 0" stroke="#a5f3fc" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.8" />
+    <path d="M210 250 q34 28 80 0" stroke="#22c55e" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.8" />
+    <rect x="74" y="360" width="320" height="120" rx="38" fill="#0b1324" stroke="#22c55e" stroke-width="10" opacity="0.7" />
+    <rect x="96" y="388" width="276" height="64" rx="22" fill="#111827" opacity="0.9" />
+    <rect x="108" y="398" width="70" height="44" rx="12" fill="#0ea5e9" opacity="0.7" />
+    <rect x="194" y="398" width="70" height="44" rx="12" fill="#22c55e" opacity="0.7" />
+    <rect x="280" y="398" width="70" height="44" rx="12" fill="#fbbf24" opacity="0.7" />
+  </g>
+  <text x="70" y="1040" fill="#e5e7eb" font-family="Inter, system-ui" font-size="48" font-weight="800">MC-SKUAL</text>
+  <text x="70" y="1100" fill="#a5f3fc" font-family="Inter, system-ui" font-size="26" font-weight="600">Artiste · Producteur · Éditeur</text>
+  <rect x="70" y="1140" width="240" height="18" rx="9" fill="#22c55e" opacity="0.75" />
+</svg>
