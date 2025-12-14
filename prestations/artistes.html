@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SZD — Accompagnement artistes</title>
-  <meta name="description" content="Armel (MC Skual), producteur, éditeur et beatmaker. Cadre clair, méthode pro et accompagnement humain pour les artistes.">
+  <title>SZD — Landing artistes</title>
+  <meta name="description" content="On construit ton son étape par étape : vision claire, direction artistique assumée, méthode pro et accompagnement humain par Armel (MC Skual).">
   <style>
     :root {
       --bg:#05070f;
@@ -20,8 +20,7 @@
       --glow:0 0 28px rgba(125,211,252,0.25);
       --instru:#8b5cf6;
       --mix:#22c55e;
-      --rules:#fbbf24;
-      --transition:220ms ease;
+      --transition:200ms ease;
     }
 
     *, *::before, *::after { box-sizing:border-box; }
@@ -35,28 +34,18 @@
       -webkit-font-smoothing:antialiased;
     }
 
-    img { max-width:100%; display:block; }
+    img { max-width:100%; display:block; border-radius:14px; }
     a { color:inherit; text-decoration:none; }
-    button { font:inherit; }
     html { scroll-behavior:smooth; }
 
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior:auto; }
-      *, *::before, *::after {
-        animation-duration:0.001ms !important;
-        animation-iteration-count:1 !important;
-        transition:none !important;
-      }
+      *, *::before, *::after { animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition:none !important; }
     }
 
     .page { min-height:100vh; display:flex; flex-direction:column; }
-    .section { padding:72px 18px; }
-    .container { width:100%; max-width:1080px; margin:0 auto; }
-
-    @keyframes fadeIn {
-      from { opacity:0; transform:translateY(8px); }
-      to { opacity:1; transform:translateY(0); }
-    }
+    .section { padding:76px 18px; }
+    .container { width:100%; max-width:1100px; margin:0 auto; }
 
     /* HERO */
     .hero {
@@ -65,13 +54,13 @@
       flex-direction:column;
       justify-content:center;
       align-items:center;
+      text-align:center;
       position:relative;
-      padding:48px 18px 96px;
+      padding:64px 18px 96px;
       overflow:hidden;
       isolation:isolate;
-      text-align:center;
-      background:radial-gradient(circle at 20% 20%, rgba(125,211,252,0.18), transparent 30%),
-        radial-gradient(circle at 80% 10%, rgba(34,197,94,0.18), transparent 30%),
+      background:radial-gradient(circle at 20% 18%, rgba(125,211,252,0.18), transparent 32%),
+        radial-gradient(circle at 82% 22%, rgba(34,197,94,0.18), transparent 32%),
         linear-gradient(145deg, #0d1222, #070a12 55%, #04060d);
     }
     .hero::before {
@@ -79,8 +68,7 @@
       position:absolute;
       inset:0;
       background:url('assets/mc-skual-studio.jpg') center/cover no-repeat;
-      opacity:0.32;
-      transform:translateY(var(--hero-shift,0px));
+      opacity:0.28;
       filter:saturate(0.85);
       z-index:-2;
     }
@@ -88,11 +76,11 @@
       content:"";
       position:absolute;
       inset:0;
-      background:linear-gradient(180deg, rgba(5,7,15,0.85), rgba(5,7,15,0.96));
+      background:linear-gradient(180deg, rgba(5,7,15,0.9), rgba(5,7,15,0.96));
       z-index:-1;
     }
     .hero-logo {
-      width:min(320px, 70vw);
+      width:min(320px, 72vw);
       padding:18px;
       margin:0 auto 18px;
       border-radius:24px;
@@ -139,22 +127,15 @@
       width:100%;
       height:auto;
       filter:drop-shadow(0 12px 30px rgba(0,0,0,0.55)) drop-shadow(0 0 14px rgba(109,217,255,0.28)) drop-shadow(0 0 22px rgba(124,58,237,0.2)) drop-shadow(0 0 32px rgba(34,197,94,0.18));
-      transition:filter var(--transition);
     }
     @keyframes glowShift {
       0% { transform:scale(0.96) rotate(0deg); filter:blur(32px) saturate(115%) hue-rotate(0deg); }
       50% { transform:scale(1.04) rotate(8deg); filter:blur(34px) saturate(125%) hue-rotate(24deg); }
       100% { transform:scale(1.02) rotate(-6deg); filter:blur(33px) saturate(120%) hue-rotate(-18deg); }
     }
-    @media (prefers-reduced-motion: reduce) {
-      .logo-wrap::before { animation-duration:24s; animation-iteration-count:1; }
-    }
     .hero-title { margin:0 0 10px; font-size:clamp(28px, 7vw, 46px); line-height:1.1; letter-spacing:-0.01em; }
     .hero-subtitle { margin:0 0 22px; color:#e0e7ff; max-width:56ch; }
-    .cta-row { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
-    .btn { padding:14px 18px; border-radius:14px; border:1px solid transparent; background:var(--accent); color:#0b1221; font-weight:700; box-shadow:var(--glow); transition:transform var(--transition), box-shadow var(--transition), background var(--transition); }
-    .btn:hover { transform:translateY(-2px); box-shadow:0 20px 40px rgba(125,211,252,0.2); }
-    .hero-arrow { margin-top:48px; font-size:42px; animation:bounce 1.8s infinite; color:var(--accent); }
+    .hero-arrow { margin-top:48px; font-size:42px; animation:bounce 1.8s infinite; color:var(--accent); display:inline-flex; }
 
     @keyframes bounce {
       0%, 20%, 50%, 80%, 100% { transform:translateY(0); }
@@ -162,111 +143,91 @@
       60% { transform:translateY(6px); }
     }
 
-    /* Sections */
-    .section-title { margin:0 0 10px; font-size:24px; letter-spacing:-0.01em; }
-    .section-subtitle { margin:0 0 22px; color:var(--muted); max-width:70ch; }
-    .sub { margin:0; color:var(--muted); }
+    /* Content blocks */
+    .section-header { text-align:center; margin-bottom:32px; }
+    .section-title { margin:0 0 8px; font-size:26px; letter-spacing:-0.01em; }
+    .section-subtitle { margin:0; color:var(--muted); max-width:70ch; margin-left:auto; margin-right:auto; }
 
-    /* Cards */
-    .grid { display:grid; gap:18px; }
+    .story-grid {
+      display:grid;
+      gap:16px;
+      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    }
     .card {
       background:linear-gradient(160deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
       border:1px solid var(--border);
       border-radius:var(--radius);
       padding:18px;
       box-shadow:var(--shadow);
+      height:100%;
+      display:grid;
+      gap:12px;
     }
-    .card h3 { margin-top:0; margin-bottom:8px; font-size:18px; }
+    .card h3 { margin:0; font-size:20px; letter-spacing:-0.01em; }
     .card p { margin:0; color:var(--muted); }
 
-    .premium { position:relative; overflow:hidden; }
-    .premium::before {
-      content:"";
-      position:absolute;
-      inset:-20% -30%;
-      background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08), transparent 50%);
-      opacity:0.8;
-      pointer-events:none;
+    /* Premium icons */
+    .icon-wrap {
+      width:56px;
+      height:56px;
+      border-radius:14px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      filter:drop-shadow(0 0 12px rgba(125,211,252,0.25)) drop-shadow(0 0 22px rgba(124,58,237,0.18));
+      animation:haloShift 10s ease-in-out infinite alternate;
     }
+    svg.premium-icon { width:30px; height:30px; stroke:var(--accent); stroke-width:1.9; fill:none; stroke-linecap:round; stroke-linejoin:round; animation:colorCycle 11s ease-in-out infinite alternate; }
+    @keyframes haloShift {
+      0% { filter:drop-shadow(0 0 10px rgba(125,211,252,0.24)) drop-shadow(0 0 20px rgba(34,197,94,0.18)); }
+      50% { filter:drop-shadow(0 0 12px rgba(34,197,94,0.26)) drop-shadow(0 0 22px rgba(124,58,237,0.22)); }
+      100% { filter:drop-shadow(0 0 12px rgba(124,58,237,0.26)) drop-shadow(0 0 22px rgba(109,217,255,0.22)); }
+    }
+    @keyframes colorCycle {
+      0% { stroke:var(--accent); }
+      50% { stroke:var(--accent-strong); }
+      100% { stroke:#8b5cf6; }
+    }
+
+    /* Photos */
+    .photos-grid {
+      display:grid;
+      gap:14px;
+      grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+    }
+    figcaption { color:var(--muted); margin-top:10px; }
+
+    /* Offres */
+    .offer-grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); }
     .badge { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-size:13px; font-weight:700; letter-spacing:0.01em; }
-    .list { list-style:none; padding:0; margin:14px 0; display:grid; gap:8px; color:#e5ecff; }
-    .list li::before { content:"✔"; margin-right:8px; color:#c7ffe2; }
-    .pill-list { list-style:none; padding:0; margin:14px 0 0; display:flex; flex-wrap:wrap; gap:8px; }
+    .pill-list { list-style:none; padding:0; margin:12px 0 0; display:flex; flex-wrap:wrap; gap:8px; }
     .pill { padding:6px 10px; border-radius:12px; background:rgba(255,255,255,0.08); color:#f8fbff; font-weight:600; border:1px solid rgba(255,255,255,0.08); }
+    .list { list-style:none; padding:0; margin:12px 0; display:grid; gap:8px; color:#e5ecff; }
+    .list li::before { content:"✔"; margin-right:8px; color:#c7ffe2; }
 
     .card.instru { border-color:rgba(139,92,246,0.35); box-shadow:0 18px 36px rgba(139,92,246,0.18); background:linear-gradient(145deg, rgba(139,92,246,0.18), rgba(12,12,24,0.8)); }
     .card.mix { border-color:rgba(34,197,94,0.35); box-shadow:0 18px 36px rgba(34,197,94,0.16); background:linear-gradient(145deg, rgba(34,197,94,0.16), rgba(12,16,24,0.82)); }
-    .card.rules-card { border-color:rgba(251,191,36,0.35); box-shadow:0 18px 36px rgba(251,191,36,0.16); background:linear-gradient(145deg, rgba(251,191,36,0.12), rgba(12,12,18,0.9)); }
 
-    .rules { display:grid; gap:6px; color:#e5ecff; padding:0; list-style:none; margin:14px 0; }
-    .rules li::before { content:"•"; margin-right:8px; color:#ffd166; }
-
-    /* FAQ */
-    .faq { display:grid; gap:14px; }
-    .faq-block { display:grid; gap:12px; padding:16px; border:1px solid var(--border); border-radius:18px; background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)); box-shadow:var(--shadow); }
-    .faq-block h3 { margin:0; font-size:18px; letter-spacing:-0.01em; color:#e8edff; }
-    .faq-item { border:1px solid var(--border); border-radius:16px; background:linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); box-shadow:var(--shadow); overflow:hidden; }
-    .faq-question { width:100%; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:16px 18px; background:transparent; border:0; color:var(--text); font-weight:800; letter-spacing:-0.01em; text-align:left; cursor:pointer; }
-    .faq-question span { flex:1; }
-    .faq-icon { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:12px; background:rgba(125,211,252,0.12); color:var(--accent); font-weight:900; transition:transform var(--transition), background var(--transition); }
-    .faq-question[aria-expanded="true"] .faq-icon { transform:rotate(45deg); background:rgba(34,197,94,0.14); color:var(--accent-strong); }
-    .faq-answer { padding:0 18px 16px; color:var(--muted); max-height:0; opacity:0; overflow:hidden; transition:max-height 280ms ease, opacity 220ms ease; }
-    .faq-item.active .faq-answer { opacity:1; }
-    .faq-answer p { margin:0; }
-    .faq-answer p + p { margin-top:8px; }
-
-    /* QCM */
-    .qcm-card {
-      position:relative;
-      background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-      border:1px solid rgba(125,211,252,0.35);
-      box-shadow:0 20px 44px rgba(0,0,0,0.4);
-      border-radius:22px;
-      padding:20px;
-      overflow:hidden;
-    }
-    .qcm-card::before {
-      content:"";
-      position:absolute;
-      inset:-30% -40% auto auto;
-      background:radial-gradient(circle at 30% 30%, rgba(34,197,94,0.15), transparent 50%);
-      opacity:0.7;
-      pointer-events:none;
-    }
-    .qcm-progress { display:flex; align-items:center; justify-content:space-between; font-weight:700; color:#e0e7ff; margin-bottom:12px; }
-    .qcm-progress-bar { height:8px; border-radius:999px; background:rgba(255,255,255,0.08); overflow:hidden; }
-    .qcm-progress-fill { height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent-strong)); transition:width var(--transition); }
-    .qcm-question { margin:0 0 14px; font-size:20px; color:#f8fbff; }
-    .qcm-stage { display:grid; gap:12px; transition:opacity var(--transition), transform var(--transition); }
-    .qcm-stage.is-changing { opacity:0; transform:translateY(8px); }
-    .qcm-options { display:grid; gap:10px; }
-    .qcm-option { width:100%; padding:14px 12px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,0.04); color:#f7f9ff; text-align:left; font-weight:700; cursor:pointer; transition:transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition); }
-    .qcm-option:hover { transform:translateY(-1px); border-color:rgba(125,211,252,0.35); box-shadow:var(--glow); }
-    .qcm-option[aria-pressed="true"] { border-color:rgba(34,197,94,0.8); background:rgba(34,197,94,0.12); box-shadow:0 0 0 3px rgba(34,197,94,0.18); }
-    .qcm-next { margin-top:14px; width:100%; border-radius:14px; border:1px solid transparent; background:var(--accent); color:#0b1221; font-weight:800; padding:14px; cursor:pointer; box-shadow:var(--glow); transition:transform var(--transition), box-shadow var(--transition), background var(--transition), opacity var(--transition); }
-    .qcm-next:disabled { opacity:0.4; cursor:not-allowed; box-shadow:none; }
-
-    .qcm-summary { margin-top:16px; padding:16px; border-radius:16px; border:1px solid rgba(34,197,94,0.35); background:rgba(34,197,94,0.08); color:#d6ffe3; box-shadow:0 12px 30px rgba(34,197,94,0.18); display:grid; gap:10px; }
-    .qcm-recap { list-style:none; padding:0; margin:6px 0 0; display:grid; gap:8px; color:#eafef0; }
-    .qcm-recap li::before { content:"•"; margin-right:8px; color:#b9f5cc; }
-    .whatsapp-btn { margin-top:12px; display:inline-flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:14px; border-radius:14px; background:#25d366; color:#06230f; font-weight:800; border:1px solid rgba(0,0,0,0.1); box-shadow:0 16px 32px rgba(37,211,102,0.25); }
-
-    /* CTA banner */
-    .cta-final { padding:48px 18px; text-align:center; background:linear-gradient(120deg, rgba(125,211,252,0.1), rgba(34,197,94,0.12), rgba(5,7,15,0.92)); border-top:1px solid var(--border); }
+    /* CTA final */
+    .cta-final { padding:64px 18px 88px; text-align:center; background:linear-gradient(120deg, rgba(125,211,252,0.08), rgba(34,197,94,0.12), rgba(5,7,15,0.95)); border-top:1px solid var(--border); }
     .cta-final h2 { margin:0 0 12px; font-size:26px; }
     .cta-final p { margin:0 0 18px; color:var(--muted); }
+    .btn { padding:14px 18px; border-radius:14px; border:1px solid transparent; background:var(--accent); color:#0b1221; font-weight:800; box-shadow:var(--glow); display:inline-flex; align-items:center; justify-content:center; gap:10px; transition:transform var(--transition), box-shadow var(--transition), background var(--transition); }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 20px 40px rgba(125,211,252,0.2); }
 
     /* Responsive */
-    @media (min-width: 720px) {
-      .grid { grid-template-columns:repeat(3, 1fr); }
+    @media (min-width: 780px) {
       .section { padding:96px 28px; }
-      .hero { padding:72px 28px 120px; }
+      .hero { padding:82px 28px 120px; }
       .hero-subtitle { margin-left:auto; margin-right:auto; }
     }
   </style>
 </head>
 <body>
   <div class="page">
+    <!-- 1. HERO -->
     <header class="hero" id="top">
       <div class="hero-logo">
         <div class="logo-wrap">
@@ -275,480 +236,219 @@
       </div>
       <h1 class="hero-title">On construit ton son, étape par étape.</h1>
       <p class="hero-subtitle">Un cadre clair, une méthode professionnelle, un accompagnement humain. Tu te concentres sur la vibe, je sécurise le reste.</p>
-      <div class="cta-row">
-        <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%0AJe%20veux%20structurer%20mon%20projet%20avec%20toi." target="_blank" rel="noopener">Parler sur WhatsApp</a>
-      </div>
-      <a class="hero-arrow" href="#services" aria-label="Découvrir la suite">↓</a>
+      <a class="hero-arrow" href="#vision" aria-label="Découvrir la suite">↓</a>
     </header>
 
     <main>
+      <!-- 2. VISION -->
+      <section class="section" id="vision">
+        <div class="container">
+          <div class="section-header">
+            <div class="icon-wrap" aria-hidden="true">
+              <svg class="premium-icon" viewBox="0 0 24 24" role="presentation" focusable="false">
+                <circle cx="12" cy="12" r="7" />
+                <path d="M12 9.5v-2" />
+                <path d="M12 14.5v2" />
+                <path d="M9.5 12h-2" />
+                <path d="M14.5 12h2" />
+                <path d="M13.8 10.2 16 8" />
+                <path d="M10.2 10.2 8 8" />
+                <path d="M13.8 13.8 16 16" />
+                <path d="M10.2 13.8 8 16" />
+              </svg>
+            </div>
+            <h2 class="section-title">La vision</h2>
+            <p class="section-subtitle">Comprendre avant de produire, clarifier l’intention et ce que le morceau doit transmettre.</p>
+          </div>
+          <div class="story-grid">
+            <article class="card">
+              <h3>Comprendre avant d’agir</h3>
+              <p>Avant de parler technique, on définit l’univers, l’énergie et le message du titre.</p>
+            </article>
+            <article class="card">
+              <h3>Intention précise</h3>
+              <p>Chaque choix (tempo, textures, voix) sert l’émotion que tu veux transmettre.</p>
+            </article>
+            <article class="card">
+              <h3>Repères partagés</h3>
+              <p>On valide ensemble les références pour que tout le reste du projet reste cohérent.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. DIRECTION ARTISTIQUE -->
+      <section class="section" id="direction-artistique">
+        <div class="container">
+          <div class="section-header">
+            <div class="icon-wrap" aria-hidden="true">
+              <svg class="premium-icon" viewBox="0 0 24 24" role="presentation" focusable="false">
+                <path d="M4 12c2.5-2.5 5.5-4 8-4s5.5 1.5 8 4" />
+                <path d="M4 12c2.5 2.5 5.5 4 8 4s5.5-1.5 8-4" />
+                <path d="M9 12c0 1.657 1.343 3 3 3s3-1.343 3-3-1.343-3-3-3-3 1.343-3 3Z" />
+              </svg>
+            </div>
+            <h2 class="section-title">Direction artistique</h2>
+            <p class="section-subtitle">Donner une identité claire : textures, énergie, cohérence et audace assumée.</p>
+          </div>
+          <div class="story-grid">
+            <article class="card">
+              <h3>Identité sonore</h3>
+              <p>On choisit les timbres, la palette sonore et les éléments signature qui te différencient.</p>
+            </article>
+            <article class="card">
+              <h3>Fil conducteur</h3>
+              <p>Chaque décision respecte la ligne artistique : on avance sans perdre le cap.</p>
+            </article>
+            <article class="card">
+              <h3>Énergie maîtrisée</h3>
+              <p>Arrangement, placement rythmique, dynamiques : tout sert l’intention initiale.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. MÉTHODE -->
+      <section class="section" id="methode">
+        <div class="container">
+          <div class="section-header">
+            <div class="icon-wrap" aria-hidden="true">
+              <svg class="premium-icon" viewBox="0 0 24 24" role="presentation" focusable="false">
+                <path d="M5 8.5h14" />
+                <rect x="7" y="6" width="4" height="5" rx="1" />
+                <path d="M5 15.5h14" />
+                <rect x="13" y="13" width="4" height="5" rx="1" />
+              </svg>
+            </div>
+            <h2 class="section-title">Méthode</h2>
+            <p class="section-subtitle">Avancer sans tourner en rond : étapes claires, décisions rapides, créativité protégée.</p>
+          </div>
+          <div class="story-grid">
+            <article class="card">
+              <h3>Plan de route</h3>
+              <p>On découpe le projet en étapes lisibles pour éviter les blocages et prioriser.</p>
+            </article>
+            <article class="card">
+              <h3>Décisions datées</h3>
+              <p>Chaque phase se conclut par une validation pour sécuriser les délais et les livrables.</p>
+            </article>
+            <article class="card">
+              <h3>Créa protégée</h3>
+              <p>Le cadre verrouille les contraintes pour que tu restes focus sur la vibe.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. ACCOMPAGNEMENT HUMAIN -->
+      <section class="section" id="accompagnement">
+        <div class="container">
+          <div class="section-header">
+            <div class="icon-wrap" aria-hidden="true">
+              <svg class="premium-icon" viewBox="0 0 24 24" role="presentation" focusable="false">
+                <path d="M7 10.5V13a5 5 0 0 0 10 0v-2.5" />
+                <path d="M8.5 7.5a3.5 3.5 0 1 1 7 0v1.5H8.5Z" />
+                <path d="M5.5 12v1.2c0 1 .8 1.8 1.8 1.8H7" />
+                <path d="M18.5 12v1.2c0 1-.8 1.8-1.8 1.8H17" />
+                <path d="M9.5 16.8v1.2c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-1.2" />
+              </svg>
+            </div>
+            <h2 class="section-title">Accompagnement humain</h2>
+            <p class="section-subtitle">Tu n’es pas seul : guidance, cadre et décisions partagées sans imposer une vision.</p>
+          </div>
+          <div class="story-grid">
+            <article class="card">
+              <h3>Dialogue constant</h3>
+              <p>Échanges clairs, feedbacks utiles, une seule boucle de communication efficace.</p>
+            </article>
+            <article class="card">
+              <h3>Co-pilotage</h3>
+              <p>Je guide et sécurise les choix clés, tu gardes la direction artistique finale.</p>
+            </article>
+            <article class="card">
+              <h3>Sérénité</h3>
+              <p>Tu restes focus sur l’artistique pendant que j’encadre planning, qualité et cohérence.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. QUI SUIS-JE -->
       <section class="section" id="qui-suis-je">
         <div class="container">
-          <article class="card premium" aria-labelledby="qui-title">
-            <div class="badge">👉 Qui suis-je ?</div>
-            <h2 class="section-title" id="qui-title">Producteur, éditeur & beatmaker – repères solides</h2>
-            <p>Artiste professionnel depuis 2006 sous le nom <strong>MC Skual</strong>, je produis et édite des projets avec une vision complète du parcours artiste.</p>
-            <p>J’apporte un cadre clair, humain et efficace pour transformer ton intention en titre prêt à sortir, sans détour inutile.</p>
+          <article class="card" aria-labelledby="qui-title">
+            <h2 class="section-title" id="qui-title">Qui suis-je</h2>
+            <p>Je m’appelle Armel. Artiste depuis 2006 (MC Skual), formé en tant que producteur et éditeur à succès.</p>
+            <p>J’accompagne des artistes qui veulent structurer leur projet, clarifier leur direction et aller jusqu’au bout de leurs morceaux.</p>
           </article>
         </div>
       </section>
 
+      <!-- 7. PHOTOS -->
       <section class="section" id="photos">
         <div class="container">
-          <h2 class="section-title">Scènes et studio, en vrai</h2>
-          <p class="section-subtitle">Des images concrètes pour illustrer le cadre et l’implication au quotidien.</p>
-          <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px;" role="list">
-            <figure class="card premium" role="listitem">
+          <div class="section-header">
+            <h2 class="section-title">Photos</h2>
+            <p class="section-subtitle">Scènes et studio : uniquement l’utile, pour visualiser le cadre.</p>
+          </div>
+          <div class="photos-grid" role="list">
+            <figure class="card" role="listitem">
               <img src="assets/mc-skual-studio.jpg" alt="Armel au travail en studio" loading="lazy">
-              <figcaption class="sub" style="margin-top:10px;">Session studio – travail cadré</figcaption>
+              <figcaption>Session studio – travail cadré</figcaption>
             </figure>
-            <figure class="card premium" role="listitem">
+            <figure class="card" role="listitem">
               <img src="assets/mc-skual-portrait.jpg" alt="Portrait artistique de MC Skual" loading="lazy">
-              <figcaption class="sub" style="margin-top:10px;">Portrait – identité assumée</figcaption>
+              <figcaption>Portrait – identité assumée</figcaption>
             </figure>
           </div>
         </div>
       </section>
 
-      <section class="section" id="services">
+      <!-- 8. OFFRES -->
+      <section class="section" id="offres">
         <div class="container">
-          <h2 class="section-title">Services clairs et premium</h2>
-          <p class="section-subtitle">Deux offres phares, sans détour, prêtes pour une exploitation professionnelle.</p>
-          <div class="grid">
-            <article class="card premium instru" aria-labelledby="instru-title">
-              <div class="badge" style="background:rgba(139,92,246,0.2); color:#ede9fe; border:1px solid rgba(139,92,246,0.6); box-shadow:0 0 18px rgba(139,92,246,0.35);">Instrumentale sur mesure — 100 €</div>
-              <h3 id="instru-title">Création dédiée, cadrée et prête à exploiter.</h3>
-              <p>Une instrumentale originale pensée pour ton projet, avec une exclusivité sécurisée et un suivi clair.</p>
-              <ul class="list" aria-label="Avantages instrumentale">
+          <div class="section-header">
+            <h2 class="section-title">Les solutions selon ton projet</h2>
+            <p class="section-subtitle">Des cartes lisibles, prêtes à sécuriser ton morceau.</p>
+          </div>
+          <div class="offer-grid">
+            <article class="card instru" aria-labelledby="instru-title">
+              <div class="badge" style="background:rgba(139,92,246,0.2); color:#ede9fe; border:1px solid rgba(139,92,246,0.6); box-shadow:0 0 18px rgba(139,92,246,0.35);">Instrumentale — 100 €</div>
+              <h3 id="instru-title">Instrumentale</h3>
+              <p>Licence exclusive avec contrat.</p>
+              <ul class="list" aria-label="Inclus instrumentale">
                 <li>Instrumentale originale</li>
                 <li>Licence EXCLUSIVE</li>
                 <li>Contrat écrit fourni</li>
-                <li>Droits clairement définis</li>
-                <li>Création sur mesure ou sélection catalogue</li>
-                <li>1 ajustement inclus</li>
-                <li>Exports WAV + MP3</li>
-              </ul>
-              <p class="section-subtitle" style="margin-top:0; color:#dfe9ff; font-weight:700;">Utilisations incluses</p>
-              <div class="pill-list" aria-label="Utilisations incluses">
-                <span class="pill">Streaming (Spotify, Apple Music, etc.)</span>
-                <span class="pill">Radio</span>
-                <span class="pill">Clips vidéo</span>
-                <span class="pill">Réseaux sociaux</span>
-                <span class="pill">Showcase & scènes</span>
-              </div>
-              <p class="section-subtitle" style="margin-bottom:6px; color:#e7ddff; font-weight:700;">Règles (rappel)</p>
-              <ul class="rules" aria-label="Règles instrumentale">
-                <li>Acompte de 30 € pour démarrer</li>
-                <li>Solde à régler sous 30 jours pour obtenir la version finale</li>
-                <li>Modifications majeures = nouveau cadre</li>
-              </ul>
-              <p class="section-subtitle" style="margin-bottom:6px; color:#e7ddff; font-weight:700;">Garanties</p>
-              <ul class="rules" aria-label="Garanties instrumentale">
-                <li>Instrumentale retirée du catalogue après vente</li>
-                <li>Exclusivité respectée</li>
-                <li>Cadre juridique clair</li>
-                <li>Sécurité pour l’artiste</li>
+                <li>Utilisations incluses : streaming, radio, clip, réseaux, scène</li>
+                <li>Acompte 30 €</li>
+                <li>Solde sous 30 jours</li>
+                <li>Instrumentale retirée du catalogue</li>
               </ul>
             </article>
 
-            <article class="card premium mix" aria-labelledby="mix-title">
+            <article class="card mix" aria-labelledby="mix-title">
               <div class="badge" style="background:rgba(34,197,94,0.18); color:#e9fee9; border:1px solid rgba(34,197,94,0.6); box-shadow:0 0 18px rgba(34,197,94,0.25);">Mixage + Mastering — 60 €</div>
-              <h3 id="mix-title">Préparation complète pour diffusion.</h3>
-              <p>Un rendu équilibré, cohérent partout, prêt à sortir.</p>
-              <ul class="list" aria-label="Avantages mixage mastering">
+              <h3 id="mix-title">Mixage + Mastering</h3>
+              <p>Son propre, équilibré, prêt pour Spotify et plateformes.</p>
+              <ul class="list" aria-label="Inclus mixage mastering">
                 <li>Son propre et équilibré</li>
-                <li>Mastering prêt pour diffusion</li>
                 <li>Prêt pour Spotify / plateformes</li>
-                <li>Retouches incluses (dans le cadre)</li>
-              </ul>
-              <p class="section-subtitle" style="margin-top:0; color:#d6ffe3; font-weight:700;">Inclus</p>
-              <ul class="rules" aria-label="Inclus mixage mastering">
-                <li>1 révision incluse</li>
-                <li>Exports WAV / MP3</li>
+                <li>Retouches incluses dans le cadre</li>
+                <li>Rendu professionnel et cohérent</li>
               </ul>
             </article>
-
-            <article class="card premium rules-card" aria-labelledby="rules-title">
-              <div class="badge" style="background:rgba(251,191,36,0.18); color:#fff7d6; border:1px solid rgba(251,191,36,0.55); box-shadow:0 0 18px rgba(251,191,36,0.2);">Règles & cadre</div>
-              <h3 id="rules-title">Un cadre clair pour avancer vite sans flou.</h3>
-              <p>Une seule base commune pour toutes les prestations.</p>
-              <ul class="rules" aria-label="Règles générales">
-                <li>Acompte à valider avant de démarrer</li>
-                <li>Retours groupés et datés pour rester efficaces</li>
-                <li>Délais et validations décidés ensemble dès le début</li>
-                <li>WhatsApp = seul point de contact, pas de mails dispersés</li>
-                <li>Les changements majeurs font l’objet d’un nouveau cadrage</li>
-              </ul>
-              <p class="section-subtitle" style="margin:0; color:#ffe9b5; font-weight:700;">Objectif : garder la création fluide et maîtrisée.</p>
-            </article>
           </div>
-        </div>
-      </section>
-
-      <section class="section" id="qcm">
-        <div class="container">
-          <div class="qcm-card" aria-live="polite">
-            <h2 class="section-title">Pour bien cadrer notre collaboration</h2>
-            <p class="sub">Ces questions t’aident à clarifier ta direction artistique avant d’échanger ensemble.</p>
-            <div class="qcm-progress" aria-label="Progression du questionnaire">
-              <span id="qcm-step">1 / 5</span>
-              <div class="qcm-progress-bar" aria-hidden="true">
-                <div class="qcm-progress-fill" id="qcm-progress-fill"></div>
-              </div>
-            </div>
-            <div id="qcm-stage" class="qcm-stage">
-              <p class="qcm-question" id="qcm-question"></p>
-              <div class="qcm-options" id="qcm-options"></div>
-              <button class="qcm-next" id="qcm-next" type="button" disabled>Question suivante</button>
-            </div>
-            <div class="qcm-summary" id="qcm-summary" hidden></div>
-            <a id="whatsapp-link" class="whatsapp-btn" href="https://wa.me/33760083157" target="_blank" rel="noopener" hidden>
-              Contacter SZD sur WhatsApp
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="faq">
-        <div class="container">
-          <h2 class="section-title">FAQ artistes sérieux</h2>
-          <p class="section-subtitle">Des réponses directes pour avancer avec clarté, sans répéter le QCM.</p>
-          <div class="faq" aria-label="Questions fréquentes">
-            <section class="faq-block" aria-label="Démarrage et collaboration">
-              <h3>Démarrage & collaboration</h3>
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Quand est-ce pertinent de te contacter ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Quand tu as au minimum une intention artistique, même si tout n’est pas encore figé. Mon rôle est aussi d’aider à structurer.</p>
-                </div>
-              </article>
-
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Travailles-tu avec des artistes débutants ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Oui, si l’artiste est motivé, sérieux et prêt à avancer dans un cadre clair.</p>
-                </div>
-              </article>
-
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Est-ce possible de travailler sur plusieurs titres ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Oui. Je peux accompagner sur un titre, plusieurs morceaux, ou une direction artistique globale.</p>
-                </div>
-              </article>
-
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Accompagnes-tu au-delà du simple son ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Oui. Je suis formé en tant que producteur et éditeur à succès et mon rôle est aussi d’apporter un regard extérieur et expérimenté.</p>
-                </div>
-              </article>
-            </section>
-
-            <section class="faq-block" aria-label="Processus créatif et retours">
-              <h3>Processus créatif & retours</h3>
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Comment se passent les échanges ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Principalement via WhatsApp, avec des échanges clairs et structurés.</p>
-                </div>
-              </article>
-
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Puis-je venir avec des idées très précises ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Oui. Les projets avancent mieux quand l’artiste sait ce qu’il veut ou sait expliquer ce qu’il ressent.</p>
-                </div>
-              </article>
-
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Et si je ne sais pas exactement ce que je veux ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>C’est possible aussi. Dans ce cas, on travaille par étapes pour clarifier la direction.</p>
-                </div>
-              </article>
-
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Comment éviter les allers-retours inutiles ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>En préparant les retours, en restant clair sur les attentes, et en respectant le cadre des retouches.</p>
-                </div>
-              </article>
-
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Pourquoi limiter les retouches ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Parce que trop de retouches diluent la direction artistique et ralentissent le projet.</p>
-                </div>
-              </article>
-            </section>
-
-            <section class="faq-block" aria-label="Cadre délais et exploitation">
-              <h3>Cadre, délais & exploitation</h3>
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Que se passe-t-il si le projet s’étale dans le temps ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Le projet peut continuer, mais certaines étapes peuvent être réévaluées pour rester cohérentes.</p>
-                </div>
-              </article>
-
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Le cadre est-il négociable ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Le cadre est là pour protéger le projet. Il peut s’adapter, mais il ne disparaît pas.</p>
-                </div>
-              </article>
-
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Puis-je exploiter le morceau librement ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Oui, selon la licence définie dès le départ (streaming, radio, clip, scène, réseaux).</p>
-                </div>
-              </article>
-
-              <article class="faq-item">
-                <button class="faq-question" type="button" aria-expanded="false">
-                  <span>Est-ce que tu aides à prendre des décisions artistiques ?</span>
-                  <span class="faq-icon" aria-hidden="true">+</span>
-                </button>
-                <div class="faq-answer" hidden>
-                  <p>Oui. Je suis formé en tant que producteur et éditeur à succès et mon rôle est aussi d’apporter un regard extérieur et expérimenté.</p>
-                </div>
-              </article>
-            </section>
-          </div>
-          <p class="sub" style="margin-top:18px; text-align:center; color:#d9e4ff;">Si ces réponses t’aident à y voir plus clair, alors la suite sera plus simple.</p>
-        </div>
-      </section>
-
-      <section class="cta-final" aria-labelledby="cta-title">
-        <div class="container">
-          <h2 id="cta-title">Prêt à avancer ?</h2>
-          <p>Un seul message sur WhatsApp pour lancer le projet, cadré et clair.</p>
-          <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%0ALaissons%20un%20message%20personnalis%C3%A9%20ci-dessus%20pour%20d%C3%A9marrer." target="_blank" rel="noopener">Écrire sur WhatsApp</a>
         </div>
       </section>
     </main>
+
+    <!-- 9. CTA FINAL -->
+    <footer class="cta-final" id="cta-final">
+      <h2>Prêt à avancer ?</h2>
+      <p>On passe sur WhatsApp, on cadre ton projet et on lance la première étape.</p>
+      <a class="btn" href="https://wa.me/33760083157" target="_blank" rel="noopener" aria-label="Parler sur WhatsApp">Parler sur WhatsApp</a>
+    </footer>
   </div>
-
-  <script>
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!prefersReducedMotion) {
-      window.addEventListener('scroll', () => {
-        const shift = Math.min(window.scrollY * 0.04, 18);
-        document.documentElement.style.setProperty('--hero-shift', `${shift}px`);
-      });
-    }
-
-    const qcmQuestions = [
-      {
-        id: 'projet',
-        question: 'Q1 — Ton projet aujourd’hui ressemble plutôt à :',
-        options: [
-          'Une envie artistique à structurer',
-          'Un univers déjà défini',
-          'Un projet prêt à être finalisé'
-        ]
-      },
-      {
-        id: 'ressenti',
-        question: 'Q2 — Quand tu écoutes un morceau que tu aimes, ce qui compte le plus pour toi c’est :',
-        options: [
-          'L’émotion / l’ambiance',
-          'L’énergie et l’impact',
-          'La clarté et le rendu pro'
-        ]
-      },
-      {
-        id: 'univers',
-        question: 'Q3 — Ton univers se rapproche davantage de :',
-        options: [
-          'Quelque chose de sombre / introspectif',
-          'Quelque chose de lumineux / accessible',
-          'Quelque chose d’hybride / expérimental'
-        ]
-      },
-      {
-        id: 'besoin',
-        question: 'Q4 — Aujourd’hui, ton principal besoin est :',
-        options: [
-          'Clarifier ma direction artistique',
-          'Être guidé dans mes choix',
-          'Finaliser un projet cohérent'
-        ]
-      },
-      {
-        id: 'rythme',
-        question: 'Q5 — Pour avancer efficacement, tu préfères :',
-        options: [
-          'Prendre le temps d’explorer',
-          'Avancer avec un cadre clair',
-          'Travailler avec des étapes définies'
-        ]
-      }
-    ];
-
-    const qcmQuestionEl = document.getElementById('qcm-question');
-    const qcmOptionsEl = document.getElementById('qcm-options');
-    const qcmNextBtn = document.getElementById('qcm-next');
-    const qcmStepText = document.getElementById('qcm-step');
-    const qcmProgressFill = document.getElementById('qcm-progress-fill');
-    const qcmSummary = document.getElementById('qcm-summary');
-    const whatsappLink = document.getElementById('whatsapp-link');
-    const qcmStage = document.getElementById('qcm-stage');
-    let currentIndex = 0;
-    const answers = {};
-
-    const renderQuestion = () => {
-      qcmStage.classList.add('is-changing');
-      const { question, options, id } = qcmQuestions[currentIndex];
-      qcmQuestionEl.textContent = question;
-      qcmOptionsEl.innerHTML = '';
-      qcmNextBtn.disabled = true;
-      qcmNextBtn.textContent = 'Question suivante';
-      qcmStepText.textContent = `${currentIndex + 1} / ${qcmQuestions.length}`;
-      qcmProgressFill.style.width = `${((currentIndex + 1) / qcmQuestions.length) * 100}%`;
-
-      options.forEach((optionText) => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.className = 'qcm-option';
-        button.textContent = optionText;
-        button.setAttribute('aria-pressed', answers[id] === optionText ? 'true' : 'false');
-        button.addEventListener('click', () => {
-          Array.from(qcmOptionsEl.children).forEach((child) => child.setAttribute('aria-pressed', 'false'));
-          button.setAttribute('aria-pressed', 'true');
-          answers[id] = optionText;
-          qcmNextBtn.disabled = false;
-        });
-        qcmOptionsEl.appendChild(button);
-      });
-
-      requestAnimationFrame(() => {
-        qcmStage.classList.remove('is-changing');
-      });
-    };
-
-    const showSummary = () => {
-      qcmProgressFill.style.width = '100%';
-      qcmStepText.textContent = `${qcmQuestions.length} / ${qcmQuestions.length}`;
-      const summaryLines = [
-        `Ton projet : ${answers.projet}`,
-        `Ce que tu écoutes en priorité : ${answers.ressenti}`,
-        `Ton univers : ${answers.univers}`,
-        `Ton besoin du moment : ${answers.besoin}`,
-        `Ton rythme idéal : ${answers.rythme}`
-      ];
-
-      qcmSummary.innerHTML = `
-        <strong>Merci pour tes réponses.</strong>
-        <p style="margin:0; color:#cff7dd;">Elles permettent de mieux comprendre ton univers et d’échanger plus efficacement.</p>
-        <ul class="qcm-recap">${summaryLines.map((line) => `<li>${line}</li>`).join('')}</ul>
-      `;
-
-      qcmSummary.hidden = false;
-      whatsappLink.hidden = false;
-    };
-
-    qcmNextBtn.addEventListener('click', () => {
-      if (!answers[qcmQuestions[currentIndex].id]) return;
-
-      if (currentIndex < qcmQuestions.length - 1) {
-        currentIndex += 1;
-        renderQuestion();
-      } else {
-        qcmStage.style.display = 'none';
-        showSummary();
-      }
-    });
-
-    renderQuestion();
-
-    // FAQ accordéon moderne, une question ouverte à la fois par bloc
-    const faqBlocks = document.querySelectorAll('.faq-block');
-
-    const toggleFaq = (targetItem) => {
-      const currentBlock = targetItem.closest('.faq-block');
-      const itemsInBlock = currentBlock.querySelectorAll('.faq-item');
-
-      itemsInBlock.forEach((item) => {
-        const button = item.querySelector('.faq-question');
-        const answer = item.querySelector('.faq-answer');
-        const isTarget = item === targetItem;
-        const shouldOpen = isTarget && !item.classList.contains('active');
-
-        if (shouldOpen) {
-          item.classList.add('active');
-          button.setAttribute('aria-expanded', 'true');
-          answer.hidden = false;
-          answer.style.maxHeight = '0px';
-          const height = answer.scrollHeight;
-          requestAnimationFrame(() => {
-            answer.style.maxHeight = `${height}px`;
-          });
-          answer.addEventListener('transitionend', () => {
-            if (item.classList.contains('active')) answer.style.maxHeight = 'none';
-          }, { once: true });
-        } else {
-          item.classList.remove('active');
-          button.setAttribute('aria-expanded', 'false');
-          const height = answer.scrollHeight;
-          answer.style.maxHeight = `${height}px`;
-          requestAnimationFrame(() => {
-            answer.style.maxHeight = '0px';
-          });
-          answer.addEventListener('transitionend', () => {
-            if (!item.classList.contains('active')) {
-              answer.hidden = true;
-              answer.style.maxHeight = '0px';
-            }
-          }, { once: true });
-        }
-      });
-    };
-
-    faqBlocks.forEach((block) => {
-      block.querySelectorAll('.faq-item').forEach((item) => {
-        const button = item.querySelector('.faq-question');
-        button.addEventListener('click', () => toggleFaq(item));
-      });
-    });
-  </script>
 </body>
 </html>
