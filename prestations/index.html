@@ -1002,7 +1002,35 @@
       .filter-row{ grid-template-columns:1fr; }
       .filter-actions{ flex-direction:column; align-items:flex-start; }
     }
-    
+
+    /* FAQ */
+    .faq-list{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:6px;
+    }
+    .faq-list details{
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:12px 14px;
+      background:rgba(255,255,255,.02);
+      color:var(--text);
+    }
+    [data-theme="light"] .faq-list details{ background:rgba(15,23,42,.02); }
+    .faq-list summary{
+      cursor:pointer;
+      font-weight:700;
+      outline:none;
+      list-style:none;
+    }
+    .faq-list summary::-webkit-details-marker{ display:none; }
+    .faq-list details p{
+      margin:10px 0 0;
+      color:var(--muted);
+      line-height:1.55;
+    }
+
   </style>
 </head>
 <body>
@@ -1227,6 +1255,24 @@
       <span class="pill" id="followupCounts">0 relance en attente</span>
     </div>
     <div id="followupList" class="grid followup-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
+  </div>
+
+  <div class="card" id="faq" style="margin-top:20px;">
+    <h2>FAQ</h2>
+    <div class="faq-list">
+      <details>
+        <summary>Où sont stockées mes prestations&nbsp;?</summary>
+        <p>Les données sont conservées dans le localStorage de ton navigateur. Si celui-ci est bloqué, l'application passe automatiquement en mode secours pour que tu puisses exporter et réimporter un fichier JSON.</p>
+      </details>
+      <details>
+        <summary>Comment sécuriser mes données&nbsp;?</summary>
+        <p>Utilise le bouton d'export pour récupérer un fichier JSON et conserve-le sur ton NAS (dossier <code>Sauvegarde</code>). Tu pourras ensuite l'importer pour restaurer toutes tes prestations.</p>
+      </details>
+      <details>
+        <summary>Comment mettre à jour une prestation&nbsp;?</summary>
+        <p>Dans le tableau des prestations, clique sur <strong>Encaisser</strong> pour enregistrer un paiement ou sur <strong>Supprimer</strong> pour effacer une ligne. Les totaux et barres d'avancement se recalculent automatiquement.</p>
+      </details>
+    </div>
   </div>
 
   </main>
