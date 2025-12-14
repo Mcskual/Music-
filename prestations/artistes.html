@@ -166,10 +166,17 @@
     .card h3 { margin:0; font-size:20px; letter-spacing:-0.01em; }
     .card p { margin:0; color:var(--muted); }
 
+    /* Storytelling emphasis */
+    .story-card {
+      text-align:center;
+      align-items:start;
+    }
+    .card-lead { color:var(--text); }
+
     /* Premium icons */
     .icon-wrap {
-      width:56px;
-      height:56px;
+      width:clamp(56px, 10vw, 64px);
+      height:clamp(56px, 10vw, 64px);
       border-radius:14px;
       display:inline-flex;
       align-items:center;
@@ -180,6 +187,7 @@
       animation:haloShift 10s ease-in-out infinite alternate;
     }
     svg.premium-icon { width:30px; height:30px; stroke:var(--accent); stroke-width:1.9; fill:none; stroke-linecap:round; stroke-linejoin:round; animation:colorCycle 11s ease-in-out infinite alternate; }
+    .story-icon { width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 0 14px rgba(125,211,252,0.25)); }
     @keyframes haloShift {
       0% { filter:drop-shadow(0 0 10px rgba(125,211,252,0.24)) drop-shadow(0 0 20px rgba(34,197,94,0.18)); }
       50% { filter:drop-shadow(0 0 12px rgba(34,197,94,0.26)) drop-shadow(0 0 22px rgba(124,58,237,0.22)); }
@@ -222,6 +230,7 @@
       .section { padding:96px 28px; }
       .hero { padding:82px 28px 120px; }
       .hero-subtitle { margin-left:auto; margin-right:auto; }
+      .icon-wrap { width:clamp(64px, 8vw, 72px); height:clamp(64px, 8vw, 72px); }
     }
   </style>
 </head>
@@ -261,16 +270,28 @@
             <p class="section-subtitle">Comprendre avant de produire, clarifier l’intention et ce que le morceau doit transmettre.</p>
           </div>
           <div class="story-grid">
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="lightbulb.svg" alt="" loading="lazy">
+              </div>
               <h3>Comprendre avant d’agir</h3>
+              <p class="card-lead"><strong>Tout commence par une intention claire.</strong></p>
               <p>Avant de parler technique, on définit l’univers, l’énergie et le message du titre.</p>
             </article>
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="lightbulb.svg" alt="" loading="lazy">
+              </div>
               <h3>Intention précise</h3>
+              <p class="card-lead"><strong>Tout commence par une intention claire.</strong></p>
               <p>Chaque choix (tempo, textures, voix) sert l’émotion que tu veux transmettre.</p>
             </article>
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="lightbulb.svg" alt="" loading="lazy">
+              </div>
               <h3>Repères partagés</h3>
+              <p class="card-lead"><strong>Tout commence par une intention claire.</strong></p>
               <p>On valide ensemble les références pour que tout le reste du projet reste cohérent.</p>
             </article>
           </div>
@@ -292,16 +313,28 @@
             <p class="section-subtitle">Donner une identité claire : textures, énergie, cohérence et audace assumée.</p>
           </div>
           <div class="story-grid">
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="waveform.svg" alt="" loading="lazy">
+              </div>
               <h3>Identité sonore</h3>
+              <p class="card-lead"><strong>On construit ton son, étape par étape.</strong></p>
               <p>On choisit les timbres, la palette sonore et les éléments signature qui te différencient.</p>
             </article>
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="waveform.svg" alt="" loading="lazy">
+              </div>
               <h3>Fil conducteur</h3>
+              <p class="card-lead"><strong>On construit ton son, étape par étape.</strong></p>
               <p>Chaque décision respecte la ligne artistique : on avance sans perdre le cap.</p>
             </article>
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="waveform.svg" alt="" loading="lazy">
+              </div>
               <h3>Énergie maîtrisée</h3>
+              <p class="card-lead"><strong>On construit ton son, étape par étape.</strong></p>
               <p>Arrangement, placement rythmique, dynamiques : tout sert l’intention initiale.</p>
             </article>
           </div>
@@ -324,16 +357,28 @@
             <p class="section-subtitle">Avancer sans tourner en rond : étapes claires, décisions rapides, créativité protégée.</p>
           </div>
           <div class="story-grid">
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="stack.svg" alt="" loading="lazy">
+              </div>
               <h3>Plan de route</h3>
+              <p class="card-lead"><strong>Un cadre clair pour avancer sans tourner en rond.</strong></p>
               <p>On découpe le projet en étapes lisibles pour éviter les blocages et prioriser.</p>
             </article>
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="stack.svg" alt="" loading="lazy">
+              </div>
               <h3>Décisions datées</h3>
+              <p class="card-lead"><strong>Un cadre clair pour avancer sans tourner en rond.</strong></p>
               <p>Chaque phase se conclut par une validation pour sécuriser les délais et les livrables.</p>
             </article>
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="stack.svg" alt="" loading="lazy">
+              </div>
               <h3>Créa protégée</h3>
+              <p class="card-lead"><strong>Un cadre clair pour avancer sans tourner en rond.</strong></p>
               <p>Le cadre verrouille les contraintes pour que tu restes focus sur la vibe.</p>
             </article>
           </div>
@@ -357,16 +402,28 @@
             <p class="section-subtitle">Tu n’es pas seul : guidance, cadre et décisions partagées sans imposer une vision.</p>
           </div>
           <div class="story-grid">
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="traffic.svg" alt="" loading="lazy">
+              </div>
               <h3>Dialogue constant</h3>
+              <p class="card-lead"><strong>Tu n’es pas seul dans le processus.</strong></p>
               <p>Échanges clairs, feedbacks utiles, une seule boucle de communication efficace.</p>
             </article>
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="traffic.svg" alt="" loading="lazy">
+              </div>
               <h3>Co-pilotage</h3>
+              <p class="card-lead"><strong>Tu n’es pas seul dans le processus.</strong></p>
               <p>Je guide et sécurise les choix clés, tu gardes la direction artistique finale.</p>
             </article>
-            <article class="card">
+            <article class="card story-card">
+              <div class="icon-wrap" aria-hidden="true">
+                <img class="story-icon" src="traffic.svg" alt="" loading="lazy">
+              </div>
               <h3>Sérénité</h3>
+              <p class="card-lead"><strong>Tu n’es pas seul dans le processus.</strong></p>
               <p>Tu restes focus sur l’artistique pendant que j’encadre planning, qualité et cohérence.</p>
             </article>
           </div>
