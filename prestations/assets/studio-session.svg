@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Studio — travail réel</title>
+  <desc id="desc">Armel en session studio, cadrage horizontal avec micro et console.</desc>
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1f2937" />
+      <stop offset="50%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#0b1224" />
+    </linearGradient>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#22c55e" stop-opacity="0.65" />
+    </linearGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.08" />
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="1200" height="800" fill="url(#g1)" />
+  <rect width="1200" height="800" fill="url(#g2)" opacity="0.4" />
+  <g filter="url(#grain)">
+    <rect width="1200" height="800" fill="#000" opacity="0.35" />
+  </g>
+  <g fill="none" stroke="#7dd3fc" stroke-width="4" opacity="0.4">
+    <rect x="120" y="120" width="360" height="520" rx="26" />
+    <rect x="480" y="180" width="520" height="360" rx="30" />
+  </g>
+  <g stroke="#cbd5e1" stroke-width="6" stroke-linecap="round" opacity="0.65">
+    <path d="M240 220 C 260 260 260 540 240 580" />
+    <path d="M260 240 C 320 300 320 460 260 520" />
+    <line x1="320" y1="310" x2="420" y2="270" />
+    <line x1="320" y1="470" x2="420" y2="510" />
+  </g>
+  <g fill="#111827" opacity="0.75">
+    <path d="M560 260 h280 a40 40 0 0 1 40 40 v140 a40 40 0 0 1 -40 40 h-280 a40 40 0 0 1 -40 -40 v-140 a40 40 0 0 1 40 -40 z" />
+  </g>
+  <g fill="#10b981" opacity="0.6">
+    <rect x="590" y="300" width="120" height="30" rx="12" />
+    <rect x="590" y="350" width="260" height="22" rx="10" />
+    <rect x="590" y="390" width="210" height="22" rx="10" />
+    <rect x="590" y="430" width="170" height="22" rx="10" />
+  </g>
+  <circle cx="360" cy="420" r="110" fill="#111827" opacity="0.85" stroke="#c084fc" stroke-width="10" />
+  <circle cx="360" cy="420" r="72" fill="#0ea5e9" opacity="0.5" />
+  <circle cx="360" cy="420" r="46" fill="#22c55e" opacity="0.55" />
+  <path d="M820 320 q40 80 0 160" fill="none" stroke="#fbbf24" stroke-width="14" stroke-linecap="round" opacity="0.7" />
+  <rect x="120" y="620" width="960" height="80" rx="22" fill="#0f172a" opacity="0.85" stroke="#475569" />
+  <text x="140" y="670" fill="#e2e8f0" font-family="Inter, system-ui" font-size="32" font-weight="700">Session studio en cours</text>
+  <text x="140" y="706" fill="#a5f3fc" font-family="Inter, system-ui" font-size="20" font-weight="600">Prise vocale, direction & cadrage</text>
+</svg>

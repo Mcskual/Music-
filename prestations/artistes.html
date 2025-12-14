@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SZD — Accompagnement artistes</title>
-  <meta name="description" content="Armel (MC Skual), producteur de musique. Cadre clair, méthode pro et accompagnement humain pour les artistes.">
+  <meta name="description" content="Armel (MC Skual), producteur et éditeur à succès. Cadre clair, méthode pro et accompagnement humain pour les artistes.">
   <style>
     :root {
       --bg:#05070f;
@@ -165,6 +165,26 @@
     .section-title { margin:0 0 10px; font-size:24px; letter-spacing:-0.01em; }
     .section-subtitle { margin:0 0 22px; color:var(--muted); max-width:70ch; }
 
+    /* Bio */
+    .about-grid { display:grid; gap:16px; }
+    .about-card { background:linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); border:1px solid var(--border); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); }
+    .about-card h3 { margin:0 0 10px; font-size:20px; }
+    .about-text { color:#e7ecff; margin:0; display:grid; gap:12px; line-height:1.65; }
+    .about-pill { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.35); color:#c7ffe2; font-weight:700; text-transform:uppercase; letter-spacing:0.01em; }
+    .about-highlight { color:#c7ffe2; font-weight:700; }
+
+    /* Photos */
+    .photo-grid { display:grid; gap:14px; }
+    .photo-card { border-radius:18px; overflow:hidden; position:relative; border:1px solid var(--border); box-shadow:var(--shadow); background:var(--panel-soft); }
+    .photo-card img { width:100%; height:100%; object-fit:cover; display:block; }
+    .photo-caption { position:absolute; left:14px; bottom:14px; padding:10px 12px; border-radius:12px; background:rgba(5,7,15,0.82); color:#f7f9ff; font-weight:700; border:1px solid rgba(255,255,255,0.08); box-shadow:0 12px 30px rgba(0,0,0,0.35); }
+
+    /* FAQ */
+    .faq-grid { display:grid; gap:12px; }
+    .faq-item { padding:14px; border-radius:16px; border:1px solid var(--border); background:linear-gradient(150deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01)); box-shadow:var(--shadow); }
+    .faq-item h3 { margin:0 0 6px; font-size:17px; }
+    .faq-item p { margin:0; color:#e0e7ff; }
+
     /* Cards */
     .grid { display:grid; gap:18px; }
     .card {
@@ -221,6 +241,9 @@
     /* Responsive */
     @media (min-width: 720px) {
       .grid { grid-template-columns:repeat(3, 1fr); }
+      .about-grid { grid-template-columns:1.2fr 0.8fr; align-items:start; }
+      .photo-grid { grid-template-columns:repeat(2, 1fr); }
+      .faq-grid { grid-template-columns:repeat(2, 1fr); }
       .section { padding:96px 28px; }
       .hero { padding:72px 28px 120px; }
       .hero-subtitle { margin-left:auto; margin-right:auto; }
@@ -241,7 +264,7 @@
     <header class="hero" id="top">
       <div class="identity" aria-label="Identité">
         <span>Armel</span>
-        <span>Producteur de musique · Artiste depuis 2006 (MC Skual)</span>
+        <span>Producteur & éditeur à succès · Artiste depuis 2006 (MC Skual)</span>
         <span>Accompagnement humain</span>
       </div>
       <div class="hero-logo">
@@ -337,6 +360,75 @@
                 <li>Respect du temps de chacun</li>
                 <li>Objectif : un projet finalisé, pas éternel</li>
               </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="container">
+          <div class="about-grid">
+            <article class="about-card" aria-labelledby="about-title">
+              <div class="about-pill">Producteur & éditeur à succès</div>
+              <h2 class="section-title" id="about-title">Qui je suis</h2>
+              <div class="about-text">
+                <p>Je m’appelle Armel. Je suis artiste depuis 2006, connu sous le nom de <span class="about-highlight">MC Skual</span>, et formé en tant que producteur et éditeur à succès.</p>
+                <p>Avec l’expérience, j’ai compris qu’un projet musical ne se limite pas à un bon son, mais à une vision, un cadre et des décisions prises au bon moment.</p>
+                <p>Aujourd’hui, j’accompagne des artistes sur l’ensemble de leur parcours : création, structuration, direction artistique, et compréhension des étapes nécessaires pour faire avancer un projet sérieusement.</p>
+                <p>Mon rôle n’est pas de vendre du rêve, mais de guider, cadrer et sécuriser, pour que chaque artiste sache où il va et pourquoi il y va.</p>
+                <p class="section-subtitle" style="color:#e5ecff; margin:0;">Si tu cherches un cadre clair, un accompagnement sincère et un regard expérimenté sur ton projet, alors on peut travailler ensemble.</p>
+              </div>
+            </article>
+            <article class="about-card" aria-label="Approche globale">
+              <h3>Accompagnement 360°</h3>
+              <p class="section-subtitle" style="margin:0; color:#e0e7ff;">Je mets à profit mon expérience d’artiste, de producteur et d’éditeur pour sécuriser chaque étape, du premier briefing à la sortie.</p>
+              <ul class="list" style="margin-top:14px;">
+                <li>Vision stratégique + décisions au bon moment</li>
+                <li>Direction artistique et structuration de projet</li>
+                <li>Un seul point de contact : WhatsApp</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="photos">
+        <div class="container">
+          <h2 class="section-title">Instantanés réels</h2>
+          <p class="section-subtitle">Un studio qui tourne, un artiste impliqué : la preuve en images, sans artifice.</p>
+          <div class="photo-grid" role="list">
+            <figure class="photo-card" role="listitem">
+              <img src="assets/studio-session.svg" alt="Armel au travail en studio" loading="lazy">
+              <figcaption class="photo-caption">Studio — travail réel</figcaption>
+            </figure>
+            <figure class="photo-card" role="listitem">
+              <img src="assets/portrait-mc-skual.svg" alt="Portrait artistique de MC Skual" loading="lazy">
+              <figcaption class="photo-caption">MC Skual — portrait</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="faq">
+        <div class="container">
+          <h2 class="section-title">QCM / FAQ — casser les non-dits</h2>
+          <p class="section-subtitle">Des réponses directes pour que rien ne flotte entre nous.</p>
+          <div class="faq-grid">
+            <article class="faq-item">
+              <h3>Est-ce que tu accompagnes seulement la prod ?</h3>
+              <p>Non. Je couvre l’ensemble du parcours : vision, création, structuration, direction artistique et diffusion.</p>
+            </article>
+            <article class="faq-item">
+              <h3>Pourquoi WhatsApp uniquement ?</h3>
+              <p>Un seul canal = zéro perte d’info, décisions plus rapides, projet plus fluide.</p>
+            </article>
+            <article class="faq-item">
+              <h3>Tu vends du rêve ?</h3>
+              <p>Je vends du cadre et du concret. Mon rôle est de sécuriser chaque étape et d’annoncer clairement ce qui est réaliste.</p>
+            </article>
+            <article class="faq-item">
+              <h3>Comment se passent les retours ?</h3>
+              <p>Retours groupés, datés, par WhatsApp. On valide étape par étape pour avancer sans flou.</p>
             </article>
           </div>
         </div>
