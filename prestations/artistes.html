@@ -21,7 +21,7 @@
       --instru:#8b5cf6;
       --mix:#22c55e;
       --rules:#fbbf24;
-      --transition:200ms ease;
+      --transition:220ms ease;
     }
 
     *, *::before, *::after { box-sizing:border-box; }
@@ -91,22 +91,6 @@
       background:linear-gradient(180deg, rgba(5,7,15,0.85), rgba(5,7,15,0.96));
       z-index:-1;
     }
-    .identity {
-      display:grid;
-      gap:6px;
-      padding:12px 16px;
-      border-radius:16px;
-      background:rgba(255,255,255,0.06);
-      border:1px solid rgba(255,255,255,0.08);
-      box-shadow:0 10px 30px rgba(0,0,0,0.4);
-      margin-bottom:18px;
-      color:#e0e7ff;
-      font-weight:700;
-      font-size:14px;
-      text-transform:uppercase;
-      letter-spacing:0.02em;
-    }
-    .identity span { display:block; font-weight:600; opacity:0.92; }
     .hero-logo {
       width:min(320px, 70vw);
       padding:18px;
@@ -142,61 +126,6 @@
     .section-subtitle { margin:0 0 22px; color:var(--muted); max-width:70ch; }
     .sub { margin:0; color:var(--muted); }
 
-    /* Bio */
-    .about-grid { display:grid; gap:16px; }
-    .about-card { background:linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); border:1px solid var(--border); border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); }
-    .about-card h3 { margin:0 0 10px; font-size:20px; }
-    .about-text { color:#e7ecff; margin:0; display:grid; gap:12px; line-height:1.65; }
-    .about-pill { display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; background:rgba(34,197,94,0.12); border:1px solid rgba(34,197,94,0.35); color:#c7ffe2; font-weight:700; text-transform:uppercase; letter-spacing:0.01em; }
-    .about-highlight { color:#c7ffe2; font-weight:700; }
-
-    /* Photos */
-    .photo-grid { display:grid; gap:14px; }
-    .photo-card { border-radius:18px; overflow:hidden; position:relative; border:1px solid var(--border); box-shadow:var(--shadow); background:var(--panel-soft); }
-    .photo-card img { width:100%; height:100%; object-fit:cover; display:block; }
-    .photo-caption { position:absolute; left:14px; bottom:14px; padding:10px 12px; border-radius:12px; background:rgba(5,7,15,0.82); color:#f7f9ff; font-weight:700; border:1px solid rgba(255,255,255,0.08); box-shadow:0 12px 30px rgba(0,0,0,0.35); }
-
-    /* Profile */
-    .profile-grid { display:grid; gap:18px; }
-    .profile-card { background:linear-gradient(155deg, rgba(125,211,252,0.06), rgba(34,197,94,0.05)), var(--panel-soft); border-color:rgba(125,211,252,0.25); box-shadow:0 18px 36px rgba(125,211,252,0.15); }
-    .profile-card .badge { background:rgba(125,211,252,0.18); color:#e6f7ff; border:1px solid rgba(125,211,252,0.5); box-shadow:0 0 18px rgba(125,211,252,0.25); text-transform:uppercase; letter-spacing:0.04em; }
-    .profile-card p { color:#e0e7ff; margin:0 0 12px; }
-    .profile-photos { display:grid; gap:14px; }
-    .profile-photo { border-radius:18px; overflow:hidden; position:relative; border:1px solid var(--border); box-shadow:0 18px 36px rgba(0,0,0,0.3); background:var(--panel-soft); }
-    .profile-photo img { width:100%; height:100%; object-fit:cover; display:block; filter:saturate(0.98); }
-    .profile-photo::after { content:""; position:absolute; inset:0; box-shadow:0 0 26px rgba(125,211,252,0.18); pointer-events:none; }
-    .profile-photo figcaption { position:absolute; inset:auto 12px 12px 12px; padding:8px 10px; border-radius:12px; background:rgba(5,7,15,0.82); color:#f7f9ff; font-weight:700; border:1px solid rgba(255,255,255,0.08); box-shadow:0 12px 30px rgba(0,0,0,0.35); }
-
-    /* Accordion */
-    .accordion { border:1px solid var(--border); border-radius:16px; background:linear-gradient(150deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); box-shadow:var(--shadow); overflow:hidden; }
-    .accordion summary { list-style:none; display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; font-weight:800; letter-spacing:-0.01em; }
-    .accordion summary::-webkit-details-marker { display:none; }
-    .accordion summary span { flex:1; }
-    .accordion summary .chevron { transition:transform var(--transition), color var(--transition); color:var(--accent); }
-    .accordion[open] summary .chevron { transform:rotate(180deg); color:var(--accent-strong); }
-    .accordion-content { padding:0 16px 16px; display:grid; gap:12px; border-top:1px solid var(--border); animation:fadeIn 220ms ease; }
-    .qcm-grid { display:grid; gap:12px; }
-    .qcm-field { padding:12px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,0.02); box-shadow:inset 0 1px 0 rgba(255,255,255,0.04); display:grid; gap:10px; }
-    .qcm-field label { font-weight:700; display:block; }
-    .qcm-input { width:100%; padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.04); color:#e5edff; font:inherit; resize:vertical; min-height:72px; transition:border-color var(--transition), box-shadow var(--transition); }
-    .qcm-input:focus { outline:none; border-color:rgba(125,211,252,0.45); box-shadow:0 0 0 3px rgba(125,211,252,0.18); background:rgba(255,255,255,0.06); }
-    .qcm-status { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.4); color:#d6ffe3; font-weight:700; box-shadow:0 12px 30px rgba(34,197,94,0.18); }
-    .accordion.completed { border-color:rgba(34,197,94,0.45); box-shadow:0 18px 36px rgba(34,197,94,0.12); }
-
-    /* FAQ (modern accordion) */
-    .faq-wrapper { display:grid; gap:16px; }
-    .faq-intro { margin:0; color:var(--muted); max-width:70ch; }
-    .faq-accordion { display:grid; gap:10px; margin-top:12px; }
-    .faq-item { border:1px solid var(--border); border-radius:16px; background:linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); box-shadow:var(--shadow); overflow:hidden; }
-    .faq-toggle { width:100%; padding:16px; display:flex; align-items:center; gap:12px; border:0; background:transparent; color:inherit; text-align:left; cursor:pointer; font-weight:800; letter-spacing:-0.01em; }
-    .faq-toggle span { flex:1; }
-    .faq-chevron { transition:transform var(--transition), color var(--transition); color:var(--accent); font-size:18px; }
-    .faq-item.is-open .faq-chevron { transform:rotate(180deg); color:var(--accent-strong); }
-    .faq-panel { padding:0 16px 16px; color:#e0e7ff; line-height:1.65; display:grid; gap:10px; max-height:0; opacity:0; overflow:hidden; transition:max-height 260ms ease, opacity 220ms ease; }
-    .faq-item.is-open .faq-panel { max-height:var(--faq-height, 320px); opacity:1; }
-    .faq-panel p { margin:0; }
-    .faq-cta-bridge { margin:18px 0 0; color:var(--muted); font-weight:700; }
-
     /* Cards */
     .grid { display:grid; gap:18px; }
     .card {
@@ -209,10 +138,7 @@
     .card h3 { margin-top:0; margin-bottom:8px; font-size:18px; }
     .card p { margin:0; color:var(--muted); }
 
-    .premium {
-      position:relative;
-      overflow:hidden;
-    }
+    .premium { position:relative; overflow:hidden; }
     .premium::before {
       content:"";
       position:absolute;
@@ -226,24 +152,45 @@
     .list li::before { content:"✔"; margin-right:8px; color:#c7ffe2; }
     .pill-list { list-style:none; padding:0; margin:14px 0 0; display:flex; flex-wrap:wrap; gap:8px; }
     .pill { padding:6px 10px; border-radius:12px; background:rgba(255,255,255,0.08); color:#f8fbff; font-weight:600; border:1px solid rgba(255,255,255,0.08); }
-    .rules { display:grid; gap:6px; color:#e5ecff; padding:0; list-style:none; margin:14px 0; }
-    .rules li::before { content:"•"; margin-right:8px; color:#ffd166; }
 
     .card.instru { border-color:rgba(139,92,246,0.35); box-shadow:0 18px 36px rgba(139,92,246,0.18); background:linear-gradient(145deg, rgba(139,92,246,0.18), rgba(12,12,24,0.8)); }
     .card.mix { border-color:rgba(34,197,94,0.35); box-shadow:0 18px 36px rgba(34,197,94,0.16); background:linear-gradient(145deg, rgba(34,197,94,0.16), rgba(12,16,24,0.82)); }
     .card.rules-card { border-color:rgba(251,191,36,0.35); box-shadow:0 18px 36px rgba(251,191,36,0.16); background:linear-gradient(145deg, rgba(251,191,36,0.12), rgba(12,12,18,0.9)); }
 
-    /* Advice */
-    .advice-box {
-      margin-top:18px;
-      padding:18px;
-      border-radius:16px;
-      border:1px solid var(--border);
-      background:linear-gradient(150deg, rgba(125,211,252,0.1), rgba(12,16,24,0.9));
-      box-shadow:var(--shadow);
-      font-weight:700;
-      color:#e5ecff;
+    .rules { display:grid; gap:6px; color:#e5ecff; padding:0; list-style:none; margin:14px 0; }
+    .rules li::before { content:"•"; margin-right:8px; color:#ffd166; }
+
+    /* QCM */
+    .qcm-card {
+      position:relative;
+      background:linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border:1px solid rgba(125,211,252,0.35);
+      box-shadow:0 20px 44px rgba(0,0,0,0.4);
+      border-radius:22px;
+      padding:20px;
+      overflow:hidden;
     }
+    .qcm-card::before {
+      content:"";
+      position:absolute;
+      inset:-30% -40% auto auto;
+      background:radial-gradient(circle at 30% 30%, rgba(34,197,94,0.15), transparent 50%);
+      opacity:0.7;
+      pointer-events:none;
+    }
+    .qcm-progress { display:flex; align-items:center; justify-content:space-between; font-weight:700; color:#e0e7ff; margin-bottom:12px; }
+    .qcm-progress-bar { height:8px; border-radius:999px; background:rgba(255,255,255,0.08); overflow:hidden; }
+    .qcm-progress-fill { height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent-strong)); transition:width var(--transition); }
+    .qcm-question { margin:0 0 14px; font-size:20px; color:#f8fbff; }
+    .qcm-options { display:grid; gap:10px; }
+    .qcm-option { width:100%; padding:14px 12px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,0.04); color:#f7f9ff; text-align:left; font-weight:700; cursor:pointer; transition:transform var(--transition), border-color var(--transition), box-shadow var(--transition), background var(--transition); }
+    .qcm-option:hover { transform:translateY(-1px); border-color:rgba(125,211,252,0.35); box-shadow:var(--glow); }
+    .qcm-option[aria-pressed="true"] { border-color:rgba(34,197,94,0.8); background:rgba(34,197,94,0.12); box-shadow:0 0 0 3px rgba(34,197,94,0.18); }
+    .qcm-next { margin-top:14px; width:100%; border-radius:14px; border:1px solid transparent; background:var(--accent); color:#0b1221; font-weight:800; padding:14px; cursor:pointer; box-shadow:var(--glow); transition:transform var(--transition), box-shadow var(--transition), background var(--transition), opacity var(--transition); }
+    .qcm-next:disabled { opacity:0.4; cursor:not-allowed; box-shadow:none; }
+
+    .qcm-summary { margin-top:16px; padding:16px; border-radius:16px; border:1px solid rgba(34,197,94,0.35); background:rgba(34,197,94,0.08); color:#d6ffe3; box-shadow:0 12px 30px rgba(34,197,94,0.18); display:grid; gap:10px; }
+    .whatsapp-btn { margin-top:12px; display:inline-flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:14px; border-radius:14px; background:#25d366; color:#06230f; font-weight:800; border:1px solid rgba(0,0,0,0.1); box-shadow:0 16px 32px rgba(37,211,102,0.25); }
 
     /* CTA banner */
     .cta-final { padding:48px 18px; text-align:center; background:linear-gradient(120deg, rgba(125,211,252,0.1), rgba(34,197,94,0.12), rgba(5,7,15,0.92)); border-top:1px solid var(--border); }
@@ -253,11 +200,6 @@
     /* Responsive */
     @media (min-width: 720px) {
       .grid { grid-template-columns:repeat(3, 1fr); }
-      .about-grid { grid-template-columns:1.2fr 0.8fr; align-items:start; }
-      .photo-grid { grid-template-columns:repeat(2, 1fr); }
-      .profile-grid { grid-template-columns:1.1fr 0.9fr; align-items:start; }
-      .profile-photos { grid-template-columns:repeat(2, 1fr); }
-      .faq-grid { grid-template-columns:repeat(2, 1fr); }
       .section { padding:96px 28px; }
       .hero { padding:72px 28px 120px; }
       .hero-subtitle { margin-left:auto; margin-right:auto; }
@@ -273,7 +215,7 @@
       <h1 class="hero-title">On construit ton son, étape par étape.</h1>
       <p class="hero-subtitle">Un cadre clair, une méthode professionnelle, un accompagnement humain. Tu te concentres sur la vibe, je sécurise le reste.</p>
       <div class="cta-row">
-        <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%0AJe%20suis%20artiste%20depuis%20___%2C%20mon%20style%20est%20___%2C%0Aj%27aimerais%20collaborer%20avec%20toi." target="_blank" rel="noopener">Parler sur WhatsApp</a>
+        <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%0AJe%20veux%20structurer%20mon%20projet%20avec%20toi." target="_blank" rel="noopener">Parler sur WhatsApp</a>
       </div>
       <a class="hero-arrow" href="#services" aria-label="Découvrir la suite">↓</a>
     </header>
@@ -302,18 +244,6 @@
                 <span class="pill">Showcase & scènes</span>
                 <span class="pill">Réseaux sociaux</span>
               </div>
-              <p class="section-subtitle" style="margin-top:18px; color:#dfe9ff; font-weight:700;">Règles</p>
-              <ul class="rules" aria-label="Règles instrumentale">
-                <li>Acompte de 30 € pour démarrer</li>
-                <li>Solde sous 30 jours pour obtenir la version finale</li>
-                <li>Modifications majeures = nouveau devis</li>
-              </ul>
-              <p class="section-subtitle" style="margin-top:14px; color:#dfe9ff; font-weight:700;">Garanties</p>
-              <ul class="rules" aria-label="Garanties instrumentale">
-                <li>Instrumentale originale</li>
-                <li>Cadre clair dès le départ</li>
-                <li>Aucun flou sur l’exploitation</li>
-              </ul>
             </article>
 
             <article class="card premium mix" aria-labelledby="mix-title">
@@ -331,62 +261,20 @@
                 <li>1 révision incluse</li>
                 <li>Exports WAV / MP3</li>
               </ul>
-              <p class="section-subtitle" style="margin-top:14px; color:#d6ffe3; font-weight:700;">Règles</p>
-              <ul class="rules" aria-label="Règles mixage mastering">
-                <li>2 retouches incluses sous 15 jours</li>
-                <li>Au-delà : 10 € par modification</li>
-              </ul>
-              <p class="section-subtitle" style="margin-top:14px; color:#d6ffe3; font-weight:700;">Garantie qualité</p>
-              <ul class="rules" aria-label="Garantie qualité mixage">
-                <li>Niveau conforme streaming</li>
-                <li>Pas de saturation</li>
-                <li>Rendu propre et maîtrisé</li>
-              </ul>
             </article>
 
             <article class="card premium rules-card" aria-labelledby="rules-title">
-              <div class="badge" style="background:rgba(251,191,36,0.18); color:#fff7d6; border:1px solid rgba(251,191,36,0.55); box-shadow:0 0 18px rgba(251,191,36,0.2);">Cadre & garanties</div>
-              <h3 id="rules-title">Un cadre clair permet une collaboration créative et efficace.</h3>
-              <p>Des règles simples pour rester efficaces ensemble.</p>
-              <p class="section-subtitle" style="margin-top:12px; color:#ffe9b5; font-weight:700;">Règles</p>
+              <div class="badge" style="background:rgba(251,191,36,0.18); color:#fff7d6; border:1px solid rgba(251,191,36,0.55); box-shadow:0 0 18px rgba(251,191,36,0.2);">Règles & cadre</div>
+              <h3 id="rules-title">Un cadre clair pour avancer vite sans flou.</h3>
+              <p>Une seule base commune pour toutes les prestations.</p>
               <ul class="rules" aria-label="Règles générales">
-                <li>Communication claire = projet fluide</li>
-                <li>Retours groupés recommandés</li>
-                <li>Respect des délais de validation</li>
+                <li>Acompte à valider avant de démarrer</li>
+                <li>Retours groupés et datés pour rester efficaces</li>
+                <li>Délais et validations décidés ensemble dès le début</li>
+                <li>WhatsApp = seul point de contact, pas de mails dispersés</li>
+                <li>Les changements majeurs font l’objet d’un nouveau cadrage</li>
               </ul>
-              <p class="section-subtitle" style="margin-top:12px; color:#ffe9b5; font-weight:700;">Garanties</p>
-              <ul class="rules" aria-label="Garanties générales">
-                <li>Travail cadré</li>
-                <li>Respect du temps de chacun</li>
-                <li>Objectif : un projet finalisé, pas éternel</li>
-              </ul>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="about">
-        <div class="container">
-          <div class="about-grid">
-            <article class="about-card" aria-labelledby="about-title">
-              <div class="about-pill">Producteur, éditeur & beatmaker — Artiste professionnel</div>
-              <h2 class="section-title" id="about-title">Qui je suis</h2>
-              <div class="about-text">
-                <p>Je m’appelle Armel. Je suis artiste depuis 2006, connu sous le nom de <span class="about-highlight">MC Skual</span>, et formé en tant que producteur, éditeur et beatmaker.</p>
-                <p>Avec l’expérience, j’ai compris qu’un projet musical ne se limite pas à un bon son, mais à une vision, un cadre et des décisions prises au bon moment.</p>
-                <p>Aujourd’hui, j’accompagne des artistes sur l’ensemble de leur parcours : création, structuration, direction artistique, et compréhension des étapes nécessaires pour faire avancer un projet sérieusement.</p>
-                <p>Mon rôle n’est pas de vendre du rêve, mais de guider, cadrer et sécuriser, pour que chaque artiste sache où il va et pourquoi il y va.</p>
-                <p class="section-subtitle" style="color:#e5ecff; margin:0;">Si tu cherches un cadre clair, un accompagnement sincère et un regard expérimenté sur ton projet, alors on peut travailler ensemble.</p>
-              </div>
-            </article>
-            <article class="about-card" aria-label="Approche globale">
-              <h3>Accompagnement 360°</h3>
-              <p class="section-subtitle" style="margin:0; color:#e0e7ff;">Je mets à profit mon expérience d’artiste, de producteur et d’éditeur pour sécuriser chaque étape, du premier briefing à la sortie.</p>
-              <ul class="list" style="margin-top:14px;">
-                <li>Vision stratégique + décisions au bon moment</li>
-                <li>Direction artistique et structuration de projet</li>
-                <li>Un seul point de contact : WhatsApp</li>
-              </ul>
+              <p class="section-subtitle" style="margin:0; color:#ffe9b5; font-weight:700;">Objectif : garder la création fluide et maîtrisée.</p>
             </article>
           </div>
         </div>
@@ -396,497 +284,199 @@
         <div class="container">
           <h2 class="section-title">Instantanés réels</h2>
           <p class="section-subtitle">Un studio qui tourne, un artiste impliqué : la preuve en images, sans artifice.</p>
-          <div class="photo-grid" role="list">
-            <figure class="photo-card" role="listitem">
+          <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px;" role="list">
+            <figure class="card premium" role="listitem">
               <img src="assets/mc-skual-studio.jpg" alt="Armel au travail en studio" loading="lazy">
-              <figcaption class="photo-caption">Studio — travail réel</figcaption>
+              <figcaption class="sub" style="margin-top:10px;">Session studio – réel et cadré</figcaption>
             </figure>
-            <figure class="photo-card" role="listitem">
+            <figure class="card premium" role="listitem">
               <img src="assets/mc-skual-portrait.jpg" alt="Portrait artistique de MC Skual" loading="lazy">
-              <figcaption class="photo-caption">MC Skual — portrait</figcaption>
+              <figcaption class="sub" style="margin-top:10px;">Portrait – identité assumée</figcaption>
             </figure>
           </div>
         </div>
       </section>
 
-      <section class="section" id="advice">
+      <section class="section" id="qcm">
         <div class="container">
-          <h2 class="section-title">Conseil pour garder le cap ensemble</h2>
-          <p class="section-subtitle">360 conseils tournants, ton calme et pro, affichés aléatoirement à chaque visite.</p>
-          <div class="advice-box" id="daily-advice" aria-live="polite">Chargement du conseil...</div>
+          <div class="qcm-card" aria-live="polite">
+            <h2 class="section-title">Pour bien cadrer notre collaboration</h2>
+            <p class="sub">Réponds à ces questions pour vérifier que nous sommes alignés.</p>
+            <div class="qcm-progress" aria-label="Progression du questionnaire">
+              <span id="qcm-step">1 / 5</span>
+              <div class="qcm-progress-bar" aria-hidden="true">
+                <div class="qcm-progress-fill" id="qcm-progress-fill"></div>
+              </div>
+            </div>
+            <div id="qcm-stage">
+              <p class="qcm-question" id="qcm-question"></p>
+              <div class="qcm-options" id="qcm-options"></div>
+              <button class="qcm-next" id="qcm-next" type="button" disabled>Question suivante</button>
+            </div>
+            <div class="qcm-summary" id="qcm-summary" hidden></div>
+            <a id="whatsapp-link" class="whatsapp-btn" href="https://wa.me/33760083157" target="_blank" rel="noopener" hidden>
+              Ouvrir WhatsApp avec mon message
+            </a>
+          </div>
         </div>
       </section>
 
       <section class="section" id="qui-suis-je">
         <div class="container">
-          <div class="profile-grid">
-            <article class="card premium profile-card" aria-labelledby="qui-title">
-              <div class="badge">👉 Qui suis-je ?</div>
-              <h2 class="section-title" id="qui-title">Producteur, éditeur & beatmaker – Artiste professionnel</h2>
-              <p>Artiste professionnel depuis 2006 sous le nom <strong>MC Skual</strong>, je suis aujourd’hui producteur, éditeur et beatmaker avec une vision complète du parcours artistique.</p>
-              <p>Formé à la production et à l’édition musicale, j’accompagne les artistes de la création jusqu’à la diffusion avec une méthode claire, professionnelle et adaptée à leur identité.</p>
-            </article>
-
-            <div class="profile-photos" role="list" aria-label="Photos d'Armel / MC Skual">
-              <figure class="profile-photo" role="listitem">
-                <img src="assets/mc-skual-studio.jpg" alt="MC Skual au studio" loading="lazy">
-                <figcaption>Session studio</figcaption>
-              </figure>
-              <figure class="profile-photo" role="listitem">
-                <img src="assets/mc-skual-portrait.jpg" alt="Portrait artiste MC Skual" loading="lazy">
-                <figcaption>Portrait artiste</figcaption>
-              </figure>
-            </div>
-          </div>
-
-          <details class="accordion" id="qcm-accordion">
-            <summary>
-              <span>👉 Avant de travailler ensemble</span>
-              <span class="chevron" aria-hidden="true">⌄</span>
-            </summary>
-            <div class="accordion-content">
-              <p class="section-subtitle" style="margin:0;">Questions ouvertes pour préparer notre collaboration. Tes réponses restent sur ton appareil et servent à cadrer notre échange.</p>
-              <form class="qcm-grid" id="artist-qcm" aria-label="Questions ouvertes artistes">
-                <div class="qcm-field">
-                  <label for="projet">1. Où en es-tu de ton projet musical ?</label>
-                  <textarea class="qcm-input" id="projet" name="projet" placeholder="Partage l’état d’avancement et ce que tu veux verrouiller maintenant."></textarea>
-                </div>
-
-                <div class="qcm-field">
-                  <label for="budget">2. Comment souhaites-tu cadrer le budget ?</label>
-                  <textarea class="qcm-input" id="budget" name="budget" placeholder="Budget posé, paliers, accompagnement… précise ce qui te semble juste."></textarea>
-                </div>
-
-                <div class="qcm-field">
-                  <label for="format">3. Quelle forme veut prendre le projet ?</label>
-                  <textarea class="qcm-input" id="format" name="format" placeholder="Single, EP, projet long… décris ton intention."></textarea>
-                </div>
-
-                <div class="qcm-field">
-                  <label for="distribution">4. Où en est la distribution ?</label>
-                  <textarea class="qcm-input" id="distribution" name="distribution" placeholder="Déjà en ligne, à lancer, besoin d’être guidé…"></textarea>
-                </div>
-
-                <div class="qcm-field">
-                  <label for="accompagnement">5. Quel type d’accompagnement recherches-tu ?</label>
-                  <textarea class="qcm-input" id="accompagnement" name="accompagnement" placeholder="Prod seule, accompagnement global, ou un mix des deux."></textarea>
-                </div>
-              </form>
-              <div class="qcm-status" id="qcm-status" aria-live="polite" hidden>Réponses enregistrées pour toi, l’accordion se replie automatiquement.</div>
-            </div>
-          </details>
+          <article class="card premium" aria-labelledby="qui-title">
+            <div class="badge">👉 Qui suis-je ?</div>
+            <h2 class="section-title" id="qui-title">Producteur, éditeur & beatmaker – Artiste professionnel</h2>
+            <p>Artiste professionnel depuis 2006 sous le nom <strong>MC Skual</strong>, je suis aujourd’hui producteur, éditeur et beatmaker avec une vision complète du parcours artistique.</p>
+            <p>Formé à la production et à l’édition musicale, j’accompagne les artistes de la création jusqu’à la diffusion avec une méthode claire, professionnelle et adaptée à leur identité.</p>
+          </article>
         </div>
       </section>
 
-      <!-- FAQ moderne en accordéon (placée avant le CTA WhatsApp) -->
-      <section class="section" id="faq">
+      <section class="cta-final" aria-labelledby="cta-title">
         <div class="container">
-          <div class="faq-wrapper" aria-label="Questions fréquentes sur la collaboration">
-            <h2 class="section-title">Questions fréquentes</h2>
-            <p class="sub faq-intro">Des réponses claires pour collaborer dans de bonnes conditions, sans malentendu.</p>
-
-            <div class="faq-accordion" role="list">
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q1 — Puis-je prendre mon temps pour répondre ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Oui. Les retours sont possibles dans le cadre prévu. Ils sont simplement cadrés pour éviter que le projet s’étire inutilement et perde en cohérence.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q2 — Et si je change d’avis en cours de route ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Les ajustements font partie du processus. Les changements majeurs demandent simplement un nouveau cadre pour rester efficaces.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q3 — Pourquoi un acompte est-il demandé ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>L’acompte permet de sécuriser le temps de travail et de démarrer le projet sereinement, avec un engagement réciproque.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q4 — Combien de retouches sont incluses ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Deux retouches sont incluses dans le délai prévu. Elles servent à affiner, pas à recommencer le projet.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q5 — Et si je dépasse le délai de retouches ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Le projet peut continuer. Les modifications supplémentaires restent possibles et sont simplement facturées.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q6 — Est-ce que tu imposes une direction artistique ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Non. Mon rôle est de guider et structurer, pas d’imposer une vision. Les décisions artistiques restent les tiennes.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q7 — Est-ce que je peux demander beaucoup de versions ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Les versions sont cadrées pour garantir un rendu cohérent. Multiplier les versions nuit souvent à la direction artistique.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q8 — Et si je ne suis pas satisfait de la première version ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>On échange et on ajuste dans le cadre prévu. L’objectif est toujours d’aboutir à un rendu propre et assumé.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q9 — Est-ce que tu travailles avec tous les artistes ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Je travaille avec les artistes prêts à avancer sérieusement, dans un cadre clair, respectueux et constructif.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q10 — Est-ce que tu peux m’accompagner au-delà du son ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Oui. Je suis formé en tant que producteur et éditeur à succès, et je peux guider les artistes sur la structuration, les choix artistiques et les étapes du parcours.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q11 — Est-ce que je peux sortir le morceau partout ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Oui, selon les termes de la licence. Les exploitations sont clairement définies dès le départ (radio, streaming, clip, scène, réseaux).</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q12 — Est-ce que tu aides à prendre les bonnes décisions ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Oui. Mon rôle est aussi d’apporter un regard extérieur, expérimenté et honnête sur le projet.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q13 — Pourquoi ce cadre est-il aussi précis ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Parce qu’un cadre clair protège la créativité, le temps de chacun et la qualité finale du projet.</p>
-                </div>
-              </article>
-
-              <article class="faq-item" role="listitem">
-                <button class="faq-toggle" type="button" aria-expanded="false">
-                  <span>Q14 — Est-ce que je peux travailler avec toi sur plusieurs titres ?</span>
-                  <span class="faq-chevron" aria-hidden="true">⌄</span>
-                </button>
-                <div class="faq-panel" hidden>
-                  <p>Oui, c’est même souvent plus efficace. Un suivi sur plusieurs titres permet une vraie cohérence artistique.</p>
-                </div>
-              </article>
-            </div>
-
-            <p class="faq-cta-bridge">Si ces réponses te parlent, alors nous pouvons travailler dans de bonnes conditions.</p>
-          </div>
+          <h2 id="cta-title">Prêt à avancer ?</h2>
+          <p>Un seul message sur WhatsApp pour lancer le projet, cadré et clair.</p>
+          <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%0ALaissons%20un%20message%20personnalis%C3%A9%20ci-dessus%20pour%20d%C3%A9marrer." target="_blank" rel="noopener">Écrire sur WhatsApp</a>
         </div>
       </section>
     </main>
-
-    <footer class="cta-final">
-      <div class="container">
-        <h2>Si tu es aligné avec ce cadre, alors on peut travailler sereinement ensemble.</h2>
-        <p>Un seul point de contact : WhatsApp.</p>
-        <a class="btn" href="https://wa.me/33760083157?text=Salut%20SZD%2C%20je%20viens%20de%20la%20page%20artistes.%0AJe%20suis%20artiste%20depuis%20___%2C%20mon%20style%20est%20___%2C%0Aj%27aimerais%20collaborer%20avec%20toi." target="_blank" rel="noopener">WhatsApp — démarrer</a>
-      </div>
-    </footer>
   </div>
 
   <script>
-    // Parallax effect on hero background (light and respectful of prefers-reduced-motion)
-    const hero = document.querySelector('.hero');
-    if (hero && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!prefersReducedMotion) {
       window.addEventListener('scroll', () => {
-        const shift = Math.min(window.scrollY * 0.08, 26);
-        hero.style.setProperty('--hero-shift', `${shift}px`);
+        const shift = Math.min(window.scrollY * 0.04, 18);
+        document.documentElement.style.setProperty('--hero-shift', `${shift}px`);
       });
     }
 
-
-    // Conseils aléatoires (360, subtils et orientés collaboration)
-    const baseConseils = [
-      "Un projet avance quand les décisions sont claires.",
-      "Des références précises font gagner du temps.",
-      "Un retour groupé vaut mieux que plusieurs messages.",
-      "La direction artistique doit être décidée avant les retouches.",
-      "La régularité vaut mieux que la précipitation.",
-      "Un cadre clair libère la créativité.",
-      "Moins de versions, plus de cohérence.",
-      "La communication simple évite les malentendus.",
-      "Une vision partagée fluidifie chaque étape.",
-      "Un brief concis met tout le monde au même niveau.",
-      "Les délais respectés renforcent la confiance.",
-      "Un seul canal de discussion garde le projet lisible.",
-      "Les décisions écrites servent de repère.",
-      "Les références audio accélèrent la compréhension.",
-      "Les attentes définies dès le départ évitent les surprises.",
-      "Un export test avant validation sécurise la sortie.",
-      "Les stems nommés clairement facilitent le mix.",
-      "Des retours datés gardent l'historique limpide.",
-      "Une seule voix décide, puis tout va plus vite.",
-      "Le respect du rythme de travail protège la qualité.",
-      "Les priorités exprimées donnent du sens aux retours.",
-      "Les questions précises appellent des réponses précises.",
-      "Un tempo et une tonalité partagés dès le début alignent tout.",
-      "Un planning simple évite les tensions.",
-      "Les validations rapides préservent l'énergie.",
-      "Un résumé de séance évite les redites.",
-      "Une référence visuelle peut guider les choix sonores.",
-      "Les attentes sur les voix doivent être écrites.",
-      "Les silences choisis font respirer le morceau.",
-      "Une prise détendue est souvent la meilleure.",
-      "Les versions doivent être archivées, pas empilées.",
-      "Les exports sans clipping laissent de la marge.",
-      "Une check-list de livraison évite les oublis.",
-      "Les stems alignés au même point zéro font gagner du temps.",
-      "Un guide rythmique solide simplifie les prises.",
-      "Les retours doivent distinguer le ressenti du correctif.",
-      "Un brief partagé avant chaque séance maintient le cap.",
-      "Les décisions prises ensemble se respectent mieux.",
-      "Les demandes courtes et claires ouvrent la voie.",
-      "Un envoi unique regroupant les besoins reste lisible.",
-      "Les validations par étape sécurisent l'ensemble.",
-      "Un rappel du mood évite les dérives.",
-      "Les plannings réalistes respectent chacun.",
-      "Les stems en 24 bits offrent une marge confortable.",
-      "Les retours factuels évitent les interprétations.",
-      "Un seul lien de partage limite les pertes.",
-      "Les retours vocaux doivent être structurés.",
-      "Une intention artistique posée simplifie la prod.",
-      "Les tests à faible volume révèlent l'essentiel.",
-      "Les prises multiples offrent des choix, pas de la confusion.",
-      "Un mix clair commence par un arrangement clair.",
-      "Les percussions doivent dialoguer, pas dominer.",
-      "Les harmonies servent la mélodie, pas l'inverse.",
-      "Un refrain identifiable guide tout le morceau.",
-      "Les transitions méritent autant d'attention que le drop.",
-      "Un pad discret peut soutenir l'émotion.",
-      "Les automations racontent l'histoire du titre.",
-      "Un compresseur ne remplace pas l'interprétation.",
-      "La clarté des placements stéréo crée la largeur.",
-      "Les sibilances contrôlées respectent l'écoute.",
-      "Un gain staging propre prépare le mastering.",
-      "Les breaks doivent préparer le retour du refrain.",
-      "Une basse lisible libère la place du kick.",
-      "Les delays cohérents préservent le rythme.",
-      "Un pré-master doux laisse respirer le streaming.",
-      "Les références de volume évitent les excès.",
-      "Un bus d'effets partagé harmonise les traitements.",
-      "Les exports WAV restent la base pour valider.",
-      "Un check mono confirme la solidité du mix.",
-      "Les prises guitare réclament un accordage fréquent.",
-      "Un bridge réfléchi relance l'attention.",
-      "Les adlibs doivent être dosés avec précision.",
-      "Une dynamique préservée garde la vie du morceau.",
-      "Les retours doivent préciser ce qui fonctionne déjà.",
-      "Un fichier propre se mixe mieux qu'un puzzle.",
-      "Les transitions vocales méritent une attention fine.",
-      "Un rappel de l'intention avant le master évite les malentendus.",
-      "Les percussions électroniques doivent être calibrées.",
-      "Une voix posée rend le mix plus simple.",
-      "Les décisions rapides libèrent du temps pour la création.",
-      "Un planning partagé rassure tout le monde.",
-      "Les stems livrés à l'heure montrent le respect du cadre.",
-      "Les breaks silencieux peuvent être puissants.",
-      "Un métronome calme l'instabilité rythmique.",
-      "Les harmonies basses doivent rester lisibles.",
-      "Une voix guide peut ancrer l'émotion.",
-      "Les validations dans le rythme maintiennent l'étincelle.",
-      "Un fade-out propre clôture élégamment.",
-      "Les stems doivent indiquer BPM et tonalité.",
-      "Une cloche ou un pad d'intro peut signer le titre.",
-      "Les retours structurés sur WhatsApp accélèrent la réponse.",
-      "Un seul point de contact évite les divergences.",
-      "Les décisions tranchées font avancer la production.",
-      "Une organisation simple crée la confiance.",
-      "Les projets rapides communiquent bien.",
-      "Un brief clair crée un mix clair.",
-      "Les retours alignés sur l'objectif évitent la dispersion.",
-      "Une vision claire du public cible guide les choix.",
-      "Les versions clean et explicit doivent être anticipées.",
-      "Un back-up régulier rassure toute l'équipe.",
-      "Les rythmiques syncopées demandent de la précision.",
-      "Un compresseur parallèle peut ajouter du corps sans écraser.",
-      "Les stems de choeurs méritent un bus dédié.",
-      "Les retours courts et datés accélèrent les décisions.",
-      "Un message unique pour chaque vague de retours est idéal.",
-      "Les transitions de refrain méritent un soin particulier.",
-      "Une référence visuelle peut inspirer un mix.",
-      "Les retours tardifs coûtent du temps à tout le monde.",
-      "Un export sans clipping garde la marge pour le master.",
-      "Les tests en casque et enceintes sont complémentaires.",
-      "Une direction claire évite les tours en rond.",
-      "Un plan par étape rassure et accélère.",
-      "Les retours factuels sont plus simples à traiter.",
-      "Un rappel des dates clés maintient tout le monde aligné.",
-      "Les retours groupés montrent la vision globale.",
-      "Une écoute de nuit peut révéler des détails.",
-      "Les tests sur petites enceintes confirment l'équilibre.",
-      "Un refrain mémorable simplifie le mix.",
-      "Un seul message récap évite les pertes de temps.",
-      "La clarté est une preuve de respect pour la collaboration."
+    const qcmQuestions = [
+      {
+        id: 'projet',
+        question: 'Q1 — Ton projet aujourd’hui, c’est :',
+        options: [
+          'Une idée encore floue',
+          'Une direction claire mais à structurer',
+          'Un projet prêt à avancer'
+        ]
+      },
+      {
+        id: 'retours',
+        question: 'Q2 — Pour les retours, tu préfères :',
+        options: [
+          'Envoyer des messages au fil de l’écoute',
+          'Faire un retour groupé et clair',
+          'Décider ensemble lors d’un échange'
+        ]
+      },
+      {
+        id: 'delais',
+        question: 'Q3 — Ton rapport aux délais :',
+        options: [
+          'Je prends mon temps',
+          'J’essaie de respecter un cadre',
+          'J’aime avancer avec des échéances claires'
+        ]
+      },
+      {
+        id: 'attente',
+        question: 'Q4 — Ton attente principale :',
+        options: [
+          'Avoir un bon son',
+          'Être guidé dans mes choix',
+          'Structurer un projet sérieux'
+        ]
+      },
+      {
+        id: 'cadre',
+        question: 'Q5 — Le cadre de travail pour toi :',
+        options: [
+          'Peut rester flexible',
+          'Doit être clair',
+          'Est indispensable pour avancer'
+        ]
+      }
     ];
 
-    const nuances = [
-      "Partage-le dès le brief pour gagner du temps.",
-      "Garde ce réflexe à chaque session.",
-      "Applique-le dès la prochaine écoute."
-    ];
+    const qcmQuestionEl = document.getElementById('qcm-question');
+    const qcmOptionsEl = document.getElementById('qcm-options');
+    const qcmNextBtn = document.getElementById('qcm-next');
+    const qcmStepText = document.getElementById('qcm-step');
+    const qcmProgressFill = document.getElementById('qcm-progress-fill');
+    const qcmSummary = document.getElementById('qcm-summary');
+    const whatsappLink = document.getElementById('whatsapp-link');
+    let currentIndex = 0;
+    const answers = {};
 
-    const conseils = baseConseils.flatMap((phrase, baseIndex) =>
-      nuances.map((nuance, nuanceIndex) => `Conseil ${baseIndex * nuances.length + nuanceIndex + 1} — ${phrase} ${nuance}`)
-    );
+    const renderQuestion = () => {
+      const { question, options, id } = qcmQuestions[currentIndex];
+      qcmQuestionEl.textContent = question;
+      qcmOptionsEl.innerHTML = '';
+      qcmNextBtn.disabled = true;
+      qcmNextBtn.textContent = currentIndex === qcmQuestions.length - 1 ? 'Valider et générer le message' : 'Question suivante';
+      qcmStepText.textContent = `${currentIndex + 1} / ${qcmQuestions.length}`;
+      qcmProgressFill.style.width = `${((currentIndex) / qcmQuestions.length) * 100}%`;
 
-    const conseilChoisi = conseils[Math.floor(Math.random() * conseils.length)];
-    const adviceTargets = [document.getElementById('daily-advice')];
+      options.forEach((optionText) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'qcm-option';
+        button.textContent = optionText;
+        button.setAttribute('aria-pressed', answers[id] === optionText ? 'true' : 'false');
+        button.addEventListener('click', () => {
+          Array.from(qcmOptionsEl.children).forEach((child) => child.setAttribute('aria-pressed', 'false'));
+          button.setAttribute('aria-pressed', 'true');
+          answers[id] = optionText;
+          qcmNextBtn.disabled = false;
+        });
+        qcmOptionsEl.appendChild(button);
+      });
+    };
 
-    adviceTargets.forEach((target) => {
-      if (target) {
-        target.textContent = conseilChoisi;
+    const buildWhatsappMessage = () => {
+      return encodeURIComponent(
+        `Salut SZD,\nje viens de la page artistes.\n\nMon projet est : ${answers.projet}\nPour les retours : ${answers.retours}\nMon rapport aux délais : ${answers.delais}\nCe que j’attends : ${answers.attente}\nMon rapport au cadre : ${answers.cadre}\n\nJ’aimerais voir avec toi si on peut avancer ensemble.`
+      );
+    };
+
+    const showSummary = () => {
+      qcmProgressFill.style.width = '100%';
+      qcmStepText.textContent = `${qcmQuestions.length} / ${qcmQuestions.length}`;
+      const summaryLines = [
+        `Mon projet est : ${answers.projet}`,
+        `Pour les retours : ${answers.retours}`,
+        `Mon rapport aux délais : ${answers.delais}`,
+        `Ce que j’attends : ${answers.attente}`,
+        `Mon rapport au cadre : ${answers.cadre}`
+      ];
+
+      qcmSummary.innerHTML = `
+        <strong>Message pré-rempli :</strong>
+        <div>${summaryLines.join('<br>')}</div>
+        <p style="margin:10px 0 0; color:#0f2b17; background:rgba(214,255,227,0.9); padding:10px 12px; border-radius:12px; font-weight:700;">Ton message reste sur ton appareil, il sert à lancer la discussion sur WhatsApp.</p>
+      `;
+
+      const message = buildWhatsappMessage();
+      whatsappLink.href = `https://wa.me/33760083157?text=${message}`;
+      qcmSummary.hidden = false;
+      whatsappLink.hidden = false;
+      document.getElementById('cta-title').scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+    };
+
+    qcmNextBtn.addEventListener('click', () => {
+      if (!answers[qcmQuestions[currentIndex].id]) return;
+
+      if (currentIndex < qcmQuestions.length - 1) {
+        currentIndex += 1;
+        renderQuestion();
+      } else {
+        document.getElementById('qcm-stage').style.display = 'none';
+        showSummary();
       }
     });
 
-    // Bloc questions/réponses repliable
-    const qcmDetails = document.getElementById('qcm-accordion');
-    const qcmForm = document.getElementById('artist-qcm');
-    const qcmStatus = document.getElementById('qcm-status');
-
-    if (qcmDetails && qcmForm) {
-      const qcmInputs = Array.from(qcmForm.querySelectorAll('textarea.qcm-input'));
-
-      const updateQcmState = () => {
-        const answeredCount = qcmInputs.filter((field) => field.value.trim().length > 0).length;
-        const allAnswered = answeredCount === qcmInputs.length;
-
-        if (qcmStatus) {
-          qcmStatus.hidden = false;
-          qcmStatus.textContent = allAnswered
-            ? "Réponses enregistrées pour toi, l’accordion se replie automatiquement."
-            : `Réponses sauvegardées en local (${answeredCount}/${qcmInputs.length}).`;
-        }
-
-        if (allAnswered) {
-          qcmDetails.classList.add('completed');
-          setTimeout(() => {
-            qcmDetails.open = false;
-          }, 520);
-        } else {
-          qcmDetails.classList.remove('completed');
-        }
-      };
-
-      qcmInputs.forEach((input) => input.addEventListener('input', updateQcmState));
-    }
-
-    // FAQ accordéon : une seule réponse ouverte à la fois
-    const faqItems = Array.from(document.querySelectorAll('.faq-item'));
-
-    if (faqItems.length > 0) {
-      const closeItem = (item) => {
-        const panel = item.querySelector('.faq-panel');
-        const toggle = item.querySelector('.faq-toggle');
-
-        if (!panel || !toggle) return;
-
-        panel.style.setProperty('--faq-height', `${panel.scrollHeight}px`);
-
-        requestAnimationFrame(() => {
-          item.classList.remove('is-open');
-          toggle.setAttribute('aria-expanded', 'false');
-          panel.addEventListener(
-            'transitionend',
-            () => {
-              panel.hidden = true;
-              panel.style.removeProperty('--faq-height');
-            },
-            { once: true }
-          );
-        });
-      };
-
-      const openItem = (item) => {
-        const panel = item.querySelector('.faq-panel');
-        const toggle = item.querySelector('.faq-toggle');
-
-        if (!panel || !toggle) return;
-
-        faqItems.forEach((other) => {
-          if (other !== item && other.classList.contains('is-open')) {
-            closeItem(other);
-          }
-        });
-
-        panel.hidden = false;
-        panel.style.setProperty('--faq-height', `${panel.scrollHeight}px`);
-        item.classList.add('is-open');
-        toggle.setAttribute('aria-expanded', 'true');
-      };
-
-      faqItems.forEach((item) => {
-        const toggle = item.querySelector('.faq-toggle');
-
-        if (!toggle) return;
-
-        toggle.addEventListener('click', () => {
-          const isOpen = item.classList.contains('is-open');
-          if (isOpen) {
-            closeItem(item);
-          } else {
-            openItem(item);
-          }
-        });
-      });
-    }
+    renderQuestion();
   </script>
 </body>
 </html>
