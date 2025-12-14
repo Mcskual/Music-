@@ -47,52 +47,95 @@
     .container { max-width:1200px; margin:36px auto; padding:0 16px; }
 
     .top-nav{
+      position:relative;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      height:68px;
-      padding:0 18px;
-      background:linear-gradient(135deg,rgba(249,115,22,.18),rgba(168,85,247,.16)),var(--card);
+      gap:14px;
+      padding:14px 18px;
+      min-height:72px;
+      background:linear-gradient(125deg,rgba(249,115,22,.18),rgba(168,85,247,.16)),linear-gradient(180deg,rgba(15,23,42,.9),rgba(15,23,42,.78));
       border:1px solid var(--border);
-      border-radius:14px;
-      box-shadow:var(--shadow);
-      margin-bottom:14px;
+      border-radius:18px;
+      box-shadow:0 18px 44px rgba(15,23,42,.35);
+      margin-bottom:16px;
       flex-wrap:nowrap;
+      overflow:hidden;
+      backdrop-filter:blur(10px);
+    }
+    .top-nav::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg,rgba(255,255,255,.05),transparent 45%,rgba(255,255,255,.08));
+      pointer-events:none;
     }
     .nav-brand{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
       font-weight:800;
       letter-spacing:.03em;
     }
+    .nav-brand .brand-title{ font-size:12px; text-transform:uppercase; letter-spacing:.14em; }
+    .nav-brand .brand-sub{ font-size:11px; color:var(--muted); letter-spacing:.05em; }
     .nav-left{
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:12px;
       min-width:0;
       flex-shrink:0;
       height:100%;
+      position:relative;
+      z-index:1;
     }
-    .nav-links{ display:flex; gap:8px; flex-wrap:nowrap; align-items:center; justify-content:center; flex:1; min-width:0; }
+    .nav-links{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:center; flex:1; min-width:0; padding:6px 8px; background:rgba(255,255,255,.02); border:1px solid var(--border); border-radius:14px; box-shadow:inset 0 1px 0 rgba(255,255,255,.04); position:relative; z-index:1; }
+    [data-theme="light"] .nav-links{ background:rgba(15,23,42,.02); }
     .nav-link{
+      position:relative;
       color:var(--text2);
       text-decoration:none;
       padding:8px 12px;
-      border-radius:10px;
-      border:1px solid var(--border);
+      border-radius:12px;
+      border:1px solid transparent;
       background:rgba(15,23,42,.6);
       font-size:13px;
-      transition:.15s background,.15s border-color,.15s color;
+      font-weight:600;
+      letter-spacing:.01em;
+      transition:.18s background,.18s border-color,.18s color;
     }
     [data-theme="light"] .nav-link{
       background:#f8fafc;
     }
-    .nav-link:hover{ border-color:var(--accent); color:#fff; }
+    .nav-link:hover{
+      border-color:var(--accent);
+      color:#fff;
+      background:linear-gradient(135deg,rgba(249,115,22,.18),rgba(168,85,247,.16));
+      transform:translateY(-1px);
+    }
     [data-theme="light"] .nav-link:hover{ color:var(--accent); }
+    .nav-link::after{
+      content:"";
+      position:absolute;
+      left:12px;
+      right:12px;
+      bottom:6px;
+      height:3px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      opacity:0;
+      transform:translateY(6px);
+      transition:.2s ease;
+    }
+    .nav-link:hover::after{ opacity:1; transform:translateY(0); }
     .nav-link.active{
       background:linear-gradient(135deg,var(--accent),var(--accent2));
       color:#fff;
       border-color:transparent;
-      box-shadow:0 10px 22px rgba(37,99,235,.45);
+      box-shadow:0 12px 26px rgba(37,99,235,.45);
+      transform:translateY(-1px);
     }
+    .nav-link.active::after{ opacity:1; transform:translateY(0); background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(255,255,255,.6)); }
 
     header.app {
       display:flex;
@@ -314,6 +357,10 @@
             data-light-src="szd_logo_black.png"
             alt="Logo">
         </a>
+        <div class="nav-brand">
+          <span class="brand-title">Studio ZD</span>
+          <span class="brand-sub">Contrats & licences</span>
+        </div>
       </div>
       <div class="nav-links">
         <a class="nav-link" href="index.html">Prestations</a>
