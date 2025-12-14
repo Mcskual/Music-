@@ -175,6 +175,19 @@ header.topbar{display:flex;gap:16px;align-items:center;justify-content:space-bet
 .segmented button.active{background:linear-gradient(135deg,rgba(110,231,183,.15),rgba(96,165,250,.15))}
 .inline-form{display:flex;gap:8px;flex-wrap:wrap}
 .inline-form .input{padding:8px 10px;border-radius:10px}
+
+/* Normalisation layout */
+*,*::before,*::after{box-sizing:border-box}
+*{scroll-behavior:auto}
+.container{max-width:1200px;margin:36px auto 0 auto;padding:0 16px}
+.top-nav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;height:68px;padding:0 18px;gap:12px}
+.nav-left,.nav-links,.nav-actions,.theme-toggle{height:68px;display:flex;align-items:center}
+.nav-links{justify-content:center}
+.nav-link{min-width:140px;height:38px;display:inline-flex;justify-content:center;align-items:center;line-height:1;padding:0;box-sizing:border-box}
+h1{margin:0;padding:0;line-height:1.15}
+header.app,header.hero,header.topbar{margin-bottom:16px}
+.card{margin-top:16px !important}
+.page-content{display:flex;flex-direction:column;gap:16px}
 </style>
 </head>
 <body>

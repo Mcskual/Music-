@@ -36,7 +36,8 @@
         linear-gradient(120deg,#f9fafb,#f3f4f6 40%,#e5e7eb 60%,#f9fafb);
     }
 
-    *{box-sizing:border-box}
+    *, *::before, *::after { box-sizing:border-box; }
+    * { scroll-behavior:auto; }
 
     body {
       font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
@@ -45,16 +46,16 @@
       margin:0;
     }
 
-    .container { max-width:1200px; margin:36px auto; padding:0 16px; }
+    .container { max-width:1200px; margin:36px auto 0 auto; padding:0 16px; }
 
     .top-nav{
       position:relative;
-      display:flex;
+      display:grid;
+      grid-template-columns:auto 1fr auto;
       align-items:center;
-      justify-content:space-between;
       gap:14px;
-      padding:14px 18px;
-      min-height:72px;
+      padding:0 18px;
+      height:68px;
       background:linear-gradient(125deg,rgba(59,130,246,.18),rgba(34,197,94,.10)),linear-gradient(180deg,rgba(15,23,42,.9),rgba(15,23,42,.78));
       border:1px solid var(--border);
       border-radius:18px;
@@ -71,13 +72,17 @@
       background:linear-gradient(90deg,rgba(255,255,255,.04),transparent 45%,rgba(255,255,255,.06));
       pointer-events:none;
     }
-    .nav-left{
+    .nav-left,
+    .nav-links,
+    .theme-toggle{
+      height:68px;
       display:flex;
       align-items:center;
+    }
+    .nav-left{
       gap:12px;
       min-width:0;
       flex-shrink:0;
-      height:100%;
       position:relative;
       z-index:1;
     }
@@ -117,7 +122,14 @@
       position:relative;
       color:var(--text2);
       text-decoration:none;
-      padding:9px 13px;
+      min-width:140px;
+      height:38px;
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      line-height:1;
+      padding:0;
+      box-sizing:border-box;
       border-radius:12px;
       border:1px solid transparent;
       background:rgba(15,23,42,.35);
@@ -262,9 +274,16 @@
     }
     .logo-compact img{ width:160px; }
 
-    h1 { font-size:clamp(26px,4vw,40px); margin:0; }
+    h1 {
+      font-size:clamp(26px,4vw,40px);
+      margin:0;
+      padding:0;
+      line-height:1.15;
+    }
     h2 { margin:0 0 12px; font-size:18px; }
     .sub{ color:var(--text2); margin-bottom:16px; font-size:14px;}
+
+    header.app, header.hero { margin-bottom:16px; }
 
     .card{
       background:var(--card);
@@ -272,7 +291,13 @@
       border-radius:16px;
       box-shadow:var(--shadow);
       padding:16px;
-      margin-top:16px;
+      margin-top:16px !important;
+    }
+
+    .page-content{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
     }
 
     .whatsapp-card{
@@ -1021,6 +1046,7 @@
       </div>
     </header>
 
+    <main class="page-content">
     <div class="save-panel" aria-live="polite">
       <div>
         <div class="title">Sauvegarde auto</div>
@@ -1202,6 +1228,8 @@
     </div>
     <div id="followupList" class="grid followup-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
   </div>
+
+  </main>
 
   <!-- Zone de capture mobile cachée -->
   <div id="capture-mobile"></div>

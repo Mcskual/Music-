@@ -282,6 +282,19 @@
     .hint{ color:var(--text2); font-size:13px; margin-top:-4px; }
     .small{ color:var(--text2); font-size:12px; }
 
+    /* Normalisation layout */
+    *, *::before, *::after { box-sizing:border-box; }
+    * { scroll-behavior:auto; }
+    .container { max-width:1200px; margin:36px auto 0 auto; padding:0 16px; }
+    .top-nav { display:grid; grid-template-columns:auto 1fr auto; align-items:center; height:68px; padding:0 18px; }
+    .nav-left, .nav-links, .theme-toggle { height:68px; display:flex; align-items:center; }
+    .nav-links { justify-content:center; }
+    .nav-link { min-width:140px; height:38px; display:inline-flex; justify-content:center; align-items:center; line-height:1; padding:0; box-sizing:border-box; }
+    h1 { margin:0; padding:0; line-height:1.15; }
+    header.app, header.hero { margin-bottom:16px; }
+    .card { margin-top:16px !important; }
+    .page-content { display:flex; flex-direction:column; gap:16px; }
+
     .row{ display:flex; gap:8px; align-items:center; }
     .pill{ display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:999px; border:1px solid var(--border); font-size:12px; color:var(--text2); }
 
