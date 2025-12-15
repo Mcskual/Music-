@@ -61,13 +61,15 @@
       align-items:center;
       text-align:center;
       position:relative;
-      padding:86px 18px 120px;
+      padding:96px 18px 120px;
       overflow:hidden;
       isolation:isolate;
-      background:radial-gradient(circle at 30% 20%, rgba(103,232,249,0.18), transparent 38%),
-        radial-gradient(circle at 80% 18%, rgba(139,92,246,0.16), transparent 36%),
-        linear-gradient(145deg, #0c1222, #0a1426 55%, #060b15);
+      background:radial-gradient(circle at 15% 10%, rgba(103,232,249,0.22), transparent 40%),
+        radial-gradient(circle at 70% 0%, rgba(124,58,237,0.16), transparent 42%),
+        radial-gradient(circle at 50% 50%, rgba(34,197,94,0.12), transparent 55%),
+        linear-gradient(165deg, #090f1c, #060c17 60%, #040812);
       box-shadow:inset 0 40px 120px rgba(0,0,0,0.35);
+      gap:28px;
     }
     .hero::before {
       content:"";
@@ -87,10 +89,32 @@
       background:linear-gradient(180deg, rgba(7,12,24,0.45), rgba(7,12,24,0.95));
       z-index:-1;
     }
+    .hero-card {
+      width:min(640px, 100%);
+      margin:0 auto;
+      padding:28px 24px 32px;
+      border-radius:22px;
+      background:linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow:0 24px 58px rgba(0,0,0,0.55), 0 0 120px rgba(103,232,249,0.16);
+      backdrop-filter:blur(12px);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-card::before {
+      content:"";
+      position:absolute;
+      inset:-30% 10% auto 10%;
+      height:280px;
+      background:radial-gradient(circle at 50% 50%, rgba(103,232,249,0.28), rgba(103,232,249,0) 55%);
+      filter:blur(18px);
+      opacity:0.4;
+      z-index:0;
+    }
     .hero-logo {
       padding:14px 22px;
-      margin:0 auto 20px;
-      border-radius:999px;
+      margin:0 auto 16px;
+      border-radius:18px;
       background:linear-gradient(120deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
       border:1px solid rgba(255,255,255,0.14);
       box-shadow:var(--shadow), 0 16px 46px rgba(103,232,249,0.16);
@@ -99,6 +123,7 @@
       display:inline-flex;
       align-items:center;
       gap:14px;
+      z-index:1;
     }
     .hero-logo::after {
       content:"";
@@ -128,11 +153,29 @@
       letter-spacing:2px;
       box-shadow:inset 0 1px 0 rgba(255,255,255,0.35), 0 12px 30px rgba(103,232,249,0.18);
     }
-    .hero-title { margin:0 0 12px; font-size:clamp(30px, 6.5vw, 46px); line-height:1.1; letter-spacing:-0.01em; }
-    .hero-subtitle { margin:0 0 24px; color:#dfe7ff; max-width:64ch; }
-    .hero-badges { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:14px 0 22px; }
-    .hero-badge { padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.14); background:rgba(255,255,255,0.05); font-weight:700; color:var(--text-strong); box-shadow:0 10px 34px rgba(0,0,0,0.32); }
-    .hero-arrow { margin-top:42px; font-size:42px; animation:bounce 1.8s infinite; color:var(--accent); display:inline-flex; text-shadow:0 8px 26px rgba(103,232,249,0.4); }
+      .hero-title { margin:0 0 10px; font-size:clamp(30px, 6.5vw, 44px); line-height:1.08; letter-spacing:-0.01em; z-index:1; }
+      .hero-subtitle { margin:0 0 24px; color:#dfe7ff; max-width:56ch; z-index:1; }
+      .hero-copy { position:relative; z-index:1; display:grid; gap:8px; justify-items:center; }
+      .hero-badges { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:10px 0 0; z-index:1; }
+      .hero-badge { padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.14); background:rgba(255,255,255,0.05); font-weight:700; color:var(--text-strong); box-shadow:0 10px 34px rgba(0,0,0,0.32); }
+      .hero-arrow { margin-top:14px; font-size:42px; animation:bounce 1.8s infinite; color:var(--accent); display:inline-flex; text-shadow:0 8px 26px rgba(103,232,249,0.4); }
+
+      .hero-cta {
+        display:inline-flex;
+        align-items:center;
+        gap:10px;
+        padding:14px 18px;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,0.18);
+        background:linear-gradient(135deg, #34d399, #22c55e 60%, #16a34a);
+        color:#04120d;
+        font-weight:800;
+        letter-spacing:0.01em;
+        box-shadow:0 16px 40px rgba(52,211,153,0.25), 0 0 42px rgba(52,211,153,0.18);
+        transition:transform var(--transition), box-shadow var(--transition);
+      }
+      .hero-cta:hover { transform:translateY(-1px); box-shadow:0 22px 48px rgba(52,211,153,0.32); }
+      .hero-cta span { display:inline-flex; align-items:center; gap:10px; }
 
     @keyframes bounce {
       0%, 20%, 50%, 80%, 100% { transform:translateY(0); }
@@ -263,19 +306,26 @@
   <div class="page">
     <!-- 1. HERO -->
     <header class="hero" id="top">
-      <div class="hero-logo">
-        <div class="brand-chip" aria-label="Signature SD">
-          <span class="stars" aria-hidden="true">★ ★ ★ ★</span>
-          <span class="brand-mark">SD</span>
-          <span class="stars" aria-hidden="true">★ ★ ★</span>
+      <div class="hero-card">
+        <div class="hero-logo">
+          <div class="brand-chip" aria-label="Signature SD">
+            <span class="stars" aria-hidden="true">★ ★ ★ ★</span>
+            <span class="brand-mark">SD</span>
+            <span class="stars" aria-hidden="true">★ ★ ★</span>
+          </div>
         </div>
-      </div>
-      <h1 class="hero-title">On construit ton son, étape par étape.</h1>
-      <p class="hero-subtitle">Un cadre clair, une méthode professionnelle, un accompagnement humain. Tu te concentres sur la vibe, je sécurise le reste.</p>
-      <div class="hero-badges" aria-label="Preuves de professionnalisme">
-        <span class="hero-badge">MC Skual — 15+ ans de scène</span>
-        <span class="hero-badge">Cadre clair & contrats</span>
-        <span class="hero-badge">Méthode en étapes claires</span>
+        <div class="hero-copy">
+          <h1 class="hero-title">On construit ton son, étape par étape.</h1>
+          <p class="hero-subtitle">Un cadre clair, une méthode professionnelle, un accompagnement humain. Tu te concentres sur la vibe, je sécurise le reste.</p>
+          <a class="hero-cta" href="https://wa.me/?text=Salut%20SD%20!" target="_blank" rel="noopener noreferrer">
+            <span>Parler sur WhatsApp</span>
+          </a>
+          <div class="hero-badges" aria-label="Preuves de professionnalisme">
+            <span class="hero-badge">MC Skual — 15+ ans de scène</span>
+            <span class="hero-badge">Cadre clair & contrats</span>
+            <span class="hero-badge">Méthode en étapes claires</span>
+          </div>
+        </div>
       </div>
       <a class="hero-arrow" href="#vision" aria-label="Découvrir la suite">↓</a>
     </header>
