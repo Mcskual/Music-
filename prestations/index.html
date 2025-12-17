@@ -1181,6 +1181,19 @@
         ? (img.dataset.lightSrc || img.getAttribute("src") || "")
         : (img.dataset.darkSrc || img.getAttribute("src") || "");
     }
+
+    function captureLogoForTheme(theme){
+      const mode = theme === "light" ? "light" : "dark";
+      const preferred = currentLogoForTheme(mode);
+      const fallback = mode === "light" ? "szd_logo_black.png" : "szd_logo_white.png";
+      const candidate = preferred || fallback || "szd_logo.png";
+
+      try {
+        return new URL(candidate, window.location.href).href;
+      } catch (e) {
+        return candidate;
+      }
+    }
   </script>
 
   <!-- SCRIPT PRESTATIONS -->
@@ -1874,8 +1887,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
     const isDarkTheme = !document.documentElement.hasAttribute("data-theme") ||
                         document.documentElement.getAttribute("data-theme") !== "light";
     const currentTheme = isDarkTheme ? "dark" : "light";
-    const logoSrc = currentLogoForTheme(currentTheme) || (isDarkTheme ? "szd_logo_white.png" : "szd_logo_black.png");
-    const absoluteLogoSrc = logoSrc ? new URL(logoSrc, window.location.href).href : "";
+    const absoluteLogoSrc = captureLogoForTheme(currentTheme);
 
     let html = "";
     html += `
