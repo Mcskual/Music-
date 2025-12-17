@@ -145,26 +145,7 @@
       .hero-title { margin:0 0 10px; font-size:clamp(30px, 6.5vw, 44px); line-height:1.08; letter-spacing:-0.01em; z-index:1; }
       .hero-subtitle { margin:0 0 24px; color:#dfe7ff; max-width:56ch; z-index:1; }
       .hero-copy { position:relative; z-index:1; display:grid; gap:8px; justify-items:center; }
-      .hero-badges { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:10px 0 0; z-index:1; }
-      .hero-badge { padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,0.14); background:rgba(255,255,255,0.05); font-weight:700; color:var(--text-strong); box-shadow:0 10px 34px rgba(0,0,0,0.32); }
       .hero-arrow { margin-top:14px; font-size:42px; animation:bounce 1.8s infinite; color:var(--accent); display:inline-flex; text-shadow:0 8px 26px rgba(103,232,249,0.4); }
-
-      .hero-cta {
-        display:inline-flex;
-        align-items:center;
-        gap:10px;
-        padding:14px 18px;
-        border-radius:14px;
-        border:1px solid rgba(255,255,255,0.18);
-        background:linear-gradient(135deg, #34d399, #22c55e 60%, #16a34a);
-        color:#04120d;
-        font-weight:800;
-        letter-spacing:0.01em;
-        box-shadow:0 16px 40px rgba(52,211,153,0.25), 0 0 42px rgba(52,211,153,0.18);
-        transition:transform var(--transition), box-shadow var(--transition);
-      }
-      .hero-cta:hover { transform:translateY(-1px); box-shadow:0 22px 48px rgba(52,211,153,0.32); }
-      .hero-cta span { display:inline-flex; align-items:center; gap:10px; }
 
     @keyframes bounce {
       0%, 20%, 50%, 80%, 100% { transform:translateY(0); }
@@ -302,14 +283,6 @@
         <div class="hero-copy">
           <h1 class="hero-title">On construit ton son, étape par étape.</h1>
           <p class="hero-subtitle">Un cadre clair, une méthode professionnelle, un accompagnement humain. Tu te concentres sur la vibe, je sécurise le reste.</p>
-          <a class="hero-cta" href="https://wa.me/?text=Salut%20SD%20!" target="_blank" rel="noopener noreferrer">
-            <span>Parler sur WhatsApp</span>
-          </a>
-          <div class="hero-badges" aria-label="Preuves de professionnalisme">
-            <span class="hero-badge">MC Skual — 15+ ans de scène</span>
-            <span class="hero-badge">Cadre clair & contrats</span>
-            <span class="hero-badge">Méthode en étapes claires</span>
-          </div>
         </div>
       </div>
       <a class="hero-arrow" href="#vision" aria-label="Découvrir la suite">↓</a>
