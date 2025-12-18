@@ -431,32 +431,6 @@
 </head>
 <body>
   <div class="container">
-    <nav class="top-nav">
-      <div class="nav-left">
-        <a class="logo-wrap" href="index.html" aria-label="Retour aux prestations">
-          <img src="szd_logo_white.png" data-dark-src="szd_logo_white.png" data-light-src="szd_logo_black.png" alt="SZD Studio">
-        </a>
-        <div class="nav-brand">
-          <span class="brand-title">SZD Studio</span>
-          <span class="brand-sub">Producteur — Beatmaker — Depuis 2006</span>
-        </div>
-      </div>
-      <div class="nav-links">
-        <a class="nav-link" href="index.html">Prestations</a>
-        <a class="nav-link" href="facturation.html">Facturation</a>
-        <a class="nav-link" href="licence.html">Contrat</a>
-        <a class="nav-link" href="#tarifs">Accès direct tarifs</a>
-        <span class="nav-link active">Tarifs 2026</span>
-      </div>
-      <div class="theme-toggle" role="group" aria-label="Changer de thème">
-        <span class="theme-icon" aria-hidden="true">🌙</span>
-        <label class="switch" for="themeToggle">
-          <input type="checkbox" id="themeToggle" aria-label="Activer le thème sombre" checked>
-          <span class="slider"></span>
-        </label>
-      </div>
-    </nav>
-
     <div class="logo-hero reveal" aria-label="SZD Studio">
       <img src="szd_logo_white.png" data-dark-src="szd_logo_white.png" data-light-src="szd_logo_black.png" alt="SZD Studio">
     </div>
@@ -667,18 +641,19 @@
 
       document.addEventListener("DOMContentLoaded", function(){
         const toggle = document.getElementById("themeToggle");
-        if(!toggle) return;
 
         let saved = null;
         try { saved = localStorage.getItem(THEME_KEY); } catch(e){}
 
         if(saved === "light"){
           applyTheme("light");
-          toggle.checked = false;
+          if(toggle) toggle.checked = false;
         } else {
           applyTheme("dark");
-          toggle.checked = true;
+          if(toggle) toggle.checked = true;
         }
+
+        if(!toggle) return;
 
         toggle.addEventListener("change", function(){
           if(toggle.checked){
