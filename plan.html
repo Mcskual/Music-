@@ -218,6 +218,102 @@
       color: var(--muted);
     }
 
+    .plan-tabs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tab-button {
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .tab-button:hover {
+      box-shadow: var(--glow);
+    }
+
+    .tab-button.is-active {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+      background: var(--surface);
+    }
+
+    .tab-panel {
+      display: grid;
+      gap: 18px;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 260ms ease, transform 260ms ease;
+      max-height: 5000px;
+      overflow: hidden;
+    }
+
+    .tab-panel.is-hidden {
+      opacity: 0;
+      transform: translateY(8px);
+      max-height: 0;
+      pointer-events: none;
+    }
+
+    .plan-detail-card .hero-subtitle {
+      margin-top: 6px;
+    }
+
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .plan-block {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .plan-block h4 {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .plan-text {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .metric-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+    }
+
+    .metric-label {
+      font-weight: 600;
+    }
+
+    .editable {
+      color: var(--text);
+      font-weight: 500;
+    }
+
     .week-detail.completed .week-status {
       color: var(--accent);
       border-color: var(--accent);
@@ -424,7 +520,314 @@
 
     <section>
       <h2 class="section-title">Parcours semaine par semaine</h2>
-      <div class="weeks-list" id="weeksList"></div>
+      <div class="plan-tabs" role="tablist" aria-label="Vue du parcours">
+        <button class="tab-button is-active" type="button" data-tab="execution" role="tab" aria-selected="true">
+          ▶ Exécution
+        </button>
+        <button class="tab-button" type="button" data-tab="detailed" role="tab" aria-selected="false">
+          📋 Plan détaillé
+        </button>
+      </div>
+      <div class="tab-panel" data-tab-panel="execution" role="tabpanel">
+        <div class="weeks-list" id="weeksList"></div>
+      </div>
+      <div class="tab-panel is-hidden" data-tab-panel="detailed" role="tabpanel">
+        <div class="weeks-list">
+          <div class="week-detail plan-detail-card">
+            <div class="week-header">
+              <div>
+                <h3>Semaine 1 – Réapparition</h3>
+                <p class="hero-subtitle">Dossier stratégique pour préparer la réactivation de l’audience.</p>
+              </div>
+              <span class="week-status">Planification</span>
+            </div>
+            <div class="plan-grid">
+              <div class="plan-block">
+                <h4>🎯 Objectif stratégique</h4>
+                <p class="plan-text"><span class="editable">À compléter : objectif prioritaire et contexte.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📌 Plateformes à privilégier</h4>
+                <p class="plan-text"><span class="editable">À compléter : Instagram, TikTok, YouTube, etc.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🎛️ Matériel utilisé</h4>
+                <p class="plan-text"><span class="editable">À compléter : studio, caméra, micro, lieux.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📝 Contenu à produire</h4>
+                <p class="plan-text"><span class="editable">À compléter : formats, fréquences, idées fortes.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🗣️ Message / angle de discours</h4>
+                <p class="plan-text"><span class="editable">À compléter : ce que l’artiste doit dire.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>✅ Impact attendu</h4>
+                <p class="plan-text"><span class="editable">À compléter : ce que cette semaine doit apporter.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📈 Objectifs chiffrés avant / après</h4>
+                <div class="metric-grid">
+                  <div class="metric-row">
+                    <span class="metric-label">Instagram</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                  <div class="metric-row">
+                    <span class="metric-label">TikTok</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="week-detail plan-detail-card">
+            <div class="week-header">
+              <div>
+                <h3>Semaine 2 – Ancrage</h3>
+                <p class="hero-subtitle">Structurer un rythme solide et visible.</p>
+              </div>
+              <span class="week-status">Planification</span>
+            </div>
+            <div class="plan-grid">
+              <div class="plan-block">
+                <h4>🎯 Objectif stratégique</h4>
+                <p class="plan-text"><span class="editable">À compléter : stabiliser la présence.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📌 Plateformes à privilégier</h4>
+                <p class="plan-text"><span class="editable">À compléter : plateformes prioritaires.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🎛️ Matériel utilisé</h4>
+                <p class="plan-text"><span class="editable">À compléter : setup et ressources.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📝 Contenu à produire</h4>
+                <p class="plan-text"><span class="editable">À compléter : formats hebdomadaires.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🗣️ Message / angle de discours</h4>
+                <p class="plan-text"><span class="editable">À compléter : positionnement, promesse.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>✅ Impact attendu</h4>
+                <p class="plan-text"><span class="editable">À compléter : impact sur l’audience.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📈 Objectifs chiffrés avant / après</h4>
+                <div class="metric-grid">
+                  <div class="metric-row">
+                    <span class="metric-label">Instagram</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                  <div class="metric-row">
+                    <span class="metric-label">TikTok</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="week-detail plan-detail-card">
+            <div class="week-header">
+              <div>
+                <h3>Semaine 3 – Positionnement</h3>
+                <p class="hero-subtitle">Clarifier l’identité sonore et visuelle.</p>
+              </div>
+              <span class="week-status">Planification</span>
+            </div>
+            <div class="plan-grid">
+              <div class="plan-block">
+                <h4>🎯 Objectif stratégique</h4>
+                <p class="plan-text"><span class="editable">À compléter : axe créatif principal.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📌 Plateformes à privilégier</h4>
+                <p class="plan-text"><span class="editable">À compléter : canaux d’ancrage.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🎛️ Matériel utilisé</h4>
+                <p class="plan-text"><span class="editable">À compléter : visuels, moodboard.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📝 Contenu à produire</h4>
+                <p class="plan-text"><span class="editable">À compléter : formats incarnés.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🗣️ Message / angle de discours</h4>
+                <p class="plan-text"><span class="editable">À compléter : storytelling, vision.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>✅ Impact attendu</h4>
+                <p class="plan-text"><span class="editable">À compléter : perception et crédibilité.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📈 Objectifs chiffrés avant / après</h4>
+                <div class="metric-grid">
+                  <div class="metric-row">
+                    <span class="metric-label">Instagram</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                  <div class="metric-row">
+                    <span class="metric-label">TikTok</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="week-detail plan-detail-card">
+            <div class="week-header">
+              <div>
+                <h3>Semaine 4 – Pré-teasing</h3>
+                <p class="hero-subtitle">Préparer l’audience à la suite.</p>
+              </div>
+              <span class="week-status">Planification</span>
+            </div>
+            <div class="plan-grid">
+              <div class="plan-block">
+                <h4>🎯 Objectif stratégique</h4>
+                <p class="plan-text"><span class="editable">À compléter : éveiller l’attente.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📌 Plateformes à privilégier</h4>
+                <p class="plan-text"><span class="editable">À compléter : leviers de teasing.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🎛️ Matériel utilisé</h4>
+                <p class="plan-text"><span class="editable">À compléter : extraits, visuels.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📝 Contenu à produire</h4>
+                <p class="plan-text"><span class="editable">À compléter : teasers, making-of.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🗣️ Message / angle de discours</h4>
+                <p class="plan-text"><span class="editable">À compléter : annoncer la suite.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>✅ Impact attendu</h4>
+                <p class="plan-text"><span class="editable">À compléter : niveau d’attente.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📈 Objectifs chiffrés avant / après</h4>
+                <div class="metric-grid">
+                  <div class="metric-row">
+                    <span class="metric-label">Instagram</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                  <div class="metric-row">
+                    <span class="metric-label">TikTok</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="week-detail plan-detail-card">
+            <div class="week-header">
+              <div>
+                <h3>Semaine 5 – Teasing officiel</h3>
+                <p class="hero-subtitle">Installer l’attente et la preuve sociale.</p>
+              </div>
+              <span class="week-status">Planification</span>
+            </div>
+            <div class="plan-grid">
+              <div class="plan-block">
+                <h4>🎯 Objectif stratégique</h4>
+                <p class="plan-text"><span class="editable">À compléter : officialiser la sortie.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📌 Plateformes à privilégier</h4>
+                <p class="plan-text"><span class="editable">À compléter : canaux de preuve sociale.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🎛️ Matériel utilisé</h4>
+                <p class="plan-text"><span class="editable">À compléter : assets officiels.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📝 Contenu à produire</h4>
+                <p class="plan-text"><span class="editable">À compléter : annonces, extraits, réactions.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🗣️ Message / angle de discours</h4>
+                <p class="plan-text"><span class="editable">À compléter : message central.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>✅ Impact attendu</h4>
+                <p class="plan-text"><span class="editable">À compléter : amplification attendue.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📈 Objectifs chiffrés avant / après</h4>
+                <div class="metric-grid">
+                  <div class="metric-row">
+                    <span class="metric-label">Instagram</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                  <div class="metric-row">
+                    <span class="metric-label">TikTok</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="week-detail plan-detail-card">
+            <div class="week-header">
+              <div>
+                <h3>Semaine 6 – Sortie</h3>
+                <p class="hero-subtitle">Soutenir la sortie et maintenir l’élan.</p>
+              </div>
+              <span class="week-status">Planification</span>
+            </div>
+            <div class="plan-grid">
+              <div class="plan-block">
+                <h4>🎯 Objectif stratégique</h4>
+                <p class="plan-text"><span class="editable">À compléter : conversion et engagement.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📌 Plateformes à privilégier</h4>
+                <p class="plan-text"><span class="editable">À compléter : diffusion maximale.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🎛️ Matériel utilisé</h4>
+                <p class="plan-text"><span class="editable">À compléter : assets release.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📝 Contenu à produire</h4>
+                <p class="plan-text"><span class="editable">À compléter : lancement, CTA.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>🗣️ Message / angle de discours</h4>
+                <p class="plan-text"><span class="editable">À compléter : appel à l’action.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>✅ Impact attendu</h4>
+                <p class="plan-text"><span class="editable">À compléter : résultats attendus.</span></p>
+              </div>
+              <div class="plan-block">
+                <h4>📈 Objectifs chiffrés avant / après</h4>
+                <div class="metric-grid">
+                  <div class="metric-row">
+                    <span class="metric-label">Instagram</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                  <div class="metric-row">
+                    <span class="metric-label">TikTok</span>
+                    <span>Avant <span class="editable">…</span> / Après <span class="editable">…</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section>
@@ -491,6 +894,9 @@
     const weeksList = document.getElementById("weeksList");
     const progressFill = document.getElementById("progressFill");
     const progressText = document.getElementById("progressText");
+    const viewTabs = document.querySelectorAll("[data-tab]");
+    const viewPanels = document.querySelectorAll("[data-tab-panel]");
+    const viewStorageKey = "plan-view-mode";
 
     const formatDate = (date) =>
       new Intl.DateTimeFormat("fr-FR", {
@@ -624,6 +1030,27 @@
       reminderText.textContent = reminders[index];
     };
 
+    const setActiveView = (view) => {
+      viewTabs.forEach((button) => {
+        const isActive = button.dataset.tab === view;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-selected", isActive.toString());
+      });
+
+      viewPanels.forEach((panel) => {
+        const isActive = panel.dataset.tabPanel === view;
+        panel.classList.toggle("is-hidden", !isActive);
+      });
+    };
+
+    viewTabs.forEach((button) => {
+      button.addEventListener("click", () => {
+        const view = button.dataset.tab;
+        localStorage.setItem(viewStorageKey, view);
+        setActiveView(view);
+      });
+    });
+
     const themeToggle = document.getElementById("themeToggle");
     const themeIcon = document.getElementById("themeIcon");
     const storedTheme = localStorage.getItem("plan-theme");
@@ -665,6 +1092,7 @@
     renderCalendar();
     renderWeeks();
     updateProgress();
+    setActiveView(localStorage.getItem(viewStorageKey) || "execution");
     applyTheme(storedTheme || "dark");
     updateReminder();
   </script>
