@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plan de retour musical – Janvier 2026</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b0b0b;
+      --surface: #121212;
+      --surface-2: #171717;
+      --text: #f4f4f4;
+      --muted: #a5a5a5;
+      --accent: #ffffff;
+      --border: #2a2a2a;
+      --glow: 0 0 12px rgba(255, 255, 255, 0.35);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --transition: 220ms ease;
+    }
+
+    .theme-light {
+      color-scheme: light;
+      --bg: #f6f6f6;
+      --surface: #ffffff;
+      --surface-2: #f0f0f0;
+      --text: #111111;
+      --muted: #565656;
+      --accent: #111111;
+      --border: #d9d9d9;
+      --glow: 0 0 10px rgba(0, 0, 0, 0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      letter-spacing: 0.2px;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    header.hero {
+      display: grid;
+      gap: 24px;
+      padding: 32px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      width: fit-content;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 3vw, 3.2rem);
+      font-weight: 600;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 640px;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+      box-shadow: var(--glow);
+    }
+
+    section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .platforms {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 20px;
+    }
+
+    .platform-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: grid;
+      place-items: center;
+      transition: var(--transition);
+    }
+
+    .platform-card:hover {
+      box-shadow: var(--glow);
+      transform: translateY(-2px);
+    }
+
+    .platform-card img {
+      width: 48px;
+      height: 48px;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    .week-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+      min-height: 160px;
+    }
+
+    .week-card h3 {
+      font-size: 1.1rem;
+    }
+
+    .week-card .dates {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .week-card .objective {
+      font-size: 0.95rem;
+    }
+
+    .weeks-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tab-button {
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .tab-button.active {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .tab-panels {
+      position: relative;
+    }
+
+    .tab-panel {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 220ms ease, transform 220ms ease;
+      pointer-events: none;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .tab-panel.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+      height: auto;
+      overflow: visible;
+    }
+
+    .detail-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .detail-block {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .detail-block h4 {
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .detail-block p {
+      color: var(--muted);
+    }
+
+    .detail-block p[contenteditable="true"] {
+      outline: none;
+      padding: 4px 0;
+    }
+
+    .detail-block p[contenteditable="true"]:focus {
+      color: var(--text);
+    }
+
+    .metrics {
+      gap: 12px;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: minmax(120px, 1fr) repeat(2, minmax(100px, 1fr));
+      gap: 12px;
+      align-items: center;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .metric-row span[contenteditable="true"] {
+      border-bottom: 1px solid transparent;
+      padding-bottom: 2px;
+    }
+
+    .metric-row span[contenteditable="true"]:focus {
+      color: var(--text);
+      border-color: var(--accent);
+    }
+
+    .week-detail {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      background: var(--surface);
+      display: grid;
+      gap: 16px;
+    }
+
+    .week-detail.completed {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .week-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .week-status {
+      font-size: 0.85rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--muted);
+    }
+
+    .week-detail.completed .week-status {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .check-item {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: var(--transition);
+    }
+
+    .check-item input {
+      accent-color: var(--accent);
+      width: 18px;
+      height: 18px;
+    }
+
+    .check-item.completed {
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .progress-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 14px;
+      background: var(--surface-2);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.6s ease;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .reminder-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .reminder-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .btn:hover {
+      box-shadow: var(--glow);
+    }
+
+    .export {
+      align-self: flex-start;
+    }
+
+    .discipline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .discipline-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      font-weight: 500;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 720px) {
+      .theme-toggle {
+        position: static;
+        justify-self: flex-start;
+      }
+
+      header.hero {
+        padding: 24px;
+      }
+
+      .week-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        color: #111111;
+      }
+
+      .theme-toggle,
+      .btn,
+      .reminder-actions {
+        display: none !important;
+      }
+
+      .page {
+        padding: 0;
+      }
+
+      header.hero,
+      .week-detail,
+      .week-card,
+      .progress-card,
+      .reminder-card,
+      .discipline-card {
+        box-shadow: none !important;
+        border-color: #d0d0d0 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <span class="hero-badge">Démarrage : Janvier 2026</span>
+      <button class="theme-toggle" id="themeToggle" aria-label="Basculer le thème">
+        <span id="themeIcon">🌙</span>
+      </button>
+      <div>
+        <h1 class="hero-title">Plan de retour musical – Janvier 2026</h1>
+        <p class="hero-subtitle">6 semaines pour reconstruire présence, audience et crédibilité</p>
+      </div>
+    </header>
+
+    <section>
+      <h2 class="section-title">Plateformes de publication</h2>
+      <div class="platforms">
+        <a class="platform-card" href="https://www.instagram.com" target="_blank" rel="noopener">
+          <img src="/assets/logos/instagram.svg" alt="Instagram" />
+        </a>
+        <a class="platform-card" href="https://www.tiktok.com" target="_blank" rel="noopener">
+          <img src="/assets/logos/tiktok.svg" alt="TikTok" />
+        </a>
+        <a class="platform-card" href="https://www.youtube.com" target="_blank" rel="noopener">
+          <img src="/assets/logos/youtube.svg" alt="YouTube Shorts" />
+        </a>
+        <a class="platform-card" href="https://www.spotify.com" target="_blank" rel="noopener">
+          <img src="/assets/logos/spotify.svg" alt="Spotify" />
+        </a>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Calendrier global automatique</h2>
+      <div class="calendar-grid" id="calendarGrid"></div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Parcours semaine par semaine</h2>
+      <div class="tabs" role="tablist" aria-label="Mode de parcours">
+        <button class="tab-button active" data-view="execution" type="button">▶ Exécution</button>
+        <button class="tab-button" data-view="detailed" type="button">📋 Plan détaillé</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active" id="executionView" data-view="execution">
+          <div class="weeks-list" id="weeksList"></div>
+        </div>
+        <div class="tab-panel" id="detailedView" data-view="detailed">
+          <div class="weeks-list" id="detailedWeeks">
+            <article class="week-detail plan-detail">
+              <div class="week-header">
+                <div>
+                  <h3>Semaine 1 – Réapparition</h3>
+                  <p class="hero-subtitle">Objectif stratégique</p>
+                </div>
+                <span class="week-status">Préparation</span>
+              </div>
+              <div class="detail-grid">
+                <div class="detail-block">
+                  <h4>🎯 Objectif stratégique</h4>
+                  <p contenteditable="true">Reconnecter avec les personnes qui me suivent déjà.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>📌 Plateformes à privilégier</h4>
+                  <p contenteditable="true">Instagram, TikTok</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎛️ Matériel utilisé</h4>
+                  <p contenteditable="true">Smartphone, micro simple, ring light.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎥 Contenu à produire</h4>
+                  <p contenteditable="true">Vidéo courte + post de retour + 3 stories.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🗣️ Message / angle de discours</h4>
+                  <p contenteditable="true">"Je reviens, voici pourquoi et où je veux aller."</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🚀 Impact attendu</h4>
+                  <p contenteditable="true">Réactiver la communauté et relancer les échanges.</p>
+                </div>
+                <div class="detail-block metrics">
+                  <h4>📈 Objectifs chiffrés</h4>
+                  <div class="metric-row">
+                    <span>Instagram</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                  <div class="metric-row">
+                    <span>TikTok</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="week-detail plan-detail">
+              <div class="week-header">
+                <div>
+                  <h3>Semaine 2 – Ancrage</h3>
+                  <p class="hero-subtitle">Objectif stratégique</p>
+                </div>
+                <span class="week-status">Préparation</span>
+              </div>
+              <div class="detail-grid">
+                <div class="detail-block">
+                  <h4>🎯 Objectif stratégique</h4>
+                  <p contenteditable="true">Stabiliser un rythme de publication cohérent.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>📌 Plateformes à privilégier</h4>
+                  <p contenteditable="true">Instagram, YouTube Shorts</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎛️ Matériel utilisé</h4>
+                  <p contenteditable="true">Smartphone, micro cravate, notes préparées.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎥 Contenu à produire</h4>
+                  <p contenteditable="true">2 vidéos + 1 post coulisses + 4 stories.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🗣️ Message / angle de discours</h4>
+                  <p contenteditable="true">"Voici ma routine et comment je reconstruis."</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🚀 Impact attendu</h4>
+                  <p contenteditable="true">Montrer une présence régulière et rassurante.</p>
+                </div>
+                <div class="detail-block metrics">
+                  <h4>📈 Objectifs chiffrés</h4>
+                  <div class="metric-row">
+                    <span>Instagram</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                  <div class="metric-row">
+                    <span>TikTok</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="week-detail plan-detail">
+              <div class="week-header">
+                <div>
+                  <h3>Semaine 3 – Positionnement</h3>
+                  <p class="hero-subtitle">Objectif stratégique</p>
+                </div>
+                <span class="week-status">Préparation</span>
+              </div>
+              <div class="detail-grid">
+                <div class="detail-block">
+                  <h4>🎯 Objectif stratégique</h4>
+                  <p contenteditable="true">Clarifier mon univers sonore et visuel.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>📌 Plateformes à privilégier</h4>
+                  <p contenteditable="true">Instagram, TikTok, Spotify</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎛️ Matériel utilisé</h4>
+                  <p contenteditable="true">Moodboard, presets visuels, maquette audio.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎥 Contenu à produire</h4>
+                  <p contenteditable="true">Vidéo manifeste + post vision + story Q&A.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🗣️ Message / angle de discours</h4>
+                  <p contenteditable="true">"Je suis ça, et voici ce que je veux créer."</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🚀 Impact attendu</h4>
+                  <p contenteditable="true">Ancrer un positionnement reconnaissable.</p>
+                </div>
+                <div class="detail-block metrics">
+                  <h4>📈 Objectifs chiffrés</h4>
+                  <div class="metric-row">
+                    <span>Instagram</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                  <div class="metric-row">
+                    <span>TikTok</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="week-detail plan-detail">
+              <div class="week-header">
+                <div>
+                  <h3>Semaine 4 – Pré-teasing</h3>
+                  <p class="hero-subtitle">Objectif stratégique</p>
+                </div>
+                <span class="week-status">Préparation</span>
+              </div>
+              <div class="detail-grid">
+                <div class="detail-block">
+                  <h4>🎯 Objectif stratégique</h4>
+                  <p contenteditable="true">Installer une attente progressive.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>📌 Plateformes à privilégier</h4>
+                  <p contenteditable="true">Instagram, TikTok, YouTube Shorts</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎛️ Matériel utilisé</h4>
+                  <p contenteditable="true">Extraits audio, visuels teaser, calendrier.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎥 Contenu à produire</h4>
+                  <p contenteditable="true">Teasers courts + story compte à rebours.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🗣️ Message / angle de discours</h4>
+                  <p contenteditable="true">"Quelque chose arrive, voici les indices."</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🚀 Impact attendu</h4>
+                  <p contenteditable="true">Préparer la communauté à la révélation.</p>
+                </div>
+                <div class="detail-block metrics">
+                  <h4>📈 Objectifs chiffrés</h4>
+                  <div class="metric-row">
+                    <span>Instagram</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                  <div class="metric-row">
+                    <span>TikTok</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="week-detail plan-detail">
+              <div class="week-header">
+                <div>
+                  <h3>Semaine 5 – Teasing officiel</h3>
+                  <p class="hero-subtitle">Objectif stratégique</p>
+                </div>
+                <span class="week-status">Préparation</span>
+              </div>
+              <div class="detail-grid">
+                <div class="detail-block">
+                  <h4>🎯 Objectif stratégique</h4>
+                  <p contenteditable="true">Passer en mode annonce officielle.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>📌 Plateformes à privilégier</h4>
+                  <p contenteditable="true">Instagram, TikTok, Spotify</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎛️ Matériel utilisé</h4>
+                  <p contenteditable="true">Cover, extrait final, lien pre-save.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎥 Contenu à produire</h4>
+                  <p contenteditable="true">Annonce + teaser principal + stories daily.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🗣️ Message / angle de discours</h4>
+                  <p contenteditable="true">"Voici la date, voici pourquoi c’est important."</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🚀 Impact attendu</h4>
+                  <p contenteditable="true">Créer un vrai momentum et des sauvegardes.</p>
+                </div>
+                <div class="detail-block metrics">
+                  <h4>📈 Objectifs chiffrés</h4>
+                  <div class="metric-row">
+                    <span>Instagram</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                  <div class="metric-row">
+                    <span>TikTok</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="week-detail plan-detail">
+              <div class="week-header">
+                <div>
+                  <h3>Semaine 6 – Sortie</h3>
+                  <p class="hero-subtitle">Objectif stratégique</p>
+                </div>
+                <span class="week-status">Préparation</span>
+              </div>
+              <div class="detail-grid">
+                <div class="detail-block">
+                  <h4>🎯 Objectif stratégique</h4>
+                  <p contenteditable="true">Accompagner la sortie sans retomber.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>📌 Plateformes à privilégier</h4>
+                  <p contenteditable="true">Toutes + Spotify</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎛️ Matériel utilisé</h4>
+                  <p contenteditable="true">Lien de sortie, visuels, témoignages.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🎥 Contenu à produire</h4>
+                  <p contenteditable="true">Clip court, réactions, live court.</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🗣️ Message / angle de discours</h4>
+                  <p contenteditable="true">"C’est sorti, voici comment le vivre ensemble."</p>
+                </div>
+                <div class="detail-block">
+                  <h4>🚀 Impact attendu</h4>
+                  <p contenteditable="true">Maximiser l’écoute et garder l’attention.</p>
+                </div>
+                <div class="detail-block metrics">
+                  <h4>📈 Objectifs chiffrés</h4>
+                  <div class="metric-row">
+                    <span>Instagram</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                  <div class="metric-row">
+                    <span>TikTok</span>
+                    <span contenteditable="true">Avant : ____</span>
+                    <span contenteditable="true">Après : ____</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Progression globale</h2>
+      <div class="progress-card">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-meta">
+          <span id="progressText">0% complété</span>
+          <span>Discipline &gt; Motivation</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Rappel du jour</h2>
+      <div class="reminder-card">
+        <p id="reminderText"></p>
+        <div class="reminder-actions">
+          <button class="btn" id="reminderButton">Changer le rappel</button>
+          <button class="btn export" id="exportButton">Exporter mon plan en PDF</button>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Règles de discipline</h2>
+      <div class="discipline-grid">
+        <div class="discipline-card">Régularité &gt; perfection</div>
+        <div class="discipline-card">1 message = 1 post</div>
+        <div class="discipline-card">Pas de disparition après la sortie</div>
+        <div class="discipline-card">Trajectoire &gt; buzz</div>
+      </div>
+    </section>
+
+    <footer>
+      <span>Ce plan n’est pas là pour impressionner. Il est là pour durer.</span>
+      <span id="year"></span>
+    </footer>
+  </div>
+
+  <script>
+    const weeks = [
+      { title: "Semaine 1 – Réapparition", objective: "Reprendre contact avec l’audience existante." },
+      { title: "Semaine 2 – Ancrage", objective: "Créer un rythme de présence stable." },
+      { title: "Semaine 3 – Positionnement", objective: "Clarifier l’identité sonore et visuelle." },
+      { title: "Semaine 4 – Pré-teasing", objective: "Préparer l’audience à la suite." },
+      { title: "Semaine 5 – Teasing officiel", objective: "Installer l’attente et la preuve sociale." },
+      { title: "Semaine 6 – Sortie", objective: "Soutenir la sortie et maintenir l’élan." }
+    ];
+
+    const checklistTemplates = [
+      ["Vidéo", "Post", "Story"],
+      ["Vidéo", "Post", "Story"],
+      ["Vidéo", "Post", "Story", "Teasing"],
+      ["Vidéo", "Post", "Story", "Teasing"],
+      ["Vidéo", "Post", "Story", "Teasing", "Publication"],
+      ["Vidéo", "Post", "Story", "Teasing", "Publication"]
+    ];
+
+    const startDate = new Date("2026-01-01T00:00:00");
+    const calendarGrid = document.getElementById("calendarGrid");
+    const weeksList = document.getElementById("weeksList");
+    const progressFill = document.getElementById("progressFill");
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const tabPanels = document.querySelectorAll(".tab-panel");
+    const progressText = document.getElementById("progressText");
+
+    const formatDate = (date) =>
+      new Intl.DateTimeFormat("fr-FR", {
+        day: "2-digit",
+        month: "short"
+      }).format(date);
+
+    const getWeekRange = (index) => {
+      const start = new Date(startDate);
+      start.setDate(start.getDate() + index * 7);
+      const end = new Date(start);
+      end.setDate(end.getDate() + 6);
+      return `${formatDate(start)} – ${formatDate(end)}`;
+    };
+
+    const renderCalendar = () => {
+      calendarGrid.innerHTML = "";
+      weeks.forEach((week, index) => {
+        const card = document.createElement("div");
+        card.className = "week-card";
+        card.innerHTML = `
+          <h3>${week.title}</h3>
+          <div class="dates">${getWeekRange(index)}</div>
+          <div class="objective">${week.objective}</div>
+        `;
+        calendarGrid.appendChild(card);
+      });
+    };
+
+    const loadChecklistState = () => {
+      try {
+        return JSON.parse(localStorage.getItem("plan-janvier-2026")) || {};
+      } catch {
+        return {};
+      }
+    };
+
+    const saveChecklistState = (state) => {
+      localStorage.setItem("plan-janvier-2026", JSON.stringify(state));
+    };
+
+    const renderWeeks = () => {
+      const state = loadChecklistState();
+      weeksList.innerHTML = "";
+
+      weeks.forEach((week, index) => {
+        const weekWrapper = document.createElement("div");
+        weekWrapper.className = "week-detail";
+
+        const checklist = checklistTemplates[index] || [];
+        const weekState = state[index] || {};
+        const totalItems = checklist.length;
+        const checkedItems = checklist.filter((item) => weekState[item]).length;
+        const isCompleted = totalItems > 0 && checkedItems === totalItems;
+
+        if (isCompleted) {
+          weekWrapper.classList.add("completed");
+        }
+
+        weekWrapper.innerHTML = `
+          <div class="week-header">
+            <div>
+              <h3>${week.title}</h3>
+              <p class="hero-subtitle">${week.objective}</p>
+            </div>
+            <span class="week-status">${isCompleted ? "Semaine complétée" : "En cours"}</span>
+          </div>
+          <div class="checklist" data-week="${index}"></div>
+        `;
+
+        const checklistContainer = weekWrapper.querySelector(".checklist");
+        checklist.forEach((item) => {
+          const itemId = `week-${index}-${item}`;
+          const itemWrapper = document.createElement("label");
+          itemWrapper.className = "check-item";
+          itemWrapper.htmlFor = itemId;
+          itemWrapper.innerHTML = `
+            <input type="checkbox" id="${itemId}" ${weekState[item] ? "checked" : ""} />
+            <span>${item}</span>
+          `;
+          if (weekState[item]) {
+            itemWrapper.classList.add("completed");
+          }
+
+          itemWrapper.querySelector("input").addEventListener("change", (event) => {
+            const currentState = loadChecklistState();
+            currentState[index] = currentState[index] || {};
+            currentState[index][item] = event.target.checked;
+            saveChecklistState(currentState);
+            renderWeeks();
+            updateProgress();
+          });
+
+          checklistContainer.appendChild(itemWrapper);
+        });
+
+        weeksList.appendChild(weekWrapper);
+      });
+    };
+
+    const updateProgress = () => {
+      const state = loadChecklistState();
+      let total = 0;
+      let done = 0;
+
+      checklistTemplates.forEach((checklist, index) => {
+        total += checklist.length;
+        checklist.forEach((item) => {
+          if (state[index] && state[index][item]) {
+            done += 1;
+          }
+        });
+      });
+
+      const percent = total === 0 ? 0 : Math.round((done / total) * 100);
+      progressFill.style.width = `${percent}%`;
+      progressText.textContent = `${percent}% complété`;
+    };
+
+    const reminderText = document.getElementById("reminderText");
+    const applyTabView = (view) => {
+      tabButtons.forEach((button) => {
+        button.classList.toggle("active", button.dataset.view === view);
+      });
+      tabPanels.forEach((panel) => {
+        panel.classList.toggle("active", panel.dataset.view === view);
+      });
+    };
+
+    tabButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const view = button.dataset.view;
+        localStorage.setItem("plan-view-mode", view);
+        applyTabView(view);
+      });
+    });
+
+    const reminders = [
+      "Tu ne bâtis pas un retour, tu bâtis une habitude.",
+      "Chaque post est une preuve de vie, pas une performance.",
+      "L’élan vient de la constance, pas de l’inspiration.",
+      "Montre-toi même quand c’est imparfait.",
+      "Ton audience suit ta trajectoire, pas ta vitesse."
+    ];
+
+    const updateReminder = () => {
+      const index = Math.floor(Math.random() * reminders.length);
+      reminderText.textContent = reminders[index];
+    };
+
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+    const storedTheme = localStorage.getItem("plan-theme");
+
+    const applyTheme = (theme) => {
+      if (theme === "light") {
+        document.body.classList.add("theme-light");
+        themeIcon.textContent = "☀️";
+      } else {
+        document.body.classList.remove("theme-light");
+        themeIcon.textContent = "🌙";
+      }
+    };
+
+    themeToggle.addEventListener("click", () => {
+      const isLight = document.body.classList.contains("theme-light");
+      const nextTheme = isLight ? "dark" : "light";
+      localStorage.setItem("plan-theme", nextTheme);
+      applyTheme(nextTheme);
+    });
+
+    document.getElementById("reminderButton").addEventListener("click", updateReminder);
+
+    document.getElementById("exportButton").addEventListener("click", () => {
+      window.print();
+    });
+
+    window.addEventListener("beforeprint", () => {
+      document.body.classList.add("theme-light");
+    });
+
+    window.addEventListener("afterprint", () => {
+      const theme = localStorage.getItem("plan-theme") || "dark";
+      applyTheme(theme);
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    renderCalendar();
+    renderWeeks();
+    updateProgress();
+    const storedView = localStorage.getItem("plan-view-mode") || "execution";
+    applyTabView(storedView);
+    applyTheme(storedTheme || "dark");
+    updateReminder();
+  </script>
+</body>
+</html>
