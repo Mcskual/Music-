@@ -3,2066 +3,595 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Prestations — Clips & Musique (v1.4)</title>
+  <title>Plan de retour musical — Janvier 2026</title>
   <style>
     :root {
-      --bg:#0f172a;
-      --card:#111827;
-      --muted:#6b7280;
-      --accent:#2563eb;
-      --accent2:#16a34a;
-      --border:#1e293b;
-      --text:#e5e7eb;
-      --text2:#cbd5e1;
-      --shadow:0 10px 30px rgba(0,0,0,.25);
-      --nav-bg:linear-gradient(125deg,rgba(59,130,246,.18),rgba(34,197,94,.10)),linear-gradient(180deg,rgba(15,23,42,.9),rgba(15,23,42,.78));
-      --nav-sheen:linear-gradient(90deg,rgba(255,255,255,.04),transparent 45%,rgba(255,255,255,.06));
-      --bg-gradient:
-        radial-gradient(circle at 0% 0%, rgba(59,130,246,.22), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(34,197,94,.16), transparent 55%),
-        linear-gradient(120deg,#020617,#020617 40%,#020617 60%,#020617);
+      color-scheme: dark;
+      --bg: #0b0f14;
+      --panel: #11161d;
+      --panel-soft: #0f141b;
+      --text: #f5f5f5;
+      --muted: #9ba3ad;
+      --border: #202630;
+      --accent: #ffffff;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      --radius: 16px;
     }
 
-    /* Thème clair premium */
     [data-theme="light"] {
-      --bg:#f3f4f6;
-      --card:#ffffff;
-      --text:#0f172a;
-      --text2:#4b5563;
-      --border:#e5e7eb;
-      --muted:#6b7280;
-      --shadow:0 16px 40px rgba(15,23,42,.12);
-      --nav-bg:linear-gradient(125deg,rgba(59,130,246,.12),rgba(34,197,94,.08)),linear-gradient(180deg,rgba(255,255,255,.95),rgba(255,255,255,.9));
-      --nav-sheen:linear-gradient(90deg,rgba(15,23,42,.06),transparent 45%,rgba(15,23,42,.08));
-      --bg-gradient:
-        radial-gradient(circle at 0% 0%, rgba(59,130,246,.12), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(34,197,94,.10), transparent 55%),
-        linear-gradient(120deg,#f9fafb,#f3f4f6 40%,#e5e7eb 60%,#f9fafb);
+      color-scheme: light;
+      --bg: #f1f2f4;
+      --panel: #fbfbfc;
+      --panel-soft: #f4f5f7;
+      --text: #0e1013;
+      --muted: #5f6670;
+      --border: #d6d9de;
+      --accent: #ffffff;
+      --shadow: 0 18px 40px rgba(15, 18, 22, 0.12);
     }
 
-    *, *::before, *::after { box-sizing:border-box; }
-    * { scroll-behavior:auto; }
+    * { box-sizing: border-box; }
 
     body {
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      background: var(--bg-gradient);
-      color:var(--text);
-      margin:0;
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      letter-spacing: 0.01em;
     }
 
-    .container { max-width:1200px; margin:36px auto 0 auto; padding:0 16px; }
+    img { max-width: 100%; display: block; }
 
-    .top-nav{
-      position:relative;
-      display:grid;
-      grid-template-columns:auto 1fr auto;
-      align-items:center;
-      gap:14px;
-      padding:0 18px;
-      height:68px;
-      background:var(--nav-bg);
-      border:1px solid var(--border);
-      border-radius:18px;
-      box-shadow:0 18px 44px rgba(15,23,42,.35);
-      margin-bottom:16px;
-      flex-wrap:nowrap;
-      overflow:hidden;
-      backdrop-filter:blur(10px);
-    }
-    .top-nav::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:var(--nav-sheen);
-      pointer-events:none;
-    }
-    .nav-left,
-    .nav-links,
-    .theme-toggle{
-      height:68px;
-      display:flex;
-      align-items:center;
-    }
-    .nav-left{
-      gap:12px;
-      min-width:0;
-      flex-shrink:0;
-      position:relative;
-      z-index:1;
-    }
-    .nav-brand{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-      font-weight:800;
-      letter-spacing:.03em;
-    }
-    .nav-brand .brand-title{ font-size:12px; text-transform:uppercase; letter-spacing:.14em; }
-    .nav-brand .brand-sub{ font-size:11px; color:var(--muted); letter-spacing:.05em; }
-    .brand-stack{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .nav-links{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      flex:1;
-      justify-content:center;
-      align-items:center;
-      min-width:0;
-      padding:6px 8px;
-      background:rgba(255,255,255,.02);
-      border:1px solid var(--border);
-      border-radius:14px;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
-      position:relative;
-      z-index:1;
-    }
-    [data-theme="light"] .nav-links{ background:rgba(15,23,42,.02); }
-    .nav-link{
-      position:relative;
-      color:var(--text2);
-      text-decoration:none;
-      min-width:140px;
-      height:38px;
-      display:inline-flex;
-      justify-content:center;
-      align-items:center;
-      line-height:1;
-      padding:0;
-      box-sizing:border-box;
-      border-radius:12px;
-      border:1px solid transparent;
-      background:rgba(15,23,42,.35);
-      font-size:13px;
-      font-weight:600;
-      letter-spacing:.01em;
-      transition:.18s background,.18s border-color,.18s color,.18s transform;
-    }
-    [data-theme="light"] .nav-link{ background:#f8fafc; }
-    .nav-link:hover{
-      border-color:var(--accent);
-      color:#fff;
-      background:linear-gradient(135deg,rgba(37,99,235,.18),rgba(16,185,129,.18));
-      transform:translateY(-1px);
-    }
-    [data-theme="light"] .nav-link:hover{ color:var(--accent); }
-    .nav-link::after{
-      content:"";
-      position:absolute;
-      left:12px;
-      right:12px;
-      bottom:6px;
-      height:3px;
-      border-radius:999px;
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      opacity:0;
-      transform:translateY(6px);
-      transition:.2s ease;
-    }
-    .nav-link:hover::after{ opacity:1; transform:translateY(0); }
-    .nav-link.active{
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      color:#fff;
-      border-color:transparent;
-      box-shadow:0 12px 26px rgba(37,99,235,.45);
-      transform:translateY(-1px);
-    }
-    .nav-link.active::after{ opacity:1; transform:translateY(0); background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(255,255,255,.6)); }
-
-    header.app {
-      display:flex;
-      gap:16px;
-      align-items:center;
-      margin-bottom:8px;
-      flex-wrap:wrap;
-    }
-
-    .logo-wrap{
-      background:var(--card);
-      border-radius:18px;
-      padding:10px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      box-shadow:var(--shadow);
-      border:1px solid var(--border);
-      text-decoration:none;
-      color:inherit;
-    }
-    .logo-wrap img{
-      width:220px;
-      height:auto;
-      display:block;
-      border-radius:14px;
-      transition:transform .2s ease, opacity .2s ease;
-    }
-    .logo-compact{
-      padding:6px 10px;
-      border-radius:14px;
-    }
-    .logo-compact img{ width:160px; }
-
-    h1 {
-      font-size:clamp(26px,4vw,40px);
-      margin:0;
-      padding:0;
-      line-height:1.15;
-    }
-    h2 { margin:0 0 12px; font-size:18px; }
-    .sub{ color:var(--text2); margin-bottom:16px; font-size:14px;}
-
-    header.app, header.hero { margin-bottom:16px; }
-
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:16px;
-      box-shadow:var(--shadow);
-      padding:16px;
-      margin-top:16px !important;
-    }
-
-    .page-content{
-      display:flex;
-      flex-direction:column;
-      gap:16px;
-    }
-
-    .whatsapp-card{
-      position:relative;
-      overflow:hidden;
-      border:1px solid rgba(34,197,94,.35);
-      background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(16,185,129,.04)),var(--card);
-    }
-    .whatsapp-card::after{
-      content:"";
-      position:absolute;
-      inset:-40% auto auto 40%;
-      width:360px;
-      height:360px;
-      background:radial-gradient(circle at center, rgba(16,185,129,.18), transparent 55%);
-      opacity:.8;
-      pointer-events:none;
-      filter:blur(8px);
-    }
-    .whatsapp-card h2{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }
-    .wa-icon{ width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; }
-    .wa-chip{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 10px;
-      border-radius:999px;
-      background:rgba(34,197,94,.18);
-      color:#bbf7d0;
-      border:1px solid rgba(34,197,94,.45);
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:.01em;
-    }
-    [data-theme="light"] .wa-chip{ color:#0f5132; background:rgba(16,185,129,.16); }
-    .wa-legend{ gap:8px; }
-
-    .followup-grid{ position:relative; z-index:1; }
-    .followup-card{
-      position:relative;
-      border:1px solid rgba(34,197,94,.32);
-      background:linear-gradient(120deg,rgba(16,185,129,.09),rgba(16,185,129,.02));
-      box-shadow:0 12px 30px rgba(16,185,129,.12);
-      isolation:isolate;
-    }
-    .followup-card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(135deg,rgba(16,185,129,.18),transparent 55%);
-      opacity:.4;
-      pointer-events:none;
-      border-radius:inherit;
-      z-index:0;
-    }
-    .followup-card > *{ position:relative; z-index:1; }
-    .followup-head{ display:flex; justify-content:space-between; gap:10px; align-items:flex-start; }
-    .followup-meta{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:8px; margin-top:10px; }
-    .followup-stat{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
-      padding:8px 10px;
-      border-radius:10px;
-      background:rgba(15,23,42,.4);
-      border:1px solid rgba(34,197,94,.25);
-    }
-    [data-theme="light"] .followup-stat{ background:rgba(240,253,244,.9); }
-    .followup-stat .label{ font-size:12px; color:var(--muted); display:inline-flex; gap:6px; align-items:center; }
-    .followup-stat .value{ font-weight:700; font-size:14px; }
-    .followup-pill{ box-shadow:0 4px 16px rgba(16,185,129,.16); }
-    .followup-actions{ display:flex; flex-direction:column; gap:6px; margin-top:12px; }
-    .followup-btn-row{ display:flex; flex-wrap:wrap; gap:8px; }
-    .relance-btn{ color:#fff; border-color:transparent; }
-    .relance-soft{ background:linear-gradient(135deg,#22c55e,#15803d); box-shadow:0 10px 20px rgba(16,185,129,.28); }
-    .relance-soft:hover{ background:linear-gradient(135deg,#34d399,#16a34a); }
-    .relance-firm{ background:linear-gradient(135deg,#f59e0b,#d97706); box-shadow:0 10px 20px rgba(245,158,11,.28); }
-    .relance-firm:hover{ background:linear-gradient(135deg,#fbbf24,#f59e0b); }
-    .relance-critical{ background:linear-gradient(135deg,#ef4444,#b91c1c); box-shadow:0 12px 22px rgba(239,68,68,.3); }
-    .relance-critical:hover{ background:linear-gradient(135deg,#f87171,#ef4444); }
-
-    @media(max-width:640px){
-      .followup-head{ flex-direction:column; }
-      .followup-pill{ align-self:flex-start; }
-    }
-
-    .grid{ display:grid; gap:16px; }
-    .grid-2{ grid-template-columns:1.15fr .85fr; }
-    @media(max-width:960px){
-      .grid-2{ grid-template-columns:1fr; }
-      header.app{ justify-content:flex-start; }
-    }
-
-    label{
-      display:block;
-      font-size:13px;
-      margin-bottom:6px;
-      color:var(--text2);
-    }
-
-    input[type="text"],
-    input[type="date"],
-    input[type="number"],
-    input[type="time"],
-    select,
-    textarea{
-      width:100%;
-      padding:10px 11px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:var(--card);
-      color:var(--text);
-      font-size:14px;
-      outline:none;
-      transition:.16s border-color,.16s box-shadow,.16s background,.16s transform;
-    }
-    input::placeholder,
-    textarea::placeholder{ color:#6b7280; font-size:13px;}
-    input:focus,
-    select:focus,
-    textarea:focus{
-      border-color:var(--accent);
-      box-shadow:0 0 0 1px rgba(37,99,235,.35);
-      background:var(--card);
-      transform:translateY(-1px);
-    }
-
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:8px 14px;
-      border-radius:999px;
-      border:none;
-      cursor:pointer;
-      font-size:13px;
-      font-weight:600;
-      letter-spacing:.01em;
-      background:#111827;
-      color:#e5e7eb;
-      border:1px solid #1f2937;
-      transition:.15s background,.15s transform,.15s box-shadow,.15s border-color,.15s opacity;
-    }
-    .btn-primary{
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      border-color:transparent;
-      color:#fff;
-      box-shadow:0 10px 18px rgba(37,99,235,.45);
-    }
-    .btn-primary:hover{
-      transform:translateY(-1px);
-      box-shadow:0 14px 26px rgba(37,99,235,.6);
-      opacity:0.97;
-    }
-    .btn-outline{
-      background:transparent;
-      color:var(--text2);
-      border-color:#1f2937;
-    }
-    [data-theme="light"] .btn-outline{
-      border-color:#d1d5db;
-      background:#f9fafb;
-    }
-    .btn-outline:hover{
-      background:rgba(15,23,42,.08);
-      border-color:#374151;
-    }
-    [data-theme="light"] .btn-outline:hover{
-      background:#edf2ff;
-      border-color:#3b82f6;
-    }
-
-    .toolbar{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      margin-top:12px;
-      align-items:center;
-    }
-
-    table{
-      width:100%;
-      border-collapse:collapse;
-      margin-top:12px;
-      font-size:13px;
-      border-radius:12px;
-      overflow:hidden;
-    }
-    th,td{
-      padding:7px 8px;
-      border-bottom:1px solid #111827;
-      text-align:left;
-      vertical-align:top;
-    }
-    [data-theme="light"] th,
-    [data-theme="light"] td{
-      border-bottom:1px solid #e5e7eb;
-    }
-    th{
-      font-weight:500;
-      font-size:12px;
-      color:#9ca3af;
-      white-space:nowrap;
-      background:rgba(15,23,42,.85);
-    }
-    [data-theme="light"] th{
-      background:#f3f4f6;
-      color:#6b7280;
-    }
-    tr:nth-child(even) td{
-      background:rgba(15,23,42,.35);
-    }
-    [data-theme="light"] tr:nth-child(even) td{
-      background:#f9fafb;
-    }
-    tr:hover td{
-      background:rgba(59,130,246,.18);
-    }
-    [data-theme="light"] tr:hover td{
-      background:rgba(59,130,246,.09);
-    }
-
-    .small{ font-size:12px; color:#8aa0b5;}
-    .muted{ color:#94a3b8; font-size:12px; }
-
-    .totals{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:8px;
-      margin-top:10px;
-    }
-    @media(max-width:780px){ .totals{ grid-template-columns:1fr; } }
-
-    .kpi{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:14px;
-      box-shadow:var(--shadow);
-    }
-    .kpi .label{
-      font-size:11px;
-      color:var(--muted);
-      text-transform:uppercase;
-      letter-spacing:.08em;
-    }
-    .kpi .value{
-      font-size:20px;
-      font-weight:800;
-      margin-top:6px;
-    }
-    .kpi .sub{
-      font-size:11px;
-      color:#64748b;
-      margin-top:2px;
-    }
-
-    .progress{
-      height:6px;
-      border-radius:999px;
-      background:rgba(15,23,42,.8);
-      overflow:hidden;
-      border:1px solid #111827;
-    }
-    [data-theme="light"] .progress{
-      background:#e5e7eb;
-      border-color:#d1d5db;
-    }
-    .progress-inner{
-      height:100%;
-      width:0;
-      background:linear-gradient(90deg,var(--accent),var(--accent2));
-      transition:width .2s ease-out;
-    }
-
-    .searchbar{
-      display:grid;
-      grid-template-columns:1fr 160px 150px;
-      gap:10px;
-      margin:10px 0 0;
-    }
-    @media(max-width:780px){
-      .searchbar{ grid-template-columns:1fr; }
-    }
-
-    .status-pill{
-      display:inline-flex;
-      align-items:center;
-      gap:5px;
-      padding:3px 8px;
-      border-radius:999px;
-      border:1px solid #1f2937;
-      background:var(--card);
-      font-size:11px;
-      color:var(--text);
-    }
-    [data-theme="light"] .status-pill{
-      border-color:#e5e7eb;
-    }
-    .status-pill span.dot{
-      width:8px;
-      height:8px;
-      border-radius:999px;
-      display:inline-block;
-    }
-
-    /* États de pastilles (nuit) */
-    .status-pill.paid{
-      background:rgba(22,163,74,.14);
-      border-color:#16a34a;
-      color:#bbf7d0;
-    }
-    .status-pill.paid .dot{
-      background:#22c55e;
-    }
-
-    .status-pill.partial{
-      background:rgba(234,179,8,.16);
-      border-color:#facc15;
-      color:#fef9c3;
-    }
-    .status-pill.partial .dot{
-      background:#eab308;
-    }
-
-    .status-pill.muted{
-      background:rgba(239,68,68,.16);
-      border-color:#ef4444;
-      color:#fecaca;
-    }
-    .status-pill.muted .dot{
-      background:#ef4444;
-    }
-    .status-pill.critical{
-      background:rgba(248,113,113,.22);
-      border-color:#ef4444;
-      color:#ffe4e6;
-    }
-    .status-pill.critical .dot{
-      background:#f87171;
-    }
-
-    /* États de pastilles (jour) */
-    [data-theme="light"] .status-pill.paid{
-      background:rgba(22,163,74,.14);
-      border-color:#16a34a;
-      color:#166534;
-    }
-    [data-theme="light"] .status-pill.partial{
-      background:rgba(250,204,21,.16);
-      border-color:#eab308;
-      color:#854d0e;
-    }
-    [data-theme="light"] .status-pill.muted{
-      background:rgba(248,113,113,.18);
-      border-color:#ef4444;
-      color:#991b1b;
-    }
-    [data-theme="light"] .status-pill.critical{
-      background:rgba(254,226,226,.9);
-      border-color:#ef4444;
-      color:#991b1b;
-    }
-
-    .checkbox-toggle{ display:flex; align-items:center; gap:8px; }
-
-    .alert{
-      padding:10px 12px;
-      border-radius:12px;
-      margin:10px 0;
-    }
-    .alert-ok{
-      background:rgba(34,197,94,.12);
-      border:1px solid rgba(34,197,94,.5);
-      color:#bbf7d0;
-    }
-    .alert-err{
-      background:rgba(239,68,68,.08);
-      border:1px solid rgba(239,68,68,.5);
-      color:#fecaca;
-    }
-
-    footer{
-      margin:20px 0;
-      color:#94a3b8;
-      font-size:12px;
-      text-align:center;
-    }
-    footer code{
-      background:var(--card);
-      border-radius:8px;
-      padding:2px 6px;
-      border:1px solid #1f2937;
-    }
-    [data-theme="light"] footer code{
-      border-color:#e5e7eb;
-    }
-
-    .hint{ font-size:12px; color:#9fb1c2; }
-    .row{
-      display:flex;
-      flex-wrap:wrap;
-      align-items:center;
-      gap:6px;
-    }
-    .pill{
-      font-size:11px;
-      padding:3px 8px;
-      border-radius:999px;
-      border:1px solid #1f2937;
-      background:var(--card);
-      color:#9ca3af;
-    }
-    [data-theme="light"] .pill{
-      border-color:#e5e7eb;
-      color:#6b7280;
-    }
-
-    /* Switch thème */
-    .switch{
-      position:relative;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      font-size:11px;
-      color:#9ca3af;
-      cursor:pointer;
-      user-select:none;
-    }
-    .switch input{ display:none; }
-    .switch span.slider{
-      width:34px;
-      height:18px;
-      border-radius:999px;
-      background:#020617;
-      border:1px solid #1f2937;
-      position:relative;
-      transition:.16s background,.16s border-color;
-    }
-    [data-theme="light"] .switch span.slider{
-      background:#e5e7eb;
-      border-color:#d1d5db;
-    }
-    .switch span.slider::before{
-      content:"";
-      position:absolute;
-      top:1px;
-      left:1px;
-      width:14px;
-      height:14px;
-      border-radius:999px;
-      background:#e5e7eb;
-      transition:.16s transform,.16s background;
-      box-shadow:0 1px 3px rgba(15,23,42,.5);
-    }
-    [data-theme="light"] .switch span.slider::before{
-      background:#ffffff;
-    }
-    .switch input:checked + .slider{
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      border-color:transparent;
-    }
-    .switch input:checked + .slider::before{
-      transform:translateX(14px);
-    }
-    .theme-toggle{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:6px 10px;
-      background:rgba(15,23,42,.6);
-      border:1px solid var(--border);
-      border-radius:12px;
-      box-shadow:var(--shadow);
-      flex-shrink:0;
-    }
-    [data-theme="light"] .theme-toggle{ background:#f8fafc; }
-    .theme-icon{
-      font-size:14px;
-      line-height:1;
-      filter:drop-shadow(0 2px 6px rgba(0,0,0,.25));
-    }
-
-    .debug-zone{
-      margin-top:10px;
-      font-size:11px;
-      background:var(--card);
-      border-radius:12px;
-      padding:8px 10px;
-      border:1px dashed #1f2937;
-      color:#9ca3af;
-    }
-    .debug-zone pre{
-      margin:4px 0 0;
-      white-space:pre-wrap;
-      word-break:break-word;
-      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-    }
-
-    .actions button{ margin-right:6px; }
-
-    .small { font-size:12px; color:#8aa0b5;}
-    .checkbox-toggle { display:flex; align-items:center; gap:8px;}
-    .alert-ok { background: rgba(34,197,94,.1); border:1px solid rgba(34,197,94,.4); color:#86efac; }
-    .alert-err{ background: rgba(239,68,68,.1); border:1px solid rgba(239,68,68,.4); color:#fecaca; }
-    .hint { font-size:12px; color:#9fb1c2; }
-    .debug { font-size:12px; color:#9ca3af; margin-top:6px; }
-    .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-
-    .totals { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:10px; }
-    .kpi{ background:var(--card); border:1px solid var(--border); border-radius:12px; padding:14px; }
-    .kpi .label{ font-size:12px; color:var(--muted); }
-    .kpi .value{ font-size:20px; font-weight:800; margin-top:6px;}
-    .actions button{ margin-right:6px;}
-    .searchbar{ display:grid; grid-template-columns: 1fr 150px 160px; gap:10px; }
-    @media(max-width:780px){ .searchbar{ grid-template-columns:1fr;} .totals{ grid-template-columns:1fr; } }
-
-    /* calendar centered narrow */
-    #bloc-calendar{max-width:900px;margin:24px auto;}
-
-    /* ====== CAPTURE MOBILE RÉCAP ====== */
-    #capture-mobile{
-      display:none;
-      width:380px;
-      max-width:100%;
-      margin:0 auto;
-      padding:16px;
-      background:var(--bg);
-      color:var(--text);
-      border-radius:16px;
-    }
-    .cap-header{
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      text-align:center;
-      margin-bottom:12px;
-      gap:6px;
-    }
-    .cap-header img{
-      width:180px;
-      height:auto;
-      border-radius:12px;
-      margin-top: -6px;
-    }
-    .cap-title{
-      font-size:16px;
-      font-weight:700;
-    }
-    .cap-sub{
-      font-size:11px;
-      color:var(--text2);
-    }
-    .cap-summary{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-      gap:8px;
-      width:100%;
-      margin:4px 0 14px;
-    }
-    .cap-kpi{
-      position:relative;
-      overflow:hidden;
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:12px;
-      box-shadow:var(--shadow);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-      text-align:center;
-      isolation:isolate;
-    }
-    .cap-kpi::after{
-      content:"";
-      position:absolute;
-      inset:-30% -20% auto auto;
-      width:180%;
-      height:180%;
-      background:radial-gradient(circle at 25% 25%, rgba(255,255,255,.25), transparent 45%);
-      opacity:.75;
-      transform:rotate(6deg);
-      pointer-events:none;
-      z-index:0;
-    }
-    .cap-kpi .label,
-    .cap-kpi .value{
-      text-align:center;
-    }
-    .cap-kpi.due{
-      background:linear-gradient(135deg,#f59e0b,#f97316);
-      border-color:rgba(249,115,22,.45);
-      color:#fff;
-    }
-    .cap-kpi.received{
-      background:linear-gradient(135deg,#22c55e,#15803d);
-      border-color:rgba(21,128,61,.5);
-      color:#ecfdf3;
-    }
-    .cap-kpi.total{
-      background:linear-gradient(135deg,#312e81,#2563eb);
-      border-color:rgba(37,99,235,.45);
-      color:#e0e7ff;
-      grid-column:1 / -1;
-    }
-    .cap-kpi .label{
-      font-size:10px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.85);
-      z-index:1;
-    }
-    .cap-kpi .value{
-      font-size:16px;
-      font-weight:800;
-      margin-top:4px;
-      z-index:1;
-    }
-    .cap-item{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:10px 12px;
-      margin-bottom:10px;
-    }
-    .cap-client{
-      font-weight:700;
-      font-size:14px;
-      margin-bottom:2px;
-    }
-    .cap-subtitle{
-      font-size:12px;
-      color:var(--text2);
-      margin-bottom:6px;
-    }
-    .cap-row{
-      display:flex;
-      justify-content:space-between;
-      font-size:12px;
-      margin-bottom:2px;
-      gap:6px;
-    }
-    .cap-row span:first-child{
-      color:var(--text2);
-    }
-    .cap-row .status-pill{
-      font-size:10px;
-      padding:2px 6px;
-    }
-
-    /* NOUVEAU: Styles pour la barre de progression dans la capture mobile */
-    .cap-progress-wrap {
-      padding: 8px 0;
-    }
-    .cap-row-progress-label {
+    .container {
+      width: min(1100px, 92vw);
+      margin: 32px auto 64px;
       display: flex;
-      justify-content: space-between; /* Correction d'alignement */
-      align-items: center;
-      margin-bottom: 4px;
-      font-size: 0.875rem; 
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    header.hero {
+      display: grid;
+      gap: 16px;
+      align-items: start;
+      position: relative;
+    }
+
+    .hero-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-title {
+      font-size: clamp(28px, 4vw, 42px);
+      margin: 0;
+    }
+
+    .hero-sub {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .badge {
+      display: inline-flex;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--panel-soft);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--muted);
     }
-    .cap-row-progress-label span:last-child {
-      font-weight: 600;
+
+    .toggle-btn {
+      border: 1px solid var(--border);
+      background: var(--panel-soft);
       color: var(--text);
+      border-radius: 999px;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    /* Bloc recherche plus premium */
-    .filter-panel{
-      background:linear-gradient(145deg, rgba(37,99,235,.12), rgba(34,197,94,.08)), var(--card);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:14px;
-      box-shadow:var(--shadow);
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    [data-theme="light"] .filter-panel{
-      background:linear-gradient(145deg, rgba(37,99,235,.08), rgba(34,197,94,.05)), var(--card);
-    }
-    .filter-row{
-      display:grid;
-      grid-template-columns:1.2fr 1fr 1fr;
-      gap:12px;
-      align-items:end;
-    }
-    .filter-actions{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      padding-top:8px;
-      border-top:1px dashed var(--border);
-    }
-    .filter-actions .row{ gap:12px; }
-    @media(max-width:780px){
-      .filter-row{ grid-template-columns:1fr; }
-      .filter-actions{ flex-direction:column; align-items:flex-start; }
+    .toggle-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
     }
 
+    .section-title {
+      margin: 0 0 12px;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+
+    .platforms {
+      display: grid;
+      gap: 16px;
+    }
+
+    .platform-logos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 12px;
+    }
+
+    .platform-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 80px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel-soft);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    .platform-logo img {
+      width: 44px;
+      height: 44px;
+      filter: brightness(0) invert(1);
+    }
+
+    [data-theme="light"] .platform-logo img {
+      filter: brightness(0) invert(0);
+    }
+
+    .platform-logo:hover {
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.45);
+      transform: translateY(-2px);
+    }
+
+    .weekly-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .week-card {
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--panel-soft);
+      display: grid;
+      gap: 8px;
+    }
+
+    .week-card.completed {
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
+    }
+
+    .week-label {
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .week-goal {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .week-dates {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .detail-section {
+      display: grid;
+      gap: 16px;
+    }
+
+    .detail-week {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--panel-soft);
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .detail-week.completed {
+      border-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.25);
+    }
+
+    .checklist {
+      display: grid;
+      gap: 8px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .check-item input {
+      accent-color: #ffffff;
+      width: 16px;
+      height: 16px;
+    }
+
+    .progress-wrap {
+      display: grid;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .progress-bar {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background: var(--accent);
+      transition: width 0.4s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .reminder {
+      display: grid;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .reminder-message {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .button {
+      border: 1px solid var(--border);
+      background: var(--panel-soft);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font-size: 13px;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25);
+    }
+
+    .discipline-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .discipline-card {
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--panel-soft);
+      text-align: center;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 720px) {
+      .hero-top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media print {
+      :root,
+      [data-theme="light"] {
+        color-scheme: light;
+        --bg: #ffffff;
+        --panel: #ffffff;
+        --panel-soft: #f5f6f8;
+        --text: #0e1013;
+        --muted: #4f5761;
+        --border: #d6d9de;
+        --shadow: none;
+      }
+
+      body { background: #ffffff; }
+      .toggle-btn,
+      .button { display: none; }
+      .card { box-shadow: none; }
+    }
   </style>
-  <link rel="stylesheet" href="assets/szd-cards.css">
 </head>
 <body>
-  <div class="container">
-    <nav class="top-nav" aria-label="Navigation principale">
-      <div class="nav-left">
-        <a class="logo-wrap logo-compact" href="index.html" aria-label="Revenir aux prestations">
-          <img
-            src="szd_logo_white.png"
-            data-dark-src="szd_logo_white.png"
-            data-light-src="szd_logo_black.png"
-            alt="Logo">
-        </a>
-      </div>
-      <div class="nav-links">
-        <a class="nav-link active" href="index.html">Prestations</a>
-        <a class="nav-link" href="facturation.html">Facturation</a>
-        <a class="nav-link" href="rdv.html">Ajouter un RDV</a>
-        <a class="nav-link" href="licence.html">Contrat instrumentale</a>
-        <a class="nav-link" href="famille.html">Famille</a>
-      </div>
-      <div class="theme-toggle">
-        <span class="theme-icon" aria-hidden="true">🌙</span>
-        <label class="switch" aria-label="Basculer le thème nuit/jour">
-          <input type="checkbox" id="themeToggle">
-          <span class="slider"></span>
-        </label>
-      </div>
-    </nav>
-    <header class="app">
-      <div>
-        <h1>Prestations — Clips & Musique</h1>
-        <div class="row" style="margin:4px 0 2px;">
-          <span class="pill">Version 1.4</span>
-          <span class="pill">LocalStorage</span>
+  <main class="container">
+    <header class="card hero" id="hero">
+      <div class="hero-top">
+        <div>
+          <span class="badge">Démarrage : Janvier 2026</span>
+          <h1 class="hero-title">Plan de retour musical – Janvier 2026</h1>
+          <p class="hero-sub">6 semaines pour reconstruire présence, audience et crédibilité</p>
         </div>
-        <p class="sub">
-          Ajoute tes prestations, saisis les montants et enregistre les paiements partiels.
-          Données stockées en localStorage. Si le stockage est bloqué, l'application bascule en mode secours (sauvegarde JSON).
-        </p>
+        <button class="toggle-btn" id="themeToggle" type="button" aria-label="Basculer le thème">🌙</button>
       </div>
     </header>
 
-    <main class="page-content">
-    <div id="status" class="alert" style="display:none;"></div>
-
-    <div class="grid grid-2">
-      <div class="card">
-        <h2>Nouvelle prestation</h2>
-        <form id="prestations-form" novalidate>
-          <div class="grid" style="grid-template-columns:1fr 1fr; gap:12px;">
-            <div>
-              <label for="client">Client</label>
-              <input type="text" id="client" placeholder="Nom de l'artiste / client">
-            </div>
-            <div>
-              <label for="type">Type</label>
-              <select id="type">
-                <option value="Clip">Clip</option>
-                <option value="Musique">Musique</option>
-                <option value="Tournage">Tournage</option>
-                <option value="Montage">Montage</option>
-                <option value="Autre">Autre</option>
-              </select>
-            </div>
-            <div style="grid-column:1 / -1;">
-              <label for="description">Description (optionnel)</label>
-              <input type="text" id="description" placeholder="Détails de la prestation (ex : Clip Mayanna)">
-            </div>
-            <div>
-              <label for="date">Date</label>
-              <input type="date" id="date">
-            </div>
-            <div>
-              <label for="montant">Montant (€)</label>
-              <input type="text" inputmode="decimal" id="montant" placeholder="ex : 800 ou 800,00">
-            </div>
-            <div class="checkbox-toggle" style="align-self:end;">
-              <input type="checkbox" id="paye">
-              <label for="paye" style="margin:0;">Déjà payé (total)</label>
-            </div>
-          </div>
-          <div class="toolbar" style="margin-top:12px;">
-            <button class="btn btn-primary" id="save" type="submit">Ajouter</button>
-            <button type="button" class="btn btn-outline" id="reset">Réinitialiser</button>
-            <button type="button" class="btn btn-outline" id="addDemo">+ Démo</button>
-            <button type="button" class="btn btn-outline" id="exportJson">Export JSON</button>
-            <button type="button" class="btn btn-outline" id="exportCsv">Export CSV</button>
-            <label class="btn btn-outline">
-              Import JSON
-              <input type="file" id="importJson" accept="application/json" style="display:none;">
-            </label>
-          </div>
-        </form>
+    <section class="card platforms" id="plateformes">
+      <h2 class="section-title">Plateformes de diffusion prioritaires</h2>
+      <div class="platform-logos">
+        <a class="platform-logo" href="#" aria-label="Instagram">
+          <img src="assets/logos/instagram.svg" alt="Instagram">
+        </a>
+        <a class="platform-logo" href="#" aria-label="TikTok">
+          <img src="assets/logos/tiktok.svg" alt="TikTok">
+        </a>
+        <a class="platform-logo" href="#" aria-label="YouTube Shorts">
+          <img src="assets/logos/youtube.svg" alt="YouTube Shorts">
+        </a>
+        <a class="platform-logo" href="#" aria-label="Spotify">
+          <img src="assets/logos/spotify.svg" alt="Spotify">
+        </a>
       </div>
+    </section>
 
-      <div class="card">
-        <h2>Recherche & filtre</h2>
-        <div class="filter-panel">
-          <div class="filter-row">
-            <div>
-              <label for="search">Filtre texte</label>
-              <input type="text" id="search" placeholder="Client, type, description…">
-            </div>
-            <div>
-              <label for="filterStatus">Statut</label>
-              <select id="filterStatus">
-                <option value="all">Tous</option>
-                <option value="unpayed">Non payé</option>
-                <option value="partial">Partiel</option>
-                <option value="paid">Payé / soldé</option>
-              </select>
-            </div>
-            <div>
-              <label for="filterType">Type</label>
-              <select id="filterType">
-                <option value="all">Tous</option>
-                <option value="Clip">Clip</option>
-                <option value="Musique">Musique</option>
-                <option value="Tournage">Tournage</option>
-                <option value="Montage">Montage</option>
-                <option value="Autre">Autre</option>
-              </select>
-            </div>
-          </div>
+    <section class="card" id="calendar">
+      <h2 class="section-title">Calendrier global automatique</h2>
+      <div class="weekly-grid" id="weeklyCards"></div>
+    </section>
 
-          <div class="filter-actions">
-            <div class="row">
-              <div class="checkbox-toggle">
-                <input type="checkbox" id="debug">
-                <label for="debug" style="margin:0;">Debug mode</label>
-              </div>
-              <div class="checkbox-toggle">
-                <input type="checkbox" id="autoFile">
-                <label for="autoFile" style="margin:0;">Fichier auto (expérimental)</label>
-              </div>
-            </div>
-            <div class="row" style="gap:8px; color:var(--muted); font-size:12px;">
-              <span>Affinez vos résultats :</span>
-              <span class="pill">Texte</span>
-              <span class="pill">Statut</span>
-              <span class="pill">Type</span>
-            </div>
-          </div>
+    <section class="card" id="detail">
+      <h2 class="section-title">Parcours détaillé semaine par semaine</h2>
+      <div class="detail-section" id="detailWeeks"></div>
+    </section>
+
+    <section class="card" id="progress">
+      <h2 class="section-title">Progression globale</h2>
+      <div class="progress-wrap">
+        <div class="progress-text">
+          <span id="progressPercent">0%</span>
+          <span>Discipline &gt; Motivation</span>
         </div>
-
-        <div class="totals" style="margin-top:14px;">
-          <div class="kpi">
-            <div class="label">Total facturé</div>
-            <div class="value" id="totalMontant">0 €</div>
-            <div class="sub">Somme des prestations</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Total reçu</div>
-            <div class="value" id="totalRecu">0 €</div>
-            <div class="sub">Somme des paiements</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Total restant</div>
-            <div class="value" id="totalRestant">0 €</div>
-            <div class="sub">À encaisser</div>
-          </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
         </div>
-
-        <div class="small" id="lsStatus" style="margin-top:6px;"></div>
-
-      <div class="debug-zone" id="debug-zone" style="display:none;">
-        <div>Console locale :</div>
-        <pre id="debugOut"></pre>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <div class="card" style="margin-top:20px;">
-    <h2>Prestations enregistrées</h2>
-    <div class="small">Clique sur "Encaisser" pour enregistrer un paiement partiel ou total.</div>
-    <div class="toolbar" style="margin-top:10px;">
-      <button type="button" class="btn btn-outline" id="captureRecap">📸 Capture </button>
+    <section class="card reminder" id="reminder">
+      <h2 class="section-title">Rappel du jour</h2>
+      <div class="reminder-message" id="reminderMessage"></div>
+      <button class="button" id="reminderButton" type="button">Changer le rappel</button>
+    </section>
+
+    <section class="card" id="export">
+      <h2 class="section-title">Export PDF</h2>
+      <button class="button" id="exportPdf" type="button">Exporter mon plan en PDF</button>
+    </section>
+
+    <section class="card" id="discipline">
+      <h2 class="section-title">Règles de discipline</h2>
+      <div class="discipline-grid">
+        <div class="discipline-card">Régularité &gt; perfection</div>
+        <div class="discipline-card">1 message = 1 post</div>
+        <div class="discipline-card">Pas de disparition après la sortie</div>
+        <div class="discipline-card">Ce plan est une trajectoire, pas un coup</div>
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Client / Type</th>
-            <th>Montant</th>
-            <th>Reçu</th>
-            <th>Restant</th>
-            <th>Avancement</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-      <tbody id="tbody">
-        <tr><td colspan="10" class="small">Aucune prestation ne correspond.</td></tr>
-      </tbody>
-    </table>
-  </div>
+    </section>
 
-  <div class="card whatsapp-card" style="margin-top:20px;">
-    <h2><span class="wa-icon">💚</span>Relances automatiques</h2>
-    <div class="row" style="justify-content:space-between; align-items:center; gap:10px;">
-      <p class="small" style="margin:0; max-width:620px;">Clients à relancer après 15 jours sans paiement ; à 30 jours la relance devient prioritaire, et à 45 jours elle passe en mode critique. Prépare tout pour WhatsApp en un coup d'œil.</p>
-      <span class="wa-chip">💬 Mode WhatsApp prêt</span>
-    </div>
-    <div class="row wa-legend" style="align-items:center; margin:10px 0 6px; flex-wrap:wrap;">
-      <span class="pill">15 jours : relance douce</span>
-      <span class="pill">30 jours : relance urgente</span>
-      <span class="pill">45 jours : relance critique</span>
-      <span class="pill" id="followupCounts">0 relance en attente</span>
-    </div>
-    <div id="followupList" class="grid followup-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
-  </div>
-
+    <footer>
+      <p>Ce plan n’est pas là pour impressionner. Il est là pour durer.</p>
+      <p>© <span id="year"></span></p>
+    </footer>
   </main>
 
-  <!-- Zone de capture mobile cachée -->
-  <div id="capture-mobile"></div>
-
-  </div>
-
-  <footer>Local — clé: <code>prestations_v1</code>. Si ça casse, tu peux exporter en JSON et garder une sauvegarde manuelle.</footer>
-
-  <!-- html2canvas pour la capture -->
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-  <script src="assets/szd-card-glow.js" defer></script>
-
   <script>
-    function updateThemeLogos(theme){
-      const mode = theme === "light" ? "light" : "dark";
-
-      document.querySelectorAll('[data-light-src][data-dark-src]').forEach((img) => {
-        const target = mode === "light" ? img.dataset.lightSrc : img.dataset.darkSrc;
-        if (target) {
-          img.setAttribute("src", target);
-        }
-      });
-    }
-
-    function currentLogoForTheme(theme){
-      const mode = theme === "light" ? "light" : "dark";
-      const img = document.querySelector('[data-light-src][data-dark-src]');
-      if (!img) return "";
-
-      return mode === "light"
-        ? (img.dataset.lightSrc || img.getAttribute("src") || "")
-        : (img.dataset.darkSrc || img.getAttribute("src") || "");
-    }
-
-    function captureLogoForTheme(theme){
-      const mode = theme === "light" ? "light" : "dark";
-      const preferred = currentLogoForTheme(mode);
-      const fallback = mode === "light" ? "szd_logo_black.png" : "szd_logo_white.png";
-      const candidate = preferred || fallback || "szd_logo.png";
-
-      try {
-        return new URL(candidate, window.location.href).href;
-      } catch (e) {
-        return candidate;
-      }
-    }
-  </script>
-
-  <!-- SCRIPT PRESTATIONS -->
-  <script>
-    (() => {
-      const $ = (id) => document.getElementById(id);
-      const formEl = $("prestations-form");
-      const eur = (n) => new Intl.NumberFormat("fr-FR", {style:"currency", currency:"EUR"}).format(n || 0);
-      const storageKey = "prestations_v1";
-      const VERSION = "1.4";
-
-      const status = $("status");
-      const debugChk = $("debug");
-      const autoFile = $("autoFile");
-      const debugOut = $("debugOut");
-      const lsStatus = $("lsStatus");
-
-      const tbody = $("tbody");
-      const totalMontantEl = $("totalMontant");
-      const totalRecuEl = $("totalRecu");
-      const totalRestantEl = $("totalRestant");
-      const search = $("search");
-      const filterStatus = $("filterStatus");
-      const filterType = $("filterType");
-
-      const client = $("client");
-      const type = $("type");
-      const description = $("description");
-      const date = $("date");
-      const montant = $("montant");
-      const paye = $("paye");
-
-      const exportJsonBtn = $("exportJson");
-      const exportCsvBtn = $("exportCsv");
-      const importJsonInput = $("importJson");
-      const clearAllBtn = $("clearAll"); // (pas présent dans le HTML, ok si null)
-      const resetBtn = $("reset");
-      const addDemoBtn = $("addDemo");
-      const captureBtn = $("captureRecap");
-      const followupList = $("followupList");
-      const followupCounts = $("followupCounts");
-
-      const WHATSAPP_LEVELS = [
-        {
-          threshold: 15,
-          label: "Relance 15j",
-          template: `Salut [Prénom],\nPetit rappel concernant ta prestation : il te reste encore 15 jours pour finaliser le règlement du solde.\nN’hésite pas à me contacter si tu as la moindre question.\nÀ bientôt.`,
-          tone: "soft"
-        },
-        {
-          threshold: 30,
-          label: "Relance 30j",
-          template: `Bonjour [Prénom],\nLa date limite des 30 jours pour le règlement du solde est atteinte.\nMerci de régulariser la situation rapidement afin de conserver la réservation de la prestation.\nJe reste disponible si besoin.`,
-          tone: "firm"
-        },
-        {
-          threshold: 45,
-          label: "Relance 45j (critique)",
-          template: `Bonjour [Prénom],\nCela fait désormais 45 jours que le solde est en attente malgré mes précédentes relances.\nMerci de régulariser la situation immédiatement afin d'éviter toute interruption de la prestation.\nJe reste disponible en cas de besoin.`,
-          tone: "critical"
-        }
-      ];
-
-      let data = [];
-      let editingId = null;
-
-      const log = (...args) => {
-        if (debugChk && debugChk.checked) {
-          console.log("[DEBUG]", ...args);
-          if (debugOut) {
-            debugOut.textContent = String(args.join(" "));
-          }
-        }
-      };
-
-      function ts(){
-        const d=new Date();
-        const p=n=>String(n).padStart(2,"0");
-        return d.getFullYear()+"-"+p(d.getMonth()+1)+p(d.getDate())+"_"+p(d.getHours())+p(d.getMinutes())+p(d.getSeconds());
-      }
-
-      const supportsLocalStorage = (() => {
-        try {
-          const k = "__test_ls__";
-          localStorage.setItem(k,"1");
-          localStorage.removeItem(k);
-          return true;
-        } catch(e) {
-          return false;
-        }
-      })();
-
-      function showStatus(msg, ok=true){
-        if(!status) return;
-        status.className = "alert " + (ok ? "alert-ok" : "alert-err");
-        status.textContent = msg;
-        status.style.display = "block";
-        clearTimeout(showStatus._t);
-        showStatus._t = setTimeout(() => { status.style.display = "none"; }, 4000);
-      }
-
-      function persist(){
-        if(!supportsLocalStorage) return;
-        try {
-          localStorage.setItem(storageKey, JSON.stringify(data));
-          log("persist ok", data.length);
-        } catch(e) {
-          console.error(e);
-          showStatus("Erreur de sauvegarde locale : " + e.message, false);
-        }
-      }
-
-      function load(){
-        if(!supportsLocalStorage){
-          if(lsStatus){
-            lsStatus.textContent = "LocalStorage indisponible (mode secours).";
-          }
-          return;
-        }
-        if(lsStatus){
-          lsStatus.textContent = "LocalStorage actif.";
-        }
-        try {
-          const raw = localStorage.getItem(storageKey);
-          if(!raw) return;
-          data = JSON.parse(raw) || [];
-        } catch(e) {
-          console.error(e);
-          showStatus("Impossible de lire les données locales.", false);
-        }
-      }
-
-      function sanitizeAmount(v) {
-        if (typeof v === "number") return v;
-        let s = (v||"").toString().trim();
-        s = s.replace(/\s/g,"").replace(",", "."); // french decimal
-        const num = parseFloat(s);
-        return isFinite(num) ? num : NaN;
-      }
-
-      function getPaid(r){ return Number(r.paidAmount || 0); }
-      function getRemaining(r){ return Math.max(0, Number((r.montant||0) - getPaid(r))); }
-      function isSettled(r){ return getRemaining(r) <= 0.00001; }
-
-      function daysSince(datestr){
-        if(!datestr) return null;
-        const d = new Date(datestr);
-        if(Number.isNaN(d.getTime())) return null;
-        const now = new Date();
-        const diff = now - d;
-        if(diff < 0) return 0;
-        return Math.floor(diff / (1000*60*60*24));
-      }
-
-      function extractFirstName(full){
-        if(!full) return "client";
-        const parts = full.trim().split(/\s+/);
-        return parts[0] || "client";
-      }
-
-      function buildWhatsAppUrl(name, level){
-        const targetName = name || "client";
-        const message = (level?.template || "").replace("[Prénom]", targetName);
-        return "https://wa.me/?text=" + encodeURIComponent(message);
-      }
-
-      function filterRecords(list){
-        const q = (search?.value || "").toLowerCase();
-        const fStatus = filterStatus?.value || "all";
-        const fType = filterType?.value || "all";
-
-        return list.filter(r => {
-          if(q){
-            const blob = [r.client,r.type,r.description].join(" ").toLowerCase();
-            if(!blob.includes(q)) return false;
-          }
-          if(fType !== "all" && r.type !== fType) return false;
-          if(fStatus !== "all"){
-            const settled = isSettled(r);
-            const paid = getPaid(r) > 0;
-            if(fStatus === "paid" && !settled) return false;
-            if(fStatus === "unpayed" && (paid || settled)) return false;
-            if(fStatus === "partial" && (!paid || settled)) return false;
-          }
-          return true;
-        });
-      }
-
-      function updateTotals(){
-        let totalMontant = 0;
-        let totalRecu    = 0;
-        let totalRestant = 0;
-
-        data.forEach(r => {
-          const m = Number(r.montant||0);
-          const p = getPaid(r);
-          totalMontant += m;
-          totalRecu    += p;
-          totalRestant += Math.max(0,m-p);
-        });
-
-        if(totalMontantEl) totalMontantEl.textContent = eur(totalMontant);
-        if(totalRecuEl) totalRecuEl.textContent = eur(totalRecu);
-        if(totalRestantEl) totalRestantEl.textContent = eur(totalRestant);
-      }
-
-      function updateFollowUps(){
-        if(!followupList) return;
-
-        followupList.innerHTML = "";
-        let soft = 0, firm = 0, critical = 0;
-
-        const items = data
-          .map(r => ({...r, days: daysSince(r.date), remaining: getRemaining(r)}))
-          .filter(r => r.remaining > 0 && r.days !== null && r.days >= 15)
-          .sort((a,b) => (b.days||0) - (a.days||0));
-
-        if(!items.length){
-          const empty = document.createElement("div");
-          empty.className = "small";
-          empty.textContent = "Aucune relance nécessaire pour le moment.";
-          followupList.appendChild(empty);
-          if(followupCounts) followupCounts.textContent = "0 relance en attente";
-          return;
-        }
-
-        items.forEach(r => {
-          const urgency = (r.days || 0) >= 45 ? "critical" : (r.days || 0) >= 30 ? "firm" : "soft";
-          if(urgency === "critical") critical++; else if(urgency === "firm") firm++; else soft++;
-
-          const item = document.createElement("div");
-          item.className = "cap-item followup-card";
-
-          const actionLabel = urgency === "critical" ? "Relance critique" : urgency === "firm" ? "Relance urgente" : "Relance à prévoir";
-          const pillClass = urgency === "critical" ? "critical" : (urgency === "firm" ? "muted" : "partial");
-          const actionIcon = urgency === "critical" ? "🚨" : urgency === "firm" ? "🚀" : "🌱";
-          const paceLabel = urgency === "critical" ? "Critique" : urgency === "firm" ? "Prioritaire" : "Douce";
-          const availableLevels = WHATSAPP_LEVELS.filter(level => (r.days || 0) >= level.threshold);
-
-          item.innerHTML = `
-            <div class="followup-head">
-              <div>
-                <div class="cap-client">${r.client || "Client"}</div>
-                <div class="cap-subtitle">${r.type || ""}${r.description ? " — " + r.description : ""}</div>
-              </div>
-              <span class="status-pill ${pillClass} followup-pill">
-                <span class="dot"></span>
-                <span>${actionIcon} ${actionLabel}</span>
-              </span>
-            </div>
-            <div class="followup-meta">
-              <div class="followup-stat">
-                <span class="label">💶 Restant dû</span>
-                <span class="value">${eur(r.remaining)}</span>
-              </div>
-              <div class="followup-stat">
-                <span class="label">⏳ Ancienneté</span>
-                <span class="value">${r.days} jours</span>
-              </div>
-              <div class="followup-stat">
-                <span class="label">💬 Niveau WhatsApp</span>
-                <span class="value">${paceLabel}</span>
-              </div>
-            </div>
-          `;
-
-          const actions = document.createElement("div");
-          actions.className = "followup-actions";
-
-          const hint = document.createElement("div");
-          hint.className = "small";
-          hint.textContent = "Messages prêts :";
-          actions.appendChild(hint);
-
-          const btnRow = document.createElement("div");
-          btnRow.className = "followup-btn-row";
-
-          availableLevels.forEach(level => {
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.className = `btn relance-btn relance-${level.tone}`;
-            btn.textContent = level.label;
-            btn.addEventListener("click", () => {
-              const url = buildWhatsAppUrl(extractFirstName(r.client), level);
-              window.open(url, "_blank", "noopener");
-            });
-            btnRow.appendChild(btn);
-          });
-
-          actions.appendChild(btnRow);
-          item.appendChild(actions);
-
-          followupList.appendChild(item);
-        });
-
-        if(followupCounts){
-          const parts = [];
-          if(soft) parts.push(`${soft} à relancer`);
-          if(firm) parts.push(`${firm} urgentes`);
-          if(critical) parts.push(`${critical} critiques`);
-          followupCounts.textContent = parts.join(" • ");
-        }
-      }
-
-      function render(){
-        if(!tbody) return;
-        tbody.innerHTML = "";
-
-        const records = filterRecords(data);
-        if(!records.length){
-          const tr = document.createElement("tr");
-          const td = document.createElement("td");
-          td.colSpan = 10;
-          td.className = "small";
-          td.textContent = "Aucune prestation ne correspond.";
-          tr.appendChild(td);
-          tbody.appendChild(tr);
-          updateTotals();
-          updateFollowUps();
-          return;
-        }
-
-        records.sort((a,b) => {
-          const da = a.date || "";
-          const db = b.date || "";
-          return da.localeCompare(db);
-        });
-
-        records.forEach(r => {
-          const tr = document.createElement("tr");
-
-          const tdDate = document.createElement("td");
-          tdDate.textContent = r.date || "";
-          tr.appendChild(tdDate);
-
-          const tdClient = document.createElement("td");
-          const c1 = document.createElement("div");
-          c1.textContent = r.client || "";
-          c1.style.fontWeight = "600";
-          const c2 = document.createElement("div");
-          c2.className = "small";
-          c2.textContent = (r.type || "") + (r.description ? " — " + r.description : "");
-          tdClient.appendChild(c1);
-          tdClient.appendChild(c2);
-          tr.appendChild(tdClient);
-
-          const tdMontant = document.createElement("td");
-          tdMontant.textContent = eur(r.montant || 0);
-          tr.appendChild(tdMontant);
-
-          const tdRecu = document.createElement("td");
-          tdRecu.textContent = eur(getPaid(r));
-          tr.appendChild(tdRecu);
-
-          const remaining = getRemaining(r);
-          const tdRestant = document.createElement("td");
-          tdRestant.textContent = eur(remaining);
-          tr.appendChild(tdRestant);
-
-          const tdProgress = document.createElement("td");
-          const wrapper = document.createElement("div");
-          wrapper.className = "small";
-          const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(getPaid(r)/r.montant*100)) : 0;
-          wrapper.textContent = percent + " %";
-          const bar = document.createElement("div");
-          bar.className = "progress";
-          const inner = document.createElement("div");
-          inner.className = "progress-inner";
-          inner.style.width = percent + "%";
-          bar.appendChild(inner);
-          tdProgress.appendChild(wrapper);
-          tdProgress.appendChild(bar);
-          tr.appendChild(tdProgress);
-
-          const tdStatus = document.createElement("td");
-          const pill = document.createElement("span");
-          pill.className = "status-pill";
-          const dot = document.createElement("span");
-          dot.className = "dot";
-          pill.appendChild(dot);
-          const label = document.createElement("span");
-          let cls = "";
-          if(isSettled(r)){
-            cls = "paid";
-            label.textContent = "Payé";
-          }else if(getPaid(r) > 0){
-            cls = "partial";
-            label.textContent = "Partiel";
-          }else{
-            cls = "muted";
-            label.textContent = "Non payé";
-          }
-          pill.classList.add(cls);
-          pill.appendChild(label);
-          tdStatus.appendChild(pill);
-          tr.appendChild(tdStatus);
-
-          const tdActions = document.createElement("td");
-          const encBtn = document.createElement("button");
-          encBtn.type = "button";
-          encBtn.className = "btn btn-primary";
-          encBtn.textContent = "Encaisser";
-          encBtn.addEventListener("click", () => {
-            let max = getRemaining(r);
-            if(max <= 0){
-              showStatus("Tout est déjà payé pour cette prestation.", false);
-              return;
-            }
-            const s = prompt("Montant à encaisser (max " + eur(max) + "):", "");
-            if(s===null) return;
-            const val = sanitizeAmount(s);
-            if(!isFinite(val) || val<=0){
-              showStatus("Montant invalide.", false);
-              return;
-            }
-            if(val > max + 0.00001){
-              showStatus("Montant supérieur au restant dû.", false);
-              return;
-            }
-            r.paidAmount = (r.paidAmount || 0) + val;
-            persist();
-            updateTotals();
-            render();
-            showStatus("Paiement enregistré.");
-          });
-
-          const editBtn = document.createElement("button");
-          editBtn.type = "button";
-          editBtn.className = "btn btn-outline";
-          editBtn.textContent = "Modifier";
-          editBtn.addEventListener("click", () => {
-            editingId = r.id;
-            client.value = r.client || "";
-            type.value = r.type || "Clip";
-            description.value = r.description || "";
-            date.value = r.date || "";
-            montant.value = r.montant != null ? String(r.montant) : "";
-            paye.checked = isSettled(r);
-            window.scrollTo({top:0, behavior:"smooth"});
-          });
-
-          const delBtn = document.createElement("button");
-          delBtn.type = "button";
-          delBtn.className = "btn btn-outline";
-          delBtn.textContent = "Supprimer";
-          delBtn.addEventListener("click", () => {
-            if (confirm("Supprimer cette prestation ?")) {
-              data = data.filter(x => x.id !== r.id);
-              persist();
-              updateTotals();
-              render();
-              if (editingId === r.id) editingId = null;
-              showStatus("Prestation supprimée.");
-            }
-          });
-
-          tdActions.appendChild(encBtn);
-          tdActions.appendChild(editBtn);
-          tdActions.appendChild(delBtn);
-          tr.appendChild(tdActions);
-
-          tbody.appendChild(tr);
-        });
-
-        updateTotals();
-        updateFollowUps();
-      }
-
-      function resetForm(){
-        if(!formEl) return;
-        client.value = "";
-        type.value = "Clip";
-        description.value = "";
-        date.value = "";
-        montant.value = "";
-        paye.checked = false;
-        editingId = null;
-      }
-
-      function validateForm(){
-        const c = client.value.trim();
-        if(!c){
-          showStatus("Le nom du client est obligatoire.", false);
-          client.focus();
-          return null;
-        }
-        const m = sanitizeAmount(montant.value);
-        if(!isFinite(m) || m<=0){
-          showStatus("Montant invalide.", false);
-          montant.focus();
-          return null;
-        }
-        const d = date.value || new Date().toISOString().slice(0,10);
-        return {client:c, type:type.value, description:description.value.trim(), date:d, montant:m};
-      }
-
-      function addRecord(rec){
-        rec.id = rec.id || Date.now() + Math.random();
-        rec.paidAmount = rec.paidAmount || 0;
-        data.push(rec);
-      }
-
-      if(formEl){
-        formEl.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const rec = validateForm();
-          if(!rec) return;
-
-          if(editingId){
-            const idx = data.findIndex(r => r.id === editingId);
-            if(idx !== -1){
-              data[idx] = {
-                ...data[idx],
-                ...rec
-              };
-              showStatus("Prestation modifiée.");
-            }
-            editingId = null;
-          } else {
-            if(paye.checked){
-              rec.paidAmount = rec.montant;
-            }
-            addRecord(rec);
-            showStatus("Prestation ajoutée.");
-          }
-
-          persist();
-          render();
-          resetForm();
-        });
-      }
-
-      if(resetBtn){
-        resetBtn.addEventListener("click", () => {
-          resetForm();
-        });
-      }
-
-      if(addDemoBtn){
-        addDemoBtn.addEventListener("click", () => {
-          const demo = {
-            client:"Artiste démo",
-            type:"Clip",
-            description:"Clip test démo",
-            date:new Date().toISOString().slice(0,10),
-            montant:800,
-            paidAmount:200
-          };
-          addRecord(demo);
-          persist();
-          render();
-          showStatus("Démo ajoutée.");
-        });
-      }
-
-      if(exportJsonBtn){
-        exportJsonBtn.addEventListener("click", () => {
-          try{
-            const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = "prestations_"+ts()+".json";
-            a.click();
-            URL.revokeObjectURL(a.href);
-            showStatus("Export JSON téléchargé.");
-          }catch(e){
-            console.error(e);
-            showStatus("Erreur export JSON : " + e.message, false);
-          }
-        });
-      }
-
-      if(exportCsvBtn){
-        exportCsvBtn.addEventListener("click", () => {
-          try{
-            let csv = "date;client;type;description;montant;recu;restant\n";
-            data.forEach(r => {
-              csv += [
-                r.date || "",
-                r.client || "",
-                r.type || "",
-                (r.description||"").replace(/\n/g," "),
-                r.montant || 0,
-                getPaid(r),
-                getRemaining(r)
-              ].map(v => String(v).replace(/;/g,",")).join(";") + "\n";
-            });
-            const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
-            const a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = "prestations_"+ts()+".csv";
-            a.click();
-            URL.revokeObjectURL(a.href);
-            showStatus("Export CSV téléchargé.");
-          }catch(e){
-            console.error(e);
-            showStatus("Erreur export CSV : " + e.message, false);
-          }
-        });
-      }
-
-      if(importJsonInput){
-        importJsonInput.addEventListener("change", async (e) => {
-          const file = e.target.files && e.target.files[0];
-          if(!file) return;
-          try{
-            const txt = await file.text();
-            const arr = JSON.parse(txt);
-            if(!Array.isArray(arr)) throw new Error("Format JSON invalide");
-            data = arr.map(r => ({
-              id: r.id || Date.now()+Math.random(),
-              client: r.client || "",
-              type: r.type || "Clip",
-              description: r.description || "",
-              date: r.date || "",
-              montant: Number(r.montant||0),
-              paidAmount: Number(r.paidAmount||0)
-            }));
-            persist();
-            render();
-            showStatus("Import JSON réussi.");
-          }catch(err){
-            console.error(err);
-            showStatus("Erreur import JSON : " + err.message, false);
-          }finally{
-            importJsonInput.value = "";
-          }
-        });
-      }
-
-      if(clearAllBtn){
-        clearAllBtn.addEventListener("click", () => {
-          if(confirm("Effacer TOUTES les prestations ?")){
-            data = [];
-            persist();
-            render();
-            showStatus("Tous les enregistrements ont été supprimés.");
-          }
-        });
-      }
-
-      if(debugChk){
-        debugChk.addEventListener("change", () => {
-          const zone = document.getElementById("debug-zone");
-          if(zone) zone.style.display = debugChk.checked ? "block" : "none";
-        });
-      }
-
-      if (search) {
-        search.addEventListener("input", () => {
-          render();
-        });
-      }
-      if (filterStatus) {
-        filterStatus.addEventListener("change", render);
-      }
-      if (filterType) {
-        filterType.addEventListener("change", render);
-      }
-
-      /* ==== Capture pour "Prestations enregistrées" ==== */
-if (captureBtn && typeof html2canvas !== "undefined") {
-  captureBtn.addEventListener("click", () => {
-    const records = filterRecords(data);
-    if (!records.length) {
-      showStatus("Aucune prestation à capturer (vérifie les filtres).", false);
-      return;
-    }
-    const zone = document.getElementById("capture-mobile");
-    if (!zone) {
-      alert("Zone de capture introuvable.");
-      return;
-    }
-
-    const now = new Date();
-    const dateStr = now.toLocaleString("fr-FR", {
-      day:"2-digit", month:"2-digit", year:"numeric",
-      hour:"2-digit", minute:"2-digit"
+    const weekData = [
+      { title: "Semaine 1 – Réapparition", goal: "Réanimer la présence et rappeler le projet." },
+      { title: "Semaine 2 – Ancrage", goal: "Stabiliser le rythme et la fréquence." },
+      { title: "Semaine 3 – Positionnement", goal: "Clarifier la direction artistique." },
+      { title: "Semaine 4 – Pré-teasing", goal: "Préparer le terrain sans annoncer." },
+      { title: "Semaine 5 – Teasing officiel", goal: "Activer l'attente autour de la sortie." },
+      { title: "Semaine 6 – Sortie", goal: "Déployer la sortie avec rigueur." }
+    ];
+
+    const checklistItems = ["Vidéo", "Post", "Story", "Teasing", "Publication"];
+    const storageKey = "music-plan-2026";
+
+    const weeklyCards = document.getElementById("weeklyCards");
+    const detailWeeks = document.getElementById("detailWeeks");
+    const progressFill = document.getElementById("progressFill");
+    const progressPercent = document.getElementById("progressPercent");
+
+    const state = JSON.parse(localStorage.getItem(storageKey) || "{}");
+
+    const startDate = new Date("2026-01-01T00:00:00");
+
+    const formatDate = (date) => date.toLocaleDateString("fr-FR", {
+      day: "2-digit",
+      month: "short"
     });
 
-    const totals = records.reduce((acc, r) => {
-      const montant = Number(r.montant || 0);
-      const paid = getPaid(r);
-      acc.montant += montant;
-      acc.recu += paid;
-      acc.restant += Math.max(0, montant - paid);
-      return acc;
-    }, { montant:0, recu:0, restant:0 });
+    const buildWeekDates = (index) => {
+      const start = new Date(startDate);
+      start.setDate(start.getDate() + index * 7);
+      const end = new Date(start);
+      end.setDate(start.getDate() + 6);
+      return `${formatDate(start)} – ${formatDate(end)}`;
+    };
 
-    // Détecte le thème pour choisir le bon logo
-    const isDarkTheme = !document.documentElement.hasAttribute("data-theme") ||
-                        document.documentElement.getAttribute("data-theme") !== "light";
-    const currentTheme = isDarkTheme ? "dark" : "light";
-    const absoluteLogoSrc = captureLogoForTheme(currentTheme);
+    const saveState = () => {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+    };
 
-    let html = "";
-    html += `
-      <div class="cap-header">
-        <img src="${absoluteLogoSrc}" alt="Logo" crossorigin="anonymous">
-        <div class="cap-title">Récapitulatif des prestations</div>
-        <div class="cap-sub">Généré le ${dateStr}</div>
-      </div>
-      <div class="cap-summary">
-        <div class="cap-kpi due">
-          <div class="label">Montant dû</div>
-          <div class="value">${eur(totals.restant)}</div>
-        </div>
-        <div class="cap-kpi received">
-          <div class="label">Montant reçu / payé</div>
-          <div class="value">${eur(totals.recu)}</div>
-        </div>
-        <div class="cap-kpi total">
-          <div class="label">Montant total des prestations</div>
-          <div class="value">${eur(totals.montant)}</div>
-        </div>
-      </div>
-    `;
+    const updateProgress = () => {
+      const totalTasks = weekData.length * checklistItems.length;
+      const completedTasks = weekData.reduce((acc, _, weekIndex) => {
+        const weekState = state[`week-${weekIndex}`] || {};
+        return acc + Object.values(weekState).filter(Boolean).length;
+      }, 0);
+      const percent = Math.round((completedTasks / totalTasks) * 100);
+      progressFill.style.width = `${percent}%`;
+      progressPercent.textContent = `${percent}%`;
+    };
 
-    records.forEach(r => {
-      const remaining = getRemaining(r);
-      const paid = getPaid(r);
-      
-      // NOUVEAU (inclus pour la barre de progression)
-      const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(paid/r.montant*100)) : 0;
-      
-      let cls, label;
-      if (isSettled(r)) {
-        // ... (reste de la logique de statut) ...
-        cls = "paid";
-        label = "Payé";
-      } else if (paid > 0) {
-        cls = "partial";
-        label = "Partiel";
-      } else {
-        cls = "muted";
-        label = "Non payé";
-      }
+    const updateWeekCompletion = (weekIndex) => {
+      const weekState = state[`week-${weekIndex}`] || {};
+      const completed = checklistItems.every(item => weekState[item]);
+      const weekCard = document.querySelector(`[data-week-card="${weekIndex}"]`);
+      const detailCard = document.querySelector(`[data-week-detail="${weekIndex}"]`);
+      if (weekCard) weekCard.classList.toggle("completed", completed);
+      if (detailCard) detailCard.classList.toggle("completed", completed);
+    };
 
-      html += `
-        <div class="cap-item">
-          <div class="cap-client">${r.client || ""}</div>
-          <div class="cap-subtitle">${(r.type || "")}${r.description ? " — " + r.description : ""}</div>
-          <div class="cap-row">
-            <span>Date</span><span>${r.date || ""}</span>
-          </div>
-          <div class="cap-row">
-            <span>Montant</span><span>${eur(r.montant || 0)}</span>
-          </div>
-          <div class="cap-row">
-            <span>Reçu</span><span>${eur(paid)}</span>
-          </div>
-          <div class="cap-row">
-            <span>Restant</span><span>${eur(remaining)}</span>
-          </div>
-          
-          <div class="cap-progress-wrap">
-            <div class="cap-row-progress-label">
-              <span>Avancement</span>
-              <span>${percent} %</span>
-            </div>
-            <div class="progress">
-              <div class="progress-inner" style="width:${percent}%;"></div>
-            </div>
-          </div>
-          
-          <div class="cap-row">
-            <span>Statut</span>
-            <span class="status-pill ${cls}">
-              <span class="dot"></span>
-              <span>${label}</span>
-            </span>
-          </div>
+    weekData.forEach((week, index) => {
+      const card = document.createElement("article");
+      card.className = "week-card";
+      card.dataset.weekCard = index;
+      card.innerHTML = `
+        <div class="week-label">Semaine ${index + 1}</div>
+        <div class="week-dates">${buildWeekDates(index)}</div>
+        <div class="week-goal">${week.title}</div>
+        <div class="week-dates">${week.goal}</div>
+      `;
+      weeklyCards.appendChild(card);
 
+      const detail = document.createElement("article");
+      detail.className = "detail-week";
+      detail.dataset.weekDetail = index;
+
+      const checklist = document.createElement("div");
+      checklist.className = "checklist";
+
+      checklistItems.forEach(item => {
+        const label = document.createElement("label");
+        label.className = "check-item";
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.checked = Boolean(state[`week-${index}`]?.[item]);
+        input.addEventListener("change", () => {
+          state[`week-${index}`] = state[`week-${index}`] || {};
+          state[`week-${index}`][item] = input.checked;
+          saveState();
+          updateWeekCompletion(index);
+          updateProgress();
+        });
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(item));
+        checklist.appendChild(label);
+      });
+
+      detail.innerHTML = `
+        <div>
+          <div class="week-label">${week.title}</div>
+          <div class="week-goal">${week.goal}</div>
         </div>
       `;
+      detail.appendChild(checklist);
+      detailWeeks.appendChild(detail);
+
+      updateWeekCompletion(index);
     });
 
-    zone.innerHTML = html;
-    zone.style.display = "block";
+    updateProgress();
 
-    const bg = document.documentElement.getAttribute("data-theme") === "light"
-      ? "#f3f4f6"
-      : "#020617";
+    const reminders = [
+      "Aujourd’hui, fais simple mais fais-le.",
+      "Personne ne te regarde encore. C’est un avantage.",
+      "La régularité construit la crédibilité.",
+      "Tu n’as pas besoin d’être prêt, tu as besoin d’être présent.",
+      "Chaque action est un vote pour l’artiste que tu deviens.",
+      "La constance est ton meilleur attaché de presse.",
+      "Une journée maîtrisée vaut mieux qu’une promesse." 
+    ];
 
-    html2canvas(zone, {
-      backgroundColor: bg,
-      scale: 2,
-      useCORS: true,
-      allowTaint: true
-    }).then(canvas => {
-      const link = document.createElement("a");
-      link.download = "recap_prestations_mobile_"+ts()+".png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-      showStatus("Récapitulatif capturé (format mobile) !");
-    }).catch(err => {
-      console.error("Erreur capture récap mobile", err);
-      showStatus("Erreur lors de la capture du récapitulatif.", false);
-    }).finally(() => {
-      zone.style.display = "none";
+    const reminderMessage = document.getElementById("reminderMessage");
+    const reminderButton = document.getElementById("reminderButton");
+
+    const showReminder = (index) => {
+      reminderMessage.textContent = reminders[index % reminders.length];
+    };
+
+    const dailyIndex = Math.floor((Date.now() / 86400000)) % reminders.length;
+    showReminder(dailyIndex);
+
+    reminderButton.addEventListener("click", () => {
+      const randomIndex = Math.floor(Math.random() * reminders.length);
+      showReminder(randomIndex);
     });
-  });
-}
 
-      load();
-      render();
-      showStatus(
-        supportsLocalStorage ? "Sauvegarde locale active." : "Mode secours actif (stockage bloqué).",
-        supportsLocalStorage
-      );
-      log("init ok, version", VERSION);
-
-    })();
-  </script>
-
-  <!-- SCRIPT THEME NUIT/JOUR -->
-  <script>
-    (function(){
-      const THEME_KEY = "szd_theme";
-      const root = document.documentElement;
-      const themeIcon = document.querySelector(".theme-icon");
-
-      function applyTheme(theme){
-        if(theme === "light"){
-          root.setAttribute("data-theme","light");
-        }else{
-          root.removeAttribute("data-theme"); // dark par défaut
-        }
-
-        if (themeIcon) {
-          themeIcon.textContent = theme === "light" ? "☀️" : "🌙";
-        }
-
-        if (typeof updateThemeLogos === "function") {
-          updateThemeLogos(theme);
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", function(){
-        var toggle = document.getElementById("themeToggle");
-        if(!toggle) return;
-
-        var saved = null;
-        try {
-          saved = localStorage.getItem(THEME_KEY);
-        } catch(e) {}
-
-        if(saved === "light"){
-          applyTheme("light");
-          toggle.checked = false;
+    document.getElementById("exportPdf").addEventListener("click", () => {
+      const currentTheme = document.documentElement.getAttribute("data-theme");
+      document.documentElement.setAttribute("data-theme", "light");
+      window.print();
+      window.onafterprint = () => {
+        if (currentTheme) {
+          document.documentElement.setAttribute("data-theme", currentTheme);
         } else {
-          applyTheme("dark");
-          toggle.checked = true;
+          document.documentElement.removeAttribute("data-theme");
         }
+        window.onafterprint = null;
+      };
+    });
 
-        toggle.addEventListener("change", function(){
-          if(toggle.checked){
-            applyTheme("dark");
-            try { localStorage.setItem(THEME_KEY,"dark"); } catch(e) {}
-          } else {
-            applyTheme("light");
-            try { localStorage.setItem(THEME_KEY,"light"); } catch(e) {}
-          }
-        });
-      });
-    })();
+    const themeToggle = document.getElementById("themeToggle");
+    const themeKey = "music-plan-theme";
+
+    const applyTheme = (theme) => {
+      if (theme === "light") {
+        document.documentElement.setAttribute("data-theme", "light");
+        themeToggle.textContent = "☀️";
+      } else {
+        document.documentElement.removeAttribute("data-theme");
+        themeToggle.textContent = "🌙";
+      }
+    };
+
+    const savedTheme = localStorage.getItem(themeKey);
+    applyTheme(savedTheme || "dark");
+
+    themeToggle.addEventListener("click", () => {
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
+      const nextTheme = isLight ? "dark" : "light";
+      applyTheme(nextTheme);
+      localStorage.setItem(themeKey, nextTheme);
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
-
 </body>
 </html>
