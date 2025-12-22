@@ -158,6 +158,111 @@
     .section-title { margin:0 0 8px; font-size:26px; letter-spacing:-0.01em; }
     .section-subtitle { margin:0; color:var(--muted); max-width:70ch; margin-left:auto; margin-right:auto; }
 
+    /* Plateformes (Simple Icons) */
+    .platforms {
+      display:flex;
+      flex-direction:column;
+      gap:32px;
+    }
+
+    .platforms-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+      gap:18px;
+    }
+
+    .platform-card {
+      position:relative;
+      display:grid;
+      place-items:center;
+      min-height:110px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:linear-gradient(150deg, rgba(255,255,255,0.06), rgba(255,255,255,0.01));
+      color:var(--text);
+      transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      overflow:hidden;
+    }
+
+    .platform-card::after {
+      content:"";
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at top, rgba(103,232,249,0.16), transparent 55%);
+      opacity:0;
+      transition:opacity var(--transition);
+      pointer-events:none;
+    }
+
+    .platform-card:hover,
+    .platform-card:focus-visible {
+      transform:translateY(-2px);
+      border-color:rgba(103,232,249,0.45);
+      box-shadow:0 16px 32px rgba(0,0,0,0.35);
+      outline:none;
+    }
+
+    .platform-card:hover::after,
+    .platform-card:focus-visible::after {
+      opacity:1;
+    }
+
+    .platform-icon {
+      width:48px;
+      height:48px;
+      display:block;
+      color:currentColor;
+      transition:transform var(--transition), opacity var(--transition), filter var(--transition);
+    }
+
+    .platform-card:hover .platform-icon,
+    .platform-card:focus-visible .platform-icon {
+      transform:scale(1.08);
+      opacity:0.9;
+      filter:drop-shadow(0 0 12px rgba(103,232,249,0.2));
+    }
+
+    .platform-tooltip {
+      position:absolute;
+      bottom:14px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color:var(--text);
+      background:rgba(7,12,24,0.85);
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow:0 10px 26px rgba(0,0,0,0.35);
+      opacity:0;
+      transform:translateY(6px);
+      transition:opacity var(--transition), transform var(--transition);
+      pointer-events:none;
+      white-space:nowrap;
+    }
+
+    .platform-card:hover .platform-tooltip,
+    .platform-card:focus-visible .platform-tooltip {
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .light-mode .platforms .platform-card {
+      color:#0f172a;
+      background:rgba(255,255,255,0.9);
+    }
+
+    .light-mode .platforms .platform-tooltip {
+      color:#0f172a;
+      background:#ffffff;
+      border-color:rgba(15,23,42,0.12);
+    }
+
+    @media (max-width: 720px) {
+      .platform-icon {
+        width:36px;
+        height:36px;
+      }
+    }
+
     .vision-wrap {
       display:grid;
       gap:18px;
@@ -314,6 +419,82 @@
     </header>
 
     <main>
+      <section class="section platforms" id="plateformes">
+        <div class="container">
+          <div class="section-header">
+            <h2 class="section-title">Distribution &amp; streaming</h2>
+            <p class="section-subtitle">Logos vectoriels Simple Icons, légers et pilotables en CSS.</p>
+          </div>
+          <div class="platforms-grid" role="list">
+            <a class="platform-card" href="https://www.youtube.com" target="_blank" rel="noopener" role="listitem" aria-label="YouTube">
+              <svg class="platform-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M23.498 6.186a2.974 2.974 0 0 0-2.092-2.103C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.406.583A2.974 2.974 0 0 0 .502 6.186C0 8.09 0 12 0 12s0 3.91.502 5.814a2.974 2.974 0 0 0 2.092 2.103C4.495 20.5 12 20.5 12 20.5s7.505 0 9.406-.583a2.974 2.974 0 0 0 2.092-2.103C24 15.91 24 12 24 12s0-3.91-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+              <span class="platform-tooltip">YouTube</span>
+            </a>
+            <a class="platform-card" href="https://www.spotify.com" target="_blank" rel="noopener" role="listitem" aria-label="Spotify">
+              <svg class="platform-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M12 0C5.373 0 0 5.373 0 12c0 6.628 5.373 12 12 12s12-5.372 12-12C24 5.373 18.627 0 12 0zm5.5 17.34a.75.75 0 0 1-1.03.25c-2.83-1.726-6.38-2.118-10.55-1.165a.75.75 0 1 1-.335-1.462c4.54-1.037 8.47-.58 11.65 1.366a.75.75 0 0 1 .265 1.01zm1.48-3.272a.938.938 0 0 1-1.288.316c-3.23-1.987-8.15-2.56-11.96-1.4a.938.938 0 1 1-.543-1.796c4.25-1.29 9.53-.652 13.15 1.579a.938.938 0 0 1 .34 1.301zm.125-3.396c-3.75-2.224-9.94-2.428-13.503-1.346a1.125 1.125 0 0 1-.652-2.152c4.09-1.24 10.88-1 15.24 1.58a1.125 1.125 0 0 1-1.085 1.918z"/>
+              </svg>
+              <span class="platform-tooltip">Spotify</span>
+            </a>
+            <a class="platform-card" href="https://www.deezer.com" target="_blank" rel="noopener" role="listitem" aria-label="Deezer">
+              <svg class="platform-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M0 17.258h5.143v-2.543H0v2.543zm0-4.571h5.143v-2.543H0v2.543zm0-4.572h5.143V5.572H0v2.543zm6.286 9.143h5.143v-2.543H6.286v2.543zm0-4.571h5.143v-2.543H6.286v2.543zm0-4.572h5.143V5.572H6.286v2.543zm6.286 9.143h5.143v-2.543h-5.143v2.543zm0-4.571h5.143v-2.543h-5.143v2.543zm0-4.572h5.143V5.572h-5.143v2.543zm6.286 9.143H24v-2.543h-5.143v2.543zm0-4.571H24v-2.543h-5.143v2.543zm0-4.572H24V5.572h-5.143v2.543z"/>
+              </svg>
+              <span class="platform-tooltip">Deezer</span>
+            </a>
+            <a class="platform-card" href="https://music.apple.com" target="_blank" rel="noopener" role="listitem" aria-label="Apple Music">
+              <svg class="platform-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M19.37 6.078c-1.1 0-2.41.594-3.2 1.594-.702.88-1.323 2.32-1.06 3.723 1.214.094 2.6-.56 3.4-1.59.7-.87 1.23-2.27.86-3.727zm3.54 10.51c-.05.12-.79 2.73-3.1 2.77-2.05.04-2.58-1.19-4.8-1.19-2.24 0-2.86 1.15-4.9 1.23-2.3.09-4.07-2.33-5.33-4.6-2.6-4.52-2.89-9.83-.63-12.57 1.6-1.95 4.41-3.07 7.1-2.98 1.9.07 3.7 1.25 4.87 1.25 1.14 0 3.2-1.55 5.4-1.32.92.04 3.5.37 5.15 2.79-.14.09-3.08 1.8-3.05 5.36.04 4.26 3.74 5.67 3.79 5.69z"/>
+              </svg>
+              <span class="platform-tooltip">Apple Music</span>
+            </a>
+            <a class="platform-card" href="https://music.amazon.com" target="_blank" rel="noopener" role="listitem" aria-label="Amazon Music">
+              <svg class="platform-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M15.93 17.09c-1.97 1.55-4.82 2.36-7.2 2.36-3.4 0-6.48-1.26-8.79-3.36-.18-.16-.02-.38.2-.24 2.54 1.48 5.7 2.36 8.95 2.36 2.1 0 4.42-.44 6.55-1.35.32-.14.58.2.29.42zm.81-.94c-.25-.32-1.64-.15-2.26-.07-.19.02-.22-.14-.05-.26 1.06-.74 2.81-.52 3.01-.28.2.25-.05 2.01-1.04 2.85-.15.13-.3.06-.23-.11.23-.58.74-1.88.57-2.13zM12.2 6.5c0-1.16-.82-1.74-2.06-1.74-1.03 0-2.08.55-2.08 1.68 0 1.14.94 1.49 1.91 1.72l.74.17c1.51.33 2.71.91 2.71 2.6 0 1.9-1.61 2.94-3.56 2.94-1.8 0-3.3-.77-3.72-2.58l1.9-.45c.2 1 1.03 1.38 1.95 1.38 1.04 0 1.79-.44 1.79-1.39 0-.9-.62-1.17-1.92-1.45l-.72-.17c-1.56-.36-2.72-.95-2.72-2.63 0-1.9 1.58-2.97 3.46-2.97 1.4 0 2.79.48 3.3 1.96l-1.88.5c-.2-.66-.78-1-1.8-1z"/>
+              </svg>
+              <span class="platform-tooltip">Amazon Music</span>
+            </a>
+            <a class="platform-card" href="https://tidal.com" target="_blank" rel="noopener" role="listitem" aria-label="Tidal">
+              <svg class="platform-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M12 2.5l3.5 3.5L12 9.5 8.5 6 12 2.5zm5.5 5.5L21 11.5 17.5 15 14 11.5 17.5 8zm-11 0L10 11.5 6.5 15 3 11.5 6.5 8zm5.5 5.5l3.5 3.5L12 20.5 8.5 17l3.5-3.5zm0-11L15.5 6 12 9.5 8.5 6 12 2.5z"/>
+              </svg>
+              <span class="platform-tooltip">TIDAL</span>
+            </a>
+            <a class="platform-card" href="https://www.tunecore.com" target="_blank" rel="noopener" role="listitem" aria-label="TuneCore">
+              <svg class="platform-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zm5.6 6.9h-3.9v10.2h-3.4V6.9H6.4V4.3h11.2v2.6z"/>
+              </svg>
+              <span class="platform-tooltip">TuneCore</span>
+            </a>
+            <a class="platform-card" href="https://www.tiktok.com" target="_blank" rel="noopener" role="listitem" aria-label="TikTok">
+              <svg class="platform-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M16.5 2c.6 2.1 2.1 3.7 4.5 3.9v3.2c-1.7-.1-3.3-.7-4.6-1.7v6.7c0 3.3-2.6 5.9-5.9 5.9-3.3 0-5.9-2.6-5.9-5.9 0-3.3 2.6-5.9 5.9-5.9.3 0 .6 0 .9.1v3.3c-.3-.1-.6-.2-.9-.2-1.5 0-2.8 1.3-2.8 2.8 0 1.5 1.3 2.8 2.8 2.8 1.5 0 2.8-1.3 2.8-2.8V2h3.2z"/>
+              </svg>
+              <span class="platform-tooltip">TikTok</span>
+            </a>
+            <a class="platform-card" href="https://www.instagram.com" target="_blank" rel="noopener" role="listitem" aria-label="Instagram">
+              <svg class="platform-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M7.03 2C4.25 2 2 4.25 2 7.03v9.94C2 19.75 4.25 22 7.03 22h9.94c2.78 0 5.03-2.25 5.03-5.03V7.03C22 4.25 19.75 2 16.97 2H7.03zm9.94 1.8c1.79 0 3.23 1.44 3.23 3.23v9.94c0 1.79-1.44 3.23-3.23 3.23H7.03c-1.79 0-3.23-1.44-3.23-3.23V7.03c0-1.79 1.44-3.23 3.23-3.23h9.94zm-4.97 3.66a4.54 4.54 0 1 0 0 9.08 4.54 4.54 0 0 0 0-9.08zm0 1.8a2.74 2.74 0 1 1 0 5.48 2.74 2.74 0 0 1 0-5.48zm4.96-.9a1.05 1.05 0 1 0 0 2.1 1.05 1.05 0 0 0 0-2.1z"/>
+              </svg>
+              <span class="platform-tooltip">Instagram</span>
+            </a>
+            <a class="platform-card" href="https://www.facebook.com" target="_blank" rel="noopener" role="listitem" aria-label="Facebook">
+              <svg class="platform-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M24 12.073C24 5.406 18.627 0 12 0S0 5.406 0 12.073C0 18.1 4.388 23.093 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.03 1.792-4.703 4.533-4.703 1.312 0 2.686.236 2.686.236v2.968h-1.513c-1.49 0-1.953.93-1.953 1.887v2.265h3.328l-.532 3.49h-2.796V24C19.612 23.093 24 18.1 24 12.073z"/>
+              </svg>
+              <span class="platform-tooltip">Facebook</span>
+            </a>
+            <a class="platform-card" href="https://www.shazam.com" target="_blank" rel="noopener" role="listitem" aria-label="Shazam">
+              <svg class="platform-icon" role="img" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M12 0C5.372 0 0 5.373 0 12c0 6.628 5.372 12 12 12s12-5.372 12-12C24 5.373 18.628 0 12 0zm5.94 15.06c-.18.25-.5.33-.77.2-2.2-1.06-3.29-2.67-3.63-4.76-.2-1.17-.12-2.34-.13-3.5-.01-1.07-.63-1.78-1.68-1.94-.93-.15-1.7.46-1.75 1.39-.04.85 0 1.71-.02 2.56-.03 1.75-.56 3.29-1.74 4.6-.49.55-1.07 1.03-1.71 1.4-.34.2-.78.06-.92-.27-.12-.27-.01-.57.27-.77 1.7-1.1 2.54-2.75 2.5-4.77-.02-1.03-.02-2.07.02-3.1.08-1.9 1.52-3.38 3.4-3.56 2.05-.2 3.85 1.04 4.28 3.03.13.62.14 1.26.16 1.9.03.98-.05 1.98.07 2.95.2 1.59.96 2.74 2.37 3.46.28.14.4.48.28.78z"/>
+              </svg>
+              <span class="platform-tooltip">Shazam</span>
+            </a>
+          </div>
+        </div>
+      </section>
       <!-- 2. VISION -->
       <section class="section" id="vision">
         <div class="container">
