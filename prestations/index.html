@@ -775,6 +775,9 @@
       border-radius:12px;
       margin-top: -6px;
     }
+    .cap-header .recap-logo{
+      filter:brightness(10);
+    }
     .cap-title{
       font-size:16px;
       font-weight:700;
@@ -1185,10 +1188,17 @@
     }
 
     function captureLogoForTheme(theme){
+      const preferredCaptureLogo = "szd_logo_blanc.png";
       const mode = theme === "light" ? "light" : "dark";
-      const preferred = currentLogoForTheme(mode);
-      const fallback = mode === "light" ? "szd_logo_black.png" : "szd_logo_white.png";
-      const candidate = preferred || fallback || "szd_logo.png";
+      const candidates = [
+        preferredCaptureLogo,
+        "szd_logo_white.png",
+        currentLogoForTheme(mode),
+        mode === "light" ? "szd_logo_black.png" : "szd_logo_white.png",
+        "szd_logo.png"
+      ].filter(Boolean);
+
+      const candidate = candidates[0] || "";
 
       try {
         return new URL(candidate, window.location.href).href;
@@ -1876,14 +1886,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       hour:"2-digit", minute:"2-digit"
     });
 
-    const totals = records.reduce((acc, r) => {
-      const montant = Number(r.montant || 0);
-      const paid = getPaid(r);
-      acc.montant += montant;
-      acc.recu += paid;
-      acc.restant += Math.max(0, montant - paid);
-      return acc;
-    }, { montant:0, recu:0, restant:0 });
+    const totalRestantCapture = records.reduce((acc, r) => acc + getRemaining(r), 0);
 
     // Détecte le thème pour choisir le bon logo
     const isDarkTheme = !document.documentElement.hasAttribute("data-theme") ||
@@ -1894,22 +1897,14 @@ if (captureBtn && typeof html2canvas !== "undefined") {
     let html = "";
     html += `
       <div class="cap-header">
-        <img src="${absoluteLogoSrc}" alt="Logo" crossorigin="anonymous">
+        <img src="${absoluteLogoSrc}" alt="Logo" class="recap-logo" crossorigin="anonymous" onerror="this.removeAttribute('onerror'); this.src='szd_logo_white.png';">
         <div class="cap-title">Récapitulatif des prestations</div>
         <div class="cap-sub">Généré le ${dateStr}</div>
       </div>
       <div class="cap-summary">
         <div class="cap-kpi due">
-          <div class="label">Montant dû</div>
-          <div class="value">${eur(totals.restant)}</div>
-        </div>
-        <div class="cap-kpi received">
-          <div class="label">Montant reçu / payé</div>
-          <div class="value">${eur(totals.recu)}</div>
-        </div>
-        <div class="cap-kpi total">
-          <div class="label">Montant total des prestations</div>
-          <div class="value">${eur(totals.montant)}</div>
+          <div class="label">Restant dû total</div>
+          <div class="value">${eur(totalRestantCapture)}</div>
         </div>
       </div>
     `;
@@ -1940,12 +1935,6 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           <div class="cap-subtitle">${(r.type || "")}${r.description ? " — " + r.description : ""}</div>
           <div class="cap-row">
             <span>Date</span><span>${r.date || ""}</span>
-          </div>
-          <div class="cap-row">
-            <span>Montant</span><span>${eur(r.montant || 0)}</span>
-          </div>
-          <div class="cap-row">
-            <span>Reçu</span><span>${eur(paid)}</span>
           </div>
           <div class="cap-row">
             <span>Restant</span><span>${eur(remaining)}</span>
