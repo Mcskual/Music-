@@ -778,6 +778,19 @@
     .cap-header .recap-logo{
       filter:brightness(10);
     }
+    .cap-logo-clone{
+      display:block;
+      margin:0 auto 6px;
+      opacity:1 !important;
+      visibility:visible !important;
+    }
+    .cap-logo-clone img{
+      width:180px;
+      height:auto;
+      display:block;
+      opacity:1 !important;
+      visibility:visible !important;
+    }
     .cap-title{
       font-size:16px;
       font-weight:700;
@@ -1394,22 +1407,140 @@
         });
       }
 
-      function updateTotals(){
-        let totalMontant = 0;
-        let totalRecu    = 0;
-        let totalRestant = 0;
+      function updateTotals(records = data){
+        const list = Array.isArray(records) ? records : data || [];
+        const totals = list.reduce((acc, r) => {
+          const m = Number(r?.montant || 0);
+          const p = getPaid(r || {});
+          acc.totalMontant += m;
+          acc.totalRecu += p;
+          acc.totalRestant += Math.max(0, m - p);
+          return acc;
+        }, {totalMontant:0, totalRecu:0, totalRestant:0});
 
-        data.forEach(r => {
-          const m = Number(r.montant||0);
-          const p = getPaid(r);
-          totalMontant += m;
-          totalRecu    += p;
-          totalRestant += Math.max(0,m-p);
+        if(totalMontantEl) totalMontantEl.textContent = eur(totals.totalMontant);
+        if(totalRecuEl) totalRecuEl.textContent = eur(totals.totalRecu);
+        if(totalRestantEl) totalRestantEl.textContent = eur(totals.totalRestant);
+
+        return totals;
+      }
+
+      function buildMobileRecap(records, totals){
+        const zone = document.getElementById("capture-mobile");
+        if(!zone) return null;
+
+        const list = Array.isArray(records) ? records : [];
+        const summary = totals || updateTotals(list);
+        const now = new Date();
+        const dateStr = now.toLocaleString("fr-FR", {
+          day:"2-digit", month:"2-digit", year:"numeric",
+          hour:"2-digit", minute:"2-digit"
         });
 
-        if(totalMontantEl) totalMontantEl.textContent = eur(totalMontant);
-        if(totalRecuEl) totalRecuEl.textContent = eur(totalRecu);
-        if(totalRestantEl) totalRestantEl.textContent = eur(totalRestant);
+        zone.innerHTML = "";
+
+        const header = document.createElement("div");
+        header.className = "cap-header";
+
+        const headerLogo = document.querySelector(".nav-left .logo-wrap");
+        if(headerLogo){
+          const clonedLogo = headerLogo.cloneNode(true);
+          clonedLogo.classList.add("cap-logo-clone");
+          clonedLogo.removeAttribute("href");
+          const clonedImg = clonedLogo.querySelector("img");
+          if(clonedImg){
+            clonedImg.style.opacity = "1";
+            clonedImg.style.visibility = "visible";
+            clonedImg.style.display = "block";
+          }
+          header.appendChild(clonedLogo);
+        }
+
+        const title = document.createElement("div");
+        title.className = "cap-title";
+        title.textContent = "Récapitulatif des prestations";
+        const sub = document.createElement("div");
+        sub.className = "cap-sub";
+        sub.textContent = "Généré le " + dateStr;
+        header.appendChild(title);
+        header.appendChild(sub);
+        zone.appendChild(header);
+
+        const summaryWrap = document.createElement("div");
+        summaryWrap.className = "cap-summary";
+        [
+          {label:"Total facturé", value: eur(summary?.totalMontant || 0), cls:"billed"},
+          {label:"Total reçu", value: eur(summary?.totalRecu || 0), cls:"received"},
+          {label:"Restant dû total", value: eur(summary?.totalRestant || 0), cls:"due"}
+        ].forEach(item => {
+          const kpi = document.createElement("div");
+          kpi.className = "cap-kpi " + item.cls;
+          const l = document.createElement("div");
+          l.className = "label";
+          l.textContent = item.label;
+          const v = document.createElement("div");
+          v.className = "value";
+          v.textContent = item.value;
+          kpi.appendChild(l);
+          kpi.appendChild(v);
+          summaryWrap.appendChild(kpi);
+        });
+        zone.appendChild(summaryWrap);
+
+        if(!list.length){
+          const empty = document.createElement("div");
+          empty.className = "cap-item";
+          empty.textContent = "Aucune prestation ne correspond aux filtres.";
+          zone.appendChild(empty);
+          return summary;
+        }
+
+        const frag = document.createDocumentFragment();
+        list.forEach(r => {
+          const remaining = getRemaining(r);
+          const paid = getPaid(r);
+          const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(paid/r.montant*100)) : 0;
+
+          let cls, label;
+          if(isSettled(r)){
+            cls = "paid"; label = "Payé";
+          }else if(paid > 0){
+            cls = "partial"; label = "Partiel";
+          }else{
+            cls = "muted"; label = "Non payé";
+          }
+
+          const item = document.createElement("div");
+          item.className = "cap-item";
+          item.innerHTML = `
+            <div class="cap-client">${r.client || ""}</div>
+            <div class="cap-subtitle">${(r.type || "")}${r.description ? " — " + r.description : ""}</div>
+            <div class="cap-row"><span>Date</span><span>${r.date || ""}</span></div>
+            <div class="cap-row"><span>Facturé</span><span>${eur(r.montant || 0)}</span></div>
+            <div class="cap-row"><span>Reçu</span><span>${eur(paid)}</span></div>
+            <div class="cap-row"><span>Restant</span><span>${eur(remaining)}</span></div>
+            <div class="cap-progress-wrap">
+              <div class="cap-row-progress-label">
+                <span>Avancement</span>
+                <span>${percent} %</span>
+              </div>
+              <div class="progress">
+                <div class="progress-inner" style="width:${percent}%;"></div>
+              </div>
+            </div>
+            <div class="cap-row">
+              <span>Statut</span>
+              <span class="status-pill ${cls}">
+                <span class="dot"></span>
+                <span>${label}</span>
+              </span>
+            </div>
+          `;
+          frag.appendChild(item);
+        });
+        zone.appendChild(frag);
+
+        return summary;
       }
 
       function updateFollowUps(){
@@ -1523,7 +1654,8 @@
           td.textContent = "Aucune prestation ne correspond.";
           tr.appendChild(td);
           tbody.appendChild(tr);
-          updateTotals();
+          updateTotals(records);
+          buildMobileRecap(records);
           updateFollowUps();
           return;
         }
@@ -1670,8 +1802,53 @@
           tbody.appendChild(tr);
         });
 
-        updateTotals();
+        const totals = updateTotals(records);
+        buildMobileRecap(records, totals);
         updateFollowUps();
+      }
+
+      function captureRecap(records){
+        const list = Array.isArray(records) ? records : [];
+        if(!list.length){
+          showStatus("Aucune prestation à capturer (vérifie les filtres).", false);
+          return;
+        }
+        const zone = document.getElementById("capture-mobile");
+        if(!zone){
+          alert("Zone de capture introuvable.");
+          return;
+        }
+
+        const totals = buildMobileRecap(list);
+        if(!totals) return;
+
+        const bg = document.documentElement.getAttribute("data-theme") === "light"
+          ? "#f3f4f6"
+          : "#020617";
+
+        const prevDisplay = zone.style.display;
+        const prevVisibility = zone.style.visibility;
+        zone.style.display = "block";
+        zone.style.visibility = "visible";
+
+        html2canvas(zone, {
+          backgroundColor: bg,
+          scale: 2,
+          useCORS: true,
+          allowTaint: true
+        }).then(canvas => {
+          const link = document.createElement("a");
+          link.download = "recap_prestations_mobile_"+ts()+".png";
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+          showStatus("Récapitulatif capturé (format mobile) !");
+        }).catch(err => {
+          console.error("Erreur capture récap mobile", err);
+          showStatus("Erreur lors de la capture du récapitulatif.", false);
+        }).finally(() => {
+          zone.style.display = prevDisplay;
+          zone.style.visibility = prevVisibility;
+        });
       }
 
       function resetForm(){
@@ -1869,123 +2046,7 @@
       /* ==== Capture pour "Prestations enregistrées" ==== */
 if (captureBtn && typeof html2canvas !== "undefined") {
   captureBtn.addEventListener("click", () => {
-    const records = filterRecords(data);
-    if (!records.length) {
-      showStatus("Aucune prestation à capturer (vérifie les filtres).", false);
-      return;
-    }
-    const zone = document.getElementById("capture-mobile");
-    if (!zone) {
-      alert("Zone de capture introuvable.");
-      return;
-    }
-
-    const now = new Date();
-    const dateStr = now.toLocaleString("fr-FR", {
-      day:"2-digit", month:"2-digit", year:"numeric",
-      hour:"2-digit", minute:"2-digit"
-    });
-
-    const totalRestantCapture = records.reduce((acc, r) => acc + getRemaining(r), 0);
-
-    // Détecte le thème pour choisir le bon logo
-    const isDarkTheme = !document.documentElement.hasAttribute("data-theme") ||
-                        document.documentElement.getAttribute("data-theme") !== "light";
-    const currentTheme = isDarkTheme ? "dark" : "light";
-    const absoluteLogoSrc = captureLogoForTheme(currentTheme);
-
-    let html = "";
-    html += `
-      <div class="cap-header">
-        <img src="${absoluteLogoSrc}" alt="Logo" class="recap-logo" crossorigin="anonymous" onerror="this.removeAttribute('onerror'); this.src='szd_logo_white.png';">
-        <div class="cap-title">Récapitulatif des prestations</div>
-        <div class="cap-sub">Généré le ${dateStr}</div>
-      </div>
-      <div class="cap-summary">
-        <div class="cap-kpi due">
-          <div class="label">Restant dû total</div>
-          <div class="value">${eur(totalRestantCapture)}</div>
-        </div>
-      </div>
-    `;
-
-    records.forEach(r => {
-      const remaining = getRemaining(r);
-      const paid = getPaid(r);
-      
-      // NOUVEAU (inclus pour la barre de progression)
-      const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(paid/r.montant*100)) : 0;
-      
-      let cls, label;
-      if (isSettled(r)) {
-        // ... (reste de la logique de statut) ...
-        cls = "paid";
-        label = "Payé";
-      } else if (paid > 0) {
-        cls = "partial";
-        label = "Partiel";
-      } else {
-        cls = "muted";
-        label = "Non payé";
-      }
-
-      html += `
-        <div class="cap-item">
-          <div class="cap-client">${r.client || ""}</div>
-          <div class="cap-subtitle">${(r.type || "")}${r.description ? " — " + r.description : ""}</div>
-          <div class="cap-row">
-            <span>Date</span><span>${r.date || ""}</span>
-          </div>
-          <div class="cap-row">
-            <span>Restant</span><span>${eur(remaining)}</span>
-          </div>
-          
-          <div class="cap-progress-wrap">
-            <div class="cap-row-progress-label">
-              <span>Avancement</span>
-              <span>${percent} %</span>
-            </div>
-            <div class="progress">
-              <div class="progress-inner" style="width:${percent}%;"></div>
-            </div>
-          </div>
-          
-          <div class="cap-row">
-            <span>Statut</span>
-            <span class="status-pill ${cls}">
-              <span class="dot"></span>
-              <span>${label}</span>
-            </span>
-          </div>
-
-        </div>
-      `;
-    });
-
-    zone.innerHTML = html;
-    zone.style.display = "block";
-
-    const bg = document.documentElement.getAttribute("data-theme") === "light"
-      ? "#f3f4f6"
-      : "#020617";
-
-    html2canvas(zone, {
-      backgroundColor: bg,
-      scale: 2,
-      useCORS: true,
-      allowTaint: true
-    }).then(canvas => {
-      const link = document.createElement("a");
-      link.download = "recap_prestations_mobile_"+ts()+".png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-      showStatus("Récapitulatif capturé (format mobile) !");
-    }).catch(err => {
-      console.error("Erreur capture récap mobile", err);
-      showStatus("Erreur lors de la capture du récapitulatif.", false);
-    }).finally(() => {
-      zone.style.display = "none";
-    });
+    captureRecap(filterRecords(data));
   });
 }
 
