@@ -1428,12 +1428,21 @@
       function buildMobileRecap(records, totals){
         const zone = document.getElementById("capture-mobile");
         if(!zone){
-          console.error("Zone de capture introuvable pour le récapitulatif mobile.");
-          return null;
+          throw new Error("Zone de capture introuvable pour le récapitulatif mobile.");
+        }
+
+        if(!Array.isArray(records)){
+          throw new Error("getFilteredRecords() n'a pas renvoyé un tableau.");
+        }
+        if(typeof records.length !== "number" || records.length < 0){
+          throw new Error("records.length est invalide pour la capture mobile.");
         }
 
         const list = Array.isArray(records) ? records : [];
         const summary = totals || updateTotals(list);
+        if(!summary){
+          throw new Error("Calcul des totaux impossible pour la capture mobile.");
+        }
         const now = new Date();
         const dateStr = now.toLocaleString("fr-FR", {
           day:"2-digit", month:"2-digit", year:"numeric",
@@ -1446,18 +1455,20 @@
         header.className = "cap-header";
 
         const headerLogo = document.querySelector(".nav-left .logo-wrap");
-        if(headerLogo){
-          const clonedLogo = headerLogo.cloneNode(true);
-          clonedLogo.classList.add("cap-logo-clone");
-          clonedLogo.removeAttribute("href");
-          const clonedImg = clonedLogo.querySelector("img");
-          if(clonedImg){
-            clonedImg.style.opacity = "1";
-            clonedImg.style.visibility = "visible";
-            clonedImg.style.display = "block";
-          }
-          header.appendChild(clonedLogo);
+        if(!headerLogo){
+          throw new Error("Logo source introuvable pour la capture mobile.");
         }
+        const clonedLogo = headerLogo.cloneNode(true);
+        clonedLogo.classList.add("cap-logo-clone");
+        clonedLogo.removeAttribute("href");
+        const clonedImg = clonedLogo.querySelector("img");
+        if(!clonedImg){
+          throw new Error("Image du logo introuvable pour la capture mobile.");
+        }
+        clonedImg.style.opacity = "1";
+        clonedImg.style.visibility = "visible";
+        clonedImg.style.display = "block";
+        header.appendChild(clonedLogo);
 
         const title = document.createElement("div");
         title.className = "cap-title";
@@ -1811,28 +1822,44 @@
       }
 
       function captureRecap(records){
+        console.log("CAPTURE 0: démarrage captureRecap");
         try{
-          const base = Array.isArray(records) && records.length ? records : (data || []);
+          console.log("CAPTURE 1: récupération records");
+          const base = Array.isArray(records) ? records : (data || []);
+          if(!Array.isArray(base)){
+            throw new Error("getFilteredRecords() n'a pas renvoyé un tableau.");
+          }
+          console.log("CAPTURE 2: application des filtres");
           const list = filterRecords(base);
+          if(!Array.isArray(list)){
+            throw new Error("getFilteredRecords() n'a pas renvoyé un tableau.");
+          }
+          if(typeof list.length !== "number" || list.length < 0){
+            throw new Error("records.length est invalide pour la capture.");
+          }
           if(!list.length){
             showStatus("Aucune prestation à capturer (vérifie les filtres).", false);
             return;
           }
 
+          console.log("CAPTURE 3: récupération du conteneur de capture");
           const zone = document.getElementById("capture-mobile");
           if(!zone){
-            console.error("Zone de capture introuvable.");
-            alert("Zone de capture introuvable.");
-            return;
+            throw new Error("Conteneur #capture-mobile introuvable.");
+          }
+          if(!(zone instanceof HTMLElement)){
+            throw new Error("Élément de capture invalide.");
           }
 
+          console.log("CAPTURE 4: buildMobileRecap en cours");
           const totals = buildMobileRecap(list);
-          if(!totals) return;
+          if(!totals){
+            throw new Error("buildMobileRecap n'a pas renvoyé de totaux.");
+          }
+          console.log("CAPTURE 5: buildMobileRecap OK, préparation html2canvas");
 
           if(typeof html2canvas !== "function"){
-            console.error("html2canvas indisponible pour la capture.");
-            showStatus("Capture impossible : html2canvas manquant.", false);
-            return;
+            throw new Error("html2canvas indisponible pour la capture.");
           }
 
           const bg = document.documentElement.getAttribute("data-theme") === "light"
@@ -1844,27 +1871,39 @@
           zone.style.display = "block";
           zone.style.visibility = "visible";
 
-          html2canvas(zone, {
-            backgroundColor: bg,
-            scale: 2,
-            useCORS: true,
-            allowTaint: true
-          }).then(canvas => {
-            const link = document.createElement("a");
-            link.download = "recap_prestations_mobile_"+ts()+".png";
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-            showStatus("Récapitulatif capturé (format mobile) !");
-          }).catch(err => {
-            console.error("Erreur capture récap mobile", err);
-            showStatus("Erreur lors de la capture du récapitulatif.", false);
-          }).finally(() => {
-            zone.style.display = prevDisplay;
-            zone.style.visibility = prevVisibility;
-          });
+          const launchCapture = () => {
+            console.log("CAPTURE 6: html2canvas lancé");
+            html2canvas(zone, {
+              backgroundColor: bg,
+              scale: 2,
+              useCORS: true,
+              allowTaint: true
+            }).then(canvas => {
+              console.log("CAPTURE 7: html2canvas OK, création du lien de téléchargement");
+              const link = document.createElement("a");
+              link.download = "recap_prestations_mobile_"+ts()+".png";
+              link.href = canvas.toDataURL("image/png");
+              link.click();
+              showStatus("Récapitulatif capturé (format mobile) !");
+            }).catch(err => {
+              console.error("CAPTURE ERREUR html2canvas", err);
+              if(err && err.stack) console.error(err.stack);
+              alert(err?.message || "Erreur lors de l'exécution de html2canvas.");
+            }).finally(() => {
+              zone.style.display = prevDisplay;
+              zone.style.visibility = prevVisibility;
+            });
+          };
+
+          if(typeof requestAnimationFrame === "function"){
+            requestAnimationFrame(() => requestAnimationFrame(launchCapture));
+          }else{
+            setTimeout(launchCapture, 0);
+          }
         }catch(err){
-          console.error("Erreur inattendue lors de la capture du récapitulatif mobile :", err);
-          showStatus("Erreur lors de la capture du récapitulatif.", false);
+          console.error("CAPTURE ERREUR inattendue", err);
+          if(err && err.stack) console.error(err.stack);
+          alert(err && err.message ? err.message : "Erreur lors de la capture du récapitulatif.");
         }
       }
 
