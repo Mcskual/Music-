@@ -1439,10 +1439,9 @@
         }
 
         const list = Array.isArray(records) ? records : [];
-        const summary = totals || updateTotals(list);
-        if(!summary){
-          throw new Error("Calcul des totaux impossible pour la capture mobile.");
-        }
+        const totalRestant = list.reduce((acc, r = {}) => acc + Math.max(0, getRemaining(r)), 0);
+        const summary = { totalRestant };
+
         const now = new Date();
         const dateStr = now.toLocaleString("fr-FR", {
           day:"2-digit", month:"2-digit", year:"numeric",
@@ -1482,23 +1481,17 @@
 
         const summaryWrap = document.createElement("div");
         summaryWrap.className = "cap-summary";
-        [
-          {label:"Total facturé", value: eur(summary?.totalMontant || 0), cls:"billed"},
-          {label:"Total reçu", value: eur(summary?.totalRecu || 0), cls:"received"},
-          {label:"Restant dû total", value: eur(summary?.totalRestant || 0), cls:"due"}
-        ].forEach(item => {
-          const kpi = document.createElement("div");
-          kpi.className = "cap-kpi " + item.cls;
-          const l = document.createElement("div");
-          l.className = "label";
-          l.textContent = item.label;
-          const v = document.createElement("div");
-          v.className = "value";
-          v.textContent = item.value;
-          kpi.appendChild(l);
-          kpi.appendChild(v);
-          summaryWrap.appendChild(kpi);
-        });
+        const kpi = document.createElement("div");
+        kpi.className = "cap-kpi due";
+        const l = document.createElement("div");
+        l.className = "label";
+        l.textContent = "Restant dû total";
+        const v = document.createElement("div");
+        v.className = "value";
+        v.textContent = eur(summary.totalRestant || 0);
+        kpi.appendChild(l);
+        kpi.appendChild(v);
+        summaryWrap.appendChild(kpi);
         zone.appendChild(summaryWrap);
 
         if(!list.length){
