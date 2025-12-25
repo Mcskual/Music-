@@ -1407,11 +1407,11 @@
         });
       }
 
-      function updateTotals(records = data){
-        const list = Array.isArray(records) ? records : data || [];
-        const totals = list.reduce((acc, r) => {
-          const m = Number(r?.montant || 0);
-          const p = getPaid(r || {});
+      function updateTotals(records){
+        const list = Array.isArray(records) ? records : [];
+        const totals = list.reduce((acc, r = {}) => {
+          const m = Number(r.montant || 0);
+          const p = getPaid(r);
           acc.totalMontant += m;
           acc.totalRecu += p;
           acc.totalRestant += Math.max(0, m - p);
@@ -1427,7 +1427,10 @@
 
       function buildMobileRecap(records, totals){
         const zone = document.getElementById("capture-mobile");
-        if(!zone) return null;
+        if(!zone){
+          console.error("Zone de capture introuvable pour le récapitulatif mobile.");
+          return null;
+        }
 
         const list = Array.isArray(records) ? records : [];
         const summary = totals || updateTotals(list);
@@ -1654,8 +1657,8 @@
           td.textContent = "Aucune prestation ne correspond.";
           tr.appendChild(td);
           tbody.appendChild(tr);
-          updateTotals(records);
-          buildMobileRecap(records);
+          const totals = updateTotals(records);
+          buildMobileRecap(records, totals);
           updateFollowUps();
           return;
         }
@@ -1759,7 +1762,7 @@
             }
             r.paidAmount = (r.paidAmount || 0) + val;
             persist();
-            updateTotals();
+            updateTotals(filterRecords(data));
             render();
             showStatus("Paiement enregistré.");
           });
@@ -1787,7 +1790,7 @@
             if (confirm("Supprimer cette prestation ?")) {
               data = data.filter(x => x.id !== r.id);
               persist();
-              updateTotals();
+              updateTotals(filterRecords(data));
               render();
               if (editingId === r.id) editingId = null;
               showStatus("Prestation supprimée.");
@@ -1808,47 +1811,61 @@
       }
 
       function captureRecap(records){
-        const list = Array.isArray(records) ? records : [];
-        if(!list.length){
-          showStatus("Aucune prestation à capturer (vérifie les filtres).", false);
-          return;
-        }
-        const zone = document.getElementById("capture-mobile");
-        if(!zone){
-          alert("Zone de capture introuvable.");
-          return;
-        }
+        try{
+          const base = Array.isArray(records) && records.length ? records : (data || []);
+          const list = filterRecords(base);
+          if(!list.length){
+            showStatus("Aucune prestation à capturer (vérifie les filtres).", false);
+            return;
+          }
 
-        const totals = buildMobileRecap(list);
-        if(!totals) return;
+          const zone = document.getElementById("capture-mobile");
+          if(!zone){
+            console.error("Zone de capture introuvable.");
+            alert("Zone de capture introuvable.");
+            return;
+          }
 
-        const bg = document.documentElement.getAttribute("data-theme") === "light"
-          ? "#f3f4f6"
-          : "#020617";
+          const totals = buildMobileRecap(list);
+          if(!totals) return;
 
-        const prevDisplay = zone.style.display;
-        const prevVisibility = zone.style.visibility;
-        zone.style.display = "block";
-        zone.style.visibility = "visible";
+          if(typeof html2canvas !== "function"){
+            console.error("html2canvas indisponible pour la capture.");
+            showStatus("Capture impossible : html2canvas manquant.", false);
+            return;
+          }
 
-        html2canvas(zone, {
-          backgroundColor: bg,
-          scale: 2,
-          useCORS: true,
-          allowTaint: true
-        }).then(canvas => {
-          const link = document.createElement("a");
-          link.download = "recap_prestations_mobile_"+ts()+".png";
-          link.href = canvas.toDataURL("image/png");
-          link.click();
-          showStatus("Récapitulatif capturé (format mobile) !");
-        }).catch(err => {
-          console.error("Erreur capture récap mobile", err);
+          const bg = document.documentElement.getAttribute("data-theme") === "light"
+            ? "#f3f4f6"
+            : "#020617";
+
+          const prevDisplay = zone.style.display;
+          const prevVisibility = zone.style.visibility;
+          zone.style.display = "block";
+          zone.style.visibility = "visible";
+
+          html2canvas(zone, {
+            backgroundColor: bg,
+            scale: 2,
+            useCORS: true,
+            allowTaint: true
+          }).then(canvas => {
+            const link = document.createElement("a");
+            link.download = "recap_prestations_mobile_"+ts()+".png";
+            link.href = canvas.toDataURL("image/png");
+            link.click();
+            showStatus("Récapitulatif capturé (format mobile) !");
+          }).catch(err => {
+            console.error("Erreur capture récap mobile", err);
+            showStatus("Erreur lors de la capture du récapitulatif.", false);
+          }).finally(() => {
+            zone.style.display = prevDisplay;
+            zone.style.visibility = prevVisibility;
+          });
+        }catch(err){
+          console.error("Erreur inattendue lors de la capture du récapitulatif mobile :", err);
           showStatus("Erreur lors de la capture du récapitulatif.", false);
-        }).finally(() => {
-          zone.style.display = prevDisplay;
-          zone.style.visibility = prevVisibility;
-        });
+        }
       }
 
       function resetForm(){
