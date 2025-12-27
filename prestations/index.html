@@ -2969,6 +2969,14 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "Shatta":"dancehall-inspired shatta grit, percussive chops and assertive groove."
       };
 
+      const culturalLockMap = {
+        "Shatta":"Martinican Shatta instrumental, French Caribbean origin, urban Caribbean style from Martinique",
+        "Bongo Flava":"Tanzanian Bongo Flava instrumental, East African origin, Swahili pop and East African afro-pop influence",
+        "Zouk":"Zouk instrumental from the French Caribbean, romantic Caribbean groove",
+        "Reggae":"Reggae instrumental from Jamaica, roots and modern reggae influence",
+        "Reggaeton":"Reggaeton instrumental from Puerto Rico, Latin urban club influence"
+      };
+
       const energyMap = {
         low: {
           label: "low",
@@ -3151,11 +3159,20 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         return vibeMap[style] || "clean modern mix, energetic groove and tight arrangement.";
       }
 
+      function translateStructureLabel(part){
+        const label = (part || "").trim();
+        const lower = label.toLowerCase();
+        const matchKey = Object.keys(STRUCTURE_TRANSLATIONS).find(k => lower.startsWith(k));
+        if(matchKey){
+          const translated = STRUCTURE_TRANSLATIONS[matchKey];
+          const suffix = label.slice(matchKey.length);
+          return `${translated}${suffix ? suffix : ""}`.trim();
+        }
+        return label;
+      }
+
       function translateStructureToEnglish(parts){
-        return (parts || []).map(part => {
-          const key = (part || "").toLowerCase().trim();
-          return STRUCTURE_TRANSLATIONS[key] || part;
-        });
+        return (parts || []).map(translateStructureLabel);
       }
 
       function currentEnergy(){
@@ -3224,6 +3241,22 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "choir":"choirs"
       };
 
+      const INSTRUMENT_EN_MAP = {
+        "percussions africaines":"african percussions",
+        "snare / clap":"snare/clap",
+        "hi-hats":"hi-hats",
+        "piano / keys":"piano/keys",
+        "synth lead":"lead synth",
+        "synth pads":"synth pads",
+        "strings":"strings",
+        "fx":"FX",
+        "atmospheres":"atmospheres",
+        "log drum":"log drum",
+        "808 / bass":"808/bass",
+        "kick":"kick",
+        "guitar":"guitar"
+      };
+
       function normalizeInstrumentName(name){
         return (name || "").toLowerCase().trim();
       }
@@ -3255,7 +3288,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         });
 
         if(!included.length){
-          included.push("minimal percussions");
+          included.push("minimal percussion");
         }
 
         return {included, excluded, strictExclusions};
@@ -3263,10 +3296,9 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 
       function buildStrictExclusionBlock(strictExclusions){
         if(!strictExclusions || !strictExclusions.size) return "";
-        const clauses = [];
-        strictExclusions.forEach(name => {
+        const clauses = Array.from(strictExclusions).map(name => {
           const label = normalizeInstrumentName(name) || "instrument";
-          clauses.push(`no ${label}, no ${label} textures, no ${label}-like timbres`);
+          return `no ${label}, no ${label} textures, no ${label}-like timbres`;
         });
         return `strict exclusion: ${clauses.join("; ")}`;
       }
@@ -3274,9 +3306,8 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       function buildInstrumentLines(){
         const {included, excluded, strictExclusions} = getInstrumentSelection();
         const humanize = (list) => list.map(v => {
-          if(v === "fx") return "FX";
-          if(v === "atmospheres") return "atmospheres";
-          return v;
+          const key = normalizeInstrumentName(v);
+          return INSTRUMENT_EN_MAP[key] || v;
         });
         const includedLine = `included instruments: ${humanize(included).join(", ")}`;
         const excludedLine = excluded.length ? `excluded instruments: ${humanize(excluded).join(", ")}` : "";
@@ -3588,6 +3619,10 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         if(!bpmInput.value) bpmInput.value = mid;
       }
 
+      function buildCulturalLock(style){
+        return culturalLockMap[style] || `${style} instrumental, authentic to its cultural roots`;
+      }
+
       function generatePrompt(source="manual"){
         const style = styleSel.value || "Afro-Trap";
         const key = keySel.value || "A minor";
@@ -3617,20 +3652,17 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           durationRange.value = Math.min(Math.max(currentDurationSeconds, Number(durationRange.min)), Number(durationRange.max));
         }
         const durationMinutes = formatMinutesValue(currentDurationSeconds);
-        const styleOrigin = style === "Bongo Flava"
-          ? "Tanzanian Bongo Flava instrumental"
-          : `${style} instrumental`;
-        const styleLine = `${styleOrigin} in ${key}`;
-        const progressionLine = `winning chord progression ${transposed.romanLine} (${transposed.chordLine}), ${bpm} BPM`;
-        const durationLine = `full-length instrumental track, approx ${durationMinutes} minutes, continuous arrangement from intro to outro, not a loop, not a preview`;
+        const culturalLine = `${buildCulturalLock(style)}, key ${key}, cultural identity locked.`;
+        const bpmLine = `${bpm} BPM locked, winning chord progression ${transposed.romanLine} (${transposed.chordLine}).`;
+        const durationLine = `full-length track about ${durationMinutes} minutes, continuous from intro to outro, not a loop or preview.`;
         const vocalSummary = vocal.summary || vocal.arrangement;
         const vocalLine = `vocal-first arrangement: ${vocalSummary}`;
-        const energyDanceLine = `energy/dance: ${energy.label} energy; ${dance.label} danceability`;
-        const grooveDetails = `${energy.texture}; ${dance.texture}; ${vocal.mix}`;
+        const energyDanceLine = `energy/danceability: ${energy.label} energy, ${dance.label} danceability.`;
+        const grooveDetails = `texture: ${energy.texture}; ${dance.texture}; ${vocal.mix}`;
 
         const sections = [
-          {text: styleLine},
-          {text: progressionLine},
+          {text: culturalLine},
+          {text: bpmLine},
           {text: durationLine},
           {text: vocalLine},
           {text: includedLine},
