@@ -3009,16 +3009,19 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "vocal-first":{
           label:"vocal-first",
           arrangement:"vocal-first arrangement, no competing lead melody, instrumental supportive, not dominant, clear space for human vocals",
+          summary:"instrumental supports the lead vocals with no competing lead melody",
           mix:"strong rhythmic groove with clean vocal pocket, instrumental supportive not dominant"
         },
         "balanced":{
           label:"balanced",
           arrangement:"balanced vocal/instrument layout, controlled counter-melodies, supportive pads",
+          summary:"balanced vocals and instruments with controlled counter-lines",
           mix:"vocals and instruments share space with controlled dynamics"
         },
         "instrumental-lead":{
           label:"instrumental-lead",
           arrangement:"instrumental hooks upfront, vocals weaving around the lead motif",
+          summary:"lead motif forward, vocals weave around the hook if present",
           mix:"lead melody forward, vocals ride the groove without clashing"
         }
       };
@@ -3030,6 +3033,19 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         singer:["Intro","Couplet","Refrain","Refrain","Pont","Refrain","Outro"],
         rapper:["Intro","Couplet","Couplet","Refrain","Pont","Refrain","Outro"],
         club:["Intro","Refrain","Drop","Refrain","Drop","Outro"]
+      };
+      const STRUCTURE_TRANSLATIONS = {
+        "couplet":"Verse",
+        "refrain":"Chorus",
+        "pont":"Bridge",
+        "intro":"Intro",
+        "outro":"Outro",
+        "drop":"Drop",
+        "pre-chorus":"Pre-Chorus",
+        "prechorus":"Pre-Chorus",
+        "verse":"Verse",
+        "chorus":"Chorus",
+        "bridge":"Bridge"
       };
       const usageMap = {
         radio:   { label:"Radio", icon:"📻",   min:"2:00", ideal:"2:40 – 2:55",   default:"2:50",  structure:"format radio compact, intro courte, refrain rapide" },
@@ -3133,6 +3149,13 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 
       function describeStyle(style){
         return vibeMap[style] || "clean modern mix, energetic groove and tight arrangement.";
+      }
+
+      function translateStructureToEnglish(parts){
+        return (parts || []).map(part => {
+          const key = (part || "").toLowerCase().trim();
+          return STRUCTURE_TRANSLATIONS[key] || part;
+        });
       }
 
       function currentEnergy(){
@@ -3240,25 +3263,12 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 
       function buildStrictExclusionBlock(strictExclusions){
         if(!strictExclusions || !strictExclusions.size) return "";
-
-        const lines = [];
+        const clauses = [];
         strictExclusions.forEach(name => {
-          const label = normalizeInstrumentName(name);
-          lines.push(
-            `no ${label} in any form,`,
-            `no rhythmic ${label},`,
-            `no strumming patterns,`,
-            `no ${label} textures,`,
-            `no ${label}-like timbres`
-          );
+          const label = normalizeInstrumentName(name) || "instrument";
+          clauses.push(`no ${label}, no ${label} textures, no ${label}-like timbres`);
         });
-
-        if(lines.length){
-          const lastIdx = lines.length - 1;
-          lines[lastIdx] = lines[lastIdx].replace(/,+$/, "");
-        }
-
-        return `strict exclusion:\n${lines.join("\n")}`;
+        return `strict exclusion: ${clauses.join("; ")}`;
       }
 
       function buildInstrumentLines(){
@@ -3269,9 +3279,45 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           return v;
         });
         const includedLine = `included instruments: ${humanize(included).join(", ")}`;
-        const excludedLine = `excluded instruments: ${excluded.length ? humanize(excluded).join(", ") : "none"}`;
+        const excludedLine = excluded.length ? `excluded instruments: ${humanize(excluded).join(", ")}` : "";
         const strictBlock = buildStrictExclusionBlock(strictExclusions);
         return {includedLine, excludedLine, strictBlock};
+      }
+
+      function buildPromptText(sections, limit = 900){
+        let active = sections.filter(section => section && section.text && section.text.trim());
+        let prompt = active.map(s => s.text).join("\n");
+
+        const optionalIndexes = active
+          .map((section, idx) => section.optional ? idx : null)
+          .filter(idx => idx !== null);
+
+        while(prompt.length > limit && optionalIndexes.length){
+          const idxToRemove = optionalIndexes.pop();
+          active.splice(idxToRemove, 1);
+          for(let i = 0; i < optionalIndexes.length; i++){
+            if(optionalIndexes[i] > idxToRemove){
+              optionalIndexes[i] -= 1;
+            }
+          }
+          prompt = active.map(s => s.text).join("\n");
+        }
+
+        if(prompt.length > limit){
+          active = active.map(section => {
+            if(typeof section.compact === "function"){
+              return {...section, text: section.compact(section.text)};
+            }
+            return section;
+          });
+          prompt = active.map(s => s.text).join("\n");
+        }
+
+        if(prompt.length > limit){
+          prompt = `${prompt.slice(0, limit - 3)}...`;
+        }
+
+        return {prompt, length: prompt.length};
       }
 
       function enforceMelodyLimit(){
@@ -3559,7 +3605,8 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         const energy = energyMap[currentEnergy()] || energyMap.medium;
         const dance = danceabilityMap[currentDanceability()] || danceabilityMap.medium;
         const vocal = vocalModeMap[currentVocalMode()] || vocalModeMap["vocal-first"];
-        const structureLine = (structure && structure.length) ? structure.join(" → ") : "Intro → Drop → Outro";
+        const structureParts = (structure && structure.length) ? structure : ["Intro","Drop","Outro"];
+        const structureLine = translateStructureToEnglish(structureParts).join(" → ") || "Intro → Drop → Outro";
         const usageMinSeconds = parseDurationToSeconds(usageEntry.min) || Number(durationRange?.min) || 120;
         const rawDurationSeconds = parseDurationToSeconds(durationInput?.value) || Number(durationRange?.value) || 180;
         const currentDurationSeconds = Math.max(rawDurationSeconds, usageMinSeconds);
@@ -3570,40 +3617,38 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           durationRange.value = Math.min(Math.max(currentDurationSeconds, Number(durationRange.min)), Number(durationRange.max));
         }
         const durationMinutes = formatMinutesValue(currentDurationSeconds);
-        const styleDescriptor = describeStyle(style) + " " + dance.texture;
-        const durationBlock = [
-          "full-length instrumental track,",
-          `approximately ${durationMinutes} minutes,`,
-          "continuous arrangement from intro to outro,",
-          "intended as a complete song,",
-          "not a loop, not a short preview"
-        ].join("\n");
+        const styleOrigin = style === "Bongo Flava"
+          ? "Tanzanian Bongo Flava instrumental"
+          : `${style} instrumental`;
+        const styleLine = `${styleOrigin} in ${key}`;
+        const progressionLine = `winning chord progression ${transposed.romanLine} (${transposed.chordLine}), ${bpm} BPM`;
+        const durationLine = `full-length instrumental track, approx ${durationMinutes} minutes, continuous arrangement from intro to outro, not a loop, not a preview`;
+        const vocalSummary = vocal.summary || vocal.arrangement;
+        const vocalLine = `vocal-first arrangement: ${vocalSummary}`;
+        const energyDanceLine = `energy/dance: ${energy.label} energy; ${dance.label} danceability`;
+        const grooveDetails = `${energy.texture}; ${dance.texture}; ${vocal.mix}`;
 
-        const promptLines = [
-`${style} instrumental in ${key},`,
-`winning chord progression ${transposed.romanLine} (${transposed.chordLine}),`,
-`${bpm} BPM,`,
-`energy: ${energy.label}, ${energy.texture},`,
-`danceability: ${dance.label}, ${dance.texture},`,
-`vocal mode: ${vocal.label},`,
-`arrangement: ${vocal.arrangement},`,
-`usage: ${usageEntry.icon} ${usageEntry.label}, ${usageEntry.structure},`,
-`${includedLine},`,
-strictBlock,
-`${excludedLine},`,
-`structure: ${structureLine},`,
-durationBlock,
-`${styleDescriptor},`,
-`${vocal.mix},`,
-`clean modern balanced mix, no vocals`,
-`do not introduce any instrument not explicitly listed as included`
-        ].filter(Boolean);
+        const sections = [
+          {text: styleLine},
+          {text: progressionLine},
+          {text: durationLine},
+          {text: vocalLine},
+          {text: includedLine},
+          strictBlock ? {text: strictBlock} : null,
+          excludedLine ? {text: excludedLine, optional: true} : null,
+          {text: `structure: ${structureLine}`},
+          {text: energyDanceLine},
+          {text: grooveDetails, optional: true, compact: (t) => t.split(";").slice(0,2).join("; ")},
+          {text: "do not add any instrument not listed above"}
+        ];
 
-        outputEl.value = promptLines.join("\n");
+        const {prompt, length} = buildPromptText(sections);
+        outputEl.value = prompt;
         if(statusEl){
-          statusEl.textContent = source === "shuffle"
-            ? "Shuffle premium généré automatiquement."
-            : "Prompt généré et prêt à être copié.";
+          const baseStatus = source === "shuffle"
+            ? "Shuffle premium généré automatiquement"
+            : "Prompt généré et prêt à être copié";
+          statusEl.textContent = `${baseStatus} (${length}/900 caractères).`;
         }
         updateMeta();
         enforceMelodyLimit();
