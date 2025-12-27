@@ -1065,6 +1065,11 @@
       margin-bottom:6px;
       letter-spacing:0.02em;
     }
+    .beats-card h4{
+      margin:10px 0 8px;
+      letter-spacing:0.02em;
+      font-size:14px;
+    }
     .beats-description{
       color:#8fa0c9;
       font-size:13px;
@@ -1142,6 +1147,94 @@
       box-shadow:0 10px 30px rgba(0,229,255,0.18);
       background:linear-gradient(135deg, rgba(106,0,255,0.2), rgba(0,229,255,0.1));
     }
+    .progression-chip,
+    .vocal-chip,
+    .dance-chip{
+      border:1px solid rgba(255,255,255,0.1);
+      border-radius:12px;
+      padding:10px 12px;
+      background:rgba(255,255,255,0.02);
+      color:#e8f0ff;
+      display:flex;
+      gap:8px;
+      align-items:flex-start;
+      cursor:pointer;
+      transition:140ms ease;
+      box-shadow:0 10px 28px rgba(0,0,0,0.35);
+    }
+    .progression-chip.active,
+    .vocal-chip.active,
+    .dance-chip.active{
+      border-color:rgba(0,229,255,0.45);
+      background:linear-gradient(135deg, rgba(106,0,255,0.18), rgba(0,229,255,0.12));
+      box-shadow:0 14px 34px rgba(0,0,0,0.45);
+    }
+    .progression-chip small,
+    .vocal-chip small,
+    .dance-chip small{
+      display:block;
+      color:#9db2ff;
+      line-height:1.4;
+    }
+    .progression-row,
+    .vocal-row,
+    .dance-row{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:10px;
+    }
+    .beats-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:10px;
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      color:#cfe9ff;
+      font-size:12px;
+    }
+    .progression-meta{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      margin-top:10px;
+      padding:10px;
+      border:1px dashed rgba(0,229,255,0.25);
+      border-radius:12px;
+      background:rgba(0,229,255,0.04);
+      color:#e8f0ff;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+    .beats-warning{
+      margin-top:8px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,99,132,0.55);
+      background:rgba(255,99,132,0.08);
+      color:#ffc9d6;
+      font-weight:700;
+      display:none;
+    }
+    .beats-warning.visible{ display:block; }
+    .dual-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      gap:12px;
+    }
+    .beats-slider{
+      width:100%;
+    }
+    .duration-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .duration-row input[type="text"]{
+      max-width:120px;
+      text-align:center;
+    }
     .instrument-accordion{
       border-radius:12px;
       overflow:hidden;
@@ -1178,6 +1271,16 @@
       color:#f4f6ff;
     }
     .instrument-checkbox input{ accent-color:#00e5ff; }
+    .instrument-checkbox.over-limit{
+      border-color:rgba(255,99,132,0.7);
+      box-shadow:0 0 0 1px rgba(255,99,132,0.4);
+    }
+    .instrument-group-title{
+      color:#9db2ff;
+      font-weight:800;
+      margin:6px 0 2px;
+      letter-spacing:0.01em;
+    }
     .structure-list{
       list-style:none;
       margin:0;
@@ -1506,9 +1609,9 @@
       <div class="beats-shell">
         <div class="beats-hero">
           <div>
-            <h2>🎛️ BeatsEngine — Module Premium</h2>
+            <h2>🎛️ BeatsEngine Pro — Module Studio</h2>
             <p>
-              Génère des prompts IA premium prêts pour le studio : tonalité, accords magiques, énergie, instruments inclus/exclus, structure détaillée et durée cible. Identité visuelle dédiée sans nuire aux autres onglets.
+              Génère des prompts IA studio-grade : tonalité, accords gagnants transposés, énergie et danceability dissociées, vocal control, instruments intelligents, structure drag & drop et durée cible. Identité visuelle dédiée sans nuire aux autres onglets.
             </p>
             <div class="beats-tagline">
               <span class="beats-chip">Dégradé signature #6A00FF → #00E5FF</span>
@@ -1533,12 +1636,18 @@
                   <select id="beats-style" class="beats-select">
                     <option>Afro-Trap</option>
                     <option>Afro-Trap Club</option>
-                    <option>R&B</option>
                     <option>Drill</option>
+                    <option>R&B</option>
                     <option>Dancehall</option>
                     <option>Afrobeat</option>
+                    <option>Afropop</option>
                     <option>Bongo Flava</option>
                     <option>Amapiano</option>
+                    <option>Zouk</option>
+                    <option>Reggae</option>
+                    <option>Reggaeton</option>
+                    <option>Moombahton</option>
+                    <option>Shatta</option>
                   </select>
                 </div>
                 <div>
@@ -1570,39 +1679,107 @@
                 </div>
               </div>
               <div class="beats-meta">
-                <span class="beats-meta-pill">Accords : <strong id="beats-chords">-</strong></span>
+                <span class="beats-meta-pill">Accords clés : <strong id="beats-chords">-</strong></span>
                 <span class="beats-meta-pill">Plage BPM : <strong id="beats-bpm-range">-</strong></span>
-                <span class="beats-meta-pill">Énergie : <strong id="beats-energy-desc">-</strong></span>
+                <span class="beats-meta-pill">Groove : <strong id="beats-energy-desc">-</strong></span>
               </div>
             </div>
 
             <div class="beats-card">
-              <h3>⚡ Energy & Texture</h3>
-              <p class="beats-description">Sélectionne l'intensité qui pilote la vibe, la dynamique et la densité du prompt.</p>
-              <div class="energy-toggle" id="beats-energy">
-                <label class="energy-chip">
-                  <input type="radio" name="beats-energy" value="low">
+              <h3>🎼 Winning Chords</h3>
+              <p class="beats-description">Progressions gagnantes auto-sélectionnées par style et transposées dans la clé choisie.</p>
+              <div class="progression-row" id="progression-options"></div>
+              <div class="progression-meta">
+                <div><strong>Degrés :</strong> <span id="beats-progression">i – VI – III – VII</span></div>
+                <div><strong>Accords réels :</strong> <span id="beats-progression-chords">Am – F – C – G</span></div>
+                <div class="beats-badge">Auto-transposé selon la clé et le style.</div>
+              </div>
+            </div>
+
+            <div class="beats-card">
+              <h3>🎤 Vocal Control & Groove</h3>
+              <p class="beats-description">Mode vocal-first par défaut, avec énergie et danceability dissociées.</p>
+              <div class="vocal-row" id="vocal-modes">
+                <label class="vocal-chip active">
+                  <input type="radio" name="vocal-mode" value="vocal-first" checked>
                   <div>
-                    <span>Low</span>
-                    <small>Minimal, spacious, smooth</small>
+                    <span style="font-weight:800;">Vocal-First</span>
+                    <small>vocal-first arrangement, no competing lead melody, instrumental supportive, clear space for human vocals.</small>
                   </div>
                 </label>
-                <label class="energy-chip active">
-                  <input type="radio" name="beats-energy" value="medium" checked>
+                <label class="vocal-chip">
+                  <input type="radio" name="vocal-mode" value="balanced">
                   <div>
-                    <span>Medium</span>
-                    <small>Balanced, groove-focused</small>
+                    <span style="font-weight:800;">Balanced</span>
+                    <small>vocal-instrument balance, gentle counter-melodies, controlled layers.</small>
                   </div>
                 </label>
-                <label class="energy-chip">
-                  <input type="radio" name="beats-energy" value="high">
+                <label class="vocal-chip">
+                  <input type="radio" name="vocal-mode" value="instrumental-lead">
                   <div>
-                    <span>High</span>
-                    <small>Aggressive, powerful</small>
+                    <span style="font-weight:800;">Instrumental-Lead</span>
+                    <small>instrumental hooks in front, vocals woven around the lead.</small>
                   </div>
                 </label>
               </div>
-              <div class="beats-status" id="beats-energy-note">Low → minimal, spacious, smooth.</div>
+
+              <div class="dual-grid" style="margin-top:12px;">
+                <div>
+                  <h4>⚡ Energy</h4>
+                  <div class="energy-toggle" id="beats-energy">
+                    <label class="energy-chip">
+                      <input type="radio" name="beats-energy" value="low">
+                      <div>
+                        <span>Low</span>
+                        <small>Minimal, smooth, spacious</small>
+                      </div>
+                    </label>
+                    <label class="energy-chip active">
+                      <input type="radio" name="beats-energy" value="medium" checked>
+                      <div>
+                        <span>Medium</span>
+                        <small>Balanced, groove-focused</small>
+                      </div>
+                    </label>
+                    <label class="energy-chip">
+                      <input type="radio" name="beats-energy" value="high">
+                      <div>
+                        <span>High</span>
+                        <small>Aggressive, club-ready</small>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="beats-status" id="beats-energy-note">Low → minimal, smooth, spacious.</div>
+                </div>
+
+                <div>
+                  <h4>🕺 Danceability</h4>
+                  <div class="dance-row" id="beats-danceability">
+                    <label class="dance-chip">
+                      <input type="radio" name="beats-dance" value="low">
+                      <div>
+                        <span>Low</span>
+                        <small>Laid-back groove</small>
+                      </div>
+                    </label>
+                    <label class="dance-chip active">
+                      <input type="radio" name="beats-dance" value="medium" checked>
+                      <div>
+                        <span>Medium</span>
+                        <small>Smooth bounce</small>
+                      </div>
+                    </label>
+                    <label class="dance-chip">
+                      <input type="radio" name="beats-dance" value="high">
+                      <div>
+                        <span>High</span>
+                        <small>Club-focused rhythmic drive</small>
+                      </div>
+                    </label>
+                  </div>
+                  <div class="beats-status" id="beats-dance-note">Danceable sans agressivité obligatoire.</div>
+                </div>
+              </div>
             </div>
 
             <div class="beats-card">
@@ -1611,24 +1788,42 @@
               <details class="instrument-accordion" open>
                 <summary>Instruments premium</summary>
                 <div class="instrument-grid" id="beats-instruments">
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="kick" checked> Kick</label>
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="snare / clap" checked> Snare / Clap</label>
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="hi-hats" checked> Hi-hats</label>
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="808 / bass" checked> 808 / Bass</label>
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="log drum"> Log drum</label>
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="guitar"> Guitar</label>
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="piano / keys"> Piano / Keys</label>
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="synth lead"> Synth lead</label>
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="synth pads" checked> Synth pads</label>
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="percussions africaines" checked> Percussions africaines</label>
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="strings"> Strings</label>
-                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="fx / atmospheres"> FX / Atmospheres</label>
+                  <div>
+                    <div class="instrument-group-title">Rythme</div>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="kick" data-role="rhythm" checked> Kick</label>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="snare / clap" data-role="rhythm" checked> Snare / Clap</label>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="hi-hats" data-role="rhythm" checked> Hi-hats</label>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="percussions africaines" data-role="rhythm" checked> Percussions africaines</label>
+                  </div>
+                  <div>
+                    <div class="instrument-group-title">Basse</div>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="808 / bass" data-role="bass" checked> 808 / Bass</label>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="log drum" data-role="bass"> Log drum</label>
+                  </div>
+                  <div>
+                    <div class="instrument-group-title">Mélodie</div>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="guitar" data-role="melody"> Guitar</label>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="piano / keys" data-role="melody"> Piano / Keys</label>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="synth lead" data-role="melody"> Synth lead</label>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="synth pads" data-role="melody" checked> Synth pads</label>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="strings" data-role="melody"> Strings</label>
+                  </div>
+                  <div>
+                    <div class="instrument-group-title">Ambiance</div>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="fx" data-role="ambience"> FX</label>
+                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="atmospheres" data-role="ambience"> Atmospheres</label>
+                  </div>
                 </div>
               </details>
+              <div class="beats-warning" id="melody-warning">Mode Vocal-First : limite de 1 instrument mélodique dépassée.</div>
 
               <div style="margin-top:14px;">
                 <label class="beats-label" for="beats-duration">⏱️ Track Duration</label>
-                <input type="text" id="beats-duration" class="beats-input" placeholder="2:30 ou 180s" value="2:45">
+                <div class="duration-row">
+                  <input type="range" id="beats-duration-range" class="beats-slider" min="120" max="360" step="5" value="165">
+                  <input type="text" id="beats-duration" class="beats-input" placeholder="2:30 ou 180s" value="2:45">
+                  <span class="beats-badge">target duration</span>
+                </div>
               </div>
 
               <div style="margin-top:12px;">
@@ -1636,6 +1831,11 @@
                   <input type="text" id="structure-input" placeholder="Ajouter un segment (ex : Refrain 2)">
                   <button type="button" class="structure-btn" id="structure-add">Ajouter</button>
                   <button type="button" class="structure-btn secondary" id="structure-reset">Réinitialiser</button>
+                </div>
+                <div class="structure-controls" style="margin-top:8px;">
+                  <button type="button" class="structure-btn secondary" data-structure-preset="singer">Preset Singer</button>
+                  <button type="button" class="structure-btn secondary" data-structure-preset="rapper">Preset Rapper</button>
+                  <button type="button" class="structure-btn secondary" data-structure-preset="club">Preset Club</button>
                 </div>
                 <ul class="structure-list" id="structure-list" aria-label="Structure du morceau"></ul>
               </div>
@@ -2671,75 +2871,217 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       const structureInput = document.getElementById("structure-input");
       const structureAddBtn = document.getElementById("structure-add");
       const structureResetBtn = document.getElementById("structure-reset");
+      const progressionOptionsEl = document.getElementById("progression-options");
+      const beatsProgressionEl = document.getElementById("beats-progression");
+      const beatsProgressionChordsEl = document.getElementById("beats-progression-chords");
+      const danceChips = Array.from(document.querySelectorAll("#beats-danceability .dance-chip"));
+      const danceRadios = Array.from(document.querySelectorAll('input[name="beats-dance"]'));
+      const danceNoteEl = document.getElementById("beats-dance-note");
+      const vocalChips = Array.from(document.querySelectorAll("#vocal-modes .vocal-chip"));
+      const vocalRadios = Array.from(document.querySelectorAll('input[name="vocal-mode"]'));
+      const durationRange = document.getElementById("beats-duration-range");
+      const melodyWarning = document.getElementById("melody-warning");
 
       if(!styleSel || !keySel || !bpmInput || !outputEl || !structureListEl) return;
 
-      const chordsMap = {
-        "C minor":"Cm - Ab - Eb - Bb",
-        "C# minor":"C#m - A - E - B",
-        "D minor":"Dm - Bb - F - C",
-        "D# minor":"D#m - B - F# - C#",
-        "E minor":"Em - C - G - D",
-        "F minor":"Fm - Db - Ab - Eb",
-        "F# minor":"F#m - D - A - E",
-        "G minor":"Gm - Eb - Bb - F",
-        "G# minor":"G#m - E - B - F#",
-        "A minor":"Am - F - C - G",
-        "A# minor":"A#m - F# - C# - G#",
-        "B minor":"Bm - G - D - A",
-        "D major":"D - Bm - G - A",
-        "E major":"E - C#m - A - B",
-        "F major":"F - Dm - Bb - C",
-        "G major":"G - Em - C - D",
-        "A major":"A - F#m - D - E",
-        "B major":"B - G#m - E - F#"
+      const chordsMap = {};
+
+      const progressionMap = {
+        "Afro-Trap":["i – VI – III – VII","i – v – i – VII","i – III – VI – VII"],
+        "Afro-Trap Club":["i – VI – III – VII","i – v – i – VII","i – III – VI – VII"],
+        "Afrobeat":["I – V – vi – IV","i – VI – III – VII","i – VII – VI – VII"],
+        "Afropop":["I – V – vi – IV","i – VI – III – VII","i – VII – VI – VII"],
+        "Bongo Flava":["I – V – vi – IV","i – VI – III – VII","i – VII – VI – VII"],
+        "Reggae":["I – IV – V","I – V – IV","vi – IV – I – V"],
+        "Zouk":["I – IV – V","I – V – IV","vi – IV – I – V"],
+        "Reggaeton":["i – VI – VII","vi – IV – I – V","i – VII – VI"],
+        "Moombahton":["i – VI – VII","vi – IV – I – V","i – VII – VI"],
+        "Dancehall":["i – VII – VI – VII","i – VI – VII","i – III – VI – VII"],
+        "Shatta":["i – VII – VI – VII","i – VI – VII","i – III – VI – VII"],
+        "Amapiano":["i – v – i – VII","i – VI – III – VII","i – VII – VI – VII"],
+        "R&B":["i – VI – III – VII","vi – IV – I – V","i – VII – VI – VII"],
+        "Drill":["i – VI – III – VII","i – VII – VI – VII","i – III – VI – VII"]
       };
 
       const bpmMap = {
         "Afro-Trap":[95,115],
-        "Afro-Trap Club":[100,112],
-        "R&B":[75,95],
+        "Afro-Trap Club":[100,118],
+        "R&B":[72,92],
         "Drill":[135,150],
         "Dancehall":[90,105],
         "Afrobeat":[100,120],
-        "Bongo Flava":[95,110],
-        "Amapiano":[103,115]
+        "Afropop":[102,118],
+        "Bongo Flava":[95,112],
+        "Amapiano":[103,115],
+        "Zouk":[85,100],
+        "Reggae":[78,92],
+        "Reggaeton":[86,98],
+        "Moombahton":[100,110],
+        "Shatta":[96,112]
       };
 
       const vibeMap = {
-        "Afro-Trap":"four-on-the-floor kick blended with afro swing grooves and glossy trap percussion layers.",
-        "Afro-Trap Club":"dancefloor-ready afro-trap, punchy drums, neon synths and tight club arrangement.",
-        "R&B":"smooth R&B with lush chords, delicate drums, silky ambience and intimate textures.",
-        "Drill":"dark cinematic drill, sliding 808s, syncopated hats, tense pads and moody atmosphere.",
-        "Dancehall":"island groove with skanking guitars, playful percussions, warm low end and hooks.",
-        "Afrobeat":"percussive afrobeat energy, vibrant melodies, brass accents and steady groove.",
-        "Bongo Flava":"afro-fusion bounce, bright melodic hooks, airy keys and polished percussions.",
-        "Amapiano":"log drum heavy amapiano roll, shaker-driven groove, dreamy keys, late-night club feel."
+        "Afro-Trap":"afro swing bounce, syncopated percussions, trap gloss and modern club sheen.",
+        "Afro-Trap Club":"dancefloor afro-trap, neon synths, tight drums and crowd-ready drops.",
+        "R&B":"silky R&B textures, lush chords, intimate drums and smooth ambience.",
+        "Drill":"cinematic drill tension, sliding 808s, moody pads and syncopated hats.",
+        "Dancehall":"island groove with skanking guitars, playful percs, warm low-end and hooks.",
+        "Afrobeat":"polyrhythmic afrobeat pulse, brass stabs, guitar licks and steady groove.",
+        "Afropop":"sunny afro-pop sheen, catchy toplines, bouncy drums and bright textures.",
+        "Bongo Flava":"east-afro fusion, polished percussions, airy keys and melodic hooks.",
+        "Amapiano":"log drum rolls, shaker-driven groove, dreamy keys and late-night atmosphere.",
+        "Zouk":"smooth zouk sway, silky guitars, romantic pads and mid-tempo bounce.",
+        "Reggae":"roots groove, off-beat skank, warm bass and relaxed pocket.",
+        "Reggaeton":"latin club swing, perreo drums, crisp claps and sensual bounce.",
+        "Moombahton":"electro-latin push, mid-tempo drive, heavy drums and festival energy.",
+        "Shatta":"dancehall-inspired shatta grit, percussive chops and assertive groove."
       };
 
       const energyMap = {
         low: {
           label: "low",
-          note: "Low → minimal, spacious, smooth.",
+          note: "Low → minimal, smooth, spacious",
           texture: "minimal dynamics, airy ambience, plenty of space between elements"
         },
         medium: {
           label: "medium",
-          note: "Medium → balanced, groove-focused.",
+          note: "Medium → balanced, groove-focused",
           texture: "balanced groove, clean transients, pocketed swing and tasteful layers"
         },
         high: {
           label: "high",
-          note: "High → aggressive, powerful, club-ready.",
+          note: "High → aggressive, powerful, club-ready",
           texture: "aggressive drums, forward low-end, club-ready punch and bold synth leads"
+        }
+      };
+
+      const danceabilityMap = {
+        low: {
+          label:"low",
+          note:"Low → laid-back groove",
+          texture:"laid-back groove, relaxed syncopation, room for storytelling"
+        },
+        medium: {
+          label:"medium",
+          note:"Medium → smooth bounce",
+          texture:"smooth bounce, pocketed swing, body-friendly groove"
+        },
+        high: {
+          label:"high",
+          note:"High → strong rhythmic drive, club-focused",
+          texture:"strong rhythmic drive, club-focused cadence, infectious movement"
+        }
+      };
+
+      const vocalModeMap = {
+        "vocal-first":{
+          label:"vocal-first",
+          arrangement:"vocal-first arrangement, no competing lead melody, instrumental supportive, not dominant, clear space for human vocals",
+          mix:"strong rhythmic groove with clean vocal pocket, instrumental supportive not dominant"
+        },
+        "balanced":{
+          label:"balanced",
+          arrangement:"balanced vocal/instrument layout, controlled counter-melodies, supportive pads",
+          mix:"vocals and instruments share space with controlled dynamics"
+        },
+        "instrumental-lead":{
+          label:"instrumental-lead",
+          arrangement:"instrumental hooks upfront, vocals weaving around the lead motif",
+          mix:"lead melody forward, vocals ride the groove without clashing"
         }
       };
 
       const styles = Array.from(styleSel.options).map(o => o.value);
       const keys = Array.from(keySel.options).map(o => o.value);
       const defaultStructure = ["Intro","Couplet","Refrain","Pont","Drop","Outro"];
+      const structurePresets = {
+        singer:["Intro","Couplet","Refrain","Refrain","Pont","Refrain","Outro"],
+        rapper:["Intro","Couplet","Couplet","Refrain","Pont","Refrain","Outro"],
+        club:["Intro","Refrain","Drop","Refrain","Drop","Outro"]
+      };
       let structure = [...defaultStructure];
       let draggingIndex = null;
+      let selectedProgression = progressionMap[styleSel.value]?.[0] || "i – VI – III – VII";
+
+      const chromatic = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+      const flatToSharp = {"Db":"C#","Eb":"D#","Gb":"F#","Ab":"G#","Bb":"A#"};
+
+      function normalizeRoot(note){
+        if(!note) return "A";
+        return flatToSharp[note] || note;
+      }
+
+      function parseKey(keyStr){
+        const parts = (keyStr || "A minor").split(" ");
+        const root = normalizeRoot(parts[0]);
+        const scale = (parts[1] || "minor").toLowerCase().includes("major") ? "major" : "minor";
+        return {root, scale};
+      }
+
+      function generateScaleChords(keyStr){
+        const {root, scale} = parseKey(keyStr);
+        const intervals = scale === "major" ? [0,2,4,5,7,9,11] : [0,2,3,5,7,8,10];
+        const qualities = scale === "major"
+          ? ["maj","min","min","maj","maj","min","dim"]
+          : ["min","dim","maj","min","min","maj","maj"];
+        const mapping = {};
+        const rootIndex = chromatic.indexOf(root);
+        if(rootIndex === -1) return mapping;
+
+        ["I","II","III","IV","V","VI","VII"].forEach((deg, idx) => {
+          const note = chromatic[(rootIndex + intervals[idx]) % chromatic.length];
+          const qual = qualities[idx];
+          const chord = qual === "maj" ? note : qual === "min" ? `${note}m` : `${note}°`;
+          mapping[deg] = chord;
+          mapping[deg.toLowerCase()] = chord;
+        });
+        return mapping;
+      }
+
+      function buildChordLibrary(){
+        keys.forEach(k => {
+          chordsMap[k] = generateScaleChords(k);
+        });
+      }
+
+      function romanToDegree(r){
+        const base = r.toUpperCase();
+        const map = { "I":1,"II":2,"III":3,"IV":4,"V":5,"VI":6,"VII":7 };
+        return map[base] || 1;
+      }
+
+      function chordFromRoman(roman, keyStr){
+        const degree = romanToDegree(roman);
+        const dict = chordsMap[keyStr] || {};
+        const entry = dict[roman] || dict[roman.toUpperCase()] || dict[roman.toLowerCase()];
+        if(entry){
+          const root = entry.replace(/m|°/g,"");
+          const isMinor = roman === roman.toLowerCase();
+          const isDim = roman.includes("°");
+          if(isDim) return `${root}°`;
+          if(isMinor) return `${root}m`;
+          return entry.includes("m") && roman === roman.toUpperCase() ? entry.replace("m","") : entry;
+        }
+        const {root, scale} = parseKey(keyStr);
+        const intervals = scale === "major" ? [0,2,4,5,7,9,11] : [0,2,3,5,7,8,10];
+        const rootIndex = chromatic.indexOf(root);
+        const note = chromatic[(rootIndex + intervals[degree-1]) % chromatic.length];
+        const minor = roman === roman.toLowerCase();
+        return minor ? `${note}m` : note;
+      }
+
+      function splitProgression(progress){
+        return (progress || "").split("–").map(p => p.trim()).filter(Boolean);
+      }
+
+      function transposeProgression(progress, keyStr){
+        const degrees = splitProgression(progress);
+        const chords = degrees.map(r => chordFromRoman(r, keyStr));
+        return {
+          romanLine: progress,
+          chordLine: chords.join(" – ")
+        };
+      }
 
       function sanitizeBpm(value, range){
         const [min,max] = range || [80,160];
@@ -2770,6 +3112,35 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         if(energyNoteEl) energyNoteEl.textContent = meta.note;
       }
 
+      function currentDanceability(){
+        const selected = danceRadios.find(r => r.checked);
+        return selected ? selected.value : "medium";
+      }
+
+      function updateDanceUI(){
+        const value = currentDanceability();
+        danceChips.forEach(chip => {
+          const radio = chip.querySelector('input[name="beats-dance"]');
+          chip.classList.toggle("active", radio && radio.value === value);
+        });
+        const meta = danceabilityMap[value] || danceabilityMap.medium;
+        if(danceNoteEl) danceNoteEl.textContent = meta.note;
+      }
+
+      function currentVocalMode(){
+        const selected = vocalRadios.find(r => r.checked);
+        return selected ? selected.value : "vocal-first";
+      }
+
+      function updateVocalUI(){
+        const value = currentVocalMode();
+        vocalChips.forEach(chip => {
+          const radio = chip.querySelector('input[name="vocal-mode"]');
+          chip.classList.toggle("active", radio && radio.value === value);
+        });
+        enforceMelodyLimit();
+      }
+
       function getInstrumentSelection(){
         const included = [];
         const excluded = [];
@@ -2792,9 +3163,29 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 
       function buildInstrumentLines(){
         const {included, excluded} = getInstrumentSelection();
-        const includedLine = `included instruments: ${included.join(", ")}`;
-        const excludedLine = `excluded instruments: ${excluded.length ? excluded.join(", ") : "none"}`;
+        const humanize = (list) => list.map(v => {
+          if(v === "fx") return "FX";
+          if(v === "atmospheres") return "atmospheres";
+          return v;
+        });
+        const includedLine = `included instruments: ${humanize(included).join(", ")}`;
+        const excludedLine = `excluded instruments: ${excluded.length ? humanize(excluded).join(", ") : "none"}`;
         return {includedLine, excludedLine};
+      }
+
+      function enforceMelodyLimit(){
+        const isVocalFirst = currentVocalMode() === "vocal-first";
+        const melodic = instrumentInputs.filter(i => i.dataset.role === "melody" && i.checked);
+        const overLimit = isVocalFirst && melodic.length > 1;
+        instrumentInputs.forEach(input => {
+          const wrapper = input.closest(".instrument-checkbox");
+          if(wrapper){
+            wrapper.classList.toggle("over-limit", overLimit && input.dataset.role === "melody" && input.checked);
+          }
+        });
+        if(melodyWarning){
+          melodyWarning.classList.toggle("visible", overLimit);
+        }
       }
 
       function ensureStructure(){
@@ -2883,6 +3274,15 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         generatePrompt();
       }
 
+      function applyPreset(name){
+        const preset = structurePresets[name];
+        if(Array.isArray(preset)){
+          structure = [...preset];
+          renderStructure();
+          generatePrompt();
+        }
+      }
+
       function formatDuration(raw){
         const value = (raw || "").trim();
         if(!value) return "3:00";
@@ -2895,14 +3295,87 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         return value;
       }
 
+      function parseDurationToSeconds(val){
+        const value = (val || "").trim();
+        if(/^[0-9]+:[0-9]{1,2}$/.test(value)){
+          const [m,s] = value.split(":").map(Number);
+          return (m*60) + s;
+        }
+        if(/^[0-9]+$/.test(value)){
+          return Number(value);
+        }
+        return null;
+      }
+
+      function secondsToClock(sec){
+        if(!Number.isFinite(sec)) return "3:00";
+        const m = Math.floor(sec/60);
+        const s = Math.max(0, Math.round(sec % 60));
+        return `${m}:${String(s).padStart(2,"0")}`;
+      }
+
+      function syncDurationInputs(source){
+        if(source === "slider" && durationRange && durationInput){
+          const sec = Number(durationRange.value);
+          durationInput.value = secondsToClock(sec);
+        } else if(durationInput && durationRange){
+          const parsed = parseDurationToSeconds(durationInput.value);
+          if(Number.isFinite(parsed)){
+            durationRange.value = Math.max(durationRange.min, Math.min(durationRange.max, parsed));
+            durationInput.value = secondsToClock(parsed);
+          }
+        }
+      }
+
       function updateMeta(){
         const style = styleSel.value;
         const key = keySel.value;
-        const chords = chordsMap[key] || "Signature progression à définir";
+        const transposed = transposeProgression(selectedProgression, key);
         const range = bpmMap[style] || [90,120];
-        if(chordsEl) chordsEl.textContent = chords;
+        if(chordsEl) chordsEl.textContent = transposed.chordLine;
         if(bpmRangeEl) bpmRangeEl.textContent = `${range[0]}-${range[1]} BPM`;
         updateEnergyUI();
+        updateDanceUI();
+        updateVocalUI();
+      }
+
+      function pickProgression(){
+        const options = progressionMap[styleSel.value] || ["i – VI – III – VII"];
+        if(!selectedProgression || !options.includes(selectedProgression)){
+          selectedProgression = options[0];
+        }
+        return selectedProgression;
+      }
+
+      function renderProgressions(){
+        const list = progressionMap[styleSel.value] || [];
+        progressionOptionsEl.innerHTML = "";
+        list.forEach(prog => {
+          const label = document.createElement("label");
+          label.className = "progression-chip" + (prog === selectedProgression ? " active" : "");
+          label.innerHTML = `<div><strong>${prog}</strong><small>Progression gagnante ${styleSel.value}</small></div>`;
+          label.addEventListener("click", () => {
+            selectedProgression = prog;
+            renderProgressions();
+            generatePrompt();
+          });
+          progressionOptionsEl.appendChild(label);
+        });
+        if(!selectedProgression && list.length){
+          selectedProgression = list[0];
+        }
+        const transposed = transposeProgression(selectedProgression, keySel.value);
+        beatsProgressionEl.textContent = transposed.romanLine;
+        beatsProgressionChordsEl.textContent = transposed.chordLine;
+      }
+
+      function syncBpmWithStyle(){
+        const range = bpmMap[styleSel.value] || [90,120];
+        const mid = Math.round((range[0]+range[1])/2);
+        bpmInput.min = range[0];
+        bpmInput.max = range[1];
+        bpmInput.value = sanitizeBpm(bpmInput.value, range) || mid;
+        if(!bpmInput.value) bpmInput.value = mid;
       }
 
       function generatePrompt(source="manual"){
@@ -2911,24 +3384,34 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         const range = bpmMap[style] || [90,120];
         const bpm = sanitizeBpm(bpmInput.value, range);
         bpmInput.value = bpm;
-        const chords = chordsMap[key] || "Signature progression à définir";
+        const progression = pickProgression();
+        const transposed = transposeProgression(progression, key);
+        beatsProgressionEl.textContent = transposed.romanLine;
+        beatsProgressionChordsEl.textContent = transposed.chordLine;
+        if(chordsEl) chordsEl.textContent = transposed.chordLine;
         const {includedLine, excludedLine} = buildInstrumentLines();
         const energy = energyMap[currentEnergy()] || energyMap.medium;
+        const dance = danceabilityMap[currentDanceability()] || danceabilityMap.medium;
+        const vocal = vocalModeMap[currentVocalMode()] || vocalModeMap["vocal-first"];
         const structureLine = (structure && structure.length) ? structure.join(" → ") : "Intro → Drop → Outro";
-        const duration = formatDuration(durationInput?.value);
-        const styleDescriptor = describeStyle(style);
+        const duration = formatDuration(durationInput?.value || secondsToClock(Number(durationRange?.value || 180)));
+        const styleDescriptor = describeStyle(style) + " " + dance.texture;
 
         const promptLines = [
 `${style} instrumental in ${key},`,
-`magical chord progression ${chords},`,
-`${bpm} BPM (${range[0]}-${range[1]} BPM range),`,
+`winning chord progression ${transposed.romanLine} (${transposed.chordLine}),`,
+`${bpm} BPM,`,
 `energy: ${energy.label}, ${energy.texture},`,
+`danceability: ${dance.label}, ${dance.texture},`,
+`vocal mode: ${vocal.label},`,
+`arrangement: ${vocal.arrangement},`,
 `${includedLine},`,
 `${excludedLine},`,
 `structure: ${structureLine},`,
 `target duration: ${duration},`,
 `${styleDescriptor},`,
-`clean modern mix, no vocals`
+`${vocal.mix},`,
+`clean modern balanced mix, no vocals`
         ];
 
         outputEl.value = promptLines.join("\n");
@@ -2938,6 +3421,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
             : "Prompt généré et prêt à être copié.";
         }
         updateMeta();
+        enforceMelodyLimit();
       }
 
       function copyPrompt(){
@@ -2980,6 +3464,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         if(checkedCount === 0 && instrumentInputs[0]){
           instrumentInputs[0].checked = true;
         }
+        enforceMelodyLimit();
       }
 
       function shuffleStructure(){
@@ -2995,6 +3480,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         styleSel.value = style;
         keySel.value = key;
 
+        syncBpmWithStyle();
         const range = bpmMap[style] || [90,120];
         const bpm = Math.floor(Math.random() * (range[1] - range[0] + 1)) + range[0];
         bpmInput.value = bpm;
@@ -3004,16 +3490,34 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         energyRadios.forEach(r => { r.checked = r.value === pickedEnergy; });
         updateEnergyUI();
 
+        const danceKeys = Object.keys(danceabilityMap);
+        const pickedDance = danceKeys[Math.floor(Math.random()*danceKeys.length)] || "medium";
+        danceRadios.forEach(r => { r.checked = r.value === pickedDance; });
+        updateDanceUI();
+
+        const vocalKeys = Object.keys(vocalModeMap);
+        const pickedVocal = vocalKeys[Math.floor(Math.random()*vocalKeys.length)] || "vocal-first";
+        vocalRadios.forEach(r => { r.checked = r.value === pickedVocal; });
+        updateVocalUI();
+
+        const progs = progressionMap[style] || [];
+        selectedProgression = progs[Math.floor(Math.random()*progs.length)] || selectedProgression;
+
         randomizeInstruments();
         shuffleStructure();
+        renderProgressions();
         generatePrompt("shuffle");
       }
 
       styleSel.addEventListener("change", () => {
+        selectedProgression = (progressionMap[styleSel.value] || [])[0] || selectedProgression;
+        syncBpmWithStyle();
+        renderProgressions();
         updateMeta();
         generatePrompt();
       });
       keySel.addEventListener("change", () => {
+        renderProgressions();
         updateMeta();
         generatePrompt();
       });
@@ -3028,6 +3532,44 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           }
         });
       });
+      danceChips.forEach(chip => {
+        const radio = chip.querySelector('input[name="beats-dance"]');
+        chip.addEventListener("click", () => {
+          if(radio){
+            radio.checked = true;
+            updateDanceUI();
+            generatePrompt();
+          }
+        });
+      });
+      vocalChips.forEach(chip => {
+        const radio = chip.querySelector('input[name="vocal-mode"]');
+        chip.addEventListener("click", () => {
+          if(radio){
+            radio.checked = true;
+            updateVocalUI();
+            generatePrompt();
+          }
+        });
+      });
+      if(durationRange){
+        durationRange.addEventListener("input", () => {
+          syncDurationInputs("slider");
+          generatePrompt();
+        });
+      }
+      if(durationInput){
+        durationInput.addEventListener("change", () => {
+          syncDurationInputs("text");
+          generatePrompt();
+        });
+      }
+      instrumentInputs.forEach(input => {
+        input.addEventListener("change", () => {
+          enforceMelodyLimit();
+          generatePrompt();
+        });
+      });
       structureAddBtn && structureAddBtn.addEventListener("click", addStructurePart);
       structureResetBtn && structureResetBtn.addEventListener("click", resetStructure);
       structureInput && structureInput.addEventListener("keydown", (e) => {
@@ -3036,12 +3578,22 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           addStructurePart();
         }
       });
+      document.querySelectorAll("[data-structure-preset]").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const name = btn.getAttribute("data-structure-preset");
+          applyPreset(name);
+        });
+      });
       copyBtn && copyBtn.addEventListener("click", copyPrompt);
       generateBtn && generateBtn.addEventListener("click", () => generatePrompt());
       shuffleBtn && shuffleBtn.addEventListener("click", shufflePrompt);
 
+      buildChordLibrary();
+      syncBpmWithStyle();
+      renderProgressions();
       renderStructure();
       updateMeta();
+      syncDurationInputs("slider");
       generatePrompt("init");
     })();
   </script>
