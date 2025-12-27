@@ -629,6 +629,8 @@
     }
 
     .hint{ font-size:12px; color:#9fb1c2; }
+    .tab-section{ display:none; }
+    .tab-section.active{ display:block; }
     .row{
       display:flex;
       flex-wrap:wrap;
@@ -968,7 +970,7 @@
     }
     .beats-panel{
       display:grid;
-      grid-template-columns:1.1fr .9fr;
+      grid-template-columns:1.05fr .95fr;
       gap:14px;
       align-items:start;
     }
@@ -1009,6 +1011,44 @@
       color:var(--muted);
       margin-top:4px;
     }
+    .beats-checklist{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:8px;
+      margin-top:10px;
+    }
+    .beats-check{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:rgba(15,23,42,.25);
+      font-size:13px;
+    }
+    [data-theme="light"] .beats-check{ background:#f8fafc; }
+    .beats-highlight{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:12px;
+      font-size:12px;
+      color:var(--text2);
+    }
+    .beats-pill{
+      padding:6px 10px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:rgba(37,99,235,.08);
+      color:var(--text);
+    }
+    .beats-toolbar{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
 
   </style>
   <link rel="stylesheet" href="assets/szd-cards.css">
@@ -1026,8 +1066,8 @@
         </a>
       </div>
       <div class="nav-links">
-        <a class="nav-link active" href="index.html">Prestations</a>
-        <a class="nav-link" href="#beatsengine">🎛️ BeatsEngine</a>
+        <a class="nav-link active" href="#prestations" data-tab-target="prestations">Prestations</a>
+        <a class="nav-link" href="#beatsengine" data-tab-target="beatsengine">🎛️ BeatsEngine</a>
         <a class="nav-link" href="facturation.html">Facturation</a>
         <a class="nav-link" href="rdv.html">Ajouter un RDV</a>
         <a class="nav-link" href="licence.html">Contrat instrumentale</a>
@@ -1056,247 +1096,279 @@
     </header>
 
     <main class="page-content">
-    <div id="status" class="alert" style="display:none;"></div>
+    <section class="tab-section active" id="prestations">
+      <div id="status" class="alert" style="display:none;"></div>
 
-    <div class="grid grid-2">
-      <div class="card">
-        <h2>Nouvelle prestation</h2>
-        <form id="prestations-form" novalidate>
-          <div class="grid" style="grid-template-columns:1fr 1fr; gap:12px;">
-            <div>
-              <label for="client">Client</label>
-              <input type="text" id="client" placeholder="Nom de l'artiste / client">
-            </div>
-            <div>
-              <label for="type">Type</label>
-              <select id="type">
-                <option value="Clip">Clip</option>
-                <option value="Musique">Musique</option>
-                <option value="Tournage">Tournage</option>
-                <option value="Montage">Montage</option>
-                <option value="Autre">Autre</option>
-              </select>
-            </div>
-            <div style="grid-column:1 / -1;">
-              <label for="description">Description (optionnel)</label>
-              <input type="text" id="description" placeholder="Détails de la prestation (ex : Clip Mayanna)">
-            </div>
-            <div>
-              <label for="date">Date</label>
-              <input type="date" id="date">
-            </div>
-            <div>
-              <label for="montant">Montant (€)</label>
-              <input type="text" inputmode="decimal" id="montant" placeholder="ex : 800 ou 800,00">
-            </div>
-            <div class="checkbox-toggle" style="align-self:end;">
-              <input type="checkbox" id="paye">
-              <label for="paye" style="margin:0;">Déjà payé (total)</label>
-            </div>
-          </div>
-          <div class="toolbar" style="margin-top:12px;">
-            <button class="btn btn-primary" id="save" type="submit">Ajouter</button>
-            <button type="button" class="btn btn-outline" id="reset">Réinitialiser</button>
-            <button type="button" class="btn btn-outline" id="addDemo">+ Démo</button>
-            <button type="button" class="btn btn-outline" id="exportJson">Export JSON</button>
-            <button type="button" class="btn btn-outline" id="exportCsv">Export CSV</button>
-            <label class="btn btn-outline">
-              Import JSON
-              <input type="file" id="importJson" accept="application/json" style="display:none;">
-            </label>
-          </div>
-        </form>
-      </div>
-
-      <div class="card">
-        <h2>Recherche & filtre</h2>
-        <div class="filter-panel">
-          <div class="filter-row">
-            <div>
-              <label for="search">Filtre texte</label>
-              <input type="text" id="search" placeholder="Client, type, description…">
-            </div>
-            <div>
-              <label for="filterStatus">Statut</label>
-              <select id="filterStatus">
-                <option value="all">Tous</option>
-                <option value="unpayed">Non payé</option>
-                <option value="partial">Partiel</option>
-                <option value="paid">Payé / soldé</option>
-              </select>
-            </div>
-            <div>
-              <label for="filterType">Type</label>
-              <select id="filterType">
-                <option value="all">Tous</option>
-                <option value="Clip">Clip</option>
-                <option value="Musique">Musique</option>
-                <option value="Tournage">Tournage</option>
-                <option value="Montage">Montage</option>
-                <option value="Autre">Autre</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="filter-actions">
-            <div class="row">
-              <div class="checkbox-toggle">
-                <input type="checkbox" id="debug">
-                <label for="debug" style="margin:0;">Debug mode</label>
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>Nouvelle prestation</h2>
+          <form id="prestations-form" novalidate>
+            <div class="grid" style="grid-template-columns:1fr 1fr; gap:12px;">
+              <div>
+                <label for="client">Client</label>
+                <input type="text" id="client" placeholder="Nom de l'artiste / client">
               </div>
-              <div class="checkbox-toggle">
-                <input type="checkbox" id="autoFile">
-                <label for="autoFile" style="margin:0;">Fichier auto (expérimental)</label>
+              <div>
+                <label for="type">Type</label>
+                <select id="type">
+                  <option value="Clip">Clip</option>
+                  <option value="Musique">Musique</option>
+                  <option value="Tournage">Tournage</option>
+                  <option value="Montage">Montage</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+              <div style="grid-column:1 / -1;">
+                <label for="description">Description (optionnel)</label>
+                <input type="text" id="description" placeholder="Détails de la prestation (ex : Clip Mayanna)">
+              </div>
+              <div>
+                <label for="date">Date</label>
+                <input type="date" id="date">
+              </div>
+              <div>
+                <label for="montant">Montant (€)</label>
+                <input type="text" inputmode="decimal" id="montant" placeholder="ex : 800 ou 800,00">
+              </div>
+              <div class="checkbox-toggle" style="align-self:end;">
+                <input type="checkbox" id="paye">
+                <label for="paye" style="margin:0;">Déjà payé (total)</label>
               </div>
             </div>
-            <div class="row" style="gap:8px; color:var(--muted); font-size:12px;">
-              <span>Affinez vos résultats :</span>
-              <span class="pill">Texte</span>
-              <span class="pill">Statut</span>
-              <span class="pill">Type</span>
+            <div class="toolbar" style="margin-top:12px;">
+              <button class="btn btn-primary" id="save" type="submit">Ajouter</button>
+              <button type="button" class="btn btn-outline" id="reset">Réinitialiser</button>
+              <button type="button" class="btn btn-outline" id="addDemo">+ Démo</button>
+              <button type="button" class="btn btn-outline" id="exportJson">Export JSON</button>
+              <button type="button" class="btn btn-outline" id="exportCsv">Export CSV</button>
+              <label class="btn btn-outline">
+                Import JSON
+                <input type="file" id="importJson" accept="application/json" style="display:none;">
+              </label>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Recherche & filtre</h2>
+          <div class="filter-panel">
+            <div class="filter-row">
+              <div>
+                <label for="search">Filtre texte</label>
+                <input type="text" id="search" placeholder="Client, type, description…">
+              </div>
+              <div>
+                <label for="filterStatus">Statut</label>
+                <select id="filterStatus">
+                  <option value="all">Tous</option>
+                  <option value="unpayed">Non payé</option>
+                  <option value="partial">Partiel</option>
+                  <option value="paid">Payé / soldé</option>
+                </select>
+              </div>
+              <div>
+                <label for="filterType">Type</label>
+                <select id="filterType">
+                  <option value="all">Tous</option>
+                  <option value="Clip">Clip</option>
+                  <option value="Musique">Musique</option>
+                  <option value="Tournage">Tournage</option>
+                  <option value="Montage">Montage</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="filter-actions">
+              <div class="row">
+                <div class="checkbox-toggle">
+                  <input type="checkbox" id="debug">
+                  <label for="debug" style="margin:0;">Debug mode</label>
+                </div>
+                <div class="checkbox-toggle">
+                  <input type="checkbox" id="autoFile">
+                  <label for="autoFile" style="margin:0;">Fichier auto (expérimental)</label>
+                </div>
+              </div>
+              <div class="row" style="gap:8px; color:var(--muted); font-size:12px;">
+                <span>Affinez vos résultats :</span>
+                <span class="pill">Texte</span>
+                <span class="pill">Statut</span>
+                <span class="pill">Type</span>
+              </div>
             </div>
           </div>
+
+          <div class="totals" style="margin-top:14px;">
+            <div class="kpi">
+              <div class="label">Total facturé</div>
+              <div class="value" id="totalMontant">0 €</div>
+              <div class="sub">Somme des prestations</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Total reçu</div>
+              <div class="value" id="totalRecu">0 €</div>
+              <div class="sub">Somme des paiements</div>
+            </div>
+            <div class="kpi">
+              <div class="label">Total restant</div>
+              <div class="value" id="totalRestant">0 €</div>
+              <div class="sub">À encaisser</div>
+            </div>
+          </div>
+
+          <div class="small" id="lsStatus" style="margin-top:6px;"></div>
+
+        <div class="debug-zone" id="debug-zone" style="display:none;">
+          <div>Console locale :</div>
+          <pre id="debugOut"></pre>
         </div>
-
-        <div class="totals" style="margin-top:14px;">
-          <div class="kpi">
-            <div class="label">Total facturé</div>
-            <div class="value" id="totalMontant">0 €</div>
-            <div class="sub">Somme des prestations</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Total reçu</div>
-            <div class="value" id="totalRecu">0 €</div>
-            <div class="sub">Somme des paiements</div>
-          </div>
-          <div class="kpi">
-            <div class="label">Total restant</div>
-            <div class="value" id="totalRestant">0 €</div>
-            <div class="sub">À encaisser</div>
-          </div>
-        </div>
-
-        <div class="small" id="lsStatus" style="margin-top:6px;"></div>
-
-      <div class="debug-zone" id="debug-zone" style="display:none;">
-        <div>Console locale :</div>
-        <pre id="debugOut"></pre>
       </div>
     </div>
-  </div>
 
-  <div class="card" id="beatsengine" style="margin-top:20px;">
-    <div class="row" style="justify-content:space-between; align-items:center;">
-      <div>
-        <h2>🎛️ BeatsEngine — Générateur de prompt IA</h2>
-        <p class="sub" style="max-width:720px;">
-          Compose instantanément des prompts de beatmaking prêts pour l'IA : style, tonalité, accords “magiques”, BPM et vibe pro (sans voix) sont générés automatiquement.
-        </p>
-      </div>
-      <span class="beats-badge">⚡ Auto prompt</span>
+    <div class="card" style="margin-top:20px;">
+      <h2>Prestations enregistrées</h2>
+      <div class="small">Clique sur "Encaisser" pour enregistrer un paiement partiel ou total.</div>
+      <div class="toolbar" style="margin-top:10px;">
+        <button type="button" class="btn btn-outline" id="captureRecap">📸 Capture </button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Client / Type</th>
+              <th>Montant</th>
+              <th>Reçu</th>
+              <th>Restant</th>
+              <th>Avancement</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+        <tbody id="tbody">
+          <tr><td colspan="10" class="small">Aucune prestation ne correspond.</td></tr>
+        </tbody>
+      </table>
     </div>
 
-    <div class="beats-panel">
-      <div>
-        <div class="beats-grid">
+    <div class="card whatsapp-card" style="margin-top:20px;">
+      <h2><span class="wa-icon">💚</span>Relances automatiques</h2>
+      <div class="row" style="justify-content:space-between; align-items:center; gap:10px;">
+        <p class="small" style="margin:0; max-width:620px;">Clients à relancer après 15 jours sans paiement ; à 30 jours la relance devient prioritaire, et à 45 jours elle passe en mode critique. Prépare tout pour WhatsApp en un coup d'œil.</p>
+        <span class="wa-chip">💬 Mode WhatsApp prêt</span>
+      </div>
+      <div class="row wa-legend" style="align-items:center; margin:10px 0 6px; flex-wrap:wrap;">
+        <span class="pill">15 jours : relance douce</span>
+        <span class="pill">30 jours : relance urgente</span>
+        <span class="pill">45 jours : relance critique</span>
+        <span class="pill" id="followupCounts">0 relance en attente</span>
+      </div>
+      <div id="followupList" class="grid followup-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
+    </div>
+    </section>
+
+    <section class="tab-section" id="beatsengine" hidden>
+      <div class="card" style="margin-top:4px;">
+        <div class="row" style="justify-content:space-between; align-items:flex-start;">
           <div>
-            <label for="beats-style">Style musical</label>
-            <select id="beats-style">
-              <option>Afro-Trap</option>
-              <option>Afro-Trap Club</option>
-              <option>R&B</option>
-              <option>Drill</option>
-              <option>Dancehall</option>
-              <option>Afrobeat</option>
-              <option>Bongo Flava</option>
-              <option>Amapiano</option>
-            </select>
+            <h2>🎛️ BeatsEngine — Générateur de prompt IA</h2>
+            <p class="sub" style="max-width:820px;">
+              Compose instantanément des prompts avancés et structurés : style, tonalité, accords “magiques”, BPM, instruments inclus et exclus, prêt pour une production instrumentale pro sans voix.
+            </p>
+            <div class="beats-meta">
+              <span class="pill">Accords magiques auto</span>
+              <span class="pill">Mix moderne</span>
+              <span class="pill">Structure prête pour l'IA</span>
+            </div>
           </div>
-          <div>
-            <label for="beats-key">Clé musicale</label>
-            <select id="beats-key">
-              <option>C minor</option>
-              <option>C# minor</option>
-              <option>D minor</option>
-              <option>D# minor</option>
-              <option>E minor</option>
-              <option>F minor</option>
-              <option>F# minor</option>
-              <option>G minor</option>
-              <option>G# minor</option>
-              <option>A minor</option>
-              <option>A# minor</option>
-              <option>B minor</option>
-              <option>D major</option>
-              <option>E major</option>
-              <option>F major</option>
-              <option>G major</option>
-              <option>A major</option>
-              <option>B major</option>
-            </select>
-          </div>
-          <div>
-            <label for="beats-bpm">BPM</label>
-            <input type="number" id="beats-bpm" min="70" max="180" step="1" value="110" inputmode="numeric">
+          <div class="beats-actions" style="margin-top:0;">
+            <span class="beats-badge">⚡ Auto prompt</span>
+            <button type="button" class="btn btn-outline" id="beats-shuffle">🎲 Shuffle mode</button>
           </div>
         </div>
-        <div class="beats-meta" style="margin-top:10px;">
-          <span class="pill">Accords auto</span>
-          <span class="pill">No vocals</span>
-          <span class="pill">Arrangement pro</span>
-        </div>
-        <div class="beats-actions">
-          <button type="button" class="btn btn-primary" id="beats-refresh">🔁 Régénérer</button>
-          <button type="button" class="btn btn-outline" id="beats-copy">📋 Copier le prompt</button>
-        </div>
-        <div class="beats-status" id="beats-status">Prêt à générer ton prochain banger.</div>
-      </div>
-      <div>
-        <label for="beats-output">Prompt généré</label>
-        <textarea id="beats-output" class="beats-output" rows="10" readonly aria-live="polite"></textarea>
-      </div>
-    </div>
-  </div>
 
-  <div class="card" style="margin-top:20px;">
-    <h2>Prestations enregistrées</h2>
-    <div class="small">Clique sur "Encaisser" pour enregistrer un paiement partiel ou total.</div>
-    <div class="toolbar" style="margin-top:10px;">
-      <button type="button" class="btn btn-outline" id="captureRecap">📸 Capture </button>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Client / Type</th>
-            <th>Montant</th>
-            <th>Reçu</th>
-            <th>Restant</th>
-            <th>Avancement</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-      <tbody id="tbody">
-        <tr><td colspan="10" class="small">Aucune prestation ne correspond.</td></tr>
-      </tbody>
-    </table>
-  </div>
+        <div class="beats-panel" style="margin-top:6px;">
+          <div>
+            <div class="beats-grid">
+              <div>
+                <label for="beats-style">Style musical</label>
+                <select id="beats-style">
+                  <option>Afro-Trap</option>
+                  <option>Afro-Trap Club</option>
+                  <option>R&B</option>
+                  <option>Drill</option>
+                  <option>Dancehall</option>
+                  <option>Afrobeat</option>
+                  <option>Bongo Flava</option>
+                  <option>Amapiano</option>
+                </select>
+              </div>
+              <div>
+                <label for="beats-key">Clé musicale</label>
+                <select id="beats-key">
+                  <option>C minor</option>
+                  <option>C# minor</option>
+                  <option>D minor</option>
+                  <option>D# minor</option>
+                  <option>E minor</option>
+                  <option>F minor</option>
+                  <option>F# minor</option>
+                  <option>G minor</option>
+                  <option>G# minor</option>
+                  <option>A minor</option>
+                  <option>A# minor</option>
+                  <option>B minor</option>
+                  <option>D major</option>
+                  <option>E major</option>
+                  <option>F major</option>
+                  <option>G major</option>
+                  <option>A major</option>
+                  <option>B major</option>
+                </select>
+              </div>
+              <div>
+                <label for="beats-bpm">BPM</label>
+                <input type="number" id="beats-bpm" min="70" max="180" step="1" value="110" inputmode="numeric">
+              </div>
+            </div>
 
-  <div class="card whatsapp-card" style="margin-top:20px;">
-    <h2><span class="wa-icon">💚</span>Relances automatiques</h2>
-    <div class="row" style="justify-content:space-between; align-items:center; gap:10px;">
-      <p class="small" style="margin:0; max-width:620px;">Clients à relancer après 15 jours sans paiement ; à 30 jours la relance devient prioritaire, et à 45 jours elle passe en mode critique. Prépare tout pour WhatsApp en un coup d'œil.</p>
-      <span class="wa-chip">💬 Mode WhatsApp prêt</span>
-    </div>
-    <div class="row wa-legend" style="align-items:center; margin:10px 0 6px; flex-wrap:wrap;">
-      <span class="pill">15 jours : relance douce</span>
-      <span class="pill">30 jours : relance urgente</span>
-      <span class="pill">45 jours : relance critique</span>
-      <span class="pill" id="followupCounts">0 relance en attente</span>
-    </div>
-    <div id="followupList" class="grid followup-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
-  </div>
+            <div class="beats-highlight">
+              <span class="beats-pill">Plage BPM : <strong id="beats-bpm-range">-</strong></span>
+              <span class="beats-pill">Accords : <strong id="beats-chords">-</strong></span>
+              <span class="beats-pill">Vibe : <strong id="beats-vibe">Production moderne</strong></span>
+            </div>
+
+            <div style="margin-top:14px;">
+              <label>Instruments à inclure / exclure</label>
+              <div class="beats-checklist" id="beats-instruments">
+                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="kick" checked> Kick</label>
+                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="snare / clap" checked> Snare / Clap</label>
+                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="hi-hats" checked> Hi-hats</label>
+                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="808 / bass" checked> 808 / Bass</label>
+                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="log drum"> Log drum</label>
+                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="guitar"> Guitar</label>
+                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="piano / keys"> Piano / Keys</label>
+                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="synth pads" checked> Synth pads</label>
+                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="percussions africaines" checked> Percussions africaines</label>
+                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="strings"> Strings</label>
+              </div>
+            </div>
+
+            <div class="beats-toolbar">
+              <button type="button" class="btn btn-primary" id="beats-generate">🎧 Générer</button>
+              <button type="button" class="btn btn-outline" id="beats-refresh">🔁 Mettre à jour</button>
+              <button type="button" class="btn btn-outline" id="beats-copy">📋 Copier le prompt</button>
+            </div>
+            <div class="beats-status" id="beats-status">Prêt à générer ton prochain banger.</div>
+          </div>
+
+          <div>
+            <label for="beats-output">Prompt généré</label>
+            <textarea id="beats-output" class="beats-output" rows="12" readonly aria-live="polite"></textarea>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
@@ -1352,6 +1424,53 @@
         return candidate;
       }
     }
+  </script>
+
+  <!-- SCRIPT TABS -->
+  <script>
+    (function(){
+      const tabLinks = document.querySelectorAll("[data-tab-target]");
+      const tabSections = document.querySelectorAll(".tab-section");
+      if(!tabLinks.length || !tabSections.length) return;
+
+      function activateTab(targetId, skipHash){
+        tabSections.forEach(section => {
+          const active = section.id === targetId;
+          section.classList.toggle("active", active);
+          section.hidden = !active;
+        });
+
+        tabLinks.forEach(link => {
+          const active = link.dataset.tabTarget === targetId;
+          link.classList.toggle("active", active);
+          if(active) link.blur();
+        });
+
+        if(!skipHash){
+          const hash = targetId === "prestations" ? "" : `#${targetId}`;
+          const newUrl = hash ? `${location.pathname}${hash}` : location.pathname;
+          history.replaceState(null, "", newUrl);
+        }
+      }
+
+      function initFromHash(){
+        const hash = (location.hash || "").replace("#","");
+        const target = document.getElementById(hash) ? hash : "prestations";
+        activateTab(target, true);
+      }
+
+      tabLinks.forEach(link => {
+        link.addEventListener("click", (e) => {
+          const target = link.dataset.tabTarget;
+          if(!target) return;
+          e.preventDefault();
+          activateTab(target);
+        });
+      });
+
+      initFromHash();
+      window.addEventListener("hashchange", initFromHash);
+    })();
   </script>
 
   <!-- SCRIPT PRESTATIONS -->
@@ -2253,6 +2372,12 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       const statusEl = document.getElementById("beats-status");
       const copyBtn = document.getElementById("beats-copy");
       const refreshBtn = document.getElementById("beats-refresh");
+      const shuffleBtn = document.getElementById("beats-shuffle");
+      const generateBtn = document.getElementById("beats-generate");
+      const instrumentInputs = Array.from(document.querySelectorAll(".beats-instrument"));
+      const chordsEl = document.getElementById("beats-chords");
+      const bpmRangeEl = document.getElementById("beats-bpm-range");
+      const vibeEl = document.getElementById("beats-vibe");
 
       if(!styleSel || !keySel || !bpmInput || !outputEl) return;
 
@@ -2277,33 +2402,111 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "B major":"B - G#m - E - F#"
       };
 
-      function sanitizeBpm(value){
+      const bpmMap = {
+        "Afro-Trap":[95,115],
+        "Afro-Trap Club":[100,112],
+        "R&B":[75,95],
+        "Drill":[135,150],
+        "Dancehall":[90,105],
+        "Afrobeat":[100,120],
+        "Bongo Flava":[95,110],
+        "Amapiano":[103,115]
+      };
+
+      const vibeMap = {
+        "Afro-Trap":"four-on-the-floor kick with afro swing, trap percussions and club energy ready for radio.",
+        "Afro-Trap Club":"dancefloor-ready afro-trap club vibe, punchy drums and glossy textures.",
+        "R&B":"smooth R&B feel, lush harmonies, silky drums and spacious ambiance.",
+        "Drill":"dark drill bounce with sliding 808s, syncopated hats and cinematic layers.",
+        "Dancehall":"island groove, skanking rhythms, playful percussions and warm low end.",
+        "Afrobeat":"rhythmic afrobeat pulse, percussive grooves, vibrant melodies and brass textures.",
+        "Bongo Flava":"bongo flava bounce, bright melodic hooks and smooth afro-fusion percussions.",
+        "Amapiano":"log-drum driven amapiano roll, airy keys, shakers and late-night club energy."
+      };
+
+      const styles = Array.from(styleSel.options).map(o => o.value);
+      const keys = Array.from(keySel.options).map(o => o.value);
+
+      function sanitizeBpm(value, range){
+        const [min,max] = range || [80,160];
         const n = parseInt(value, 10);
-        if(Number.isFinite(n) && n > 0) return n;
-        return 110;
+        if(Number.isFinite(n)){
+          return Math.max(min, Math.min(max, n));
+        }
+        return Math.round((min + max) / 2);
       }
 
-      function generatePrompt(){
-        const style = styleSel.value || "Beat";
-        const key = keySel.value || "C minor";
-        const bpm = sanitizeBpm(bpmInput.value);
+      function describeStyle(style){
+        return vibeMap[style] || "clean modern mix, energetic groove and tight arrangement.";
+      }
+
+      function getInstrumentSelection(){
+        const included = [];
+        const excluded = [];
+        instrumentInputs.forEach(input => {
+          const name = input.value;
+          if(!name) return;
+          if(input.checked){
+            included.push(name);
+          } else {
+            excluded.push(name);
+          }
+        });
+
+        if(!included.length){
+          included.push("minimal percussions");
+        }
+
+        return {included, excluded};
+      }
+
+      function buildInstrumentLines(){
+        const {included, excluded} = getInstrumentSelection();
+        const includedLine = `selected instruments included: ${included.join(", ")}`;
+        const excludedLine = excluded.length
+          ? `excluded instruments clearly mentioned: no ${excluded.join(", no ")}`
+          : "excluded instruments clearly mentioned: none excluded";
+        return {includedLine, excludedLine};
+      }
+
+      function updateMeta(){
+        const style = styleSel.value;
+        const key = keySel.value;
         const chords = chordsMap[key] || "Signature progression à définir";
+        const range = bpmMap[style] || [90,120];
+        if(chordsEl) chordsEl.textContent = chords;
+        if(bpmRangeEl) bpmRangeEl.textContent = `${range[0]}-${range[1]} BPM`;
+        if(vibeEl) vibeEl.textContent = describeStyle(style);
+      }
+
+      function generatePrompt(source="manual"){
+        const style = styleSel.value || "Afro-Trap";
+        const key = keySel.value || "A minor";
+        const range = bpmMap[style] || [90,120];
+        const bpm = sanitizeBpm(bpmInput.value, range);
+        bpmInput.value = bpm;
+        const chords = chordsMap[key] || "Signature progression à définir";
+        const {includedLine, excludedLine} = buildInstrumentLines();
 
         const promptLines = [
-          `Style: ${style}`,
-          `Key: ${key}`,
-          `Chord progression: ${chords}`,
-          `BPM: ${bpm}`,
-          "Vibe: production professionnelle, mix clair, batterie punchy",
-          "Structure: intro courte, drop fort, variations, bridge aéré",
-          "Texture: instrumentation riche, détails percussifs, basses contrôlées",
-          "No vocals, instrumental only"
+`${style} instrumental in ${key},`,
+`magical chord progression ${chords},`,
+`${bpm} BPM, groove aligned with ${style.toLowerCase()} energy (${range[0]}-${range[1]} BPM range),`,
+`four-on-the-floor kick on every beat, hard-hitting trap drums mixed with african percussion, deep rolling 808 bass,`,
+`${describeStyle(style)}`,
+`arrangement: intro concise, main drop explosif, variations rythmiques, bridge aéré, final punchy,`,
+`${includedLine},`,
+`${excludedLine},`,
+`clean modern mix, no vocals`
         ];
 
-        outputEl.value = promptLines.join("\\n");
+        outputEl.value = promptLines.join("\n");
         if(statusEl){
-          statusEl.textContent = "Prompt mis à jour automatiquement.";
+          statusEl.textContent = source === "shuffle"
+            ? "Shuffle expérimental généré automatiquement."
+            : "Prompt généré et prêt à copier.";
         }
+        updateMeta();
       }
 
       function copyPrompt(){
@@ -2335,13 +2538,49 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         statusEl && (statusEl.textContent = "Prompt copié (mode rétro).");
       }
 
-      styleSel.addEventListener("change", generatePrompt);
-      keySel.addEventListener("change", generatePrompt);
-      bpmInput.addEventListener("input", generatePrompt);
-      copyBtn && copyBtn.addEventListener("click", copyPrompt);
-      refreshBtn && refreshBtn.addEventListener("click", generatePrompt);
+      function randomizeInstruments(){
+        let checkedCount = 0;
+        instrumentInputs.forEach(input => {
+          const mustKeep = ["kick","hi-hats","snare / clap","808 / bass"].includes(input.value);
+          const decision = mustKeep ? true : Math.random() > 0.35;
+          input.checked = decision;
+          if(decision) checkedCount++;
+        });
+        if(checkedCount === 0 && instrumentInputs[0]){
+          instrumentInputs[0].checked = true;
+        }
+      }
 
-      generatePrompt();
+      function shufflePrompt(){
+        const style = styles[Math.floor(Math.random()*styles.length)] || "Afro-Trap";
+        const key = keys[Math.floor(Math.random()*keys.length)] || "A minor";
+        styleSel.value = style;
+        keySel.value = key;
+
+        const range = bpmMap[style] || [90,120];
+        const bpm = Math.floor(Math.random() * (range[1] - range[0] + 1)) + range[0];
+        bpmInput.value = bpm;
+
+        randomizeInstruments();
+        generatePrompt("shuffle");
+      }
+
+      styleSel.addEventListener("change", () => {
+        updateMeta();
+        generatePrompt();
+      });
+      keySel.addEventListener("change", () => {
+        updateMeta();
+        generatePrompt();
+      });
+      bpmInput.addEventListener("input", () => generatePrompt());
+      copyBtn && copyBtn.addEventListener("click", copyPrompt);
+      refreshBtn && refreshBtn.addEventListener("click", () => generatePrompt());
+      generateBtn && generateBtn.addEventListener("click", () => generatePrompt());
+      shuffleBtn && shuffleBtn.addEventListener("click", shufflePrompt);
+
+      updateMeta();
+      generatePrompt("init");
     })();
   </script>
 
