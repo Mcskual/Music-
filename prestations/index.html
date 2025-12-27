@@ -80,7 +80,7 @@
       display:flex;
       align-items:center;
       flex-wrap:nowrap;
-      gap:14px;
+      gap:12px;
       padding:10px 14px;
       min-height:70px;
       background:var(--nav-bg);
@@ -127,7 +127,7 @@
     }
     .nav-links{
       display:flex;
-      gap:10px;
+      gap:8px;
       align-items:center;
       justify-content:flex-start;
       flex:1 1 auto;
@@ -142,6 +142,7 @@
       flex-wrap:nowrap;
       overflow-x:auto;
       overflow-y:hidden;
+      white-space:nowrap;
       scrollbar-width:thin;
       scrollbar-color:rgba(59,130,246,.35) transparent;
       -webkit-overflow-scrolling:touch;
@@ -1004,23 +1005,11 @@
     /* BeatsEngine Premium */
     .beats-shell{
       position:relative;
-      background: radial-gradient(circle at 20% 20%, rgba(106,0,255,0.18), transparent 40%),
-                  radial-gradient(circle at 80% 0%, rgba(0,229,255,0.18), transparent 34%),
-                  #0b0b0f;
-      border:1px solid rgba(255,255,255,0.06);
+      background:#0c0f17;
+      border:1px solid rgba(255,255,255,0.05);
       border-radius:18px;
       padding:18px;
-      box-shadow:0 16px 48px rgba(0,0,0,0.45);
-      overflow:hidden;
-      isolation:isolate;
-    }
-    .beats-shell::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(135deg, rgba(106,0,255,0.08), rgba(0,229,255,0.06));
-      pointer-events:none;
-      z-index:-1;
+      box-shadow:0 16px 32px rgba(0,0,0,0.35);
     }
     .beats-hero{
       display:flex;
@@ -1028,11 +1017,11 @@
       flex-wrap:wrap;
       align-items:flex-start;
       justify-content:space-between;
-      background:linear-gradient(135deg, rgba(106,0,255,0.16), rgba(0,229,255,0.12));
-      border:1px solid rgba(255,255,255,0.08);
-      border-radius:16px;
+      background:#11182a;
+      border:1px solid rgba(255,255,255,0.05);
+      border-radius:14px;
       padding:18px;
-      box-shadow:0 18px 38px rgba(0,0,0,0.55);
+      box-shadow:none;
     }
     .beats-hero h2{
       margin:0;
@@ -1040,7 +1029,7 @@
       letter-spacing:0.01em;
     }
     .beats-hero p{
-      color:#c9d1ff;
+      color:#c4d0e4;
       max-width:780px;
       margin:6px 0 0;
     }
@@ -1053,14 +1042,14 @@
     .beats-chip{
       padding:6px 12px;
       border-radius:999px;
-      border:1px solid rgba(0,229,255,0.35);
-      background:rgba(0,229,255,0.08);
-      color:#e8f0ff;
+      border:1px solid rgba(255,255,255,0.08);
+      background:#0c0f17;
+      color:#d8e5f7;
       font-size:12px;
       letter-spacing:0.02em;
     }
     .beats-accent{
-      color:#00ff9c;
+      color:#00c5ff;
       font-weight:700;
     }
     .beats-actions{
@@ -1074,21 +1063,20 @@
       gap:8px;
       padding:10px 14px;
       border-radius:12px;
-      border:1px solid rgba(255,255,255,0.1);
-      background:rgba(255,255,255,0.04);
-      color:#e8f0ff;
+      border:1px solid rgba(255,255,255,0.08);
+      background:#0c0f17;
+      color:#d8e5f7;
       font-weight:700;
-      box-shadow:0 10px 28px rgba(0,0,0,0.35);
     }
     .beats-pill-btn:hover{
-      border-color:rgba(0,229,255,0.4);
-      background:linear-gradient(135deg, rgba(106,0,255,0.2), rgba(0,229,255,0.14));
+      border-color:rgba(0,197,255,0.4);
+      background:#121a2c;
       transform:translateY(-1px);
       transition:150ms ease;
     }
     .beats-columns{
       display:grid;
-      grid-template-columns:1.08fr 0.92fr;
+      grid-template-columns:1.05fr 0.95fr;
       gap:14px;
       margin-top:14px;
     }
@@ -1101,12 +1089,11 @@
       gap:12px;
     }
     .beats-card{
-      background:rgba(255,255,255,0.02);
+      background:#0f1624;
       border:1px solid rgba(255,255,255,0.06);
       border-radius:14px;
       padding:16px;
-      box-shadow:0 16px 42px rgba(0,0,0,0.45);
-      backdrop-filter:blur(6px);
+      box-shadow:none;
       display:flex;
       flex-direction:column;
       gap:10px;
@@ -1122,7 +1109,7 @@
       font-size:14px;
     }
     .beats-description{
-      color:#8fa0c9;
+      color:#92a7c3;
       font-size:13px;
       margin:0 0 12px;
     }
@@ -1133,7 +1120,7 @@
     }
     .beats-label{
       font-size:12px;
-      color:#c3c9ff;
+      color:#c3d0e9;
       letter-spacing:0.02em;
       margin-bottom:6px;
       display:block;
@@ -1143,8 +1130,8 @@
       width:100%;
       padding:12px 12px;
       border-radius:12px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
+      border:1px solid rgba(255,255,255,0.06);
+      background:#0c0f17;
       color:#f4f6ff;
       font-weight:600;
       letter-spacing:0.01em;
@@ -1159,9 +1146,9 @@
     .beats-meta-pill{
       padding:8px 12px;
       border-radius:12px;
-      border:1px dashed rgba(0,229,255,0.35);
+      border:1px solid rgba(255,255,255,0.08);
       color:#cfe9ff;
-      background:rgba(0,229,255,0.06);
+      background:#0c0f17;
       font-size:12px;
     }
     .usage-meta{
@@ -1172,8 +1159,8 @@
     .usage-pill{
       padding:8px 10px;
       border-radius:10px;
-      border:1px solid rgba(0,229,255,0.25);
-      background:rgba(0,229,255,0.05);
+      border:1px solid rgba(255,255,255,0.08);
+      background:#0c0f17;
       color:#d5e7ff;
       font-size:12px;
       letter-spacing:0.01em;
@@ -1195,7 +1182,7 @@
       padding:12px 14px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.02);
+      background:#0c0f17;
       cursor:pointer;
       min-width:160px;
       transition:180ms ease;
@@ -1212,33 +1199,31 @@
       font-weight:500;
     }
     .energy-chip.active{
-      border-color:rgba(0,229,255,0.5);
-      box-shadow:0 10px 30px rgba(0,229,255,0.18);
-      background:linear-gradient(135deg, rgba(106,0,255,0.2), rgba(0,229,255,0.1));
+      border-color:rgba(0,197,255,0.5);
+      background:#131b2b;
     }
     .progression-chip,
     .vocal-chip,
     .dance-chip,
     .usage-chip{
-      border:1px solid rgba(255,255,255,0.1);
+      border:1px solid rgba(255,255,255,0.08);
       border-radius:12px;
       padding:10px 12px;
-      background:rgba(255,255,255,0.02);
+      background:#0c0f17;
       color:#e8f0ff;
       display:flex;
       gap:8px;
       align-items:flex-start;
       cursor:pointer;
       transition:140ms ease;
-      box-shadow:0 10px 28px rgba(0,0,0,0.35);
+      box-shadow:none;
     }
     .progression-chip.active,
     .vocal-chip.active,
     .dance-chip.active,
     .usage-chip.active{
-      border-color:rgba(0,229,255,0.45);
-      background:linear-gradient(135deg, rgba(106,0,255,0.18), rgba(0,229,255,0.12));
-      box-shadow:0 14px 34px rgba(0,0,0,0.45);
+      border-color:rgba(0,197,255,0.45);
+      background:#131b2b;
     }
     .progression-chip small,
     .vocal-chip small,
@@ -1263,7 +1248,7 @@
       gap:6px;
       padding:6px 10px;
       border-radius:10px;
-      background:rgba(255,255,255,0.05);
+      background:#0c0f17;
       border:1px solid rgba(255,255,255,0.08);
       color:#cfe9ff;
       font-size:12px;
@@ -1274,9 +1259,9 @@
       gap:6px;
       margin-top:10px;
       padding:10px;
-      border:1px dashed rgba(0,229,255,0.25);
+      border:1px dashed rgba(255,255,255,0.12);
       border-radius:12px;
-      background:rgba(0,229,255,0.04);
+      background:#0c0f17;
       color:#e8f0ff;
       font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
     }
@@ -1313,7 +1298,7 @@
       border-radius:12px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.02);
+      background:#0c0f17;
     }
     .instrument-accordion summary{
       list-style:none;
@@ -1331,20 +1316,20 @@
       grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
       gap:10px;
       padding:10px 14px 14px;
-      background:rgba(0,0,0,0.25);
+      background:#0f1624;
     }
     .instrument-checkbox{
       display:flex;
       align-items:center;
       gap:8px;
       padding:10px;
-      border:1px solid rgba(255,255,255,0.07);
+      border:1px solid rgba(255,255,255,0.08);
       border-radius:12px;
-      background:rgba(255,255,255,0.03);
+      background:#0c0f17;
       font-size:13px;
       color:#f4f6ff;
     }
-    .instrument-checkbox input{ accent-color:#00e5ff; }
+    .instrument-checkbox input{ accent-color:#00c5ff; }
     .instrument-checkbox.over-limit{
       border-color:rgba(255,99,132,0.7);
       box-shadow:0 0 0 1px rgba(255,99,132,0.4);
@@ -1370,7 +1355,7 @@
       padding:10px 12px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.03);
+      background:#0c0f17;
       cursor:default;
     }
     .structure-item.dragging{
@@ -1383,7 +1368,7 @@
       letter-spacing:0.01em;
     }
     .drag-handle{
-      color:#00e5ff;
+      color:#00c5ff;
       font-size:18px;
       margin-right:6px;
     }
@@ -1398,69 +1383,67 @@
       min-width:160px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.02);
+      background:#0c0f17;
       color:#f4f6ff;
       padding:10px 12px;
     }
     .structure-btn{
       padding:10px 12px;
       border-radius:10px;
-      border:1px solid rgba(0,229,255,0.35);
-      background:linear-gradient(135deg, rgba(106,0,255,0.16), rgba(0,229,255,0.14));
+      border:1px solid rgba(255,255,255,0.12);
+      background:#0c0f17;
       color:#f4f6ff;
       font-weight:700;
       cursor:pointer;
-      box-shadow:0 10px 24px rgba(0,0,0,0.35);
     }
     .structure-btn.secondary{
-      background:rgba(255,255,255,0.04);
-      border-color:rgba(255,255,255,0.08);
+      background:#11182a;
+      border-color:rgba(255,255,255,0.12);
     }
     .beats-output{
       width:100%;
-      min-height:240px;
-      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+      min-height:260px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono","Courier New",monospace;
       line-height:1.5;
-      background:linear-gradient(160deg, rgba(106,0,255,0.12), rgba(0,229,255,0.08));
-      border:1px solid rgba(0,229,255,0.35);
+      background:#0c0f17;
+      border:1px solid rgba(255,255,255,0.08);
       border-radius:14px;
       color:#f8fbff;
       padding:14px;
-      box-shadow:0 18px 42px rgba(0,0,0,0.45);
+      box-shadow:none;
     }
     .beats-toolbar{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
       margin-top:12px;
-      justify-content:flex-end;
+      justify-content:flex-start;
     }
     .beats-btn{
       padding:12px 14px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,0.08);
-      background:rgba(255,255,255,0.04);
+      background:#11182a;
       color:#f4f6ff;
       font-weight:800;
       letter-spacing:0.01em;
       cursor:pointer;
-      min-width:140px;
+      min-width:130px;
       transition:160ms ease;
-      box-shadow:0 12px 30px rgba(0,0,0,0.35);
+      box-shadow:none;
     }
     .beats-btn.secondary{
-      background:rgba(255,255,255,0.06);
+      background:#0c0f17;
       border-color:rgba(255,255,255,0.12);
       color:#e5edff;
     }
     .beats-btn.primary{
-      background:linear-gradient(135deg, #6a00ff, #00e5ff);
-      border-color:rgba(0,229,255,0.35);
+      background:linear-gradient(135deg, #1f7aec, #22c55e);
+      border-color:rgba(34,197,94,0.4);
       color:#0b0b0f;
     }
     .beats-btn:hover{
       transform:translateY(-1px);
-      box-shadow:0 16px 36px rgba(0,0,0,0.5);
     }
     .beats-status{
       font-size:12px;
@@ -1471,14 +1454,15 @@
       display:flex;
       flex-wrap:wrap;
       gap:8px;
-      justify-content:flex-end;
+      justify-content:flex-start;
       margin-top:10px;
+      color:#9db2ff;
+      font-size:12px;
     }
     .beats-length{
       font-weight:800;
       color:#f8fbff;
     }
-
   </style>
   <link rel="stylesheet" href="assets/szd-cards.css">
 </head>
@@ -1497,10 +1481,10 @@
       <div class="nav-center">
         <div class="nav-links" id="nav-links">
           <a class="nav-link active" data-priority="main" href="#prestations" data-tab-target="prestations">Prestations</a>
-          <a class="nav-link" data-priority="main" href="#beatsengine" data-tab-target="beatsengine">🎛️ BeatsEngine</a>
+          <a class="nav-link" data-priority="main" href="#beatsengine" data-tab-target="beatsengine">BeatsEngine</a>
           <a class="nav-link" data-priority="main" href="facturation.html">Facturation</a>
           <a class="nav-link" data-priority="main" href="rdv.html">RDV</a>
-          <a class="nav-link" data-priority="secondary" href="licence.html">Contrat instrumentale</a>
+          <a class="nav-link" data-priority="secondary" href="licence.html">Licence</a>
           <a class="nav-link" data-priority="secondary" href="famille.html">Famille</a>
         </div>
       </div>
@@ -3080,7 +3064,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "Afro-Trap Club":"dancefloor afro-trap, neon synths, tight drums and crowd-ready drops.",
         "R&B":"silky R&B textures, lush chords, intimate drums and smooth ambience.",
         "Drill":"cinematic drill tension, sliding 808s, moody pads and syncopated hats.",
-        "Dancehall":"island groove with skanking guitars, playful percs, warm low-end and hooks.",
+        "Dancehall":"island groove with percussive skank rhythms, playful percs, warm low-end and hooks.",
         "Afrobeat":"polyrhythmic afrobeat pulse, brass stabs, guitar licks and steady groove.",
         "Afropop":"sunny afro-pop sheen, catchy toplines, bouncy drums and bright textures.",
         "Bongo Flava":"east-afro fusion, polished percussions, airy keys and melodic hooks.",
@@ -3103,7 +3087,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "Afropop":"Afropop instrumental, West African pop lineage (Nigeria/Ghana) with modern polish",
         "Afro-Trap":"French Afro-Trap instrumental, African diasporic roots blended with trap",
         "Afro-Trap Club":"Club-ready French Afro-Trap instrumental, African diasporic roots and club aesthetics",
-        "Dancehall":"Dancehall instrumental from Jamaica, Caribbean club DNA",
+        "Dancehall":"Dancehall instrumental from Jamaica, Caribbean club DNA, Jamaican island groove",
         "Amapiano":"South African Amapiano instrumental, township roots and log-drum heritage",
         "R&B":"R&B instrumental with US/UK neo-soul influence",
         "Drill":"Drill instrumental with UK/US roots, urban street influence"
@@ -3369,6 +3353,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         voxfx:{ include:"vocal chops / textures", role:"melody" },
         fx:{ include:"fx texture beds, risers (subtle)", role:"texture" }
       };
+      const STRICT_EXCLUSION = "strict exclusion: no guitar, no guitar textures, no guitar-like timbres";
 
       const MOOMBAHTON_STYLE = "Moombahton Latin Club";
       const MOOMBAHTON_STRUCTURE = ["Intro","Drop","Couplet","Drop","Couplet","Drop","Outro"];
@@ -3426,10 +3411,11 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           ? `exclusions: ${excludedList}`
           : "exclusions: ban anything outside the whitelist";
         const barrierLine = "do not add any instrument not listed above";
+        const compactExclusion = STRICT_EXCLUSION;
         const strictBlock = (melodicCount > 1 && currentVocalMode() === "vocal-first")
           ? "keep only one melodic hook to protect vocal space"
           : "";
-        return {includedLine, excludedLine, strictBlock, barrierLine};
+        return {includedLine, excludedLine, compactExclusion, strictBlock, barrierLine};
       }
 
       function buildPromptText(sections, limit = 900){
@@ -3621,7 +3607,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         beatsProgressionEl.textContent = transposed.romanLine;
         beatsProgressionChordsEl.textContent = transposed.chordLine;
         if(chordsEl) chordsEl.textContent = transposed.chordLine;
-        let {includedLine, excludedLine, strictBlock, barrierLine} = buildInstrumentLines();
+        let {includedLine, excludedLine, compactExclusion, strictBlock, barrierLine} = buildInstrumentLines();
         const energy = energyMap[currentEnergy()] || energyMap.medium;
         const dance = danceabilityMap[currentDanceability()] || danceabilityMap.bounce;
         const vocal = vocalModeMap[currentVocalMode()] || vocalModeMap["vocal-first"];
@@ -3630,10 +3616,13 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         let structureLine = `structure (EN): ${translateStructureToEnglish(structureParts).join(" → ")}`;
         const usage = usagePresets[selectedUsage] || usagePresets.streaming;
         let durationMinutes = formatMinutesValue(currentDurationSeconds());
-        const styleLine = `${style} instrumental — ${describeStyle(style)}`;
-        const culturalLine = `origin & cultural lock: ${buildCulturalLock(style)}`;
-        let bpmLine = `${bpm} BPM locked with key ${key}; winning chords ${transposed.romanLine} (${transposed.chordLine}).`;
-        let durationLine = `full-length ${durationMinutes} minutes (${usage.label.toLowerCase()} ready), continuous arrangement, never a loop.`;
+        const culturalLock = buildCulturalLock(style);
+        const styleLine = style === "Dancehall"
+          ? `Dancehall instrumental from Jamaica, Caribbean club DNA, Jamaican island groove — ${describeStyle(style)}`
+          : `${style} instrumental — ${describeStyle(style)}`;
+        const culturalLine = `origin & cultural lock: ${culturalLock}`;
+        let bpmLine = `${bpm} BPM locked in ${key}; winning chords ${transposed.romanLine} (${transposed.chordLine}).`;
+        let durationLine = `full-length instrumental track, approx ${durationMinutes} minutes (${usage.label.toLowerCase()} ready), continuous arrangement, not a loop.`;
         const vocalLine = `vocal focus: ${vocal.summary || vocal.arrangement}`;
         let grooveDetails = `${vocal.mix}`;
 
@@ -3643,7 +3632,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           strictBlock = MOOMBAHTON_STRICT;
           barrierLine = "do not add any instrument not listed above";
           bpmLine = `${bpm} BPM locked (108-112 range) with key ${key}; winning chords ${transposed.romanLine} (${transposed.chordLine}).`;
-          durationLine = `full-length 3.0 minutes (club ready), continuous arrangement, never a loop.`;
+          durationLine = `full-length instrumental track, approx 3.0 minutes (club ready), continuous arrangement, not a loop.`;
           grooveDetails = MOOMBAHTON_GROOVE;
           structureParts = [...MOOMBAHTON_STRUCTURE];
           structureLine = `structure (EN): ${translateStructureToEnglish(structureParts).join(" → ")}`;
@@ -3653,7 +3642,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         const grooveText = grooveDetails ? `; groove: ${grooveDetails}` : "";
         const energyDanceLine = `${energyDanceLineBase}${grooveText}.`;
 
-        const exclusionLine = [strictBlock, excludedLine, barrierLine].filter(Boolean).join("; ");
+        const exclusionLine = [compactExclusion, excludedLine, strictBlock, barrierLine].filter(Boolean).join("; ");
 
         const sections = [
           {text: styleLine},
