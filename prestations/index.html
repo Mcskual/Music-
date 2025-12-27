@@ -953,101 +953,336 @@
       .filter-actions{ flex-direction:column; align-items:flex-start; }
     }
 
-    /* BeatsEngine */
-    .beats-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-      gap:12px;
+    /* BeatsEngine Premium */
+    .beats-shell{
+      position:relative;
+      background: radial-gradient(circle at 20% 20%, rgba(106,0,255,0.18), transparent 40%),
+                  radial-gradient(circle at 80% 0%, rgba(0,229,255,0.18), transparent 34%),
+                  #0b0b0f;
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:0 16px 48px rgba(0,0,0,0.45);
+      overflow:hidden;
+      isolation:isolate;
+    }
+    .beats-shell::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg, rgba(106,0,255,0.08), rgba(0,229,255,0.06));
+      pointer-events:none;
+      z-index:-1;
+    }
+    .beats-hero{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      align-items:flex-start;
+      justify-content:space-between;
+      background:linear-gradient(135deg, rgba(106,0,255,0.16), rgba(0,229,255,0.12));
+      border:1px solid rgba(255,255,255,0.08);
+      border-radius:16px;
+      padding:18px;
+      box-shadow:0 18px 38px rgba(0,0,0,0.55);
+    }
+    .beats-hero h2{
+      margin:0;
+      font-size:1.6rem;
+      letter-spacing:0.01em;
+    }
+    .beats-hero p{
+      color:#c9d1ff;
+      max-width:780px;
+      margin:6px 0 0;
+    }
+    .beats-tagline{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
       margin-top:10px;
     }
-    .beats-meta{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      align-items:center;
-      color:var(--muted);
+    .beats-chip{
+      padding:6px 12px;
+      border-radius:999px;
+      border:1px solid rgba(0,229,255,0.35);
+      background:rgba(0,229,255,0.08);
+      color:#e8f0ff;
       font-size:12px;
+      letter-spacing:0.02em;
     }
-    .beats-panel{
-      display:grid;
-      grid-template-columns:1.05fr .95fr;
-      gap:14px;
-      align-items:start;
-    }
-    @media(max-width:900px){
-      .beats-panel{ grid-template-columns:1fr; }
+    .beats-accent{
+      color:#00ff9c;
+      font-weight:700;
     }
     .beats-actions{
       display:flex;
-      gap:8px;
+      gap:10px;
       flex-wrap:wrap;
-      margin-top:8px;
     }
-    .beats-badge{
+    .beats-pill-btn{
       display:inline-flex;
       align-items:center;
-      gap:6px;
-      padding:6px 10px;
-      border-radius:10px;
-      background:rgba(37,99,235,.12);
-      border:1px solid rgba(37,99,235,.3);
-      color:var(--text);
-      font-size:12px;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.1);
+      background:rgba(255,255,255,0.04);
+      color:#e8f0ff;
       font-weight:700;
+      box-shadow:0 10px 28px rgba(0,0,0,0.35);
     }
-    [data-theme="light"] .beats-badge{
-      background:rgba(37,99,235,.08);
-      color:#1f2937;
+    .beats-pill-btn:hover{
+      border-color:rgba(0,229,255,0.4);
+      background:linear-gradient(135deg, rgba(106,0,255,0.2), rgba(0,229,255,0.14));
+      transform:translateY(-1px);
+      transition:150ms ease;
+    }
+    .beats-columns{
+      display:grid;
+      grid-template-columns:1.08fr 0.92fr;
+      gap:14px;
+      margin-top:14px;
+    }
+    @media(max-width:1024px){
+      .beats-columns{ grid-template-columns:1fr; }
+    }
+    .beats-stack{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .beats-card{
+      background:rgba(255,255,255,0.02);
+      border:1px solid rgba(255,255,255,0.06);
+      border-radius:14px;
+      padding:16px;
+      box-shadow:0 16px 42px rgba(0,0,0,0.45);
+      backdrop-filter:blur(6px);
+    }
+    .beats-card h3{
+      margin-top:0;
+      margin-bottom:6px;
+      letter-spacing:0.02em;
+    }
+    .beats-description{
+      color:#8fa0c9;
+      font-size:13px;
+      margin:0 0 12px;
+    }
+    .beats-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+      gap:12px;
+    }
+    .beats-label{
+      font-size:12px;
+      color:#c3c9ff;
+      letter-spacing:0.02em;
+      margin-bottom:6px;
+      display:block;
+    }
+    .beats-input,
+    .beats-select{
+      width:100%;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      color:#f4f6ff;
+      font-weight:600;
+      letter-spacing:0.01em;
+    }
+    .beats-select{ appearance:none; }
+    .beats-meta{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .beats-meta-pill{
+      padding:8px 12px;
+      border-radius:12px;
+      border:1px dashed rgba(0,229,255,0.35);
+      color:#cfe9ff;
+      background:rgba(0,229,255,0.06);
+      font-size:12px;
+    }
+    .energy-toggle{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .energy-chip{
+      position:relative;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.02);
+      cursor:pointer;
+      min-width:160px;
+      transition:180ms ease;
+    }
+    .energy-chip input{ display:none; }
+    .energy-chip span{
+      font-weight:700;
+      color:#f4f6ff;
+      letter-spacing:0.01em;
+    }
+    .energy-chip small{
+      color:#9db2ff;
+      display:block;
+      font-weight:500;
+    }
+    .energy-chip.active{
+      border-color:rgba(0,229,255,0.5);
+      box-shadow:0 10px 30px rgba(0,229,255,0.18);
+      background:linear-gradient(135deg, rgba(106,0,255,0.2), rgba(0,229,255,0.1));
+    }
+    .instrument-accordion{
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.02);
+    }
+    .instrument-accordion summary{
+      list-style:none;
+      padding:12px 14px;
+      cursor:pointer;
+      font-weight:700;
+      color:#e8f0ff;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .instrument-accordion summary::-webkit-details-marker{ display:none; }
+    .instrument-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:10px;
+      padding:10px 14px 14px;
+      background:rgba(0,0,0,0.25);
+    }
+    .instrument-checkbox{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:10px;
+      border:1px solid rgba(255,255,255,0.07);
+      border-radius:12px;
+      background:rgba(255,255,255,0.03);
+      font-size:13px;
+      color:#f4f6ff;
+    }
+    .instrument-checkbox input{ accent-color:#00e5ff; }
+    .structure-list{
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:grid;
+      gap:10px;
+    }
+    .structure-item{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.03);
+      cursor:grab;
+    }
+    .structure-item.dragging{
+      opacity:0.7;
+      border-style:dashed;
+    }
+    .structure-label{
+      font-weight:700;
+      color:#f4f6ff;
+      letter-spacing:0.01em;
+    }
+    .drag-handle{
+      color:#00e5ff;
+      font-size:18px;
+      margin-right:6px;
+    }
+    .structure-controls{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .structure-controls input{
+      flex:1;
+      min-width:160px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.02);
+      color:#f4f6ff;
+      padding:10px 12px;
+    }
+    .structure-btn{
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid rgba(0,229,255,0.35);
+      background:linear-gradient(135deg, rgba(106,0,255,0.16), rgba(0,229,255,0.14));
+      color:#f4f6ff;
+      font-weight:700;
+      cursor:pointer;
+      box-shadow:0 10px 24px rgba(0,0,0,0.35);
+    }
+    .structure-btn.secondary{
+      background:rgba(255,255,255,0.04);
+      border-color:rgba(255,255,255,0.08);
     }
     .beats-output{
       width:100%;
-      min-height:180px;
+      min-height:240px;
       font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
-      line-height:1.4;
-      background:linear-gradient(145deg, rgba(37,99,235,.08), rgba(34,197,94,.05)), var(--card);
-    }
-    .beats-status{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:4px;
-    }
-    .beats-checklist{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-      gap:8px;
-      margin-top:10px;
-    }
-    .beats-check{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border:1px solid var(--border);
-      border-radius:12px;
-      background:rgba(15,23,42,.25);
-      font-size:13px;
-    }
-    [data-theme="light"] .beats-check{ background:#f8fafc; }
-    .beats-highlight{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:12px;
-      font-size:12px;
-      color:var(--text2);
-    }
-    .beats-pill{
-      padding:6px 10px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      background:rgba(37,99,235,.08);
-      color:var(--text);
+      line-height:1.5;
+      background:linear-gradient(160deg, rgba(106,0,255,0.12), rgba(0,229,255,0.08));
+      border:1px solid rgba(0,229,255,0.35);
+      border-radius:14px;
+      color:#f8fbff;
+      padding:14px;
+      box-shadow:0 18px 42px rgba(0,0,0,0.45);
     }
     .beats-toolbar{
       display:flex;
-      gap:8px;
+      gap:10px;
       flex-wrap:wrap;
       margin-top:12px;
+    }
+    .beats-btn{
+      padding:12px 14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.08);
+      background:rgba(255,255,255,0.04);
+      color:#f4f6ff;
+      font-weight:800;
+      letter-spacing:0.01em;
+      cursor:pointer;
+      min-width:140px;
+      transition:160ms ease;
+      box-shadow:0 12px 30px rgba(0,0,0,0.35);
+    }
+    .beats-btn.primary{
+      background:linear-gradient(135deg, #6a00ff, #00e5ff);
+      border-color:rgba(0,229,255,0.35);
+      color:#0b0b0f;
+    }
+    .beats-btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 16px 36px rgba(0,0,0,0.5);
+    }
+    .beats-status{
+      font-size:12px;
+      color:#9db2ff;
+      margin-top:6px;
     }
 
   </style>
@@ -1268,103 +1503,154 @@
     </section>
 
     <section class="tab-section" id="beatsengine" hidden>
-      <div class="card" style="margin-top:4px;">
-        <div class="row" style="justify-content:space-between; align-items:flex-start;">
+      <div class="beats-shell">
+        <div class="beats-hero">
           <div>
-            <h2>🎛️ BeatsEngine — Générateur de prompt IA</h2>
-            <p class="sub" style="max-width:820px;">
-              Compose instantanément des prompts avancés et structurés : style, tonalité, accords “magiques”, BPM, instruments inclus et exclus, prêt pour une production instrumentale pro sans voix.
+            <h2>🎛️ BeatsEngine — Module Premium</h2>
+            <p>
+              Génère des prompts IA premium prêts pour le studio : tonalité, accords magiques, énergie, instruments inclus/exclus, structure détaillée et durée cible. Identité visuelle dédiée sans nuire aux autres onglets.
             </p>
-            <div class="beats-meta">
-              <span class="pill">Accords magiques auto</span>
-              <span class="pill">Mix moderne</span>
-              <span class="pill">Structure prête pour l'IA</span>
+            <div class="beats-tagline">
+              <span class="beats-chip">Dégradé signature #6A00FF → #00E5FF</span>
+              <span class="beats-chip">Accords & BPM cohérents</span>
+              <span class="beats-chip">Structure drag & drop</span>
             </div>
           </div>
-          <div class="beats-actions" style="margin-top:0;">
-            <span class="beats-badge">⚡ Auto prompt</span>
-            <button type="button" class="btn btn-outline" id="beats-shuffle">🎲 Shuffle mode</button>
+          <div class="beats-actions">
+            <span class="beats-pill-btn">⚡ Studio-grade prompt</span>
+            <button type="button" class="beats-pill-btn" id="beats-shuffle">Shuffle 🎲</button>
           </div>
         </div>
 
-        <div class="beats-panel" style="margin-top:6px;">
-          <div>
-            <div class="beats-grid">
-              <div>
-                <label for="beats-style">Style musical</label>
-                <select id="beats-style">
-                  <option>Afro-Trap</option>
-                  <option>Afro-Trap Club</option>
-                  <option>R&B</option>
-                  <option>Drill</option>
-                  <option>Dancehall</option>
-                  <option>Afrobeat</option>
-                  <option>Bongo Flava</option>
-                  <option>Amapiano</option>
-                </select>
+        <div class="beats-columns">
+          <div class="beats-stack">
+            <div class="beats-card">
+              <h3>🎼 Core Settings</h3>
+              <p class="beats-description">Style, clé et BPM verrouillés sur des plages cohérentes pour un rendu pro.</p>
+              <div class="beats-grid">
+                <div>
+                  <label class="beats-label" for="beats-style">Style musical</label>
+                  <select id="beats-style" class="beats-select">
+                    <option>Afro-Trap</option>
+                    <option>Afro-Trap Club</option>
+                    <option>R&B</option>
+                    <option>Drill</option>
+                    <option>Dancehall</option>
+                    <option>Afrobeat</option>
+                    <option>Bongo Flava</option>
+                    <option>Amapiano</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="beats-label" for="beats-key">Clé musicale</label>
+                  <select id="beats-key" class="beats-select">
+                    <option>C minor</option>
+                    <option>C# minor</option>
+                    <option>D minor</option>
+                    <option>D# minor</option>
+                    <option>E minor</option>
+                    <option>F minor</option>
+                    <option>F# minor</option>
+                    <option>G minor</option>
+                    <option>G# minor</option>
+                    <option>A minor</option>
+                    <option>A# minor</option>
+                    <option>B minor</option>
+                    <option>D major</option>
+                    <option>E major</option>
+                    <option>F major</option>
+                    <option>G major</option>
+                    <option>A major</option>
+                    <option>B major</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="beats-label" for="beats-bpm">BPM</label>
+                  <input type="number" id="beats-bpm" class="beats-input" min="70" max="180" step="1" value="110" inputmode="numeric">
+                </div>
               </div>
-              <div>
-                <label for="beats-key">Clé musicale</label>
-                <select id="beats-key">
-                  <option>C minor</option>
-                  <option>C# minor</option>
-                  <option>D minor</option>
-                  <option>D# minor</option>
-                  <option>E minor</option>
-                  <option>F minor</option>
-                  <option>F# minor</option>
-                  <option>G minor</option>
-                  <option>G# minor</option>
-                  <option>A minor</option>
-                  <option>A# minor</option>
-                  <option>B minor</option>
-                  <option>D major</option>
-                  <option>E major</option>
-                  <option>F major</option>
-                  <option>G major</option>
-                  <option>A major</option>
-                  <option>B major</option>
-                </select>
-              </div>
-              <div>
-                <label for="beats-bpm">BPM</label>
-                <input type="number" id="beats-bpm" min="70" max="180" step="1" value="110" inputmode="numeric">
-              </div>
-            </div>
-
-            <div class="beats-highlight">
-              <span class="beats-pill">Plage BPM : <strong id="beats-bpm-range">-</strong></span>
-              <span class="beats-pill">Accords : <strong id="beats-chords">-</strong></span>
-              <span class="beats-pill">Vibe : <strong id="beats-vibe">Production moderne</strong></span>
-            </div>
-
-            <div style="margin-top:14px;">
-              <label>Instruments à inclure / exclure</label>
-              <div class="beats-checklist" id="beats-instruments">
-                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="kick" checked> Kick</label>
-                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="snare / clap" checked> Snare / Clap</label>
-                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="hi-hats" checked> Hi-hats</label>
-                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="808 / bass" checked> 808 / Bass</label>
-                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="log drum"> Log drum</label>
-                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="guitar"> Guitar</label>
-                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="piano / keys"> Piano / Keys</label>
-                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="synth pads" checked> Synth pads</label>
-                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="percussions africaines" checked> Percussions africaines</label>
-                <label class="beats-check"><input type="checkbox" class="beats-instrument" value="strings"> Strings</label>
+              <div class="beats-meta">
+                <span class="beats-meta-pill">Accords : <strong id="beats-chords">-</strong></span>
+                <span class="beats-meta-pill">Plage BPM : <strong id="beats-bpm-range">-</strong></span>
+                <span class="beats-meta-pill">Énergie : <strong id="beats-energy-desc">-</strong></span>
               </div>
             </div>
 
-            <div class="beats-toolbar">
-              <button type="button" class="btn btn-primary" id="beats-generate">🎧 Générer</button>
-              <button type="button" class="btn btn-outline" id="beats-refresh">🔁 Mettre à jour</button>
-              <button type="button" class="btn btn-outline" id="beats-copy">📋 Copier le prompt</button>
+            <div class="beats-card">
+              <h3>⚡ Energy & Texture</h3>
+              <p class="beats-description">Sélectionne l'intensité qui pilote la vibe, la dynamique et la densité du prompt.</p>
+              <div class="energy-toggle" id="beats-energy">
+                <label class="energy-chip">
+                  <input type="radio" name="beats-energy" value="low">
+                  <div>
+                    <span>Low</span>
+                    <small>Minimal, spacious, smooth</small>
+                  </div>
+                </label>
+                <label class="energy-chip active">
+                  <input type="radio" name="beats-energy" value="medium" checked>
+                  <div>
+                    <span>Medium</span>
+                    <small>Balanced, groove-focused</small>
+                  </div>
+                </label>
+                <label class="energy-chip">
+                  <input type="radio" name="beats-energy" value="high">
+                  <div>
+                    <span>High</span>
+                    <small>Aggressive, powerful</small>
+                  </div>
+                </label>
+              </div>
+              <div class="beats-status" id="beats-energy-note">Low → minimal, spacious, smooth.</div>
             </div>
-            <div class="beats-status" id="beats-status">Prêt à générer ton prochain banger.</div>
+
+            <div class="beats-card">
+              <h3>🎹 Instruments & Structure</h3>
+              <p class="beats-description">Coche ce qui doit être entendu, ce qui doit disparaître, et sculpte la structure drag & drop.</p>
+              <details class="instrument-accordion" open>
+                <summary>Instruments premium</summary>
+                <div class="instrument-grid" id="beats-instruments">
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="kick" checked> Kick</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="snare / clap" checked> Snare / Clap</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="hi-hats" checked> Hi-hats</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="808 / bass" checked> 808 / Bass</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="log drum"> Log drum</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="guitar"> Guitar</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="piano / keys"> Piano / Keys</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="synth lead"> Synth lead</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="synth pads" checked> Synth pads</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="percussions africaines" checked> Percussions africaines</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="strings"> Strings</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="fx / atmospheres"> FX / Atmospheres</label>
+                </div>
+              </details>
+
+              <div style="margin-top:14px;">
+                <label class="beats-label" for="beats-duration">⏱️ Track Duration</label>
+                <input type="text" id="beats-duration" class="beats-input" placeholder="2:30 ou 180s" value="2:45">
+              </div>
+
+              <div style="margin-top:12px;">
+                <div class="structure-controls">
+                  <input type="text" id="structure-input" placeholder="Ajouter un segment (ex : Refrain 2)">
+                  <button type="button" class="structure-btn" id="structure-add">Ajouter</button>
+                  <button type="button" class="structure-btn secondary" id="structure-reset">Réinitialiser</button>
+                </div>
+                <ul class="structure-list" id="structure-list" aria-label="Structure du morceau"></ul>
+              </div>
+            </div>
           </div>
 
-          <div>
-            <label for="beats-output">Prompt généré</label>
-            <textarea id="beats-output" class="beats-output" rows="12" readonly aria-live="polite"></textarea>
+          <div class="beats-card">
+            <h3>🧠 Prompt Engine</h3>
+            <p class="beats-description">Prompt premium ligne par ligne, lisible, prêt à être collé dans ton IA audio.</p>
+            <textarea id="beats-output" class="beats-output" rows="14" readonly aria-live="polite"></textarea>
+            <div class="beats-toolbar">
+              <button type="button" class="beats-btn primary" id="beats-generate">Generate</button>
+              <button type="button" class="beats-btn" id="beats-copy">Copy Prompt</button>
+            </div>
+            <div class="beats-status" id="beats-status">Prêt à générer un prompt studio.</div>
           </div>
         </div>
       </div>
@@ -2368,18 +2654,25 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       const styleSel = document.getElementById("beats-style");
       const keySel = document.getElementById("beats-key");
       const bpmInput = document.getElementById("beats-bpm");
+      const durationInput = document.getElementById("beats-duration");
       const outputEl = document.getElementById("beats-output");
       const statusEl = document.getElementById("beats-status");
       const copyBtn = document.getElementById("beats-copy");
-      const refreshBtn = document.getElementById("beats-refresh");
       const shuffleBtn = document.getElementById("beats-shuffle");
       const generateBtn = document.getElementById("beats-generate");
       const instrumentInputs = Array.from(document.querySelectorAll(".beats-instrument"));
       const chordsEl = document.getElementById("beats-chords");
       const bpmRangeEl = document.getElementById("beats-bpm-range");
-      const vibeEl = document.getElementById("beats-vibe");
+      const energyDescEl = document.getElementById("beats-energy-desc");
+      const energyNoteEl = document.getElementById("beats-energy-note");
+      const energyChips = Array.from(document.querySelectorAll("#beats-energy .energy-chip"));
+      const energyRadios = Array.from(document.querySelectorAll('input[name="beats-energy"]'));
+      const structureListEl = document.getElementById("structure-list");
+      const structureInput = document.getElementById("structure-input");
+      const structureAddBtn = document.getElementById("structure-add");
+      const structureResetBtn = document.getElementById("structure-reset");
 
-      if(!styleSel || !keySel || !bpmInput || !outputEl) return;
+      if(!styleSel || !keySel || !bpmInput || !outputEl || !structureListEl) return;
 
       const chordsMap = {
         "C minor":"Cm - Ab - Eb - Bb",
@@ -2414,18 +2707,39 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       };
 
       const vibeMap = {
-        "Afro-Trap":"four-on-the-floor kick with afro swing, trap percussions and club energy ready for radio.",
-        "Afro-Trap Club":"dancefloor-ready afro-trap club vibe, punchy drums and glossy textures.",
-        "R&B":"smooth R&B feel, lush harmonies, silky drums and spacious ambiance.",
-        "Drill":"dark drill bounce with sliding 808s, syncopated hats and cinematic layers.",
-        "Dancehall":"island groove, skanking rhythms, playful percussions and warm low end.",
-        "Afrobeat":"rhythmic afrobeat pulse, percussive grooves, vibrant melodies and brass textures.",
-        "Bongo Flava":"bongo flava bounce, bright melodic hooks and smooth afro-fusion percussions.",
-        "Amapiano":"log-drum driven amapiano roll, airy keys, shakers and late-night club energy."
+        "Afro-Trap":"four-on-the-floor kick blended with afro swing grooves and glossy trap percussion layers.",
+        "Afro-Trap Club":"dancefloor-ready afro-trap, punchy drums, neon synths and tight club arrangement.",
+        "R&B":"smooth R&B with lush chords, delicate drums, silky ambience and intimate textures.",
+        "Drill":"dark cinematic drill, sliding 808s, syncopated hats, tense pads and moody atmosphere.",
+        "Dancehall":"island groove with skanking guitars, playful percussions, warm low end and hooks.",
+        "Afrobeat":"percussive afrobeat energy, vibrant melodies, brass accents and steady groove.",
+        "Bongo Flava":"afro-fusion bounce, bright melodic hooks, airy keys and polished percussions.",
+        "Amapiano":"log drum heavy amapiano roll, shaker-driven groove, dreamy keys, late-night club feel."
+      };
+
+      const energyMap = {
+        low: {
+          label: "low",
+          note: "Low → minimal, spacious, smooth.",
+          texture: "minimal dynamics, airy ambience, plenty of space between elements"
+        },
+        medium: {
+          label: "medium",
+          note: "Medium → balanced, groove-focused.",
+          texture: "balanced groove, clean transients, pocketed swing and tasteful layers"
+        },
+        high: {
+          label: "high",
+          note: "High → aggressive, powerful, club-ready.",
+          texture: "aggressive drums, forward low-end, club-ready punch and bold synth leads"
+        }
       };
 
       const styles = Array.from(styleSel.options).map(o => o.value);
       const keys = Array.from(keySel.options).map(o => o.value);
+      const defaultStructure = ["Intro","Couplet","Refrain","Pont","Drop","Outro"];
+      let structure = [...defaultStructure];
+      let draggingIndex = null;
 
       function sanitizeBpm(value, range){
         const [min,max] = range || [80,160];
@@ -2438,6 +2752,22 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 
       function describeStyle(style){
         return vibeMap[style] || "clean modern mix, energetic groove and tight arrangement.";
+      }
+
+      function currentEnergy(){
+        const selected = energyRadios.find(r => r.checked);
+        return selected ? selected.value : "medium";
+      }
+
+      function updateEnergyUI(){
+        const value = currentEnergy();
+        energyChips.forEach(chip => {
+          const radio = chip.querySelector('input[name="beats-energy"]');
+          chip.classList.toggle("active", radio && radio.value === value);
+        });
+        const meta = energyMap[value] || energyMap.medium;
+        if(energyDescEl) energyDescEl.textContent = meta.note;
+        if(energyNoteEl) energyNoteEl.textContent = meta.note;
       }
 
       function getInstrumentSelection(){
@@ -2462,11 +2792,107 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 
       function buildInstrumentLines(){
         const {included, excluded} = getInstrumentSelection();
-        const includedLine = `selected instruments included: ${included.join(", ")}`;
-        const excludedLine = excluded.length
-          ? `excluded instruments clearly mentioned: no ${excluded.join(", no ")}`
-          : "excluded instruments clearly mentioned: none excluded";
+        const includedLine = `included instruments: ${included.join(", ")}`;
+        const excludedLine = `excluded instruments: ${excluded.length ? excluded.join(", ") : "none"}`;
         return {includedLine, excludedLine};
+      }
+
+      function ensureStructure(){
+        if(!Array.isArray(structure) || !structure.length){
+          structure = [...defaultStructure];
+        }
+      }
+
+      function renderStructure(){
+        ensureStructure();
+        structureListEl.innerHTML = "";
+
+        structure.forEach((part, index) => {
+          const li = document.createElement("li");
+          li.className = "structure-item";
+          li.draggable = true;
+          li.dataset.index = index;
+
+          const left = document.createElement("div");
+          left.style.display = "flex";
+          left.style.alignItems = "center";
+          left.style.gap = "8px";
+
+          const handle = document.createElement("span");
+          handle.className = "drag-handle";
+          handle.textContent = "⠿";
+          left.appendChild(handle);
+
+          const label = document.createElement("span");
+          label.className = "structure-label";
+          label.textContent = part;
+          left.appendChild(label);
+
+          const remove = document.createElement("button");
+          remove.type = "button";
+          remove.className = "structure-btn secondary";
+          remove.textContent = "✕";
+          remove.style.minWidth = "42px";
+          remove.addEventListener("click", () => {
+            structure.splice(index,1);
+            renderStructure();
+            generatePrompt();
+          });
+
+          li.appendChild(left);
+          li.appendChild(remove);
+
+          li.addEventListener("dragstart", () => {
+            draggingIndex = index;
+            li.classList.add("dragging");
+          });
+          li.addEventListener("dragend", () => {
+            draggingIndex = null;
+            li.classList.remove("dragging");
+          });
+          li.addEventListener("dragover", (e) => {
+            e.preventDefault();
+          });
+          li.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const targetIndex = Number(li.dataset.index);
+            if(draggingIndex === null || Number.isNaN(targetIndex)) return;
+            const [moved] = structure.splice(draggingIndex,1);
+            structure.splice(targetIndex,0,moved);
+            draggingIndex = null;
+            renderStructure();
+            generatePrompt();
+          });
+
+          structureListEl.appendChild(li);
+        });
+      }
+
+      function addStructurePart(){
+        const value = (structureInput.value || "").trim();
+        if(!value) return;
+        structure.push(value);
+        structureInput.value = "";
+        renderStructure();
+        generatePrompt();
+      }
+
+      function resetStructure(){
+        structure = [...defaultStructure];
+        renderStructure();
+        generatePrompt();
+      }
+
+      function formatDuration(raw){
+        const value = (raw || "").trim();
+        if(!value) return "3:00";
+        if(/^[0-9]+:[0-9]{1,2}$/.test(value)){
+          return value;
+        }
+        if(/^[0-9]+$/.test(value)){
+          return `${value}s`;
+        }
+        return value;
       }
 
       function updateMeta(){
@@ -2476,7 +2902,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         const range = bpmMap[style] || [90,120];
         if(chordsEl) chordsEl.textContent = chords;
         if(bpmRangeEl) bpmRangeEl.textContent = `${range[0]}-${range[1]} BPM`;
-        if(vibeEl) vibeEl.textContent = describeStyle(style);
+        updateEnergyUI();
       }
 
       function generatePrompt(source="manual"){
@@ -2487,24 +2913,29 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         bpmInput.value = bpm;
         const chords = chordsMap[key] || "Signature progression à définir";
         const {includedLine, excludedLine} = buildInstrumentLines();
+        const energy = energyMap[currentEnergy()] || energyMap.medium;
+        const structureLine = (structure && structure.length) ? structure.join(" → ") : "Intro → Drop → Outro";
+        const duration = formatDuration(durationInput?.value);
+        const styleDescriptor = describeStyle(style);
 
         const promptLines = [
 `${style} instrumental in ${key},`,
 `magical chord progression ${chords},`,
-`${bpm} BPM, groove aligned with ${style.toLowerCase()} energy (${range[0]}-${range[1]} BPM range),`,
-`four-on-the-floor kick on every beat, hard-hitting trap drums mixed with african percussion, deep rolling 808 bass,`,
-`${describeStyle(style)}`,
-`arrangement: intro concise, main drop explosif, variations rythmiques, bridge aéré, final punchy,`,
+`${bpm} BPM (${range[0]}-${range[1]} BPM range),`,
+`energy: ${energy.label}, ${energy.texture},`,
 `${includedLine},`,
 `${excludedLine},`,
+`structure: ${structureLine},`,
+`target duration: ${duration},`,
+`${styleDescriptor},`,
 `clean modern mix, no vocals`
         ];
 
         outputEl.value = promptLines.join("\n");
         if(statusEl){
           statusEl.textContent = source === "shuffle"
-            ? "Shuffle expérimental généré automatiquement."
-            : "Prompt généré et prêt à copier.";
+            ? "Shuffle premium généré automatiquement."
+            : "Prompt généré et prêt à être copié.";
         }
         updateMeta();
       }
@@ -2551,6 +2982,13 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         }
       }
 
+      function shuffleStructure(){
+        structure = [...defaultStructure]
+          .sort(() => Math.random() - 0.5)
+          .slice(0, Math.max(4, Math.floor(Math.random()*defaultStructure.length)+2));
+        renderStructure();
+      }
+
       function shufflePrompt(){
         const style = styles[Math.floor(Math.random()*styles.length)] || "Afro-Trap";
         const key = keys[Math.floor(Math.random()*keys.length)] || "A minor";
@@ -2561,7 +2999,13 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         const bpm = Math.floor(Math.random() * (range[1] - range[0] + 1)) + range[0];
         bpmInput.value = bpm;
 
+        const energyKeys = Object.keys(energyMap);
+        const pickedEnergy = energyKeys[Math.floor(Math.random()*energyKeys.length)] || "medium";
+        energyRadios.forEach(r => { r.checked = r.value === pickedEnergy; });
+        updateEnergyUI();
+
         randomizeInstruments();
+        shuffleStructure();
         generatePrompt("shuffle");
       }
 
@@ -2574,11 +3018,29 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         generatePrompt();
       });
       bpmInput.addEventListener("input", () => generatePrompt());
+      energyChips.forEach(chip => {
+        const radio = chip.querySelector('input[name="beats-energy"]');
+        chip.addEventListener("click", () => {
+          if(radio){
+            radio.checked = true;
+            updateEnergyUI();
+            generatePrompt();
+          }
+        });
+      });
+      structureAddBtn && structureAddBtn.addEventListener("click", addStructurePart);
+      structureResetBtn && structureResetBtn.addEventListener("click", resetStructure);
+      structureInput && structureInput.addEventListener("keydown", (e) => {
+        if(e.key === "Enter"){
+          e.preventDefault();
+          addStructurePart();
+        }
+      });
       copyBtn && copyBtn.addEventListener("click", copyPrompt);
-      refreshBtn && refreshBtn.addEventListener("click", () => generatePrompt());
       generateBtn && generateBtn.addEventListener("click", () => generatePrompt());
       shuffleBtn && shuffleBtn.addEventListener("click", shufflePrompt);
 
+      renderStructure();
       updateMeta();
       generatePrompt("init");
     })();
