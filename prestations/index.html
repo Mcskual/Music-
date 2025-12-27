@@ -1309,13 +1309,13 @@
     .structure-item{
       display:flex;
       align-items:center;
-      justify-content:space-between;
+      justify-content:flex-start;
       gap:10px;
       padding:10px 12px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,0.08);
       background:rgba(255,255,255,0.03);
-      cursor:grab;
+      cursor:default;
     }
     .structure-item.dragging{
       opacity:0.7;
@@ -1629,12 +1629,12 @@
           <div>
             <h2>🎛️ BeatsEngine Pro — Module Studio</h2>
             <p>
-              Génère des prompts IA studio-grade : tonalité, accords gagnants transposés, énergie et danceability dissociées, vocal control, instruments intelligents, structure drag & drop et durée cible. Identité visuelle dédiée sans nuire aux autres onglets.
+              Génère des prompts IA studio-grade en version minimaliste : tonalité unifiée, accords auto, Groove simplifié, presets de structure et durée implicite. Identité visuelle dédiée sans nuire aux autres onglets.
             </p>
             <div class="beats-tagline">
               <span class="beats-chip">Dégradé signature #6A00FF → #00E5FF</span>
-              <span class="beats-chip">Accords & BPM cohérents</span>
-              <span class="beats-chip">Structure drag & drop</span>
+              <span class="beats-chip">Accords & BPM auto</span>
+              <span class="beats-chip">Structure preset</span>
             </div>
           </div>
           <div class="beats-actions">
@@ -1647,7 +1647,7 @@
           <div class="beats-stack">
             <div class="beats-card">
               <h3>🎼 Core Settings</h3>
-              <p class="beats-description">Style, clé et BPM verrouillés sur des plages cohérentes pour un rendu pro.</p>
+              <p class="beats-description">Style, tonalité et BPM cohérents en deux clics.</p>
               <div class="beats-grid">
                 <div>
                   <label class="beats-label" for="beats-style">Style musical</label>
@@ -1669,33 +1669,51 @@
                   </select>
                 </div>
                 <div>
-                  <label class="beats-label" for="beats-key">Clé musicale</label>
-                  <select id="beats-key" class="beats-select">
-                    <option>C minor</option>
-                    <option>C# minor</option>
-                    <option>D minor</option>
-                    <option>D# minor</option>
-                    <option>E minor</option>
-                    <option>F minor</option>
-                    <option>F# minor</option>
-                    <option>G minor</option>
-                    <option>G# minor</option>
-                    <option>A minor</option>
-                    <option>A# minor</option>
-                    <option>B minor</option>
-                    <option>D major</option>
-                    <option>E major</option>
-                    <option>F major</option>
-                    <option>G major</option>
-                    <option>A major</option>
-                    <option>B major</option>
-                  </select>
-                </div>
-                <div>
                   <label class="beats-label" for="beats-bpm">BPM</label>
                   <input type="number" id="beats-bpm" class="beats-input" min="70" max="180" step="1" value="110" inputmode="numeric">
                 </div>
               </div>
+              <details class="instrument-accordion" open style="margin-top:10px;">
+                <summary>Tonalité</summary>
+                <div class="instrument-grid">
+                  <div>
+                    <label class="beats-label" for="beats-note">Note</label>
+                    <select id="beats-note" class="beats-select">
+                      <option>C</option>
+                      <option>C#</option>
+                      <option>D</option>
+                      <option>D#</option>
+                      <option>E</option>
+                      <option>F</option>
+                      <option>F#</option>
+                      <option>G</option>
+                      <option>G#</option>
+                      <option>A</option>
+                      <option>A#</option>
+                      <option>B</option>
+                    </select>
+                  </div>
+                  <div>
+                    <span class="beats-label">Mode</span>
+                    <div class="vocal-row" id="beats-mode">
+                      <label class="vocal-chip active">
+                        <input type="radio" name="beats-mode" value="minor" checked>
+                        <div>
+                          <span style="font-weight:800;">Minor</span>
+                          <small>Natural minor scale</small>
+                        </div>
+                      </label>
+                      <label class="vocal-chip">
+                        <input type="radio" name="beats-mode" value="major">
+                        <div>
+                          <span style="font-weight:800;">Major</span>
+                          <small>Bright, open harmonies</small>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </details>
               <div class="beats-meta">
                 <span class="beats-meta-pill">Accords clés : <strong id="beats-chords">-</strong></span>
                 <span class="beats-meta-pill">Plage BPM : <strong id="beats-bpm-range">-</strong></span>
@@ -1705,8 +1723,11 @@
 
             <div class="beats-card">
               <h3>🎼 Winning Chords</h3>
-              <p class="beats-description">Progressions gagnantes auto-sélectionnées par style et transposées dans la clé choisie.</p>
-              <div class="progression-row" id="progression-options"></div>
+              <p class="beats-description">Auto (recommended) — ajusté au style et transposé dans ta tonalité.</p>
+              <details class="instrument-accordion" style="margin-bottom:8px;">
+                <summary>Manuel (optionnel)</summary>
+                <div class="progression-row" id="progression-options" style="padding:10px 14px 14px; background:rgba(0,0,0,0.25);"></div>
+              </details>
               <div class="progression-meta">
                 <div><strong>Degrés :</strong> <span id="beats-progression">i – VI – III – VII</span></div>
                 <div><strong>Accords réels :</strong> <span id="beats-progression-chords">Am – F – C – G</span></div>
@@ -1715,8 +1736,8 @@
             </div>
 
             <div class="beats-card">
-              <h3>🎤 Vocal Control & Groove</h3>
-              <p class="beats-description">Mode vocal-first par défaut, avec énergie et danceability dissociées.</p>
+              <h3>🎚️ Groove & Vocals</h3>
+              <p class="beats-description">Mode vocal-first par défaut, Groove fusionnant énergie et dance.</p>
               <div class="vocal-row" id="vocal-modes">
                 <label class="vocal-chip active">
                   <input type="radio" name="vocal-mode" value="vocal-first" checked>
@@ -1771,26 +1792,26 @@
                 </div>
 
                 <div>
-                  <h4>🕺 Danceability</h4>
+                  <h4>🕺 Dance</h4>
                   <div class="dance-row" id="beats-danceability">
                     <label class="dance-chip">
-                      <input type="radio" name="beats-dance" value="low">
+                      <input type="radio" name="beats-dance" value="chill">
                       <div>
-                        <span>Low</span>
+                        <span>Chill</span>
                         <small>Laid-back groove</small>
                       </div>
                     </label>
                     <label class="dance-chip active">
-                      <input type="radio" name="beats-dance" value="medium" checked>
+                      <input type="radio" name="beats-dance" value="bounce" checked>
                       <div>
-                        <span>Medium</span>
+                        <span>Bounce</span>
                         <small>Smooth bounce</small>
                       </div>
                     </label>
                     <label class="dance-chip">
-                      <input type="radio" name="beats-dance" value="high">
+                      <input type="radio" name="beats-dance" value="club">
                       <div>
-                        <span>High</span>
+                        <span>Club</span>
                         <small>Club-focused rhythmic drive</small>
                       </div>
                     </label>
@@ -1802,73 +1823,28 @@
 
             <div class="beats-card">
               <h3>🎹 Instruments & Structure</h3>
-              <p class="beats-description">Coche ce qui doit être entendu, ce qui doit disparaître, et sculpte la structure drag & drop.</p>
+              <p class="beats-description">Catégories compactes, structure via presets, durée implicite. Le moteur gère les détails et exclusions automatiquement.</p>
               <details class="instrument-accordion" open>
-                <summary>Instruments premium</summary>
+                <summary>Instruments (auto)</summary>
                 <div class="instrument-grid" id="beats-instruments">
-                  <div>
-                    <div class="instrument-group-title">Rythme</div>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="kick" data-role="rhythm" checked> Kick</label>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="snare / clap" data-role="rhythm" checked> Snare / Clap</label>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="hi-hats" data-role="rhythm" checked> Hi-hats</label>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="percussions africaines" data-role="rhythm" checked> Percussions africaines</label>
-                  </div>
-                  <div>
-                    <div class="instrument-group-title">Basse</div>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="808 / bass" data-role="bass" checked> 808 / Bass</label>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="log drum" data-role="bass"> Log drum</label>
-                  </div>
-                  <div>
-                    <div class="instrument-group-title">Mélodie</div>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="guitar" data-role="melody"> Guitar</label>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="piano / keys" data-role="melody"> Piano / Keys</label>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="synth lead" data-role="melody"> Synth lead</label>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="synth pads" data-role="melody" checked> Synth pads</label>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="strings" data-role="melody"> Strings</label>
-                  </div>
-                  <div>
-                    <div class="instrument-group-title">Ambiance</div>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="fx" data-role="ambience"> FX</label>
-                    <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="atmospheres" data-role="ambience"> Atmospheres</label>
-                  </div>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="drums" data-role="rhythm" checked> Drums</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="bass" data-role="bass" checked> Bass</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="melody" data-role="melody"> Melody</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="guitar" data-role="melody"> Guitar</label>
+                  <label class="instrument-checkbox"><input type="checkbox" class="beats-instrument" value="piano" data-role="melody"> Piano</label>
                 </div>
               </details>
               <div class="beats-warning" id="melody-warning">Mode Vocal-First : limite de 1 instrument mélodique dépassée.</div>
 
-              <div style="margin-top:14px;">
-                <label class="beats-label" for="beats-usage">🎯 Usage du morceau</label>
-                <select id="beats-usage" class="beats-select">
-                  <option value="radio">📻 Radio</option>
-                  <option value="streaming" selected>🎧 Streaming</option>
-                  <option value="club">🔊 Club</option>
-                  <option value="dj">🎛️ DJ / Extended</option>
-                  <option value="emotion">❤️ Chant / Émotion (Zouk, R&B, Reggae)</option>
-                </select>
-                <div class="usage-meta" id="beats-usage-meta" aria-live="polite" style="margin-top:8px;"></div>
-              </div>
-
-              <div style="margin-top:14px;">
-                <label class="beats-label" for="beats-duration">⏱️ Track Duration</label>
-                <div class="duration-row">
-                  <input type="range" id="beats-duration-range" class="beats-slider" min="110" max="360" step="5" value="150">
-                  <input type="text" id="beats-duration" class="beats-input" placeholder="2:30 ou 180s" value="2:30">
-                  <span class="beats-badge">durée intelligente</span>
-                </div>
-              </div>
-
               <div style="margin-top:12px;">
-                <div class="structure-controls">
-                  <input type="text" id="structure-input" placeholder="Ajouter un segment (ex : Refrain 2)">
-                  <button type="button" class="structure-btn" id="structure-add">Ajouter</button>
-                  <button type="button" class="structure-btn secondary" id="structure-reset">Réinitialiser</button>
-                </div>
-                <div class="structure-controls" style="margin-top:8px;">
-                  <button type="button" class="structure-btn secondary" data-structure-preset="singer">Preset Singer</button>
-                  <button type="button" class="structure-btn secondary" data-structure-preset="rapper">Preset Rapper</button>
-                  <button type="button" class="structure-btn secondary" data-structure-preset="club">Preset Club</button>
+                <div class="structure-controls" id="structure-presets">
+                  <button type="button" class="structure-btn secondary" data-structure-preset="radio">Radio</button>
+                  <button type="button" class="structure-btn secondary" data-structure-preset="club">Club</button>
+                  <button type="button" class="structure-btn secondary" data-structure-preset="extended">Extended</button>
                 </div>
                 <ul class="structure-list" id="structure-list" aria-label="Structure du morceau"></ul>
               </div>
+              <div class="beats-status" id="beats-structure-note">Structure preset + durée auto.</div>
             </div>
           </div>
 
@@ -2882,11 +2858,9 @@ if (captureBtn && typeof html2canvas !== "undefined") {
   <script>
     (function(){
       const styleSel = document.getElementById("beats-style");
-      const keySel = document.getElementById("beats-key");
+      const noteSel = document.getElementById("beats-note");
+      const modeRadios = Array.from(document.querySelectorAll('input[name="beats-mode"]'));
       const bpmInput = document.getElementById("beats-bpm");
-      const durationInput = document.getElementById("beats-duration");
-      const usageSel = document.getElementById("beats-usage");
-      const usageMetaEl = document.getElementById("beats-usage-meta");
       const outputEl = document.getElementById("beats-output");
       const statusEl = document.getElementById("beats-status");
       const copyBtn = document.getElementById("beats-copy");
@@ -2900,9 +2874,6 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       const energyChips = Array.from(document.querySelectorAll("#beats-energy .energy-chip"));
       const energyRadios = Array.from(document.querySelectorAll('input[name="beats-energy"]'));
       const structureListEl = document.getElementById("structure-list");
-      const structureInput = document.getElementById("structure-input");
-      const structureAddBtn = document.getElementById("structure-add");
-      const structureResetBtn = document.getElementById("structure-reset");
       const progressionOptionsEl = document.getElementById("progression-options");
       const beatsProgressionEl = document.getElementById("beats-progression");
       const beatsProgressionChordsEl = document.getElementById("beats-progression-chords");
@@ -2911,10 +2882,10 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       const danceNoteEl = document.getElementById("beats-dance-note");
       const vocalChips = Array.from(document.querySelectorAll("#vocal-modes .vocal-chip"));
       const vocalRadios = Array.from(document.querySelectorAll('input[name="vocal-mode"]'));
-      const durationRange = document.getElementById("beats-duration-range");
       const melodyWarning = document.getElementById("melody-warning");
+      const structureNoteEl = document.getElementById("beats-structure-note");
 
-      if(!styleSel || !keySel || !bpmInput || !outputEl || !structureListEl) return;
+      if(!styleSel || !noteSel || !bpmInput || !outputEl || !structureListEl) return;
 
       const chordsMap = {};
 
@@ -2997,19 +2968,19 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       };
 
       const danceabilityMap = {
-        low: {
-          label:"low",
-          note:"Low → laid-back groove",
+        chill: {
+          label:"chill",
+          note:"Chill → laid-back groove",
           texture:"laid-back groove, relaxed syncopation, room for storytelling"
         },
-        medium: {
-          label:"medium",
-          note:"Medium → smooth bounce",
+        bounce: {
+          label:"bounce",
+          note:"Bounce → smooth bounce",
           texture:"smooth bounce, pocketed swing, body-friendly groove"
         },
-        high: {
-          label:"high",
-          note:"High → strong rhythmic drive, club-focused",
+        club: {
+          label:"club",
+          note:"Club → club-focused rhythmic drive",
           texture:"strong rhythmic drive, club-focused cadence, infectious movement"
         }
       };
@@ -3036,13 +3007,17 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       };
 
       const styles = Array.from(styleSel.options).map(o => o.value);
-      const keys = Array.from(keySel.options).map(o => o.value);
-      const defaultStructure = ["Intro","Couplet","Refrain","Pont","Drop","Outro"];
+      const notes = Array.from(noteSel.options).map(o => o.value);
+      const modes = modeRadios.map(r => r.value);
+      const keys = notes.flatMap(note => modes.map(mode => `${note} ${mode}`));
       const structurePresets = {
-        singer:["Intro","Couplet","Refrain","Refrain","Pont","Refrain","Outro"],
-        rapper:["Intro","Couplet","Couplet","Refrain","Pont","Refrain","Outro"],
-        club:["Intro","Refrain","Drop","Refrain","Drop","Outro"]
+        radio:   { label:"Radio", parts:["Intro","Verse","Chorus","Verse","Chorus","Outro"], duration:170 },
+        club:    { label:"Club", parts:["Intro","Drop","Verse","Drop","Verse","Drop","Outro"], duration:195 },
+        extended:{ label:"Extended", parts:["Intro","Verse","Chorus","Verse","Bridge","Chorus","Drop","Outro"], duration:235 }
       };
+      const defaultStructure = structurePresets.radio.parts;
+      let selectedStructurePreset = "radio";
+      let selectedDurationSeconds = structurePresets[selectedStructurePreset].duration;
       const STRUCTURE_TRANSLATIONS = {
         "couplet":"Verse",
         "refrain":"Chorus",
@@ -3056,15 +3031,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "chorus":"Chorus",
         "bridge":"Bridge"
       };
-      const usageMap = {
-        radio:   { label:"Radio", icon:"📻",   min:"2:00", ideal:"2:40 – 2:55",   default:"2:50",  structure:"format radio compact, intro courte, refrain rapide" },
-        streaming:{label:"Streaming", icon:"🎧", min:"1:50", ideal:"2:10 – 2:50", default:"2:30",  structure:"optimisé streaming, hook rapide, transitions fluides" },
-        club:    { label:"Club", icon:"🔊",   min:"2:45", ideal:"3:00 – 3:30",   default:"3:15",  structure:"sections répétables pour DJ, drops marqués" },
-        dj:      { label:"DJ / Extended", icon:"🎛️", min:"3:30", ideal:"4:00 – 4:30", default:"4:15", structure:"intro/outro longues, mix-friendly, progression progressive" },
-        emotion: { label:"Chant / Émotion", icon:"❤️", min:"2:40", ideal:"3:00 – 3:30", default:"3:10", structure:"ballad/slow sway, refrain ample, espace pour la voix" }
-      };
       let structure = [...defaultStructure];
-      let draggingIndex = null;
       let selectedProgression = progressionMap[styleSel.value]?.[0] || "i – VI – III – VII";
 
       const chromatic = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
@@ -3194,7 +3161,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 
       function currentDanceability(){
         const selected = danceRadios.find(r => r.checked);
-        return selected ? selected.value : "medium";
+        return selected ? selected.value : "bounce";
       }
 
       function updateDanceUI(){
@@ -3203,7 +3170,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           const radio = chip.querySelector('input[name="beats-dance"]');
           chip.classList.toggle("active", radio && radio.value === value);
         });
-        const meta = danceabilityMap[value] || danceabilityMap.medium;
+        const meta = danceabilityMap[value] || danceabilityMap.bounce;
         if(danceNoteEl) danceNoteEl.textContent = meta.note;
       }
 
@@ -3221,51 +3188,29 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         enforceMelodyLimit();
       }
 
-      /* Hard exclusion map : structural instruments requiring strict ban when unchecked (melodic/harmonic roles) */
-      const HARD_EXCLUSION_ALIASES = {
-        "guitar":"guitar",
-        "electric guitar":"guitar",
-        "acoustic guitar":"guitar",
-        "piano / keys":"piano / keys",
-        "piano":"piano / keys",
-        "keys":"piano / keys",
-        "strings":"strings",
-        "string":"strings",
-        "brass":"brass",
-        "synth lead":"lead synth",
-        "lead synth":"lead synth",
-        "lead":"lead synth",
-        "vox-like synths":"vox-like synths",
-        "vox like synths":"vox-like synths",
-        "vocal synth":"vox-like synths",
-        "choirs":"choirs",
-        "choir":"choirs"
-      };
-
-      const INSTRUMENT_EN_MAP = {
-        "percussions africaines":"african percussions",
-        "snare / clap":"snare/clap",
-        "hi-hats":"hi-hats",
-        "piano / keys":"piano/keys",
-        "synth lead":"lead synth",
-        "synth pads":"synth pads",
-        "strings":"strings",
-        "fx":"FX",
-        "atmospheres":"atmospheres",
-        "log drum":"log drum",
-        "808 / bass":"808/bass",
-        "kick":"kick",
-        "guitar":"guitar",
-        "latin percussion":"latin percussion",
-        "short rhythmic synth stabs":"short rhythmic synth stabs"
+      const INSTRUMENT_CATEGORY_DETAILS = {
+        drums:{ include:"drums: kick, snare/clap, hi-hats, tasteful percussions", role:"core" },
+        bass:{ include:"808/bass with controlled sidechain", role:"bass" },
+        melody:{ include:"simple synth/pad hook", role:"melody" },
+        guitar:{ include:"clean guitar licks", role:"melody" },
+        piano:{ include:"piano/keys chords", role:"melody" }
       };
 
       const MOOMBAHTON_STYLE = "Moombahton Latin Club";
       const MOOMBAHTON_STRUCTURE = ["Intro","Drop","Verse","Drop","Verse","Drop","Outro"];
-      const MOOMBAHTON_INCLUDED = "included instruments: kick, snare/clap, hi-hats, latin percussion, bass, short rhythmic synth stabs";
-      const MOOMBAHTON_STRICT = "strict exclusion: no guitar, no piano, no melodic chords, no EDM build-ups";
-      const MOOMBAHTON_DURATION = "full-length instrumental track, approx 3 minutes, continuous arrangement from intro to outro, not a loop, not a preview";
-      const MOOMBAHTON_GROOVE = "groove: dembow-based moombahton rhythm; heavy kick on 1 and 3; strong syncopated percussion; club bounce, not EDM.";
+      const MOOMBAHTON_INCLUDED = "instruments: drums, bass, latin percussions, short synth stabs";
+      const MOOMBAHTON_STRICT = "strict exclusion: no guitar, no piano, no big EDM risers";
+      const MOOMBAHTON_GROOVE = "groove: dembow-based moombahton rhythm; heavy kick on 1 and 3; syncopated percussion; club bounce.";
+
+      function currentMode(){
+        const selected = modeRadios.find(r => r.checked);
+        return selected ? selected.value : "minor";
+      }
+
+      function currentKey(){
+        const note = noteSel.value || "A";
+        return `${note} ${currentMode()}`;
+      }
 
       function normalizeInstrumentName(name){
         return (name || "").toLowerCase().trim();
@@ -3275,57 +3220,37 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         return (style || "").trim() === MOOMBAHTON_STYLE;
       }
 
-      function isMelodicRole(role){
-        const r = (role || "").toLowerCase();
-        return r === "melody" || r === "harmonic" || r === "harmony";
-      }
-
       function getInstrumentSelection(){
         const included = [];
         const excluded = [];
-        const strictExclusions = new Set();
+        let melodicCount = 0;
 
         instrumentInputs.forEach(input => {
-          const name = (input.value || "").trim();
-          if(!name) return;
-          const role = input.dataset.role || "";
-          const canonical = HARD_EXCLUSION_ALIASES[normalizeInstrumentName(name)];
-
+          const id = input.value;
+          const meta = INSTRUMENT_CATEGORY_DETAILS[id];
+          if(!meta) return;
           if(input.checked){
-            included.push(name);
+            included.push(meta.include);
+            if(meta.role === "melody") melodicCount++;
           } else {
-            excluded.push(name);
-            if(isMelodicRole(role) && canonical){
-              strictExclusions.add(canonical);
-            }
+            excluded.push(meta.include);
           }
         });
 
         if(!included.length){
-          included.push("minimal percussion");
+          included.push("minimal drums only");
         }
 
-        return {included, excluded, strictExclusions};
-      }
-
-      function buildStrictExclusionBlock(strictExclusions){
-        if(!strictExclusions || !strictExclusions.size) return "";
-        const clauses = Array.from(strictExclusions).map(name => {
-          const label = normalizeInstrumentName(name) || "instrument";
-          return `no ${label}, no ${label} textures, no ${label}-like timbres`;
-        });
-        return `strict exclusion: ${clauses.join("; ")}`;
+        return {included, excluded, melodicCount};
       }
 
       function buildInstrumentLines(){
-        const {included, excluded, strictExclusions} = getInstrumentSelection();
-        const humanize = (list) => list.map(v => {
-          const key = normalizeInstrumentName(v);
-          return INSTRUMENT_EN_MAP[key] || v;
-        });
-        const includedLine = `included instruments: ${humanize(included).join(", ")}`;
-        const excludedLine = excluded.length ? `excluded instruments: ${humanize(excluded).join(", ")}` : "";
-        const strictBlock = buildStrictExclusionBlock(strictExclusions);
+        const {included, excluded, melodicCount} = getInstrumentSelection();
+        const includedLine = `instruments: ${included.join(", ")}`;
+        const excludedLine = excluded.length ? `avoid: ${excluded.join(", ")}` : "";
+        const strictBlock = (melodicCount > 1 && currentVocalMode() === "vocal-first")
+          ? "keep only one melodic hook to protect vocal space"
+          : "";
         return {includedLine, excludedLine, strictBlock};
       }
 
@@ -3366,13 +3291,15 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       }
 
       function enforceMelodyLimit(){
+      function enforceMelodyLimit(){
         const isVocalFirst = currentVocalMode() === "vocal-first";
-        const melodic = instrumentInputs.filter(i => i.dataset.role === "melody" && i.checked);
-        const overLimit = isVocalFirst && melodic.length > 1;
+        const {melodicCount} = getInstrumentSelection();
+        const overLimit = isVocalFirst && melodicCount > 1;
         instrumentInputs.forEach(input => {
           const wrapper = input.closest(".instrument-checkbox");
           if(wrapper){
-            wrapper.classList.toggle("over-limit", overLimit && input.dataset.role === "melody" && input.checked);
+            const isMelodic = (input.dataset.role || "") === "melody";
+            wrapper.classList.toggle("over-limit", overLimit && isMelodic && input.checked);
           }
         });
         if(melodyWarning){
@@ -3381,122 +3308,13 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       }
 
       function ensureStructure(){
-        if(!Array.isArray(structure) || !structure.length){
-          structure = [...defaultStructure];
+        const preset = structurePresets[selectedStructurePreset];
+        if(!preset){
+          selectedStructurePreset = "radio";
         }
-      }
-
-      function renderStructure(){
-        ensureStructure();
-        structureListEl.innerHTML = "";
-
-        structure.forEach((part, index) => {
-          const li = document.createElement("li");
-          li.className = "structure-item";
-          li.draggable = true;
-          li.dataset.index = index;
-
-          const left = document.createElement("div");
-          left.style.display = "flex";
-          left.style.alignItems = "center";
-          left.style.gap = "8px";
-
-          const handle = document.createElement("span");
-          handle.className = "drag-handle";
-          handle.textContent = "⠿";
-          left.appendChild(handle);
-
-          const label = document.createElement("span");
-          label.className = "structure-label";
-          label.textContent = part;
-          left.appendChild(label);
-
-          const remove = document.createElement("button");
-          remove.type = "button";
-          remove.className = "structure-btn secondary";
-          remove.textContent = "✕";
-          remove.style.minWidth = "42px";
-          remove.addEventListener("click", () => {
-            structure.splice(index,1);
-            renderStructure();
-            generatePrompt();
-          });
-
-          li.appendChild(left);
-          li.appendChild(remove);
-
-          li.addEventListener("dragstart", () => {
-            draggingIndex = index;
-            li.classList.add("dragging");
-          });
-          li.addEventListener("dragend", () => {
-            draggingIndex = null;
-            li.classList.remove("dragging");
-          });
-          li.addEventListener("dragover", (e) => {
-            e.preventDefault();
-          });
-          li.addEventListener("drop", (e) => {
-            e.preventDefault();
-            const targetIndex = Number(li.dataset.index);
-            if(draggingIndex === null || Number.isNaN(targetIndex)) return;
-            const [moved] = structure.splice(draggingIndex,1);
-            structure.splice(targetIndex,0,moved);
-            draggingIndex = null;
-            renderStructure();
-            generatePrompt();
-          });
-
-          structureListEl.appendChild(li);
-        });
-      }
-
-      function addStructurePart(){
-        const value = (structureInput.value || "").trim();
-        if(!value) return;
-        structure.push(value);
-        structureInput.value = "";
-        renderStructure();
-        generatePrompt();
-      }
-
-      function resetStructure(){
-        structure = [...defaultStructure];
-        renderStructure();
-        generatePrompt();
-      }
-
-      function applyPreset(name){
-        const preset = structurePresets[name];
-        if(Array.isArray(preset)){
-          structure = [...preset];
-          renderStructure();
-          generatePrompt();
-        }
-      }
-
-      function formatDuration(raw){
-        const value = (raw || "").trim();
-        if(!value) return "3:00";
-        if(/^[0-9]+:[0-9]{1,2}$/.test(value)){
-          return value;
-        }
-        if(/^[0-9]+$/.test(value)){
-          return `${value}s`;
-        }
-        return value;
-      }
-
-      function parseDurationToSeconds(val){
-        const value = (val || "").trim();
-        if(/^[0-9]+:[0-9]{1,2}$/.test(value)){
-          const [m,s] = value.split(":").map(Number);
-          return (m*60) + s;
-        }
-        if(/^[0-9]+$/.test(value)){
-          return Number(value);
-        }
-        return null;
+        const currentPreset = structurePresets[selectedStructurePreset] || structurePresets.radio;
+        structure = Array.isArray(currentPreset.parts) ? [...currentPreset.parts] : [...defaultStructure];
+        selectedDurationSeconds = currentPreset.duration || 180;
       }
 
       function formatMinutesValue(seconds){
@@ -3504,29 +3322,35 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         return (seconds / 60).toFixed(1);
       }
 
-      function secondsToClock(sec){
-        if(!Number.isFinite(sec)) return "3:00";
-        const m = Math.floor(sec/60);
-        const s = Math.max(0, Math.round(sec % 60));
-        return `${m}:${String(s).padStart(2,"0")}`;
+      function renderStructure(){
+        ensureStructure();
+        structureListEl.innerHTML = "";
+        structure.forEach(part => {
+          const li = document.createElement("li");
+          li.className = "structure-item";
+          const label = document.createElement("span");
+          label.className = "structure-label";
+          label.textContent = part;
+          li.appendChild(label);
+          structureListEl.appendChild(li);
+        });
+        const preset = structurePresets[selectedStructurePreset];
+        if(structureNoteEl && preset){
+          structureNoteEl.textContent = `${preset.label} preset — auto length handled in prompt.`;
+        }
       }
 
-      function syncDurationInputs(source){
-        if(source === "slider" && durationRange && durationInput){
-          const sec = Number(durationRange.value);
-          durationInput.value = secondsToClock(sec);
-        } else if(durationInput && durationRange){
-          const parsed = parseDurationToSeconds(durationInput.value);
-          if(Number.isFinite(parsed)){
-            durationRange.value = Math.max(durationRange.min, Math.min(durationRange.max, parsed));
-            durationInput.value = secondsToClock(parsed);
-          }
-        }
+      function selectStructurePreset(name){
+        if(!structurePresets[name]) return;
+        selectedStructurePreset = name;
+        ensureStructure();
+        renderStructure();
+        generatePrompt();
       }
 
       function updateMeta(){
         const style = styleSel.value;
-        const key = keySel.value;
+        const key = currentKey();
         const transposed = transposeProgression(selectedProgression, key);
         const range = bpmMap[style] || [90,120];
         if(chordsEl) chordsEl.textContent = transposed.chordLine;
@@ -3534,64 +3358,6 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         updateEnergyUI();
         updateDanceUI();
         updateVocalUI();
-      }
-
-      function renderUsageMeta(entry){
-        if(!usageMetaEl) return;
-        usageMetaEl.innerHTML = "";
-        if(!entry) return;
-        const tags = [
-          {label:"Défaut", value: entry.default},
-          {label:"Idéal", value: entry.ideal},
-          {label:"Minimum", value: entry.min},
-          {label:"Structure", value: entry.structure}
-        ];
-        tags.forEach(tag => {
-          const pill = document.createElement("div");
-          pill.className = "usage-pill";
-          pill.innerHTML = `<strong>${tag.label} :</strong> ${tag.value}`;
-          usageMetaEl.appendChild(pill);
-        });
-      }
-
-      function maybeApplyStructurePresetForUsage(usageKey){
-        const presetLink = {
-          radio:"singer",
-          streaming:"singer",
-          club:"club",
-          dj:"club",
-          emotion:"singer"
-        };
-        const presetName = presetLink[usageKey];
-        if(!presetName) return;
-        const preset = structurePresets[presetName];
-        if(!Array.isArray(preset)) return;
-
-        const currentSignature = Array.isArray(structure) ? structure.join("|") : "";
-        const knownPresets = [
-          defaultStructure.join("|"),
-          ...Object.values(structurePresets).map(p => Array.isArray(p) ? p.join("|") : "")
-        ];
-        if(knownPresets.includes(currentSignature)){
-          structure = [...preset];
-          renderStructure();
-        }
-      }
-
-      function applyUsage(usageKey, triggerSource="auto"){
-        const entry = usageMap[usageKey] || usageMap.streaming;
-        const sec = parseDurationToSeconds(entry.default) || 150;
-        if(durationRange){
-          durationRange.value = Math.min(Math.max(sec, Number(durationRange.min)), Number(durationRange.max));
-        }
-        if(durationInput){
-          durationInput.value = secondsToClock(sec);
-        }
-        renderUsageMeta(entry);
-        maybeApplyStructurePresetForUsage(usageKey);
-        if(triggerSource !== "init"){
-          generatePrompt();
-        }
       }
 
       function pickProgression(){
@@ -3619,7 +3385,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         if(!selectedProgression && list.length){
           selectedProgression = list[0];
         }
-        const transposed = transposeProgression(selectedProgression, keySel.value);
+        const transposed = transposeProgression(selectedProgression, currentKey());
         beatsProgressionEl.textContent = transposed.romanLine;
         beatsProgressionChordsEl.textContent = transposed.chordLine;
       }
@@ -3638,13 +3404,12 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       }
 
       function generatePrompt(source="manual"){
+        ensureStructure();
         const style = styleSel.value || "Afro-Trap";
-        const key = keySel.value || "A minor";
+        const key = currentKey();
         const range = bpmMap[style] || [90,120];
         const bpm = sanitizeBpm(bpmInput.value, range);
         bpmInput.value = bpm;
-        const usageKey = usageSel?.value || "streaming";
-        const usageEntry = usageMap[usageKey] || usageMap.streaming;
         const progression = pickProgression();
         const transposed = transposeProgression(progression, key);
         beatsProgressionEl.textContent = transposed.romanLine;
@@ -3652,66 +3417,46 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         if(chordsEl) chordsEl.textContent = transposed.chordLine;
         let {includedLine, excludedLine, strictBlock} = buildInstrumentLines();
         const energy = energyMap[currentEnergy()] || energyMap.medium;
-        const dance = danceabilityMap[currentDanceability()] || danceabilityMap.medium;
+        const dance = danceabilityMap[currentDanceability()] || danceabilityMap.bounce;
         const vocal = vocalModeMap[currentVocalMode()] || vocalModeMap["vocal-first"];
-        let structureParts = (structure && structure.length) ? structure : ["Intro","Drop","Outro"];
-        let structureLine = translateStructureToEnglish(structureParts).join(" → ") || "Intro → Drop → Outro";
-        const usageMinSeconds = parseDurationToSeconds(usageEntry.min) || Number(durationRange?.min) || 120;
-        const rawDurationSeconds = parseDurationToSeconds(durationInput?.value) || Number(durationRange?.value) || 180;
-        let currentDurationSeconds = Math.max(rawDurationSeconds, usageMinSeconds);
-        const culturalLine = `${buildCulturalLock(style)}, key ${key}, cultural identity locked.`;
+        const preset = structurePresets[selectedStructurePreset] || structurePresets.radio;
+        let structureParts = (structure && structure.length) ? structure : preset.parts;
+        let structureLine = `structure: ${translateStructureToEnglish(structureParts).join(" → ")}`;
+        let durationMinutes = formatMinutesValue(preset.duration || selectedDurationSeconds);
+        const styleLine = `${style} vibe locked — ${describeStyle(style)}`;
+        const culturalLine = `cultural lock: ${buildCulturalLock(style)}, key ${key}.`;
         let bpmLine = `${bpm} BPM locked, winning chord progression ${transposed.romanLine} (${transposed.chordLine}).`;
-        let durationMinutes = formatMinutesValue(currentDurationSeconds);
-        let durationLine = `full-length track about ${durationMinutes} minutes, continuous from intro to outro, not a loop or preview.`;
-        let vocalSummary = vocal.summary || vocal.arrangement;
-        let vocalLine = `vocal-first arrangement: ${vocalSummary}`;
-        let energyDanceLine = `energy/danceability: ${energy.label} energy, ${dance.label} danceability.`;
-        let grooveDetails = `texture: ${energy.texture}; ${dance.texture}; ${vocal.mix}`;
+        let durationLine = `full track ~${durationMinutes} min (${preset.label} preset), continuous, not a loop.`;
+        const vocalLine = `vocal mode: ${vocal.label}; ${vocal.arrangement}`;
+        const grooveLine = `groove: ${energy.label} energy, ${dance.label} dance.`;
+        let grooveDetails = `${energy.texture}; ${dance.texture}; ${vocal.mix}`;
 
         if(isMoombahtonLatinClub(style)){
-          structureParts = [...MOOMBAHTON_STRUCTURE];
-          structureLine = MOOMBAHTON_STRUCTURE.join(" > ");
           includedLine = MOOMBAHTON_INCLUDED;
           excludedLine = "";
           strictBlock = MOOMBAHTON_STRICT;
-          currentDurationSeconds = 180;
-          durationMinutes = formatMinutesValue(currentDurationSeconds);
-          durationLine = MOOMBAHTON_DURATION;
-          bpmLine = `${bpm} BPM locked (108-112 BPM range), winning chord progression ${transposed.romanLine} (${transposed.chordLine}).`;
-          vocalLine = "vocal-first arrangement, no lead melody, instrumental supportive, not dominant, clear space for human vocals";
-          energyDanceLine = "energy/danceability: medium energy, medium danceability, club but vocal-friendly.";
+          bpmLine = `${bpm} BPM locked (108-112 range), winning chord progression ${transposed.romanLine} (${transposed.chordLine}).`;
+          durationLine = `full track ~3.0 min (club layout), continuous, not a loop.`;
           grooveDetails = MOOMBAHTON_GROOVE;
-          if(durationInput){
-            durationInput.value = secondsToClock(currentDurationSeconds);
-          }
-          if(durationRange){
-            durationRange.value = Math.min(Math.max(currentDurationSeconds, Number(durationRange.min)), Number(durationRange.max));
-          }
-        }else{
-          if(durationInput){
-            durationInput.value = secondsToClock(currentDurationSeconds);
-          }
-          if(durationRange){
-            durationRange.value = Math.min(Math.max(currentDurationSeconds, Number(durationRange.min)), Number(durationRange.max));
-          }
+          structureParts = [...MOOMBAHTON_STRUCTURE];
+          structureLine = `structure: ${translateStructureToEnglish(structureParts).join(" → ")}`;
         }
 
-        const grooveSection = isMoombahtonLatinClub(style)
-          ? {text: grooveDetails}
-          : {text: grooveDetails, optional: true, compact: (t) => t.split(";").slice(0,2).join("; ")};
+        const grooveSection = {text: grooveDetails, optional: true, compact: (t) => t.split(";").slice(0,2).join("; ")};
 
         const sections = [
+          {text: styleLine},
           {text: culturalLine},
           {text: bpmLine},
           {text: durationLine},
           {text: vocalLine},
+          {text: grooveLine},
+          grooveSection,
           {text: includedLine},
           strictBlock ? {text: strictBlock} : null,
           excludedLine ? {text: excludedLine, optional: true} : null,
-          {text: `structure: ${structureLine}`},
-          {text: energyDanceLine},
-          grooveSection,
-          {text: "do not add any instrument not listed above"}
+          {text: structureLine},
+          {text: "do not add instruments beyond the list above"}
         ];
 
         const {prompt, length} = buildPromptText(sections);
@@ -3724,6 +3469,63 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         }
         updateMeta();
         enforceMelodyLimit();
+      }
+
+      function randomizeInstruments(){
+        let checkedCount = 0;
+        instrumentInputs.forEach(input => {
+          const mustKeep = ["drums","bass"].includes(input.value);
+          const decision = mustKeep ? true : Math.random() > 0.5;
+          input.checked = decision;
+          if(decision) checkedCount++;
+        });
+        if(checkedCount === 0 && instrumentInputs[0]){
+          instrumentInputs[0].checked = true;
+        }
+        enforceMelodyLimit();
+      }
+
+      function shuffleStructure(){
+        const presetKeys = Object.keys(structurePresets);
+        const pick = presetKeys[Math.floor(Math.random()*presetKeys.length)] || "radio";
+        selectStructurePreset(pick);
+      }
+
+      function shufflePrompt(){
+        const style = styles[Math.floor(Math.random()*styles.length)] || "Afro-Trap";
+        const key = keys[Math.floor(Math.random()*keys.length)] || "A minor";
+        const [note, mode] = key.split(" ");
+        styleSel.value = style;
+        if(noteSel) noteSel.value = note;
+        modeRadios.forEach(r => { r.checked = r.value === (mode || "minor"); });
+
+        syncBpmWithStyle();
+        const range = bpmMap[style] || [90,120];
+        const bpm = Math.floor(Math.random() * (range[1] - range[0] + 1)) + range[0];
+        bpmInput.value = bpm;
+
+        const energyKeys = Object.keys(energyMap);
+        const pickedEnergy = energyKeys[Math.floor(Math.random()*energyKeys.length)] || "medium";
+        energyRadios.forEach(r => { r.checked = r.value === pickedEnergy; });
+        updateEnergyUI();
+
+        const danceKeys = Object.keys(danceabilityMap);
+        const pickedDance = danceKeys[Math.floor(Math.random()*danceKeys.length)] || "bounce";
+        danceRadios.forEach(r => { r.checked = r.value === pickedDance; });
+        updateDanceUI();
+
+        const vocalKeys = Object.keys(vocalModeMap);
+        const pickedVocal = vocalKeys[Math.floor(Math.random()*vocalKeys.length)] || "vocal-first";
+        vocalRadios.forEach(r => { r.checked = r.value === pickedVocal; });
+        updateVocalUI();
+
+        const progs = progressionMap[style] || [];
+        selectedProgression = progs[Math.floor(Math.random()*progs.length)] || selectedProgression;
+
+        randomizeInstruments();
+        shuffleStructure();
+        renderProgressions();
+        generatePrompt("shuffle");
       }
 
       function copyPrompt(){
@@ -3755,69 +3557,6 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         statusEl && (statusEl.textContent = "Prompt copié (mode rétro).");
       }
 
-      function randomizeInstruments(){
-        let checkedCount = 0;
-        instrumentInputs.forEach(input => {
-          const mustKeep = ["kick","hi-hats","snare / clap","808 / bass"].includes(input.value);
-          const decision = mustKeep ? true : Math.random() > 0.35;
-          input.checked = decision;
-          if(decision) checkedCount++;
-        });
-        if(checkedCount === 0 && instrumentInputs[0]){
-          instrumentInputs[0].checked = true;
-        }
-        enforceMelodyLimit();
-      }
-
-      function shuffleStructure(){
-        structure = [...defaultStructure]
-          .sort(() => Math.random() - 0.5)
-          .slice(0, Math.max(4, Math.floor(Math.random()*defaultStructure.length)+2));
-        renderStructure();
-      }
-
-      function shufflePrompt(){
-        const style = styles[Math.floor(Math.random()*styles.length)] || "Afro-Trap";
-        const key = keys[Math.floor(Math.random()*keys.length)] || "A minor";
-        styleSel.value = style;
-        keySel.value = key;
-
-        syncBpmWithStyle();
-        const range = bpmMap[style] || [90,120];
-        const bpm = Math.floor(Math.random() * (range[1] - range[0] + 1)) + range[0];
-        bpmInput.value = bpm;
-
-        const energyKeys = Object.keys(energyMap);
-        const pickedEnergy = energyKeys[Math.floor(Math.random()*energyKeys.length)] || "medium";
-        energyRadios.forEach(r => { r.checked = r.value === pickedEnergy; });
-        updateEnergyUI();
-
-        const danceKeys = Object.keys(danceabilityMap);
-        const pickedDance = danceKeys[Math.floor(Math.random()*danceKeys.length)] || "medium";
-        danceRadios.forEach(r => { r.checked = r.value === pickedDance; });
-        updateDanceUI();
-
-        const vocalKeys = Object.keys(vocalModeMap);
-        const pickedVocal = vocalKeys[Math.floor(Math.random()*vocalKeys.length)] || "vocal-first";
-        vocalRadios.forEach(r => { r.checked = r.value === pickedVocal; });
-        updateVocalUI();
-
-        const usageKeys = Object.keys(usageMap);
-        const pickedUsage = usageKeys[Math.floor(Math.random()*usageKeys.length)] || "streaming";
-        if(usageSel){
-          usageSel.value = pickedUsage;
-          applyUsage(pickedUsage, "shuffle");
-        }
-
-        const progs = progressionMap[style] || [];
-        selectedProgression = progs[Math.floor(Math.random()*progs.length)] || selectedProgression;
-
-        randomizeInstruments();
-        shuffleStructure();
-        renderProgressions();
-        generatePrompt("shuffle");
-      }
-
       styleSel.addEventListener("change", () => {
         selectedProgression = (progressionMap[styleSel.value] || [])[0] || selectedProgression;
         syncBpmWithStyle();
@@ -3825,10 +3564,17 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         updateMeta();
         generatePrompt();
       });
-      keySel.addEventListener("change", () => {
+      noteSel.addEventListener("change", () => {
         renderProgressions();
         updateMeta();
         generatePrompt();
+      });
+      modeRadios.forEach(radio => {
+        radio.addEventListener("change", () => {
+          renderProgressions();
+          updateMeta();
+          generatePrompt();
+        });
       });
       bpmInput.addEventListener("input", () => generatePrompt());
       energyChips.forEach(chip => {
@@ -3861,41 +3607,16 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           }
         });
       });
-      if(usageSel){
-        usageSel.addEventListener("change", () => {
-          applyUsage(usageSel.value, "user");
-        });
-      }
-      if(durationRange){
-        durationRange.addEventListener("input", () => {
-          syncDurationInputs("slider");
-          generatePrompt();
-        });
-      }
-      if(durationInput){
-        durationInput.addEventListener("change", () => {
-          syncDurationInputs("text");
-          generatePrompt();
-        });
-      }
       instrumentInputs.forEach(input => {
         input.addEventListener("change", () => {
           enforceMelodyLimit();
           generatePrompt();
         });
       });
-      structureAddBtn && structureAddBtn.addEventListener("click", addStructurePart);
-      structureResetBtn && structureResetBtn.addEventListener("click", resetStructure);
-      structureInput && structureInput.addEventListener("keydown", (e) => {
-        if(e.key === "Enter"){
-          e.preventDefault();
-          addStructurePart();
-        }
-      });
       document.querySelectorAll("[data-structure-preset]").forEach(btn => {
         btn.addEventListener("click", () => {
           const name = btn.getAttribute("data-structure-preset");
-          applyPreset(name);
+          selectStructurePreset(name);
         });
       });
       copyBtn && copyBtn.addEventListener("click", copyPrompt);
@@ -3907,8 +3628,6 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       renderProgressions();
       renderStructure();
       updateMeta();
-      applyUsage(usageSel?.value || "streaming", "init");
-      syncDurationInputs("slider");
       generatePrompt("init");
     })();
   </script>
