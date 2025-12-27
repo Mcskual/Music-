@@ -3180,16 +3180,54 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         enforceMelodyLimit();
       }
 
+      /* Hard exclusion map : structural instruments requiring strict ban when unchecked (melodic/harmonic roles) */
+      const HARD_EXCLUSION_ALIASES = {
+        "guitar":"guitar",
+        "electric guitar":"guitar",
+        "acoustic guitar":"guitar",
+        "piano / keys":"piano / keys",
+        "piano":"piano / keys",
+        "keys":"piano / keys",
+        "strings":"strings",
+        "string":"strings",
+        "brass":"brass",
+        "synth lead":"lead synth",
+        "lead synth":"lead synth",
+        "lead":"lead synth",
+        "vox-like synths":"vox-like synths",
+        "vox like synths":"vox-like synths",
+        "vocal synth":"vox-like synths",
+        "choirs":"choirs",
+        "choir":"choirs"
+      };
+
+      function normalizeInstrumentName(name){
+        return (name || "").toLowerCase().trim();
+      }
+
+      function isMelodicRole(role){
+        const r = (role || "").toLowerCase();
+        return r === "melody" || r === "harmonic" || r === "harmony";
+      }
+
       function getInstrumentSelection(){
         const included = [];
         const excluded = [];
+        const strictExclusions = new Set();
+
         instrumentInputs.forEach(input => {
-          const name = input.value;
+          const name = (input.value || "").trim();
           if(!name) return;
+          const role = input.dataset.role || "";
+          const canonical = HARD_EXCLUSION_ALIASES[normalizeInstrumentName(name)];
+
           if(input.checked){
             included.push(name);
           } else {
             excluded.push(name);
+            if(isMelodicRole(role) && canonical){
+              strictExclusions.add(canonical);
+            }
           }
         });
 
@@ -3197,11 +3235,34 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           included.push("minimal percussions");
         }
 
-        return {included, excluded};
+        return {included, excluded, strictExclusions};
+      }
+
+      function buildStrictExclusionBlock(strictExclusions){
+        if(!strictExclusions || !strictExclusions.size) return "";
+
+        const lines = [];
+        strictExclusions.forEach(name => {
+          const label = normalizeInstrumentName(name);
+          lines.push(
+            `no ${label} in any form,`,
+            `no rhythmic ${label},`,
+            `no strumming patterns,`,
+            `no ${label} textures,`,
+            `no ${label}-like timbres`
+          );
+        });
+
+        if(lines.length){
+          const lastIdx = lines.length - 1;
+          lines[lastIdx] = lines[lastIdx].replace(/,+$/, "");
+        }
+
+        return `strict exclusion:\n${lines.join("\n")}`;
       }
 
       function buildInstrumentLines(){
-        const {included, excluded} = getInstrumentSelection();
+        const {included, excluded, strictExclusions} = getInstrumentSelection();
         const humanize = (list) => list.map(v => {
           if(v === "fx") return "FX";
           if(v === "atmospheres") return "atmospheres";
@@ -3209,7 +3270,8 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         });
         const includedLine = `included instruments: ${humanize(included).join(", ")}`;
         const excludedLine = `excluded instruments: ${excluded.length ? humanize(excluded).join(", ") : "none"}`;
-        return {includedLine, excludedLine};
+        const strictBlock = buildStrictExclusionBlock(strictExclusions);
+        return {includedLine, excludedLine, strictBlock};
       }
 
       function enforceMelodyLimit(){
@@ -3493,7 +3555,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         beatsProgressionEl.textContent = transposed.romanLine;
         beatsProgressionChordsEl.textContent = transposed.chordLine;
         if(chordsEl) chordsEl.textContent = transposed.chordLine;
-        const {includedLine, excludedLine} = buildInstrumentLines();
+        const {includedLine, excludedLine, strictBlock} = buildInstrumentLines();
         const energy = energyMap[currentEnergy()] || energyMap.medium;
         const dance = danceabilityMap[currentDanceability()] || danceabilityMap.medium;
         const vocal = vocalModeMap[currentVocalMode()] || vocalModeMap["vocal-first"];
@@ -3527,13 +3589,15 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 `arrangement: ${vocal.arrangement},`,
 `usage: ${usageEntry.icon} ${usageEntry.label}, ${usageEntry.structure},`,
 `${includedLine},`,
+strictBlock,
 `${excludedLine},`,
 `structure: ${structureLine},`,
 durationBlock,
 `${styleDescriptor},`,
 `${vocal.mix},`,
-`clean modern balanced mix, no vocals`
-        ];
+`clean modern balanced mix, no vocals`,
+`do not introduce any instrument not explicitly listed as included`
+        ].filter(Boolean);
 
         outputEl.value = promptLines.join("\n");
         if(statusEl){
