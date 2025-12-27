@@ -1486,63 +1486,89 @@
     }
 
     /* Track Name Generator */
-    .track-card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:16px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      box-shadow:none;
-    }
-    .track-name-panel{
-      background:var(--panel);
-      border:1px dashed var(--border);
-      border-radius:12px;
-      padding:12px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
-    .track-name-display{
-      min-height:48px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      background:rgba(15,23,42,.6);
-      padding:12px 14px;
-      font-size:18px;
-      font-weight:800;
-      letter-spacing:0.01em;
-      display:flex;
-      align-items:center;
-      color:var(--text);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
-    }
-    [data-theme="light"] .track-name-display{
-      background:#f8fafc;
-    }
-    .track-name-actions{
+    .track-inline-row{
       display:flex;
       flex-wrap:wrap;
-      gap:8px;
+      gap:10px;
+      align-items:flex-start;
+      justify-content:space-between;
+      margin-top:8px;
+    }
+    .prompt-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
       align-items:center;
+    }
+    .track-inline{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:var(--panel);
+      flex:1 1 360px;
+      min-width:320px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+    }
+    [data-theme="light"] .track-inline{
+      background:#f8fafc;
+    }
+    .track-name-wrap{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      flex:1;
+      min-width:0;
+    }
+    .track-meta{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      color:var(--text2);
+      font-size:12px;
     }
     .track-chip{
       display:inline-flex;
       align-items:center;
-      gap:6px;
-      padding:6px 10px;
+      gap:4px;
+      padding:4px 8px;
       border-radius:10px;
       border:1px solid var(--border);
-      background:var(--panel);
-      color:var(--text2);
-      font-size:12px;
+      background:rgba(0,0,0,0.08);
+      color:inherit;
     }
-    .track-meta{
+    [data-theme="light"] .track-chip{
+      background:rgba(15,23,42,.04);
+    }
+    .track-name-display{
+      border-radius:10px;
+      border:1px dashed var(--border);
+      padding:10px 12px;
+      font-size:15px;
+      font-weight:800;
+      letter-spacing:0.01em;
+      color:var(--text);
+      min-height:38px;
       display:flex;
-      flex-wrap:wrap;
+      align-items:center;
+      background:rgba(15,23,42,.6);
+    }
+    [data-theme="light"] .track-name-display{
+      background:rgba(255,255,255,.85);
+    }
+    .track-name-actions{
+      display:flex;
+      flex-direction:column;
       gap:6px;
+      align-items:flex-end;
+    }
+    .beats-btn.sm{
+      padding:9px 11px;
+      min-width:120px;
+      font-size:12px;
+      border-radius:9px;
     }
     .track-copy-feedback{
       font-size:12px;
@@ -1981,24 +2007,6 @@
               </div>
             </div>
 
-            <div class="track-card" id="track-generator">
-              <h3>🎵 Track Name Generator</h3>
-              <p class="beats-description">Titres illimités liés au style, à l'énergie et à la danceability. Indépendant du prompt.</p>
-              <div class="track-name-panel" aria-live="polite">
-                <div class="track-meta">
-                  <span class="track-chip">Style : <strong id="track-style-meta">Afro-Trap</strong></span>
-                  <span class="track-chip">Énergie : <strong id="track-energy-meta">Medium</strong></span>
-                  <span class="track-chip">Dance : <strong id="track-dance-meta">Bounce</strong></span>
-                </div>
-                <div class="track-name-display" id="track-name-display">Prêt à générer</div>
-                <div class="track-name-actions">
-                  <button type="button" class="beats-btn primary" id="track-generate">Generate Name</button>
-                  <button type="button" class="beats-btn" id="track-copy">Copy Name</button>
-                  <span class="track-copy-feedback" id="track-copy-feedback" role="status" aria-live="assertive">Copié ✔</span>
-                </div>
-              </div>
-            </div>
-
             <div class="beats-card">
               <h3>⏱️ Usage & Durée</h3>
               <p class="beats-description">Usage cible = durée et formulation automatique. Toujours en mode full-length, jamais en boucle.</p>
@@ -2094,10 +2102,27 @@
               <div class="beats-output-meta">
                 <span class="beats-meta-pill" id="beats-keyline">Key &amp; BPM verrouillés</span>
               </div>
-              <div class="beats-toolbar">
-                <button type="button" class="beats-btn primary" id="beats-generate">Generate</button>
-                <button type="button" class="beats-btn secondary" id="beats-shuffle-cta">Shuffle</button>
-                <button type="button" class="beats-btn" id="beats-copy">Copy Prompt</button>
+              <div class="track-inline-row">
+                <div class="prompt-actions">
+                  <button type="button" class="beats-btn primary" id="beats-generate">Generate</button>
+                  <button type="button" class="beats-btn secondary" id="beats-shuffle-cta">Shuffle</button>
+                  <button type="button" class="beats-btn" id="beats-copy">Copy Prompt</button>
+                </div>
+                <div class="track-inline" id="track-generator" aria-live="polite">
+                  <div class="track-name-wrap">
+                    <div class="track-meta">
+                      <span class="track-chip">Style <strong id="track-style-meta">Afro-Trap</strong></span>
+                      <span class="track-chip">Énergie <strong id="track-energy-meta">Medium</strong></span>
+                      <span class="track-chip">Dance <strong id="track-dance-meta">Bounce</strong></span>
+                    </div>
+                    <div class="track-name-display" id="track-name-display">Prêt à générer</div>
+                  </div>
+                  <div class="track-name-actions">
+                    <button type="button" class="beats-btn sm primary" id="track-generate">Generate Name</button>
+                    <button type="button" class="beats-btn sm" id="track-copy">Copy Name</button>
+                    <span class="track-copy-feedback" id="track-copy-feedback" role="status" aria-live="assertive">Copié ✔</span>
+                  </div>
+                </div>
               </div>
               <div class="beats-status" id="beats-status">Prêt à générer un prompt studio.</div>
             </div>
