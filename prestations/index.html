@@ -674,6 +674,31 @@
     .hint{ font-size:12px; color:#9fb1c2; }
     .tab-section{ display:none; }
     .tab-section.active{ display:block; }
+    .embed-shell{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      padding:12px;
+      margin-top:16px;
+    }
+    .embed-frame{
+      width:100%;
+      border:0;
+      border-radius:10px;
+      background:transparent;
+      min-height:860px;
+      display:block;
+    }
+    .embed-note{
+      font-size:13px;
+      color:var(--text2);
+      margin:0 0 10px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .embed-note[data-loaded="true"]{ display:none; }
     .row{
       display:flex;
       flex-wrap:wrap;
@@ -1596,10 +1621,10 @@
         <div class="nav-links" id="nav-links">
           <a class="nav-link active" data-priority="main" href="#prestations" data-tab-target="prestations">Prestations</a>
           <a class="nav-link" data-priority="main" href="#beatsengine" data-tab-target="beatsengine">BeatsEngine</a>
-          <a class="nav-link" data-priority="main" href="facturation.html">Facturation</a>
-          <a class="nav-link" data-priority="main" href="rdv.html">RDV</a>
-          <a class="nav-link" data-priority="secondary" href="licence.html">Licence</a>
-          <a class="nav-link" data-priority="secondary" href="famille.html">Famille</a>
+          <a class="nav-link" data-priority="main" href="#facturation" data-tab-target="facturation">Facturation</a>
+          <a class="nav-link" data-priority="main" href="#rdv" data-tab-target="rdv">RDV</a>
+          <a class="nav-link" data-priority="secondary" href="#licence" data-tab-target="licence">Licence</a>
+          <a class="nav-link" data-priority="secondary" href="#famille" data-tab-target="famille">Famille</a>
         </div>
       </div>
       <div class="nav-actions">
@@ -2131,6 +2156,74 @@
       </div>
     </section>
 
+    <section class="tab-section" id="facturation" hidden>
+      <div class="tab-header">
+        <div>
+          <h2>Facturation</h2>
+          <p class="tab-subtitle">La vue facturation est chargée dans la même interface pour garder le header et la navigation identiques.</p>
+        </div>
+        <div class="tab-actions">
+          <span class="pill">PDF prêt</span>
+          <span class="pill">Prestations soldées</span>
+        </div>
+      </div>
+      <div class="embed-shell">
+        <p class="embed-note">Chargement de Facturation avec le header commun…</p>
+        <iframe class="embed-frame" title="Facturation" loading="lazy" data-src="facturation.html"></iframe>
+      </div>
+    </section>
+
+    <section class="tab-section" id="rdv" hidden>
+      <div class="tab-header">
+        <div>
+          <h2>RDV</h2>
+          <p class="tab-subtitle">Raccourcis planification et Google Calendar dans une vue embarquée qui conserve le même header.</p>
+        </div>
+        <div class="tab-actions">
+          <span class="pill">Agenda</span>
+          <span class="pill">Google Calendar</span>
+        </div>
+      </div>
+      <div class="embed-shell">
+        <p class="embed-note">Chargement de la page RDV dans la navigation unique…</p>
+        <iframe class="embed-frame" title="RDV" loading="lazy" data-src="rdv.html"></iframe>
+      </div>
+    </section>
+
+    <section class="tab-section" id="licence" hidden>
+      <div class="tab-header">
+        <div>
+          <h2>Licence</h2>
+          <p class="tab-subtitle">Contrat instrumentale / Licence affiché ici pour préserver la cohérence du header.</p>
+        </div>
+        <div class="tab-actions">
+          <span class="pill">Contrat</span>
+          <span class="pill">Instrumentale</span>
+        </div>
+      </div>
+      <div class="embed-shell">
+        <p class="embed-note">Chargement de l’onglet Licence sans changer de header…</p>
+        <iframe class="embed-frame" title="Licence" loading="lazy" data-src="licence.html"></iframe>
+      </div>
+    </section>
+
+    <section class="tab-section" id="famille" hidden>
+      <div class="tab-header">
+        <div>
+          <h2>Famille</h2>
+          <p class="tab-subtitle">Les ressources Famille restent accessibles sous le même header.</p>
+        </div>
+        <div class="tab-actions">
+          <span class="pill">Vue partagée</span>
+          <span class="pill">Navigation unifiée</span>
+        </div>
+      </div>
+      <div class="embed-shell">
+        <p class="embed-note">Chargement de l’espace Famille…</p>
+        <iframe class="embed-frame" title="Famille" loading="lazy" data-src="famille.html"></iframe>
+      </div>
+    </section>
+
   </main>
 
   <!-- Zone de capture mobile cachée -->
@@ -2192,7 +2285,73 @@
     (function(){
       const tabLinks = document.querySelectorAll("[data-tab-target]");
       const tabSections = document.querySelectorAll(".tab-section");
+      const embedTabs = new Set(["facturation","rdv","licence","famille"]);
       if(!tabLinks.length || !tabSections.length) return;
+
+      function getActiveTheme(){
+        return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+      }
+
+      function syncFrameTheme(frame, theme){
+        const doc = frame?.contentDocument;
+        if(!doc) return;
+        if(theme === "light"){
+          doc.documentElement.setAttribute("data-theme","light");
+        } else {
+          doc.documentElement.removeAttribute("data-theme");
+        }
+      }
+
+      function harmonizeFrame(frame){
+        try{
+          const doc = frame?.contentDocument;
+          if(!doc) return;
+          const nav = doc.querySelector(".top-nav");
+          if(nav){
+            nav.remove();
+          }
+          syncFrameTheme(frame, getActiveTheme());
+          requestAnimationFrame(() => {
+            const height = Math.max(doc.body?.scrollHeight || 0, doc.documentElement?.scrollHeight || 0, 900);
+            frame.style.height = height + "px";
+          });
+        } catch(err){
+          console.warn("Impossible d'harmoniser l'embed", err);
+        }
+      }
+
+      function lazyLoadEmbed(targetId){
+        if(!embedTabs.has(targetId)) return;
+        const section = document.getElementById(targetId);
+        const frame = section?.querySelector(".embed-frame");
+        if(frame && !frame.src){
+          frame.src = frame.dataset.src || "";
+        }
+      }
+
+      function initEmbedFrames(){
+        embedTabs.forEach(id => {
+          const section = document.getElementById(id);
+          const frame = section?.querySelector(".embed-frame");
+          if(!frame) return;
+          frame.addEventListener("load", () => {
+            harmonizeFrame(frame);
+            const note = section.querySelector(".embed-note");
+            if(note){
+              note.setAttribute("data-loaded","true");
+            }
+          });
+        });
+      }
+
+      window.szdEmbed = {
+        syncTheme(theme){
+          document.querySelectorAll(".embed-frame").forEach((frame) => syncFrameTheme(frame, theme));
+        },
+        refresh(){
+          document.querySelectorAll(".embed-frame").forEach((frame) => harmonizeFrame(frame));
+        }
+      };
 
       function activateTab(targetId, skipHash){
         tabSections.forEach(section => {
@@ -2200,6 +2359,8 @@
           section.classList.toggle("active", active);
           section.hidden = !active;
         });
+
+        lazyLoadEmbed(targetId);
 
         tabLinks.forEach(link => {
           const active = link.dataset.tabTarget === targetId;
@@ -2217,6 +2378,7 @@
       function initFromHash(){
         const hash = (location.hash || "").replace("#","");
         const target = document.getElementById(hash) ? hash : "prestations";
+        lazyLoadEmbed(target);
         activateTab(target, true);
       }
 
@@ -2231,6 +2393,7 @@
 
       initFromHash();
       window.addEventListener("hashchange", initFromHash);
+      initEmbedFrames();
     })();
   </script>
 
@@ -4177,6 +4340,10 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 
         if (typeof updateThemeLogos === "function") {
           updateThemeLogos(theme);
+        }
+
+        if(window.szdEmbed && typeof window.szdEmbed.syncTheme === "function"){
+          window.szdEmbed.syncTheme(theme);
         }
       }
 
