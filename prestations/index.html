@@ -6,21 +6,19 @@
   <title>Prestations — Clips & Musique (v1.4)</title>
   <style>
     :root {
-      --bg:#0f172a;
+      --bg:#0b0e14;
       --card:#111827;
-      --muted:#6b7280;
-      --accent:#2563eb;
-      --accent2:#16a34a;
-      --border:#1e293b;
+      --panel:#0f172a;
+      --muted:#9ca3af;
+      --accent:#3b82f6;
+      --accent2:#22d3ee;
+      --border:#1f2937;
       --text:#e5e7eb;
-      --text2:#cbd5e1;
-      --shadow:0 10px 30px rgba(0,0,0,.25);
-      --nav-bg:linear-gradient(125deg,rgba(59,130,246,.18),rgba(34,197,94,.10)),linear-gradient(180deg,rgba(15,23,42,.9),rgba(15,23,42,.78));
-      --nav-sheen:linear-gradient(90deg,rgba(255,255,255,.04),transparent 45%,rgba(255,255,255,.06));
-      --bg-gradient:
-        radial-gradient(circle at 0% 0%, rgba(59,130,246,.22), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(34,197,94,.16), transparent 55%),
-        linear-gradient(120deg,#020617,#020617 40%,#020617 60%,#020617);
+      --text2:#9ca3af;
+      --shadow:0 8px 28px rgba(0,0,0,.32);
+      --nav-bg:#0f172a;
+      --nav-sheen:linear-gradient(90deg,rgba(255,255,255,.05),transparent 50%);
+      --bg-gradient:var(--bg);
     }
 
     /* Thème clair premium */
@@ -44,8 +42,8 @@
     * { scroll-behavior:auto; }
 
     body {
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      background: var(--bg-gradient);
+      font-family: "Inter", system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background: var(--bg);
       color:var(--text);
       margin:0;
     }
@@ -86,10 +84,9 @@
       background:var(--nav-bg);
       border:1px solid var(--border);
       border-radius:18px;
-      box-shadow:0 18px 44px rgba(15,23,42,.35);
+      box-shadow:0 12px 30px rgba(0,0,0,.35);
       margin-bottom:16px;
       overflow:hidden;
-      backdrop-filter:blur(10px);
       isolation:isolate;
     }
     .top-nav::after{
@@ -133,10 +130,10 @@
       flex:1 1 auto;
       min-width:0;
       padding:6px 10px;
-      background:rgba(255,255,255,.02);
+      background:#0d121d;
       border:1px solid var(--border);
       border-radius:14px;
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.04);
+      box-shadow:none;
       position:relative;
       z-index:1;
       flex-wrap:nowrap;
@@ -162,11 +159,11 @@
       box-sizing:border-box;
       border-radius:12px;
       border:1px solid transparent;
-      background:rgba(15,23,42,.28);
+      background:#0f172a;
       font-size:13px;
       font-weight:700;
       letter-spacing:.01em;
-      transition:.18s background,.18s border-color,.18s color,.18s transform;
+      transition:.18s background,.18s border-color,.18s color;
       white-space:nowrap;
       flex:0 0 auto;
     }
@@ -174,8 +171,7 @@
     .nav-link:hover{
       border-color:var(--accent);
       color:#e2e8f0;
-      background:linear-gradient(135deg,rgba(37,99,235,.14),rgba(16,185,129,.14));
-      transform:translateY(-1px);
+      background:#111827;
     }
     [data-theme="light"] .nav-link:hover{ color:var(--accent); }
     .nav-link::after{
@@ -193,11 +189,10 @@
     }
     .nav-link:hover::after{ opacity:1; transform:translateY(0); }
     .nav-link.active{
-      background:linear-gradient(135deg,rgba(37,99,235,.28),rgba(16,185,129,.28));
+      background:#111827;
       color:#f8fafc;
       border-color:rgba(59,130,246,.45);
-      box-shadow:0 12px 24px rgba(37,99,235,.35);
-      transform:translateY(-1px);
+      box-shadow:none;
     }
     [data-theme="light"] .nav-link.active{
       background:linear-gradient(135deg,rgba(59,130,246,.14),rgba(16,185,129,.16));
@@ -401,50 +396,49 @@
     select:focus,
     textarea:focus{
       border-color:var(--accent);
-      box-shadow:0 0 0 1px rgba(37,99,235,.35);
+      box-shadow:0 0 0 1px rgba(59,130,246,.35);
       background:var(--card);
-      transform:translateY(-1px);
     }
 
     .btn{
       display:inline-flex;
       align-items:center;
       gap:6px;
-      padding:8px 14px;
-      border-radius:999px;
+      padding:9px 14px;
+      border-radius:10px;
       border:none;
       cursor:pointer;
       font-size:13px;
       font-weight:600;
       letter-spacing:.01em;
-      background:#111827;
-      color:#e5e7eb;
-      border:1px solid #1f2937;
-      transition:.15s background,.15s transform,.15s box-shadow,.15s border-color,.15s opacity;
+      background:transparent;
+      color:var(--text);
+      border:1px solid var(--border);
+      transition:.12s background,.12s border-color,.12s color;
     }
     .btn-primary{
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      border-color:transparent;
+      background:var(--accent);
+      border-color:var(--accent);
       color:#fff;
-      box-shadow:0 10px 18px rgba(37,99,235,.45);
+      border-radius:8px;
+      box-shadow:none;
     }
     .btn-primary:hover{
-      transform:translateY(-1px);
-      box-shadow:0 14px 26px rgba(37,99,235,.6);
-      opacity:0.97;
+      background:#4f8ff8;
+      border-color:#4f8ff8;
     }
     .btn-outline{
       background:transparent;
-      color:var(--text2);
-      border-color:#1f2937;
+      color:var(--text);
+      border-color:var(--border);
     }
     [data-theme="light"] .btn-outline{
       border-color:#d1d5db;
       background:#f9fafb;
     }
     .btn-outline:hover{
-      background:rgba(15,23,42,.08);
-      border-color:#374151;
+      background:#111827;
+      border-color:#1f2937;
     }
     [data-theme="light"] .btn-outline:hover{
       background:#edf2ff;
@@ -1005,33 +999,33 @@
     /* BeatsEngine Premium */
     .beats-shell{
       position:relative;
-      background:#0c0f17;
-      border:1px solid rgba(255,255,255,0.05);
+      background:var(--panel);
+      border:1px solid var(--border);
       border-radius:18px;
       padding:18px;
-      box-shadow:0 16px 32px rgba(0,0,0,0.35);
+      box-shadow:0 18px 32px rgba(0,0,0,.34);
     }
     .beats-hero{
       display:flex;
-      gap:16px;
+      gap:14px;
       flex-wrap:wrap;
       align-items:flex-start;
       justify-content:space-between;
-      background:#11182a;
-      border:1px solid rgba(255,255,255,0.05);
+      background:var(--card);
+      border:1px solid var(--border);
       border-radius:14px;
-      padding:18px;
-      box-shadow:none;
+      padding:16px;
     }
     .beats-hero h2{
       margin:0;
-      font-size:1.6rem;
+      font-size:1.55rem;
       letter-spacing:0.01em;
     }
     .beats-hero p{
-      color:#c4d0e4;
-      max-width:780px;
+      color:var(--text2);
+      max-width:760px;
       margin:6px 0 0;
+      line-height:1.5;
     }
     .beats-tagline{
       display:flex;
@@ -1040,45 +1034,44 @@
       margin-top:10px;
     }
     .beats-chip{
-      padding:6px 12px;
+      padding:6px 10px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:#0c0f17;
-      color:#d8e5f7;
+      border:1px solid var(--border);
+      background:var(--panel);
+      color:var(--text2);
       font-size:12px;
-      letter-spacing:0.02em;
+      letter-spacing:0.01em;
     }
-    .beats-accent{
-      color:#00c5ff;
-      font-weight:700;
-    }
+    .beats-accent{ color:var(--accent); font-weight:700; }
     .beats-actions{
       display:flex;
-      gap:10px;
+      gap:8px;
       flex-wrap:wrap;
+      align-items:center;
     }
     .beats-pill-btn{
       display:inline-flex;
       align-items:center;
       gap:8px;
-      padding:10px 14px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:#0c0f17;
-      color:#d8e5f7;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:transparent;
+      color:var(--text);
       font-weight:700;
     }
     .beats-pill-btn:hover{
-      border-color:rgba(0,197,255,0.4);
-      background:#121a2c;
-      transform:translateY(-1px);
-      transition:150ms ease;
+      border-color:var(--accent);
+      color:#fff;
+      background:#111827;
+      transition:140ms ease;
     }
     .beats-columns{
       display:grid;
-      grid-template-columns:1.05fr 0.95fr;
+      grid-template-columns:0.95fr 1.05fr;
       gap:14px;
       margin-top:14px;
+      align-items:start;
     }
     @media(max-width:1024px){
       .beats-columns{ grid-template-columns:1fr; }
@@ -1089,8 +1082,8 @@
       gap:12px;
     }
     .beats-card{
-      background:#0f1624;
-      border:1px solid rgba(255,255,255,0.06);
+      background:var(--card);
+      border:1px solid var(--border);
       border-radius:14px;
       padding:16px;
       box-shadow:none;
@@ -1109,9 +1102,10 @@
       font-size:14px;
     }
     .beats-description{
-      color:#92a7c3;
+      color:var(--text2);
       font-size:13px;
       margin:0 0 12px;
+      line-height:1.6;
     }
     .beats-grid{
       display:grid;
@@ -1120,7 +1114,7 @@
     }
     .beats-label{
       font-size:12px;
-      color:#c3d0e9;
+      color:var(--text2);
       letter-spacing:0.02em;
       margin-bottom:6px;
       display:block;
@@ -1130,9 +1124,9 @@
       width:100%;
       padding:12px 12px;
       border-radius:12px;
-      border:1px solid rgba(255,255,255,0.06);
-      background:#0c0f17;
-      color:#f4f6ff;
+      border:1px solid var(--border);
+      background:var(--panel);
+      color:var(--text);
       font-weight:600;
       letter-spacing:0.01em;
     }
@@ -1146,9 +1140,9 @@
     .beats-meta-pill{
       padding:8px 12px;
       border-radius:12px;
-      border:1px solid rgba(255,255,255,0.08);
-      color:#cfe9ff;
-      background:#0c0f17;
+      border:1px solid var(--border);
+      color:var(--text2);
+      background:var(--panel);
       font-size:12px;
     }
     .usage-meta{
@@ -1159,9 +1153,9 @@
     .usage-pill{
       padding:8px 10px;
       border-radius:10px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:#0c0f17;
-      color:#d5e7ff;
+      border:1px solid var(--border);
+      background:var(--panel);
+      color:var(--text);
       font-size:12px;
       letter-spacing:0.01em;
       display:flex;
@@ -1181,36 +1175,36 @@
       gap:10px;
       padding:12px 14px;
       border-radius:12px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:#0c0f17;
+      border:1px solid var(--border);
+      background:var(--panel);
       cursor:pointer;
       min-width:160px;
-      transition:180ms ease;
+      transition:140ms ease;
     }
     .energy-chip input{ display:none; }
     .energy-chip span{
       font-weight:700;
-      color:#f4f6ff;
+      color:var(--text);
       letter-spacing:0.01em;
     }
     .energy-chip small{
-      color:#9db2ff;
+      color:var(--text2);
       display:block;
       font-weight:500;
     }
     .energy-chip.active{
-      border-color:rgba(0,197,255,0.5);
-      background:#131b2b;
+      border-color:var(--accent);
+      background:#0f1a2d;
     }
     .progression-chip,
     .vocal-chip,
     .dance-chip,
     .usage-chip{
-      border:1px solid rgba(255,255,255,0.08);
+      border:1px solid var(--border);
       border-radius:12px;
       padding:10px 12px;
-      background:#0c0f17;
-      color:#e8f0ff;
+      background:var(--panel);
+      color:var(--text);
       display:flex;
       gap:8px;
       align-items:flex-start;
@@ -1222,14 +1216,14 @@
     .vocal-chip.active,
     .dance-chip.active,
     .usage-chip.active{
-      border-color:rgba(0,197,255,0.45);
-      background:#131b2b;
+      border-color:var(--accent);
+      background:#0f1a2d;
     }
     .progression-chip small,
     .vocal-chip small,
     .dance-chip small{
       display:block;
-      color:#9db2ff;
+      color:var(--text2);
       line-height:1.4;
     }
     .progression-row,
@@ -1248,9 +1242,9 @@
       gap:6px;
       padding:6px 10px;
       border-radius:10px;
-      background:#0c0f17;
-      border:1px solid rgba(255,255,255,0.08);
-      color:#cfe9ff;
+      background:var(--panel);
+      border:1px solid var(--border);
+      color:var(--text2);
       font-size:12px;
     }
     .progression-meta{
@@ -1259,19 +1253,19 @@
       gap:6px;
       margin-top:10px;
       padding:10px;
-      border:1px dashed rgba(255,255,255,0.12);
+      border:1px dashed var(--border);
       border-radius:12px;
-      background:#0c0f17;
-      color:#e8f0ff;
-      font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      background:var(--panel);
+      color:var(--text);
+      font-family:"JetBrains Mono","Fira Code",ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
     }
     .beats-warning{
       margin-top:8px;
       padding:10px 12px;
       border-radius:12px;
-      border:1px solid rgba(255,99,132,0.55);
-      background:rgba(255,99,132,0.08);
-      color:#ffc9d6;
+      border:1px solid #b91c1c;
+      background:rgba(185,28,28,0.16);
+      color:#fecdd3;
       font-weight:700;
       display:none;
     }
@@ -1297,15 +1291,15 @@
     .instrument-accordion{
       border-radius:12px;
       overflow:hidden;
-      border:1px solid rgba(255,255,255,0.08);
-      background:#0c0f17;
+      border:1px solid var(--border);
+      background:var(--panel);
     }
     .instrument-accordion summary{
       list-style:none;
       padding:12px 14px;
       cursor:pointer;
       font-weight:700;
-      color:#e8f0ff;
+      color:var(--text);
       display:flex;
       align-items:center;
       justify-content:space-between;
@@ -1316,26 +1310,26 @@
       grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
       gap:10px;
       padding:10px 14px 14px;
-      background:#0f1624;
+      background:var(--card);
     }
     .instrument-checkbox{
       display:flex;
       align-items:center;
       gap:8px;
       padding:10px;
-      border:1px solid rgba(255,255,255,0.08);
+      border:1px solid var(--border);
       border-radius:12px;
-      background:#0c0f17;
+      background:var(--panel);
       font-size:13px;
-      color:#f4f6ff;
+      color:var(--text);
     }
-    .instrument-checkbox input{ accent-color:#00c5ff; }
+    .instrument-checkbox input{ accent-color:var(--accent); }
     .instrument-checkbox.over-limit{
-      border-color:rgba(255,99,132,0.7);
-      box-shadow:0 0 0 1px rgba(255,99,132,0.4);
+      border-color:#ef4444;
+      box-shadow:0 0 0 1px rgba(239,68,68,0.35);
     }
     .instrument-group-title{
-      color:#9db2ff;
+      color:var(--text2);
       font-weight:800;
       margin:6px 0 2px;
       letter-spacing:0.01em;
@@ -1354,8 +1348,8 @@
       gap:10px;
       padding:10px 12px;
       border-radius:12px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:#0c0f17;
+      border:1px solid var(--border);
+      background:var(--panel);
       cursor:default;
     }
     .structure-item.dragging{
@@ -1364,13 +1358,8 @@
     }
     .structure-label{
       font-weight:700;
-      color:#f4f6ff;
+      color:var(--text);
       letter-spacing:0.01em;
-    }
-    .drag-handle{
-      color:#00c5ff;
-      font-size:18px;
-      margin-right:6px;
     }
     .structure-controls{
       display:flex;
@@ -1382,86 +1371,118 @@
       flex:1;
       min-width:160px;
       border-radius:12px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:#0c0f17;
-      color:#f4f6ff;
+      border:1px solid var(--border);
+      background:var(--panel);
+      color:var(--text);
       padding:10px 12px;
     }
     .structure-btn{
       padding:10px 12px;
       border-radius:10px;
-      border:1px solid rgba(255,255,255,0.12);
-      background:#0c0f17;
-      color:#f4f6ff;
+      border:1px solid var(--border);
+      background:var(--panel);
+      color:var(--text);
       font-weight:700;
       cursor:pointer;
     }
-    .structure-btn.secondary{
-      background:#11182a;
-      border-color:rgba(255,255,255,0.12);
+    .structure-btn.secondary:hover{ border-color:var(--accent); color:#fff; }
+    .beats-prompt{
+      position:sticky;
+      top:10px;
+      align-self:start;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
     }
     .beats-output{
       width:100%;
-      min-height:260px;
-      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono","Courier New",monospace;
-      line-height:1.5;
-      background:#0c0f17;
-      border:1px solid rgba(255,255,255,0.08);
+      min-height:320px;
+      font-family:"JetBrains Mono","Fira Code",ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+      font-size:13px;
+      line-height:1.55;
+      background:var(--panel);
+      border:1px solid var(--border);
       border-radius:14px;
-      color:#f8fbff;
+      color:var(--text);
       padding:14px;
       box-shadow:none;
+      resize:vertical;
     }
     .beats-toolbar{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      margin-top:12px;
+      margin-top:2px;
       justify-content:flex-start;
     }
     .beats-btn{
-      padding:12px 14px;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.08);
-      background:#11182a;
-      color:#f4f6ff;
-      font-weight:800;
+      padding:11px 13px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:transparent;
+      color:var(--text);
+      font-weight:700;
       letter-spacing:0.01em;
       cursor:pointer;
       min-width:130px;
-      transition:160ms ease;
+      transition:140ms ease;
       box-shadow:none;
     }
     .beats-btn.secondary{
-      background:#0c0f17;
-      border-color:rgba(255,255,255,0.12);
-      color:#e5edff;
+      background:transparent;
+      border-color:var(--border);
+      color:var(--text);
     }
     .beats-btn.primary{
-      background:linear-gradient(135deg, #1f7aec, #22c55e);
-      border-color:rgba(34,197,94,0.4);
-      color:#0b0b0f;
+      background:var(--accent);
+      border-color:var(--accent);
+      color:#fff;
+      border-radius:8px;
     }
     .beats-btn:hover{
-      transform:translateY(-1px);
+      background:#111827;
+      border-color:var(--accent);
+      color:#fff;
+    }
+    .beats-btn.primary:hover{
+      background:#4f8ff8;
+      border-color:#4f8ff8;
     }
     .beats-status{
       font-size:12px;
-      color:#9db2ff;
-      margin-top:6px;
+      color:var(--text2);
+      margin-top:2px;
     }
     .beats-output-meta{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
       justify-content:flex-start;
-      margin-top:10px;
-      color:#9db2ff;
+      margin-top:4px;
+      color:var(--text2);
       font-size:12px;
     }
     .beats-length{
       font-weight:800;
-      color:#f8fbff;
+      color:#fff;
+    }
+    .prompt-header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .char-counter{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-end;
+      gap:2px;
+      color:var(--text2);
+      font-size:12px;
+    }
+    .char-counter .beats-length{
+      font-size:14px;
+      letter-spacing:0.01em;
     }
   </style>
   <link rel="stylesheet" href="assets/szd-cards.css">
@@ -1700,18 +1721,18 @@
           <div>
             <h2>🎛️ BeatsEngine Pro — Module Studio</h2>
             <p>
-              Génère des prompts IA studio-grade en moins de 900 caractères : tonalité unifiée, progression gagnante transposée, cultural lock injecté, usage → durée automatique et contrôle vocal/énergie/dance séparés.
+              Génère des prompts IA studio-grade en moins de 900 caractères : tonalité verrouillée, progression transposée, cultural lock, usage → durée, vocal-first par défaut. Sobre, lisible et prêt pour Suno.
             </p>
             <div class="beats-tagline">
-              <span class="beats-chip">Dégradé signature #6A00FF → #00E5FF</span>
-              <span class="beats-chip">Cultural lock &lt; 250c</span>
+              <span class="beats-chip">Key + BPM lock</span>
+              <span class="beats-chip">Cultural lock</span>
               <span class="beats-chip">Usage → durée</span>
-              <span class="beats-chip">Energy ≠ Danceability</span>
+              <span class="beats-chip">Vocal-first</span>
             </div>
           </div>
           <div class="beats-actions">
-            <span class="beats-pill-btn">⚡ Studio-grade prompt</span>
             <button type="button" class="beats-pill-btn" id="beats-shuffle">Shuffle 🎲</button>
+            <span class="beats-pill-btn">⚡ Studio-grade prompt</span>
           </div>
         </div>
 
@@ -1972,20 +1993,29 @@
             </div>
           </div>
 
-          <div class="beats-card">
-            <h3>🧠 Prompt Engine</h3>
-            <p class="beats-description">Prompt premium ligne par ligne, lisible, prêt à être collé dans ton IA audio.</p>
-            <textarea id="beats-output" class="beats-output" rows="14" readonly aria-live="polite"></textarea>
-            <div class="beats-output-meta">
-              <span class="beats-meta-pill">Longueur <strong class="beats-length" id="beats-length">0 / 900</strong></span>
-              <span class="beats-meta-pill" id="beats-keyline">Key &amp; BPM verrouillés</span>
+          <div class="beats-prompt">
+            <div class="beats-card">
+              <div class="prompt-header">
+                <div>
+                  <h3>🧠 Prompt Engine</h3>
+                  <p class="beats-description">Prompt premium ligne par ligne, lisible, prêt à être collé dans ton IA audio.</p>
+                </div>
+                <div class="char-counter">
+                  <span class="beats-length" id="beats-length">0 / 900</span>
+                  <span>caractères</span>
+                </div>
+              </div>
+              <textarea id="beats-output" class="beats-output" rows="14" readonly aria-live="polite"></textarea>
+              <div class="beats-output-meta">
+                <span class="beats-meta-pill" id="beats-keyline">Key &amp; BPM verrouillés</span>
+              </div>
+              <div class="beats-toolbar">
+                <button type="button" class="beats-btn primary" id="beats-generate">Generate</button>
+                <button type="button" class="beats-btn secondary" id="beats-shuffle-cta">Shuffle</button>
+                <button type="button" class="beats-btn" id="beats-copy">Copy Prompt</button>
+              </div>
+              <div class="beats-status" id="beats-status">Prêt à générer un prompt studio.</div>
             </div>
-            <div class="beats-toolbar">
-              <button type="button" class="beats-btn primary" id="beats-generate">Generate</button>
-              <button type="button" class="beats-btn secondary" id="beats-shuffle-cta">Shuffle</button>
-              <button type="button" class="beats-btn" id="beats-copy">Copy Prompt</button>
-            </div>
-            <div class="beats-status" id="beats-status">Prêt à générer un prompt studio.</div>
           </div>
         </div>
       </div>
