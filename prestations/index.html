@@ -1113,6 +1113,24 @@
       background:rgba(0,229,255,0.06);
       font-size:12px;
     }
+    .usage-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .usage-pill{
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid rgba(0,229,255,0.25);
+      background:rgba(0,229,255,0.05);
+      color:#d5e7ff;
+      font-size:12px;
+      letter-spacing:0.01em;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .usage-pill strong{ color:#fff; }
     .energy-toggle{
       display:flex;
       gap:10px;
@@ -1818,11 +1836,23 @@
               <div class="beats-warning" id="melody-warning">Mode Vocal-First : limite de 1 instrument mélodique dépassée.</div>
 
               <div style="margin-top:14px;">
+                <label class="beats-label" for="beats-usage">🎯 Usage du morceau</label>
+                <select id="beats-usage" class="beats-select">
+                  <option value="radio">📻 Radio</option>
+                  <option value="streaming" selected>🎧 Streaming</option>
+                  <option value="club">🔊 Club</option>
+                  <option value="dj">🎛️ DJ / Extended</option>
+                  <option value="emotion">❤️ Chant / Émotion (Zouk, R&B, Reggae)</option>
+                </select>
+                <div class="usage-meta" id="beats-usage-meta" aria-live="polite" style="margin-top:8px;"></div>
+              </div>
+
+              <div style="margin-top:14px;">
                 <label class="beats-label" for="beats-duration">⏱️ Track Duration</label>
                 <div class="duration-row">
-                  <input type="range" id="beats-duration-range" class="beats-slider" min="120" max="360" step="5" value="165">
-                  <input type="text" id="beats-duration" class="beats-input" placeholder="2:30 ou 180s" value="2:45">
-                  <span class="beats-badge">target duration</span>
+                  <input type="range" id="beats-duration-range" class="beats-slider" min="110" max="360" step="5" value="150">
+                  <input type="text" id="beats-duration" class="beats-input" placeholder="2:30 ou 180s" value="2:30">
+                  <span class="beats-badge">durée intelligente</span>
                 </div>
               </div>
 
@@ -2855,6 +2885,8 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       const keySel = document.getElementById("beats-key");
       const bpmInput = document.getElementById("beats-bpm");
       const durationInput = document.getElementById("beats-duration");
+      const usageSel = document.getElementById("beats-usage");
+      const usageMetaEl = document.getElementById("beats-usage-meta");
       const outputEl = document.getElementById("beats-output");
       const statusEl = document.getElementById("beats-status");
       const copyBtn = document.getElementById("beats-copy");
@@ -2998,6 +3030,13 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         singer:["Intro","Couplet","Refrain","Refrain","Pont","Refrain","Outro"],
         rapper:["Intro","Couplet","Couplet","Refrain","Pont","Refrain","Outro"],
         club:["Intro","Refrain","Drop","Refrain","Drop","Outro"]
+      };
+      const usageMap = {
+        radio:   { label:"Radio", icon:"📻",   min:"2:00", ideal:"2:40 – 2:55",   default:"2:50",  structure:"format radio compact, intro courte, refrain rapide" },
+        streaming:{label:"Streaming", icon:"🎧", min:"1:50", ideal:"2:10 – 2:50", default:"2:30",  structure:"optimisé streaming, hook rapide, transitions fluides" },
+        club:    { label:"Club", icon:"🔊",   min:"2:45", ideal:"3:00 – 3:30",   default:"3:15",  structure:"sections répétables pour DJ, drops marqués" },
+        dj:      { label:"DJ / Extended", icon:"🎛️", min:"3:30", ideal:"4:00 – 4:30", default:"4:15", structure:"intro/outro longues, mix-friendly, progression progressive" },
+        emotion: { label:"Chant / Émotion", icon:"❤️", min:"2:40", ideal:"3:00 – 3:30", default:"3:10", structure:"ballad/slow sway, refrain ample, espace pour la voix" }
       };
       let structure = [...defaultStructure];
       let draggingIndex = null;
@@ -3307,6 +3346,11 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         return null;
       }
 
+      function formatMinutesValue(seconds){
+        if(!Number.isFinite(seconds) || seconds <= 0) return "3.0";
+        return (seconds / 60).toFixed(1);
+      }
+
       function secondsToClock(sec){
         if(!Number.isFinite(sec)) return "3:00";
         const m = Math.floor(sec/60);
@@ -3337,6 +3381,64 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         updateEnergyUI();
         updateDanceUI();
         updateVocalUI();
+      }
+
+      function renderUsageMeta(entry){
+        if(!usageMetaEl) return;
+        usageMetaEl.innerHTML = "";
+        if(!entry) return;
+        const tags = [
+          {label:"Défaut", value: entry.default},
+          {label:"Idéal", value: entry.ideal},
+          {label:"Minimum", value: entry.min},
+          {label:"Structure", value: entry.structure}
+        ];
+        tags.forEach(tag => {
+          const pill = document.createElement("div");
+          pill.className = "usage-pill";
+          pill.innerHTML = `<strong>${tag.label} :</strong> ${tag.value}`;
+          usageMetaEl.appendChild(pill);
+        });
+      }
+
+      function maybeApplyStructurePresetForUsage(usageKey){
+        const presetLink = {
+          radio:"singer",
+          streaming:"singer",
+          club:"club",
+          dj:"club",
+          emotion:"singer"
+        };
+        const presetName = presetLink[usageKey];
+        if(!presetName) return;
+        const preset = structurePresets[presetName];
+        if(!Array.isArray(preset)) return;
+
+        const currentSignature = Array.isArray(structure) ? structure.join("|") : "";
+        const knownPresets = [
+          defaultStructure.join("|"),
+          ...Object.values(structurePresets).map(p => Array.isArray(p) ? p.join("|") : "")
+        ];
+        if(knownPresets.includes(currentSignature)){
+          structure = [...preset];
+          renderStructure();
+        }
+      }
+
+      function applyUsage(usageKey, triggerSource="auto"){
+        const entry = usageMap[usageKey] || usageMap.streaming;
+        const sec = parseDurationToSeconds(entry.default) || 150;
+        if(durationRange){
+          durationRange.value = Math.min(Math.max(sec, Number(durationRange.min)), Number(durationRange.max));
+        }
+        if(durationInput){
+          durationInput.value = secondsToClock(sec);
+        }
+        renderUsageMeta(entry);
+        maybeApplyStructurePresetForUsage(usageKey);
+        if(triggerSource !== "init"){
+          generatePrompt();
+        }
       }
 
       function pickProgression(){
@@ -3384,6 +3486,8 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         const range = bpmMap[style] || [90,120];
         const bpm = sanitizeBpm(bpmInput.value, range);
         bpmInput.value = bpm;
+        const usageKey = usageSel?.value || "streaming";
+        const usageEntry = usageMap[usageKey] || usageMap.streaming;
         const progression = pickProgression();
         const transposed = transposeProgression(progression, key);
         beatsProgressionEl.textContent = transposed.romanLine;
@@ -3394,8 +3498,24 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         const dance = danceabilityMap[currentDanceability()] || danceabilityMap.medium;
         const vocal = vocalModeMap[currentVocalMode()] || vocalModeMap["vocal-first"];
         const structureLine = (structure && structure.length) ? structure.join(" → ") : "Intro → Drop → Outro";
-        const duration = formatDuration(durationInput?.value || secondsToClock(Number(durationRange?.value || 180)));
+        const usageMinSeconds = parseDurationToSeconds(usageEntry.min) || Number(durationRange?.min) || 120;
+        const rawDurationSeconds = parseDurationToSeconds(durationInput?.value) || Number(durationRange?.value) || 180;
+        const currentDurationSeconds = Math.max(rawDurationSeconds, usageMinSeconds);
+        if(durationInput){
+          durationInput.value = secondsToClock(currentDurationSeconds);
+        }
+        if(durationRange){
+          durationRange.value = Math.min(Math.max(currentDurationSeconds, Number(durationRange.min)), Number(durationRange.max));
+        }
+        const durationMinutes = formatMinutesValue(currentDurationSeconds);
         const styleDescriptor = describeStyle(style) + " " + dance.texture;
+        const durationBlock = [
+          "full-length instrumental track,",
+          `approximately ${durationMinutes} minutes,`,
+          "continuous arrangement from intro to outro,",
+          "intended as a complete song,",
+          "not a loop, not a short preview"
+        ].join("\n");
 
         const promptLines = [
 `${style} instrumental in ${key},`,
@@ -3405,10 +3525,11 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 `danceability: ${dance.label}, ${dance.texture},`,
 `vocal mode: ${vocal.label},`,
 `arrangement: ${vocal.arrangement},`,
+`usage: ${usageEntry.icon} ${usageEntry.label}, ${usageEntry.structure},`,
 `${includedLine},`,
 `${excludedLine},`,
 `structure: ${structureLine},`,
-`target duration: ${duration},`,
+durationBlock,
 `${styleDescriptor},`,
 `${vocal.mix},`,
 `clean modern balanced mix, no vocals`
@@ -3500,6 +3621,13 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         vocalRadios.forEach(r => { r.checked = r.value === pickedVocal; });
         updateVocalUI();
 
+        const usageKeys = Object.keys(usageMap);
+        const pickedUsage = usageKeys[Math.floor(Math.random()*usageKeys.length)] || "streaming";
+        if(usageSel){
+          usageSel.value = pickedUsage;
+          applyUsage(pickedUsage, "shuffle");
+        }
+
         const progs = progressionMap[style] || [];
         selectedProgression = progs[Math.floor(Math.random()*progs.length)] || selectedProgression;
 
@@ -3552,6 +3680,11 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           }
         });
       });
+      if(usageSel){
+        usageSel.addEventListener("change", () => {
+          applyUsage(usageSel.value, "user");
+        });
+      }
       if(durationRange){
         durationRange.addEventListener("input", () => {
           syncDurationInputs("slider");
@@ -3593,6 +3726,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       renderProgressions();
       renderStructure();
       updateMeta();
+      applyUsage(usageSel?.value || "streaming", "init");
       syncDurationInputs("slider");
       generatePrompt("init");
     })();
