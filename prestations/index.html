@@ -951,6 +951,65 @@
       .filter-actions{ flex-direction:column; align-items:flex-start; }
     }
 
+    /* BeatsEngine */
+    .beats-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:12px;
+      margin-top:10px;
+    }
+    .beats-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .beats-panel{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media(max-width:900px){
+      .beats-panel{ grid-template-columns:1fr; }
+    }
+    .beats-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+    .beats-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:10px;
+      background:rgba(37,99,235,.12);
+      border:1px solid rgba(37,99,235,.3);
+      color:var(--text);
+      font-size:12px;
+      font-weight:700;
+    }
+    [data-theme="light"] .beats-badge{
+      background:rgba(37,99,235,.08);
+      color:#1f2937;
+    }
+    .beats-output{
+      width:100%;
+      min-height:180px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+      line-height:1.4;
+      background:linear-gradient(145deg, rgba(37,99,235,.08), rgba(34,197,94,.05)), var(--card);
+    }
+    .beats-status{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
   </style>
   <link rel="stylesheet" href="assets/szd-cards.css">
 </head>
@@ -968,6 +1027,7 @@
       </div>
       <div class="nav-links">
         <a class="nav-link active" href="index.html">Prestations</a>
+        <a class="nav-link" href="#beatsengine">🎛️ BeatsEngine</a>
         <a class="nav-link" href="facturation.html">Facturation</a>
         <a class="nav-link" href="rdv.html">Ajouter un RDV</a>
         <a class="nav-link" href="licence.html">Contrat instrumentale</a>
@@ -1121,6 +1181,79 @@
       <div class="debug-zone" id="debug-zone" style="display:none;">
         <div>Console locale :</div>
         <pre id="debugOut"></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="beatsengine" style="margin-top:20px;">
+    <div class="row" style="justify-content:space-between; align-items:center;">
+      <div>
+        <h2>🎛️ BeatsEngine — Générateur de prompt IA</h2>
+        <p class="sub" style="max-width:720px;">
+          Compose instantanément des prompts de beatmaking prêts pour l'IA : style, tonalité, accords “magiques”, BPM et vibe pro (sans voix) sont générés automatiquement.
+        </p>
+      </div>
+      <span class="beats-badge">⚡ Auto prompt</span>
+    </div>
+
+    <div class="beats-panel">
+      <div>
+        <div class="beats-grid">
+          <div>
+            <label for="beats-style">Style musical</label>
+            <select id="beats-style">
+              <option>Afro-Trap</option>
+              <option>Afro-Trap Club</option>
+              <option>R&B</option>
+              <option>Drill</option>
+              <option>Dancehall</option>
+              <option>Afrobeat</option>
+              <option>Bongo Flava</option>
+              <option>Amapiano</option>
+            </select>
+          </div>
+          <div>
+            <label for="beats-key">Clé musicale</label>
+            <select id="beats-key">
+              <option>C minor</option>
+              <option>C# minor</option>
+              <option>D minor</option>
+              <option>D# minor</option>
+              <option>E minor</option>
+              <option>F minor</option>
+              <option>F# minor</option>
+              <option>G minor</option>
+              <option>G# minor</option>
+              <option>A minor</option>
+              <option>A# minor</option>
+              <option>B minor</option>
+              <option>D major</option>
+              <option>E major</option>
+              <option>F major</option>
+              <option>G major</option>
+              <option>A major</option>
+              <option>B major</option>
+            </select>
+          </div>
+          <div>
+            <label for="beats-bpm">BPM</label>
+            <input type="number" id="beats-bpm" min="70" max="180" step="1" value="110" inputmode="numeric">
+          </div>
+        </div>
+        <div class="beats-meta" style="margin-top:10px;">
+          <span class="pill">Accords auto</span>
+          <span class="pill">No vocals</span>
+          <span class="pill">Arrangement pro</span>
+        </div>
+        <div class="beats-actions">
+          <button type="button" class="btn btn-primary" id="beats-refresh">🔁 Régénérer</button>
+          <button type="button" class="btn btn-outline" id="beats-copy">📋 Copier le prompt</button>
+        </div>
+        <div class="beats-status" id="beats-status">Prêt à générer ton prochain banger.</div>
+      </div>
+      <div>
+        <label for="beats-output">Prompt généré</label>
+        <textarea id="beats-output" class="beats-output" rows="10" readonly aria-live="polite"></textarea>
       </div>
     </div>
   </div>
@@ -2107,6 +2240,108 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       );
       log("init ok, version", VERSION);
 
+    })();
+  </script>
+
+  <!-- SCRIPT BEATSENGINE -->
+  <script>
+    (function(){
+      const styleSel = document.getElementById("beats-style");
+      const keySel = document.getElementById("beats-key");
+      const bpmInput = document.getElementById("beats-bpm");
+      const outputEl = document.getElementById("beats-output");
+      const statusEl = document.getElementById("beats-status");
+      const copyBtn = document.getElementById("beats-copy");
+      const refreshBtn = document.getElementById("beats-refresh");
+
+      if(!styleSel || !keySel || !bpmInput || !outputEl) return;
+
+      const chordsMap = {
+        "C minor":"Cm - Ab - Eb - Bb",
+        "C# minor":"C#m - A - E - B",
+        "D minor":"Dm - Bb - F - C",
+        "D# minor":"D#m - B - F# - C#",
+        "E minor":"Em - C - G - D",
+        "F minor":"Fm - Db - Ab - Eb",
+        "F# minor":"F#m - D - A - E",
+        "G minor":"Gm - Eb - Bb - F",
+        "G# minor":"G#m - E - B - F#",
+        "A minor":"Am - F - C - G",
+        "A# minor":"A#m - F# - C# - G#",
+        "B minor":"Bm - G - D - A",
+        "D major":"D - Bm - G - A",
+        "E major":"E - C#m - A - B",
+        "F major":"F - Dm - Bb - C",
+        "G major":"G - Em - C - D",
+        "A major":"A - F#m - D - E",
+        "B major":"B - G#m - E - F#"
+      };
+
+      function sanitizeBpm(value){
+        const n = parseInt(value, 10);
+        if(Number.isFinite(n) && n > 0) return n;
+        return 110;
+      }
+
+      function generatePrompt(){
+        const style = styleSel.value || "Beat";
+        const key = keySel.value || "C minor";
+        const bpm = sanitizeBpm(bpmInput.value);
+        const chords = chordsMap[key] || "Signature progression à définir";
+
+        const promptLines = [
+          `Style: ${style}`,
+          `Key: ${key}`,
+          `Chord progression: ${chords}`,
+          `BPM: ${bpm}`,
+          "Vibe: production professionnelle, mix clair, batterie punchy",
+          "Structure: intro courte, drop fort, variations, bridge aéré",
+          "Texture: instrumentation riche, détails percussifs, basses contrôlées",
+          "No vocals, instrumental only"
+        ];
+
+        outputEl.value = promptLines.join("\\n");
+        if(statusEl){
+          statusEl.textContent = "Prompt mis à jour automatiquement.";
+        }
+      }
+
+      function copyPrompt(){
+        const txt = outputEl.value || "";
+        if(!txt.trim()){
+          statusEl && (statusEl.textContent = "Rien à copier : génère un prompt d'abord.");
+          return;
+        }
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(txt).then(() => {
+            statusEl && (statusEl.textContent = "Prompt copié dans le presse-papiers.");
+          }).catch(() => {
+            fallbackCopy(txt);
+          });
+        } else {
+          fallbackCopy(txt);
+        }
+      }
+
+      function fallbackCopy(text){
+        const area = document.createElement("textarea");
+        area.value = text;
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.appendChild(area);
+        area.select();
+        try { document.execCommand("copy"); } catch(e){}
+        document.body.removeChild(area);
+        statusEl && (statusEl.textContent = "Prompt copié (mode rétro).");
+      }
+
+      styleSel.addEventListener("change", generatePrompt);
+      keySel.addEventListener("change", generatePrompt);
+      bpmInput.addEventListener("input", generatePrompt);
+      copyBtn && copyBtn.addEventListener("click", copyPrompt);
+      refreshBtn && refreshBtn.addEventListener("click", generatePrompt);
+
+      generatePrompt();
     })();
   </script>
 
