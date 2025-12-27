@@ -1664,7 +1664,7 @@
                     <option>Zouk</option>
                     <option>Reggae</option>
                     <option>Reggaeton</option>
-                    <option>Moombahton</option>
+                    <option>Moombahton Latin Club</option>
                     <option>Shatta</option>
                   </select>
                 </div>
@@ -2927,7 +2927,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "Reggae":["I – IV – V","I – V – IV","vi – IV – I – V"],
         "Zouk":["I – IV – V","I – V – IV","vi – IV – I – V"],
         "Reggaeton":["i – VI – VII","vi – IV – I – V","i – VII – VI"],
-        "Moombahton":["i – VI – VII","vi – IV – I – V","i – VII – VI"],
+        "Moombahton Latin Club":["i – VI – VII","vi – IV – I – V","i – VII – VI"],
         "Dancehall":["i – VII – VI – VII","i – VI – VII","i – III – VI – VII"],
         "Shatta":["i – VII – VI – VII","i – VI – VII","i – III – VI – VII"],
         "Amapiano":["i – v – i – VII","i – VI – III – VII","i – VII – VI – VII"],
@@ -2948,7 +2948,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "Zouk":[85,100],
         "Reggae":[78,92],
         "Reggaeton":[86,98],
-        "Moombahton":[100,110],
+        "Moombahton Latin Club":[108,112],
         "Shatta":[96,112]
       };
 
@@ -2965,7 +2965,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "Zouk":"smooth zouk sway, silky guitars, romantic pads and mid-tempo bounce.",
         "Reggae":"roots groove, off-beat skank, warm bass and relaxed pocket.",
         "Reggaeton":"latin club swing, perreo drums, crisp claps and sensual bounce.",
-        "Moombahton":"electro-latin push, mid-tempo drive, heavy drums and festival energy.",
+        "Moombahton Latin Club":"latin club dembow, mid-tempo heat, syncopated percussion and vocal-friendly bounce.",
         "Shatta":"dancehall-inspired shatta grit, percussive chops and assertive groove."
       };
 
@@ -2974,7 +2974,8 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "Bongo Flava":"Tanzanian Bongo Flava instrumental, East African origin, Swahili pop and East African afro-pop influence",
         "Zouk":"Zouk instrumental from the French Caribbean, romantic Caribbean groove",
         "Reggae":"Reggae instrumental from Jamaica, roots and modern reggae influence",
-        "Reggaeton":"Reggaeton instrumental from Puerto Rico, Latin urban club influence"
+        "Reggaeton":"Reggaeton instrumental from Puerto Rico, Latin urban club influence",
+        "Moombahton Latin Club":"Latin Moombahton instrumental, Latin American club origin, modern moombahton style inspired by Latin urban club music"
       };
 
       const energyMap = {
@@ -3017,7 +3018,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "vocal-first":{
           label:"vocal-first",
           arrangement:"vocal-first arrangement, no competing lead melody, instrumental supportive, not dominant, clear space for human vocals",
-          summary:"instrumental supports the lead vocals with no competing lead melody",
+          summary:"vocal-first arrangement, no lead melody, instrumental supportive, not dominant, clear space for human vocals",
           mix:"strong rhythmic groove with clean vocal pocket, instrumental supportive not dominant"
         },
         "balanced":{
@@ -3254,11 +3255,24 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         "log drum":"log drum",
         "808 / bass":"808/bass",
         "kick":"kick",
-        "guitar":"guitar"
+        "guitar":"guitar",
+        "latin percussion":"latin percussion",
+        "short rhythmic synth stabs":"short rhythmic synth stabs"
       };
+
+      const MOOMBAHTON_STYLE = "Moombahton Latin Club";
+      const MOOMBAHTON_STRUCTURE = ["Intro","Drop","Verse","Drop","Verse","Drop","Outro"];
+      const MOOMBAHTON_INCLUDED = "included instruments: kick, snare/clap, hi-hats, latin percussion, bass, short rhythmic synth stabs";
+      const MOOMBAHTON_STRICT = "strict exclusion: no guitar, no piano, no melodic chords, no EDM build-ups";
+      const MOOMBAHTON_DURATION = "full-length instrumental track, approx 3 minutes, continuous arrangement from intro to outro, not a loop, not a preview";
+      const MOOMBAHTON_GROOVE = "groove: dembow-based moombahton rhythm; heavy kick on 1 and 3; strong syncopated percussion; club bounce, not EDM.";
 
       function normalizeInstrumentName(name){
         return (name || "").toLowerCase().trim();
+      }
+
+      function isMoombahtonLatinClub(style){
+        return (style || "").trim() === MOOMBAHTON_STYLE;
       }
 
       function isMelodicRole(role){
@@ -3636,29 +3650,55 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         beatsProgressionEl.textContent = transposed.romanLine;
         beatsProgressionChordsEl.textContent = transposed.chordLine;
         if(chordsEl) chordsEl.textContent = transposed.chordLine;
-        const {includedLine, excludedLine, strictBlock} = buildInstrumentLines();
+        let {includedLine, excludedLine, strictBlock} = buildInstrumentLines();
         const energy = energyMap[currentEnergy()] || energyMap.medium;
         const dance = danceabilityMap[currentDanceability()] || danceabilityMap.medium;
         const vocal = vocalModeMap[currentVocalMode()] || vocalModeMap["vocal-first"];
-        const structureParts = (structure && structure.length) ? structure : ["Intro","Drop","Outro"];
-        const structureLine = translateStructureToEnglish(structureParts).join(" → ") || "Intro → Drop → Outro";
+        let structureParts = (structure && structure.length) ? structure : ["Intro","Drop","Outro"];
+        let structureLine = translateStructureToEnglish(structureParts).join(" → ") || "Intro → Drop → Outro";
         const usageMinSeconds = parseDurationToSeconds(usageEntry.min) || Number(durationRange?.min) || 120;
         const rawDurationSeconds = parseDurationToSeconds(durationInput?.value) || Number(durationRange?.value) || 180;
-        const currentDurationSeconds = Math.max(rawDurationSeconds, usageMinSeconds);
-        if(durationInput){
-          durationInput.value = secondsToClock(currentDurationSeconds);
-        }
-        if(durationRange){
-          durationRange.value = Math.min(Math.max(currentDurationSeconds, Number(durationRange.min)), Number(durationRange.max));
-        }
-        const durationMinutes = formatMinutesValue(currentDurationSeconds);
+        let currentDurationSeconds = Math.max(rawDurationSeconds, usageMinSeconds);
         const culturalLine = `${buildCulturalLock(style)}, key ${key}, cultural identity locked.`;
-        const bpmLine = `${bpm} BPM locked, winning chord progression ${transposed.romanLine} (${transposed.chordLine}).`;
-        const durationLine = `full-length track about ${durationMinutes} minutes, continuous from intro to outro, not a loop or preview.`;
-        const vocalSummary = vocal.summary || vocal.arrangement;
-        const vocalLine = `vocal-first arrangement: ${vocalSummary}`;
-        const energyDanceLine = `energy/danceability: ${energy.label} energy, ${dance.label} danceability.`;
-        const grooveDetails = `texture: ${energy.texture}; ${dance.texture}; ${vocal.mix}`;
+        let bpmLine = `${bpm} BPM locked, winning chord progression ${transposed.romanLine} (${transposed.chordLine}).`;
+        let durationMinutes = formatMinutesValue(currentDurationSeconds);
+        let durationLine = `full-length track about ${durationMinutes} minutes, continuous from intro to outro, not a loop or preview.`;
+        let vocalSummary = vocal.summary || vocal.arrangement;
+        let vocalLine = `vocal-first arrangement: ${vocalSummary}`;
+        let energyDanceLine = `energy/danceability: ${energy.label} energy, ${dance.label} danceability.`;
+        let grooveDetails = `texture: ${energy.texture}; ${dance.texture}; ${vocal.mix}`;
+
+        if(isMoombahtonLatinClub(style)){
+          structureParts = [...MOOMBAHTON_STRUCTURE];
+          structureLine = MOOMBAHTON_STRUCTURE.join(" > ");
+          includedLine = MOOMBAHTON_INCLUDED;
+          excludedLine = "";
+          strictBlock = MOOMBAHTON_STRICT;
+          currentDurationSeconds = 180;
+          durationMinutes = formatMinutesValue(currentDurationSeconds);
+          durationLine = MOOMBAHTON_DURATION;
+          bpmLine = `${bpm} BPM locked (108-112 BPM range), winning chord progression ${transposed.romanLine} (${transposed.chordLine}).`;
+          vocalLine = "vocal-first arrangement, no lead melody, instrumental supportive, not dominant, clear space for human vocals";
+          energyDanceLine = "energy/danceability: medium energy, medium danceability, club but vocal-friendly.";
+          grooveDetails = MOOMBAHTON_GROOVE;
+          if(durationInput){
+            durationInput.value = secondsToClock(currentDurationSeconds);
+          }
+          if(durationRange){
+            durationRange.value = Math.min(Math.max(currentDurationSeconds, Number(durationRange.min)), Number(durationRange.max));
+          }
+        }else{
+          if(durationInput){
+            durationInput.value = secondsToClock(currentDurationSeconds);
+          }
+          if(durationRange){
+            durationRange.value = Math.min(Math.max(currentDurationSeconds, Number(durationRange.min)), Number(durationRange.max));
+          }
+        }
+
+        const grooveSection = isMoombahtonLatinClub(style)
+          ? {text: grooveDetails}
+          : {text: grooveDetails, optional: true, compact: (t) => t.split(";").slice(0,2).join("; ")};
 
         const sections = [
           {text: culturalLine},
@@ -3670,7 +3710,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           excludedLine ? {text: excludedLine, optional: true} : null,
           {text: `structure: ${structureLine}`},
           {text: energyDanceLine},
-          {text: grooveDetails, optional: true, compact: (t) => t.split(";").slice(0,2).join("; ")},
+          grooveSection,
           {text: "do not add any instrument not listed above"}
         ];
 
