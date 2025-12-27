@@ -1484,6 +1484,73 @@
       font-size:14px;
       letter-spacing:0.01em;
     }
+
+    /* Track Name Generator */
+    .track-card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      box-shadow:none;
+    }
+    .track-name-panel{
+      background:var(--panel);
+      border:1px dashed var(--border);
+      border-radius:12px;
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .track-name-display{
+      min-height:48px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:rgba(15,23,42,.6);
+      padding:12px 14px;
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:0.01em;
+      display:flex;
+      align-items:center;
+      color:var(--text);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+    }
+    [data-theme="light"] .track-name-display{
+      background:#f8fafc;
+    }
+    .track-name-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+    }
+    .track-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:var(--panel);
+      color:var(--text2);
+      font-size:12px;
+    }
+    .track-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+    .track-copy-feedback{
+      font-size:12px;
+      color:#22c55e;
+      opacity:0;
+      transition:opacity .16s ease;
+    }
+    .track-copy-feedback.visible{ opacity:1; }
   </style>
   <link rel="stylesheet" href="assets/szd-cards.css">
 </head>
@@ -1910,6 +1977,24 @@
                     </label>
                   </div>
                   <div class="beats-status" id="beats-dance-note">Danceable sans agressivité obligatoire.</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="track-card" id="track-generator">
+              <h3>🎵 Track Name Generator</h3>
+              <p class="beats-description">Titres illimités liés au style, à l'énergie et à la danceability. Indépendant du prompt.</p>
+              <div class="track-name-panel" aria-live="polite">
+                <div class="track-meta">
+                  <span class="track-chip">Style : <strong id="track-style-meta">Afro-Trap</strong></span>
+                  <span class="track-chip">Énergie : <strong id="track-energy-meta">Medium</strong></span>
+                  <span class="track-chip">Dance : <strong id="track-dance-meta">Bounce</strong></span>
+                </div>
+                <div class="track-name-display" id="track-name-display">Prêt à générer</div>
+                <div class="track-name-actions">
+                  <button type="button" class="beats-btn primary" id="track-generate">Generate Name</button>
+                  <button type="button" class="beats-btn" id="track-copy">Copy Name</button>
+                  <span class="track-copy-feedback" id="track-copy-feedback" role="status" aria-live="assertive">Copié ✔</span>
                 </div>
               </div>
             </div>
@@ -3050,6 +3135,13 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       const beatsUsageNoteEl = document.getElementById("beats-usage-note");
       const beatsLengthEl = document.getElementById("beats-length");
       const beatsKeylineEl = document.getElementById("beats-keyline");
+      const trackNameDisplay = document.getElementById("track-name-display");
+      const trackGenerateBtn = document.getElementById("track-generate");
+      const trackCopyBtn = document.getElementById("track-copy");
+      const trackCopyFeedback = document.getElementById("track-copy-feedback");
+      const trackStyleMeta = document.getElementById("track-style-meta");
+      const trackEnergyMeta = document.getElementById("track-energy-meta");
+      const trackDanceMeta = document.getElementById("track-dance-meta");
 
       if(!styleSel || !noteSel || !bpmInput || !outputEl || !structureListEl) return;
 
@@ -3218,6 +3310,35 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 
       const chromatic = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
       const flatToSharp = {"Db":"C#","Eb":"D#","Gb":"F#","Ab":"G#","Bb":"A#"};
+      const trackNameBanks = {
+        "Dancehall":{ primary:["island","heat","bass","riddim","night","fire","motion"], mood:["skies","after dark","breeze","ember","wave","sundown"] },
+        "Bongo Flava":{ primary:["moyo","safari","pulse","coast","rhythm","love","vibe"], mood:["sunrise","tanzanite","coastal night","kin","heartline","amber"] },
+        "Afro-Trap":{ primary:["drip","vision","flow","pressure","code","street"], mood:["midnight","bounce","mirror","flare","steez","signal"] },
+        "Afro-Trap Club":{ primary:["club","neon","vision","flow","pressure","wave"], mood:["midnight","bounce","spark","after dark","electric","uptown"] },
+        "Amapiano":{ primary:["midnight","echo","groove","soul","horizon","dust"], mood:["log drum","shaker line","night drive","embers","loft","afterglow"] },
+        "Reggae":{ primary:["roots","breeze","vibration","light","river","shore"], mood:["irie","sunbeam","groundation","coastline","isle","dawn"] },
+        "Shatta":{ primary:["raw","force","voltage","block","zone","charge"], mood:["steelo","red zone","uptempo","pressure","wildlight","ignite"] },
+        "Afrobeat":{ primary:["pulse","roots","lagos","groove","brass","motion"], mood:["sunrise","storyline","coast road","ember","festival","ray"] },
+        "Afropop":{ primary:["spark","chorus","wave","summer","bloom","glow"], mood:["skyline","colorfield","late call","highlight","rose night","vista"] },
+        "R&B":{ primary:["velvet","midnight","silk","echo","amber","haze"], mood:["slow burn","afterglow","neon hush","soft rain","reverie","cascade"] },
+        "Drill":{ primary:["shadow","grit","echo","nightfall","pressure","lane"], mood:["steel pulse","northern sky","ashen","cold wave","outline","silent run"] },
+        "Zouk":{ primary:["lagoon","isle","velours","breeze","palm","caresse"], mood:["lueur","parfum","satin night","azur","slow wine","tropique"] },
+        "Reggaeton":{ primary:["calor","ritmo","calle","noche","fuego","marea"], mood:["neon tide","brillo","vertigo","madrugada","sombra","respiro"] },
+        "Moombahton Latin Club":{ primary:["dembow","ritual","rumba","fuego","club","glow"], mood:["afterhours","ambar","neon drive","red room","haze","pulse line"] },
+        "Default":{ primary:["pulse","signal","echo","horizon","motion","silk"], mood:["after dark","dawnline","glow","bloom","low tide","resonance"] }
+      };
+      const trackEnergyWords = {
+        low:["calm","velvet","haze","breeze","float","mellow"],
+        medium:["motion","glow","steady","balance","pulse","sway"],
+        high:["ignite","voltage","rush","impact","fever","charge"]
+      };
+      const trackDanceWords = {
+        chill:["drift","sofa","slow step","soft sway","warm up","coast"],
+        bounce:["bounce","two-step","bodyline","groove","smooth drive","roll"],
+        club:["club","floor","after midnight","prime time","peak hour","dancefloor"]
+      };
+      const trackPhraseHooks = ["After Dark","In Motion","At Dawn","For Tonight","Beyond Night","Forever Move","Late Glow","Echo Line"];
+      let lastTrackName = "";
 
       function normalizeRoot(note){
         if(!note) return "A";
@@ -3339,6 +3460,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         const meta = energyMap[value] || energyMap.medium;
         if(energyDescEl) energyDescEl.textContent = meta.note;
         if(energyNoteEl) energyNoteEl.textContent = meta.note;
+        updateTrackMeta();
       }
 
       function currentDanceability(){
@@ -3354,6 +3476,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         });
         const meta = danceabilityMap[value] || danceabilityMap.bounce;
         if(danceNoteEl) danceNoteEl.textContent = meta.note;
+        updateTrackMeta();
       }
 
       function currentVocalMode(){
@@ -3368,6 +3491,119 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           chip.classList.toggle("active", radio && radio.value === value);
         });
         enforceMelodyLimit();
+      }
+
+      function updateTrackMeta(){
+        const style = styleSel.value;
+        const energy = currentEnergy();
+        const dance = currentDanceability();
+        if(trackStyleMeta) trackStyleMeta.textContent = style;
+        if(trackEnergyMeta) trackEnergyMeta.textContent = energy.charAt(0).toUpperCase() + energy.slice(1);
+        if(trackDanceMeta){
+          const label = dance === "club" ? "Club" : dance === "bounce" ? "Bounce" : "Chill";
+          trackDanceMeta.textContent = label;
+        }
+      }
+
+      function formatTrackPart(part){
+        return (part || "")
+          .split(/\s+/)
+          .filter(Boolean)
+          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+      }
+
+      function pickRandom(list){
+        const pool = (list || []).filter(Boolean);
+        if(!pool.length) return "";
+        return pool[Math.floor(Math.random() * pool.length)];
+      }
+
+      function pickDistinct(list, avoid){
+        const pool = (list || []).filter(Boolean);
+        const filtered = pool.filter(item => !avoid.includes(item));
+        if(filtered.length) return pickRandom(filtered);
+        return pickRandom(pool);
+      }
+
+      function resolveTrackBank(style){
+        return trackNameBanks[style] || trackNameBanks.Default;
+      }
+
+      function composeTrackName(){
+        const style = styleSel.value;
+        const energy = currentEnergy();
+        const dance = currentDanceability();
+        const bank = resolveTrackBank(style);
+        const energyWords = trackEnergyWords[energy] || trackEnergyWords.medium;
+        const danceWords = trackDanceWords[dance] || trackDanceWords.bounce;
+        const primaries = (bank.primary || []).filter(Boolean);
+        const moods = (bank.mood || []).filter(Boolean);
+        const basePool = [...primaries, ...moods];
+        const wordA = pickRandom(basePool) || pickRandom(trackNameBanks.Default.primary);
+        const templates = ["single","double","phrase","abstract"];
+        const template = pickRandom(templates) || "double";
+
+        const energyWord = pickRandom(energyWords);
+        const danceWord = pickRandom(danceWords);
+        const hook = pickRandom(trackPhraseHooks);
+
+        if(template === "single"){
+          return formatTrackPart(wordA || energyWord || "Pulse");
+        }
+
+        if(template === "double"){
+          const second = pickDistinct([...moods, ...energyWords, ...danceWords], [wordA]);
+          return `${formatTrackPart(wordA)} ${formatTrackPart(second || "Motion")}`.trim();
+        }
+
+        if(template === "phrase"){
+          const second = pickDistinct([...trackPhraseHooks, ...moods, energyWord, danceWord].flat().filter(Boolean), [wordA]);
+          return `${formatTrackPart(wordA)} ${formatTrackPart(second || "After Dark")}`.trim();
+        }
+
+        const abstractA = pickDistinct([...moods, wordA, energyWord].flat().filter(Boolean), []);
+        const abstractB = pickDistinct([...danceWords, ...energyWords, hook ? [hook] : []].flat().filter(Boolean), [abstractA]);
+        const joiner = pickRandom(["in","of","beyond","into"]) || "in";
+        return `${formatTrackPart(abstractA || "Echo")} ${joiner} ${formatTrackPart(abstractB || "Motion")}`.trim();
+      }
+
+      function refreshTrackName(){
+        updateTrackMeta();
+        if(!trackNameDisplay) return;
+        const next = composeTrackName();
+        lastTrackName = next;
+        trackNameDisplay.textContent = next;
+        if(trackCopyFeedback){
+          trackCopyFeedback.classList.remove("visible");
+        }
+      }
+
+      function copyTrackName(){
+        if(!lastTrackName){
+          if(trackCopyFeedback){
+            trackCopyFeedback.textContent = "Rien à copier";
+            trackCopyFeedback.classList.add("visible");
+          }
+          return;
+        }
+        const text = lastTrackName;
+        const onSuccess = () => {
+          if(trackCopyFeedback){
+            trackCopyFeedback.textContent = "Copié ✔";
+            trackCopyFeedback.classList.add("visible");
+            setTimeout(() => trackCopyFeedback.classList.remove("visible"), 1200);
+          }
+        };
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(onSuccess).catch(() => {
+            fallbackCopy(text);
+            onSuccess();
+          });
+        }else{
+          fallbackCopy(text);
+          onSuccess();
+        }
       }
 
       const INSTRUMENT_CATEGORY_DETAILS = {
@@ -3563,6 +3799,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         updateDanceUI();
         updateVocalUI();
         updateUsageUI();
+        updateTrackMeta();
       }
 
       function pickProgression(){
@@ -3798,6 +4035,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
         syncBpmWithStyle();
         renderProgressions();
         updateMeta();
+        refreshTrackName();
         generatePrompt();
       });
       noteSel.addEventListener("change", () => {
@@ -3819,6 +4057,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           if(radio){
             radio.checked = true;
             updateEnergyUI();
+            refreshTrackName();
             generatePrompt();
           }
         });
@@ -3829,6 +4068,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           if(radio){
             radio.checked = true;
             updateDanceUI();
+            refreshTrackName();
             generatePrompt();
           }
         });
@@ -3855,6 +4095,16 @@ if (captureBtn && typeof html2canvas !== "undefined") {
           }
         });
       });
+      if(trackGenerateBtn){
+        trackGenerateBtn.addEventListener("click", () => {
+          refreshTrackName();
+        });
+      }
+      if(trackCopyBtn){
+        trackCopyBtn.addEventListener("click", () => {
+          copyTrackName();
+        });
+      }
       instrumentInputs.forEach(input => {
         input.addEventListener("change", () => {
           enforceMelodyLimit();
@@ -3877,6 +4127,7 @@ if (captureBtn && typeof html2canvas !== "undefined") {
       renderProgressions();
       renderStructure();
       updateMeta();
+      refreshTrackName();
       generatePrompt("init");
     })();
   </script>
