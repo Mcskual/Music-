@@ -125,6 +125,47 @@
       gap:8px;
       padding-left:4px;
     }
+    .nav-toggle{
+      display:none;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      gap:5px;
+      width:44px;
+      height:44px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:inherit;
+      cursor:pointer;
+      transition:.2s background,.2s border-color,.2s transform;
+    }
+    [data-theme="light"] .nav-toggle{
+      background:rgba(255,255,255,.9);
+    }
+    .nav-toggle:hover{
+      border-color:var(--accent);
+      transform:translateY(-1px);
+    }
+    .nav-toggle .bar{
+      width:20px;
+      height:2px;
+      border-radius:999px;
+      background:currentColor;
+      transition:.2s transform,.2s opacity,.2s background;
+    }
+    .nav-toggle.active{
+      border-color:var(--accent);
+    }
+    .nav-toggle.active .bar:nth-child(1){
+      transform:translateY(6px) rotate(45deg);
+    }
+    .nav-toggle.active .bar:nth-child(2){
+      opacity:0;
+    }
+    .nav-toggle.active .bar:nth-child(3){
+      transform:translateY(-6px) rotate(-45deg);
+    }
     .nav-links{
       display:flex;
       gap:8px;
@@ -216,6 +257,56 @@
       .nav-link{ min-width:100px; padding:0 10px; font-size:12px; }
       .nav-links{ gap:8px; padding:6px 8px; }
       .theme-toggle{ padding:6px 8px; }
+    }
+    @media(max-width:768px){
+      .top-nav{
+        flex-wrap:wrap;
+        overflow:visible;
+        padding:10px 12px;
+      }
+      .nav-center{
+        order:3;
+        width:100%;
+      }
+      .nav-actions{
+        margin-left:auto;
+        gap:8px;
+      }
+      .nav-toggle{
+        display:inline-flex;
+      }
+      .nav-links{
+        display:none;
+        position:absolute;
+        top:100%;
+        left:0;
+        right:0;
+        flex-direction:column;
+        gap:10px;
+        padding:12px;
+        background:var(--nav-bg);
+        border:1px solid var(--border);
+        border-radius:14px;
+        box-shadow:0 18px 36px rgba(0,0,0,.4);
+        transform:translateY(-6px);
+        opacity:0;
+        pointer-events:none;
+        max-height:0;
+        overflow:hidden;
+        transition:max-height .28s ease, opacity .18s ease, transform .18s ease;
+        z-index:5;
+      }
+      .nav-links.active{
+        display:flex;
+        opacity:1;
+        transform:translateY(0);
+        pointer-events:auto;
+        max-height:600px;
+      }
+      .nav-link{
+        width:100%;
+        justify-content:flex-start;
+      }
     }
     @media(max-width:640px){
       .nav-link{ min-width:96px; padding:0 8px; }
@@ -1697,6 +1788,11 @@
         </div>
       </div>
       <div class="nav-actions">
+        <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-controls="nav-links" aria-expanded="false" type="button">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
         <div class="theme-toggle">
           <span class="theme-icon" aria-hidden="true">🌙</span>
           <label class="switch" aria-label="Basculer le thème nuit/jour">
@@ -2354,8 +2450,39 @@
     (function(){
       const tabLinks = document.querySelectorAll("[data-tab-target]");
       const tabSections = document.querySelectorAll(".tab-section");
+      const navToggle = document.getElementById("navToggle");
+      const navLinksContainer = document.getElementById("nav-links");
       const embedTabs = new Set(["facturation","rdv","licence","famille"]);
       if(!tabLinks.length || !tabSections.length) return;
+
+      function syncToggleState(isOpen){
+        if(!navToggle) return;
+        navToggle.classList.toggle("active", isOpen);
+        navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        navToggle.setAttribute("aria-label", isOpen ? "Fermer le menu" : "Ouvrir le menu");
+      }
+
+      function closeMobileMenu(){
+        if(navLinksContainer){
+          navLinksContainer.classList.remove("active");
+        }
+        syncToggleState(false);
+      }
+
+      if(navToggle && navLinksContainer){
+        navToggle.addEventListener("click", () => {
+          const isOpen = navLinksContainer.classList.toggle("active");
+          syncToggleState(isOpen);
+        });
+
+        window.addEventListener("resize", () => {
+          if(window.innerWidth > 768){
+            closeMobileMenu();
+          }
+        });
+
+        syncToggleState(navLinksContainer.classList.contains("active"));
+      }
 
       function getActiveTheme(){
         return document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
@@ -2457,6 +2584,7 @@
           if(!target) return;
           e.preventDefault();
           activateTab(target);
+          closeMobileMenu();
         });
       });
 
