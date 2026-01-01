@@ -837,29 +837,42 @@
       white-space:nowrap;
     }
     .delay-indicator{
-      width:9px;
-      height:9px;
-      border-radius:999px;
-      background:var(--muted);
-      display:inline-block;
+      position:relative;
+      width:18px;
+      height:18px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       flex-shrink:0;
+      color:var(--muted);
       opacity:0;
+      transform-origin:center;
+    }
+    .delay-indicator::before{
+      content:"⏱️";
+      font-size:14px;
+      line-height:1;
     }
     .delay-indicator.is-visible{
       opacity:1;
-      animation:slowBlink 1.6s ease-in-out infinite;
     }
     .delay-indicator.late{
-      background:#fbbf24;
-      box-shadow:0 0 0 4px rgba(251,191,36,.18);
+      animation:delayPulseSoft 1.8s ease-in-out infinite;
+      color:#cbd5e1;
     }
     .delay-indicator.critical{
-      background:#ef4444;
-      box-shadow:0 0 0 4px rgba(239,68,68,.16);
+      animation:delayPulseStrong 1.4s ease-in-out infinite;
+      color:var(--text);
     }
-    @keyframes slowBlink{
-      0%, 60%{ opacity:1; }
-      100%{ opacity:.35; }
+    @keyframes delayPulseSoft{
+      0%{ transform:scale(1); opacity:1; }
+      70%{ transform:scale(1.06); opacity:.7; }
+      100%{ transform:scale(1.08); opacity:.5; }
+    }
+    @keyframes delayPulseStrong{
+      0%{ transform:scale(1); opacity:1; }
+      60%{ transform:scale(1.1); opacity:.65; }
+      100%{ transform:scale(1.16); opacity:.45; }
     }
     .date-toggle{
       background:transparent;
@@ -4909,13 +4922,17 @@
           left.className = "client-cell";
           const clientRow = document.createElement("div");
           clientRow.className = "client-main";
+          const indicator = document.createElement("span");
+          indicator.className = "delay-indicator is-visible";
           if(delay){
-            const indicator = document.createElement("span");
-            indicator.className = "delay-indicator is-visible " + (delay.level === "critical" ? "critical" : "late");
-            indicator.title = delay.level === "critical" ? `${delay.days} jours : prioritaire` : `${delay.days} jours : à relancer`;
+            indicator.classList.add(delay.level === "critical" ? "critical" : "late");
+            indicator.title = delay.level === "critical" ? `${delay.days} jours : relance prioritaire` : `${delay.days} jours : relance recommandée`;
             indicator.setAttribute("aria-label", delay.level === "critical" ? `Retard critique (${delay.days} jours)` : `Retard (${delay.days} jours)`);
-            clientRow.appendChild(indicator);
+          } else {
+            indicator.title = "Délai normal";
+            indicator.setAttribute("aria-label", "Délai normal");
           }
+          clientRow.appendChild(indicator);
           const clientEl = document.createElement("div");
           clientEl.className = "client";
           clientEl.textContent = r.client || "";
@@ -5099,13 +5116,17 @@
           const c1 = document.createElement("div");
           c1.className = "client-main";
           const delay = getDelayState(r);
+          const indicator = document.createElement("span");
+          indicator.className = "delay-indicator is-visible";
           if(delay){
-            const indicator = document.createElement("span");
-            indicator.className = "delay-indicator is-visible " + (delay.level === "critical" ? "critical" : "late");
-            indicator.title = delay.level === "critical" ? `${delay.days} jours : prioritaire` : `${delay.days} jours : à relancer`;
+            indicator.classList.add(delay.level === "critical" ? "critical" : "late");
+            indicator.title = delay.level === "critical" ? `${delay.days} jours : relance prioritaire` : `${delay.days} jours : relance recommandée`;
             indicator.setAttribute("aria-label", delay.level === "critical" ? `Retard critique (${delay.days} jours)` : `Retard (${delay.days} jours)`);
-            c1.appendChild(indicator);
+          }else{
+            indicator.title = "Délai normal";
+            indicator.setAttribute("aria-label", "Délai normal");
           }
+          c1.appendChild(indicator);
           const name = document.createElement("span");
           name.textContent = r.client || "";
           c1.appendChild(name);
