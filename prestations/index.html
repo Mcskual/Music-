@@ -360,6 +360,25 @@
         width:100%;
         justify-content:flex-start;
       }
+      .theme-toggle{
+        padding:8px;
+        border-radius:12px;
+        gap:0;
+      }
+      .theme-toggle .switch{
+        display:none;
+      }
+      .theme-toggle .theme-icon{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        width:36px;
+        height:36px;
+        border-radius:12px;
+        border:1px solid var(--border);
+        background:var(--nav-bg);
+        cursor:pointer;
+      }
     }
     @media(max-width:640px){
       .nav-link{ min-width:96px; padding:0 8px; }
@@ -5721,23 +5740,38 @@ if (followupCopyBtn) {
           saved = localStorage.getItem(THEME_KEY);
         } catch(e) {}
 
-        if(saved === "light"){
-          applyTheme("light");
-          toggle.checked = false;
-        } else {
-          applyTheme("dark");
-          toggle.checked = true;
+        var initialTheme = saved === "light" ? "light" : "dark";
+        applyTheme(initialTheme);
+        toggle.checked = initialTheme !== "light";
+
+        function persistTheme(theme){
+          applyTheme(theme);
+          toggle.checked = theme !== "light";
+          try { localStorage.setItem(THEME_KEY, theme); } catch(e) {}
         }
 
         toggle.addEventListener("change", function(){
-          if(toggle.checked){
-            applyTheme("dark");
-            try { localStorage.setItem(THEME_KEY,"dark"); } catch(e) {}
-          } else {
-            applyTheme("light");
-            try { localStorage.setItem(THEME_KEY,"light"); } catch(e) {}
-          }
+          var theme = toggle.checked ? "dark" : "light";
+          persistTheme(theme);
         });
+
+        if(themeIcon){
+          themeIcon.setAttribute("role","button");
+          themeIcon.setAttribute("tabindex","0");
+          themeIcon.setAttribute("aria-label","Basculer le thème");
+          themeIcon.setAttribute("title","Basculer le thème");
+          themeIcon.addEventListener("click", function(){
+            var nextTheme = toggle.checked ? "light" : "dark";
+            persistTheme(nextTheme);
+          });
+          themeIcon.addEventListener("keydown", function(event){
+            if(event.key === "Enter" || event.key === " "){
+              event.preventDefault();
+              var nextTheme = toggle.checked ? "light" : "dark";
+              persistTheme(nextTheme);
+            }
+          });
+        }
       });
     })();
   </script>
