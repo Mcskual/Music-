@@ -671,17 +671,45 @@
       background:#f3f4f6;
       color:#6b7280;
     }
-    tr:nth-child(even) td{
-      background:rgba(15,23,42,.35);
+    .prestations-table{
+      border-spacing:0;
     }
-    [data-theme="light"] tr:nth-child(even) td{
-      background:#f9fafb;
+    .prestations-table tbody tr{
+      background:color-mix(in srgb, var(--card) 88%, transparent);
+      transition:background .18s ease, box-shadow .18s ease;
     }
-    tr:hover td{
-      background:rgba(59,130,246,.18);
+    .prestations-table tbody tr:nth-child(even){
+      background:color-mix(in srgb, var(--card) 78%, rgba(255,255,255,.02));
     }
-    [data-theme="light"] tr:hover td{
-      background:rgba(59,130,246,.09);
+    [data-theme="light"] .prestations-table tbody tr{
+      background:color-mix(in srgb, #ffffff 92%, var(--card) 8%);
+    }
+    [data-theme="light"] .prestations-table tbody tr:nth-child(even){
+      background:color-mix(in srgb, #f8fafc 88%, #e5e7eb 12%);
+    }
+    .prestations-table tbody tr:hover{
+      background:color-mix(in srgb, var(--card) 74%, var(--accent) 16%);
+      box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
+    }
+    [data-theme="light"] .prestations-table tbody tr:hover{
+      background:color-mix(in srgb, #ffffff 88%, var(--accent) 10%);
+      box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--accent) 24%, transparent);
+    }
+    .prestations-table tbody tr.priority-row td{
+      box-shadow:inset 3px 0 color-mix(in srgb, var(--accent) 38%, #475569 62%);
+      background:color-mix(in srgb, var(--card) 70%, color-mix(in srgb, var(--accent) 16%, transparent));
+    }
+    .prestations-table tbody tr.priority-row:hover td{
+      background:color-mix(in srgb, var(--card) 68%, color-mix(in srgb, var(--accent) 22%, transparent));
+      box-shadow:inset 3px 0 color-mix(in srgb, var(--accent) 46%, #475569 54%);
+    }
+    [data-theme="light"] .prestations-table tbody tr.priority-row td{
+      background:color-mix(in srgb, #ffffff 88%, color-mix(in srgb, var(--accent) 14%, #cbd5e1 86%));
+      box-shadow:inset 3px 0 color-mix(in srgb, var(--accent) 32%, #94a3b8 68%);
+    }
+    [data-theme="light"] .prestations-table tbody tr.priority-row:hover td{
+      background:color-mix(in srgb, #ffffff 86%, color-mix(in srgb, var(--accent) 20%, #dbeafe 80%));
+      box-shadow:inset 3px 0 color-mix(in srgb, var(--accent) 40%, #94a3b8 60%);
     }
 
     .small{ font-size:12px; color:#8aa0b5;}
@@ -846,33 +874,27 @@
       flex-shrink:0;
       color:var(--muted);
       opacity:0;
+      display:none;
       transform-origin:center;
+      transform:scale(.94);
     }
     .delay-indicator::before{
-      content:"⏱️";
+      content:"⏳";
       font-size:14px;
       line-height:1;
     }
     .delay-indicator.is-visible{
+      display:inline-flex;
       opacity:1;
     }
     .delay-indicator.late{
-      animation:delayPulseSoft 1.8s ease-in-out infinite;
-      color:#cbd5e1;
-    }
-    .delay-indicator.critical{
-      animation:delayPulseStrong 1.4s ease-in-out infinite;
-      color:var(--text);
+      animation:delayPulseSoft 2.4s ease-in-out infinite;
+      color:color-mix(in srgb, var(--accent) 40%, #cbd5e1 60%);
     }
     @keyframes delayPulseSoft{
-      0%{ transform:scale(1); opacity:1; }
-      70%{ transform:scale(1.06); opacity:.7; }
-      100%{ transform:scale(1.08); opacity:.5; }
-    }
-    @keyframes delayPulseStrong{
-      0%{ transform:scale(1); opacity:1; }
-      60%{ transform:scale(1.1); opacity:.65; }
-      100%{ transform:scale(1.16); opacity:.45; }
+      0%{ transform:scale(.94); opacity:1; }
+      60%{ transform:scale(1.06); opacity:.82; }
+      100%{ transform:scale(1.04); opacity:.72; }
     }
     .date-toggle{
       background:transparent;
@@ -2488,6 +2510,16 @@
         flex-direction:column;
         gap:8px;
       }
+      .mobile-card.priority-card{
+        background:color-mix(in srgb, var(--card) 78%, var(--accent) 12%);
+        border-color:color-mix(in srgb, var(--accent) 36%, var(--border));
+        box-shadow:0 12px 26px rgba(59,130,246,.24);
+      }
+      [data-theme="light"] .mobile-card.priority-card{
+        background:color-mix(in srgb, #ffffff 88%, var(--accent) 12%);
+        border-color:color-mix(in srgb, var(--accent) 30%, #d1d5db 70%);
+        box-shadow:0 12px 24px rgba(59,130,246,.18);
+      }
       .mobile-card header{
         display:flex;
         justify-content:space-between;
@@ -2852,7 +2884,7 @@
         <button type="button" class="btn btn-outline" id="captureRecap">📸 Capture </button>
         <button type="button" class="btn btn-primary mobile-smart-btn" id="smartCapture">📱 Capture mobile intelligente</button>
         </div>
-        <table>
+        <table class="prestations-table">
           <thead>
             <tr>
               <th>Date</th>
@@ -3806,16 +3838,34 @@
         return Math.floor(diff / (1000*60*60*24));
       }
 
+      function getLastPaymentDate(rec){
+        if(!rec) return null;
+        const payments = Array.isArray(rec.payments) ? [...rec.payments] : [];
+        if(payments.length){
+          payments.sort((a,b) => new Date(b.date || 0) - new Date(a.date || 0));
+          const latest = payments[0]?.date;
+          if(latest) return latest;
+        }
+        if(rec.lastPaymentAt) return rec.lastPaymentAt;
+        return null;
+      }
+
       function getDelayState(rec){
         if(!rec) return null;
-        const pendingPayment = !isSettled(rec);
-        const pendingDelivery = getDeliveryStatus(rec.id) !== "delivered";
-        if(!pendingPayment && !pendingDelivery) return null;
-        const days = daysSince(rec.date);
+        const remaining = getRemaining(rec);
+        if(remaining <= 0.00001) return null;
+        const dateDays = daysSince(rec.date);
+        const paymentDays = (() => {
+          const last = getLastPaymentDate(rec);
+          return last ? daysSince(last) : null;
+        })();
+        const over30Date = typeof dateDays === "number" && dateDays >= 30;
+        const over30Payment = typeof paymentDays === "number" && paymentDays >= 30;
+        if(!over30Date && !over30Payment) return null;
+        const reason = over30Payment ? "payment" : "date";
+        const days = over30Payment ? paymentDays : dateDays;
         if(days === null) return null;
-        if(days >= 30) return {level:"critical", days};
-        if(days >= 15) return {level:"late", days};
-        return null;
+        return {level:"late", days, reason};
       }
 
       function extractFirstName(full){
@@ -4916,6 +4966,9 @@
 
           const card = document.createElement("div");
           card.className = "mobile-card";
+          if(delay){
+            card.classList.add("priority-card");
+          }
 
           const header = document.createElement("header");
           const left = document.createElement("div");
@@ -4923,14 +4976,16 @@
           const clientRow = document.createElement("div");
           clientRow.className = "client-main";
           const indicator = document.createElement("span");
-          indicator.className = "delay-indicator is-visible";
+          indicator.className = "delay-indicator";
+          indicator.hidden = true;
           if(delay){
-            indicator.classList.add(delay.level === "critical" ? "critical" : "late");
-            indicator.title = delay.level === "critical" ? `${delay.days} jours : relance prioritaire` : `${delay.days} jours : relance recommandée`;
-            indicator.setAttribute("aria-label", delay.level === "critical" ? `Retard critique (${delay.days} jours)` : `Retard (${delay.days} jours)`);
-          } else {
-            indicator.title = "Délai normal";
-            indicator.setAttribute("aria-label", "Délai normal");
+            indicator.classList.add("is-visible","late");
+            indicator.hidden = false;
+            const title = delay.reason === "payment"
+              ? `${delay.days} jours depuis le dernier paiement`
+              : `${delay.days} jours depuis la prestation`;
+            indicator.title = title;
+            indicator.setAttribute("aria-label", `Relance prioritaire : ${title}`);
           }
           clientRow.appendChild(indicator);
           const clientEl = document.createElement("div");
@@ -5091,6 +5146,10 @@
 
         records.forEach(r => {
           const tr = document.createElement("tr");
+          const delay = getDelayState(r);
+          if(delay){
+            tr.classList.add("priority-row");
+          }
 
           const tdDate = document.createElement("td");
           const dateBtn = document.createElement("button");
@@ -5115,16 +5174,17 @@
           tdClient.className = "client-cell";
           const c1 = document.createElement("div");
           c1.className = "client-main";
-          const delay = getDelayState(r);
           const indicator = document.createElement("span");
-          indicator.className = "delay-indicator is-visible";
+          indicator.className = "delay-indicator";
+          indicator.hidden = true;
           if(delay){
-            indicator.classList.add(delay.level === "critical" ? "critical" : "late");
-            indicator.title = delay.level === "critical" ? `${delay.days} jours : relance prioritaire` : `${delay.days} jours : relance recommandée`;
-            indicator.setAttribute("aria-label", delay.level === "critical" ? `Retard critique (${delay.days} jours)` : `Retard (${delay.days} jours)`);
-          }else{
-            indicator.title = "Délai normal";
-            indicator.setAttribute("aria-label", "Délai normal");
+            indicator.classList.add("is-visible","late");
+            indicator.hidden = false;
+            const title = delay.reason === "payment"
+              ? `${delay.days} jours depuis le dernier paiement`
+              : `${delay.days} jours depuis la prestation`;
+            indicator.title = title;
+            indicator.setAttribute("aria-label", `Relance prioritaire : ${title}`);
           }
           c1.appendChild(indicator);
           const name = document.createElement("span");
