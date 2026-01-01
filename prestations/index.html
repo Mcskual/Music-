@@ -1812,6 +1812,148 @@
     .privacy-mode .amount-input{
       -webkit-text-security: disc;
     }
+
+    .mobile-only{ display:none; }
+    .mobile-cards{ display:none; }
+    .collapse-toggle{ display:none; }
+
+    @media(max-width:768px){
+      .container{ margin-top:20px; padding:0 12px; }
+      header.app{ gap:12px; }
+      .card{ padding:14px; margin-top:12px !important; }
+      .filter-panel{ gap:8px; }
+      .filter-row{ gap:10px; }
+      .filter-actions{ gap:8px; }
+      .toolbar{ width:100%; justify-content:flex-start; }
+
+      .section-header,
+      .section-subheader{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:10px;
+        margin-bottom:8px;
+      }
+      .section-subheader h3{
+        margin:0;
+        font-size:16px;
+      }
+      .collapse-toggle{
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        padding:8px 10px;
+        background:var(--panel);
+        color:var(--text);
+        border:1px solid var(--border);
+        border-radius:10px;
+        cursor:pointer;
+        font-weight:700;
+      }
+      .collapse-toggle .collapse-icon{
+        transition:transform .2s ease;
+        display:inline-block;
+      }
+      .collapse-toggle[aria-expanded="true"] .collapse-icon{
+        transform:rotate(180deg);
+      }
+      .collapsible-content{
+        display:none;
+      }
+      .collapsible-content.is-open{
+        display:block;
+      }
+      .mobile-only{ display:flex; }
+
+      table,
+      thead{
+        display:none;
+      }
+      tbody,
+      tr,
+      td{
+        display:block;
+      }
+      .mobile-cards{
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+        margin-top:10px;
+      }
+      .mobile-card{
+        background:var(--card);
+        border:1px solid var(--border);
+        border-radius:14px;
+        padding:12px;
+        box-shadow:var(--shadow);
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+      }
+      .mobile-card header{
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-start;
+        gap:10px;
+      }
+      .mobile-card .client{
+        font-weight:700;
+        font-size:15px;
+      }
+      .mobile-meta{
+        display:flex;
+        flex-direction:column;
+        gap:6px;
+        color:var(--text2);
+        font-size:12px;
+      }
+      .mobile-amounts{
+        display:grid;
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:8px;
+      }
+      .mobile-amounts .label{
+        color:var(--muted);
+        font-size:11px;
+        letter-spacing:.02em;
+      }
+      .mobile-amounts .value{
+        font-weight:700;
+        font-size:14px;
+      }
+      .mobile-progress{
+        display:flex;
+        flex-direction:column;
+        gap:6px;
+        font-size:12px;
+      }
+      .mobile-status{
+        align-self:flex-start;
+      }
+      .mobile-card-actions{
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+      }
+      .mobile-full-btn{
+        width:100%;
+        justify-content:center;
+      }
+      .mobile-secondary-actions{
+        display:flex;
+        gap:8px;
+      }
+      .mobile-secondary-actions .btn{
+        flex:1;
+        justify-content:center;
+        padding:8px 10px;
+      }
+      .mobile-empty{
+        text-align:center;
+        color:var(--text2);
+        font-size:13px;
+      }
+    }
   </style>
   <link rel="stylesheet" href="assets/szd-cards.css">
 </head>
@@ -1923,81 +2065,98 @@
           </form>
         </div>
 
-        <div class="card">
-          <h2>Recherche & filtre</h2>
-          <div class="filter-panel">
-            <div class="filter-row">
-              <div>
-                <label for="search">Filtre texte</label>
-                <input type="text" id="search" placeholder="Client, type, description…">
+        <div class="card filter-card">
+          <div class="section-header">
+            <h2>Recherche & filtre</h2>
+            <button type="button" class="collapse-toggle" data-collapse-target="search-filter-content" aria-expanded="true">
+              <span class="collapse-label">Masquer</span>
+              <span class="collapse-icon">▾</span>
+            </button>
+          </div>
+          <div id="search-filter-content" class="collapsible-content is-open">
+            <div class="filter-panel">
+              <div class="filter-row">
+                <div>
+                  <label for="search">Filtre texte</label>
+                  <input type="text" id="search" placeholder="Client, type, description…">
+                </div>
+                <div>
+                  <label for="filterStatus">Statut</label>
+                  <select id="filterStatus">
+                    <option value="all">Tous</option>
+                    <option value="unpayed">Non payé</option>
+                    <option value="partial">Partiel</option>
+                    <option value="paid">Payé / soldé</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="filterType">Type</label>
+                  <select id="filterType">
+                    <option value="all">Tous</option>
+                    <option value="Clip">Clip</option>
+                    <option value="Musique">Musique</option>
+                    <option value="Tournage">Tournage</option>
+                    <option value="Montage">Montage</option>
+                    <option value="Autre">Autre</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <label for="filterStatus">Statut</label>
-                <select id="filterStatus">
-                  <option value="all">Tous</option>
-                  <option value="unpayed">Non payé</option>
-                  <option value="partial">Partiel</option>
-                  <option value="paid">Payé / soldé</option>
-                </select>
-              </div>
-              <div>
-                <label for="filterType">Type</label>
-                <select id="filterType">
-                  <option value="all">Tous</option>
-                  <option value="Clip">Clip</option>
-                  <option value="Musique">Musique</option>
-                  <option value="Tournage">Tournage</option>
-                  <option value="Montage">Montage</option>
-                  <option value="Autre">Autre</option>
-                </select>
-              </div>
-            </div>
 
-            <div class="filter-actions">
-              <div class="row">
-                <div class="checkbox-toggle">
-                  <input type="checkbox" id="debug">
-                  <label for="debug" style="margin:0;">Debug mode</label>
+              <div class="filter-actions">
+                <div class="row">
+                  <div class="checkbox-toggle">
+                    <input type="checkbox" id="debug">
+                    <label for="debug" style="margin:0;">Debug mode</label>
+                  </div>
+                  <div class="checkbox-toggle">
+                    <input type="checkbox" id="autoFile">
+                    <label for="autoFile" style="margin:0;">Fichier auto (expérimental)</label>
+                  </div>
                 </div>
-                <div class="checkbox-toggle">
-                  <input type="checkbox" id="autoFile">
-                  <label for="autoFile" style="margin:0;">Fichier auto (expérimental)</label>
+                <div class="row" style="gap:8px; color:var(--muted); font-size:12px;">
+                  <span>Affinez vos résultats :</span>
+                  <span class="pill">Texte</span>
+                  <span class="pill">Statut</span>
+                  <span class="pill">Type</span>
                 </div>
-              </div>
-              <div class="row" style="gap:8px; color:var(--muted); font-size:12px;">
-                <span>Affinez vos résultats :</span>
-                <span class="pill">Texte</span>
-                <span class="pill">Statut</span>
-                <span class="pill">Type</span>
               </div>
             </div>
           </div>
 
-          <div class="totals" style="margin-top:14px;">
-            <div class="kpi">
-              <div class="label">Total facturé</div>
-              <div class="value amount-mask" id="totalMontant">0 €</div>
-              <div class="sub">Somme des prestations</div>
+          <div class="section-subheader mobile-only">
+            <h3>Totaux</h3>
+            <button type="button" class="collapse-toggle" data-collapse-target="totals-content" aria-expanded="true">
+              <span class="collapse-label">Masquer</span>
+              <span class="collapse-icon">▾</span>
+            </button>
+          </div>
+          <div id="totals-content" class="collapsible-content is-open">
+            <div class="totals" style="margin-top:14px;">
+              <div class="kpi">
+                <div class="label">Total facturé</div>
+                <div class="value amount-mask" id="totalMontant">0 €</div>
+                <div class="sub">Somme des prestations</div>
+              </div>
+              <div class="kpi">
+                <div class="label">Total reçu</div>
+                <div class="value amount-mask" id="totalRecu">0 €</div>
+                <div class="sub">Somme des paiements</div>
+              </div>
+              <div class="kpi">
+                <div class="label">Total restant</div>
+                <div class="value amount-mask" id="totalRestant">0 €</div>
+                <div class="sub">À encaisser</div>
+              </div>
             </div>
-            <div class="kpi">
-              <div class="label">Total reçu</div>
-              <div class="value amount-mask" id="totalRecu">0 €</div>
-              <div class="sub">Somme des paiements</div>
-            </div>
-            <div class="kpi">
-              <div class="label">Total restant</div>
-              <div class="value amount-mask" id="totalRestant">0 €</div>
-              <div class="sub">À encaisser</div>
+
+            <div class="small" id="lsStatus" style="margin-top:6px;"></div>
+
+            <div class="debug-zone" id="debug-zone" style="display:none;">
+              <div>Console locale :</div>
+              <pre id="debugOut"></pre>
             </div>
           </div>
-
-          <div class="small" id="lsStatus" style="margin-top:6px;"></div>
-
-        <div class="debug-zone" id="debug-zone" style="display:none;">
-          <div>Console locale :</div>
-          <pre id="debugOut"></pre>
         </div>
-      </div>
     </div>
 
     <div class="card" style="margin-top:20px;">
@@ -2023,6 +2182,7 @@
           <tr><td colspan="10" class="small">Aucune prestation ne correspond.</td></tr>
         </tbody>
       </table>
+      <div id="mobileCards" class="mobile-cards" aria-live="polite"></div>
     </div>
 
     <div class="card whatsapp-card" style="margin-top:20px;">
@@ -2777,6 +2937,9 @@
       const captureBtn = $("captureRecap");
       const followupList = $("followupList");
       const followupCounts = $("followupCounts");
+      const mobileCards = $("mobileCards");
+      const collapseButtons = Array.from(document.querySelectorAll(".collapse-toggle"));
+      const mobileQuery = window.matchMedia("(max-width: 768px)");
 
       const WHATSAPP_LEVELS = [
         {
@@ -2810,6 +2973,28 @@
           }
         }
       };
+
+      const isMobile = () => mobileQuery.matches;
+
+      function syncCollapseTarget(targetId, open){
+        const content = document.getElementById(targetId);
+        const toggle = collapseButtons.find(btn => btn.dataset.collapseTarget === targetId);
+        if(!content || !toggle) return;
+        const shouldOpen = Boolean(open);
+        content.classList.toggle("is-open", shouldOpen);
+        toggle.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+        const label = toggle.querySelector(".collapse-label");
+        if(label){
+          label.textContent = shouldOpen ? "Masquer" : "Afficher";
+        }
+      }
+
+      function toggleCollapse(targetId){
+        const content = document.getElementById(targetId);
+        if(!content) return;
+        const shouldOpen = !content.classList.contains("is-open");
+        syncCollapseTarget(targetId, shouldOpen);
+      }
 
       function ts(){
         const d=new Date();
@@ -3165,6 +3350,178 @@
         }
       }
 
+      function handleEncaisser(r){
+        let max = getRemaining(r);
+        if(max <= 0){
+          showStatus("Tout est déjà payé pour cette prestation.", false);
+          return;
+        }
+        const s = prompt("Montant à encaisser (max " + eur(max) + "):", "");
+        if(s===null) return;
+        const val = sanitizeAmount(s);
+        if(!isFinite(val) || val<=0){
+          showStatus("Montant invalide.", false);
+          return;
+        }
+        if(val > max + 0.00001){
+          showStatus("Montant supérieur au restant dû.", false);
+          return;
+        }
+        r.paidAmount = (r.paidAmount || 0) + val;
+        persist();
+        updateTotals(filterRecords(data));
+        render();
+        showStatus("Paiement enregistré.");
+      }
+
+      function handleEdit(r){
+        editingId = r.id;
+        client.value = r.client || "";
+        type.value = r.type || "Clip";
+        description.value = r.description || "";
+        date.value = r.date || "";
+        montant.value = r.montant != null ? String(r.montant) : "";
+        paye.checked = isSettled(r);
+        window.scrollTo({top:0, behavior:"smooth"});
+      }
+
+      function handleDelete(r){
+        if (!confirm("Supprimer cette prestation ?")) return;
+        data = data.filter(x => x.id !== r.id);
+        persist();
+        updateTotals(filterRecords(data));
+        render();
+        if (editingId === r.id) editingId = null;
+        showStatus("Prestation supprimée.");
+      }
+
+      function renderMobileCards(records){
+        if(!mobileCards) return;
+        if(!isMobile()){
+          mobileCards.innerHTML = "";
+          mobileCards.setAttribute("aria-hidden","true");
+          return;
+        }
+
+        mobileCards.setAttribute("aria-hidden","false");
+        mobileCards.innerHTML = "";
+
+        if(!records.length){
+          const empty = document.createElement("div");
+          empty.className = "mobile-card mobile-empty";
+          empty.textContent = "Aucune prestation ne correspond.";
+          mobileCards.appendChild(empty);
+          return;
+        }
+
+        records.forEach(r => {
+          const paid = getPaid(r);
+          const remaining = getRemaining(r);
+          const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(paid/r.montant*100)) : 0;
+
+          let cls = "muted";
+          let label = "Non payé";
+          if(isSettled(r)){
+            cls = "paid"; label = "Payé";
+          }else if(paid > 0){
+            cls = "partial"; label = "Partiel";
+          }
+
+          const card = document.createElement("div");
+          card.className = "mobile-card";
+
+          const header = document.createElement("header");
+          const left = document.createElement("div");
+          const clientEl = document.createElement("div");
+          clientEl.className = "client";
+          clientEl.textContent = r.client || "";
+          const meta = document.createElement("div");
+          meta.className = "mobile-meta";
+          meta.textContent = (r.type || "") + (r.description ? " — " + r.description : "");
+          left.appendChild(clientEl);
+          left.appendChild(meta);
+          header.appendChild(left);
+
+          const pill = document.createElement("span");
+          pill.className = "status-pill " + cls + " mobile-status";
+          const dot = document.createElement("span");
+          dot.className = "dot";
+          const text = document.createElement("span");
+          text.textContent = label;
+          pill.appendChild(dot);
+          pill.appendChild(text);
+          header.appendChild(pill);
+          card.appendChild(header);
+
+          const dateRow = document.createElement("div");
+          dateRow.className = "mobile-meta";
+          dateRow.textContent = r.date ? `Date : ${r.date}` : "Date non renseignée";
+          card.appendChild(dateRow);
+
+          const amounts = document.createElement("div");
+          amounts.className = "mobile-amounts";
+          [
+            {label:"Facturé", value: eur(r.montant || 0)},
+            {label:"Reçu", value: eur(paid)},
+            {label:"Restant", value: eur(remaining)}
+          ].forEach(item => {
+            const wrap = document.createElement("div");
+            const l = document.createElement("div");
+            l.className = "label";
+            l.textContent = item.label;
+            const v = document.createElement("div");
+            v.className = "value amount-mask";
+            v.textContent = item.value;
+            wrap.appendChild(l);
+            wrap.appendChild(v);
+            amounts.appendChild(wrap);
+          });
+          card.appendChild(amounts);
+
+          const progress = document.createElement("div");
+          progress.className = "mobile-progress";
+          const progressHead = document.createElement("div");
+          progressHead.className = "cap-row-progress-label";
+          progressHead.innerHTML = `<span>Avancement</span><span>${percent} %</span>`;
+          const bar = document.createElement("div");
+          bar.className = "progress";
+          const inner = document.createElement("div");
+          inner.className = "progress-inner";
+          inner.style.width = percent + "%";
+          bar.appendChild(inner);
+          progress.appendChild(progressHead);
+          progress.appendChild(bar);
+          card.appendChild(progress);
+
+          const actions = document.createElement("div");
+          actions.className = "mobile-card-actions";
+          const encBtn = document.createElement("button");
+          encBtn.type = "button";
+          encBtn.className = "btn btn-primary mobile-full-btn";
+          encBtn.textContent = "Encaisser";
+          encBtn.addEventListener("click", () => handleEncaisser(r));
+          const secondary = document.createElement("div");
+          secondary.className = "mobile-secondary-actions";
+          const editBtn = document.createElement("button");
+          editBtn.type = "button";
+          editBtn.className = "btn btn-outline";
+          editBtn.textContent = "Modifier";
+          editBtn.addEventListener("click", () => handleEdit(r));
+          const delBtn = document.createElement("button");
+          delBtn.type = "button";
+          delBtn.className = "btn btn-outline";
+          delBtn.textContent = "Supprimer";
+          delBtn.addEventListener("click", () => handleDelete(r));
+          secondary.appendChild(editBtn);
+          secondary.appendChild(delBtn);
+          actions.appendChild(encBtn);
+          actions.appendChild(secondary);
+          card.appendChild(actions);
+
+          mobileCards.appendChild(card);
+        });
+      }
+
       function render(){
         if(!tbody) return;
         tbody.innerHTML = "";
@@ -3179,6 +3536,7 @@
           tr.appendChild(td);
           tbody.appendChild(tr);
           const totals = updateTotals(records);
+          renderMobileCards(records);
           buildMobileRecap(records, totals);
           updateFollowUps();
           return;
@@ -3267,59 +3625,19 @@
           encBtn.type = "button";
           encBtn.className = "btn btn-primary";
           encBtn.textContent = "Encaisser";
-          encBtn.addEventListener("click", () => {
-            let max = getRemaining(r);
-            if(max <= 0){
-              showStatus("Tout est déjà payé pour cette prestation.", false);
-              return;
-            }
-            const s = prompt("Montant à encaisser (max " + eur(max) + "):", "");
-            if(s===null) return;
-            const val = sanitizeAmount(s);
-            if(!isFinite(val) || val<=0){
-              showStatus("Montant invalide.", false);
-              return;
-            }
-            if(val > max + 0.00001){
-              showStatus("Montant supérieur au restant dû.", false);
-              return;
-            }
-            r.paidAmount = (r.paidAmount || 0) + val;
-            persist();
-            updateTotals(filterRecords(data));
-            render();
-            showStatus("Paiement enregistré.");
-          });
+          encBtn.addEventListener("click", () => handleEncaisser(r));
 
           const editBtn = document.createElement("button");
           editBtn.type = "button";
           editBtn.className = "btn btn-outline";
           editBtn.textContent = "Modifier";
-          editBtn.addEventListener("click", () => {
-            editingId = r.id;
-            client.value = r.client || "";
-            type.value = r.type || "Clip";
-            description.value = r.description || "";
-            date.value = r.date || "";
-            montant.value = r.montant != null ? String(r.montant) : "";
-            paye.checked = isSettled(r);
-            window.scrollTo({top:0, behavior:"smooth"});
-          });
+          editBtn.addEventListener("click", () => handleEdit(r));
 
           const delBtn = document.createElement("button");
           delBtn.type = "button";
           delBtn.className = "btn btn-outline";
           delBtn.textContent = "Supprimer";
-          delBtn.addEventListener("click", () => {
-            if (confirm("Supprimer cette prestation ?")) {
-              data = data.filter(x => x.id !== r.id);
-              persist();
-              updateTotals(filterRecords(data));
-              render();
-              if (editingId === r.id) editingId = null;
-              showStatus("Prestation supprimée.");
-            }
-          });
+          delBtn.addEventListener("click", () => handleDelete(r));
 
           tdActions.appendChild(encBtn);
           tdActions.appendChild(editBtn);
@@ -3330,8 +3648,41 @@
         });
 
         const totals = updateTotals(records);
+        renderMobileCards(records);
         buildMobileRecap(records, totals);
         updateFollowUps();
+      }
+
+      collapseButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          if(!isMobile()) return;
+          const targetId = btn.dataset.collapseTarget;
+          if(targetId){
+            toggleCollapse(targetId);
+          }
+        });
+      });
+
+      let lastIsMobile = isMobile();
+      collapseButtons.forEach(btn => {
+        if(!btn.dataset.collapseTarget) return;
+        syncCollapseTarget(btn.dataset.collapseTarget, lastIsMobile ? false : true);
+      });
+
+      function handleViewportChange(){
+        const nowMobile = isMobile();
+        if(nowMobile !== lastIsMobile){
+          collapseButtons.forEach(btn => {
+            if(!btn.dataset.collapseTarget) return;
+            syncCollapseTarget(btn.dataset.collapseTarget, nowMobile ? false : true);
+          });
+        }
+        renderMobileCards(filterRecords(data));
+        lastIsMobile = nowMobile;
+      }
+
+      if(typeof mobileQuery?.addEventListener === "function"){
+        mobileQuery.addEventListener("change", handleViewportChange);
       }
 
       function captureRecap(records){
