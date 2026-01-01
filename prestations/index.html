@@ -836,7 +836,7 @@
       font-weight:600;
       white-space:nowrap;
     }
-    .history-toggle{
+    .inline-toggle{
       background:rgba(255,255,255,.04);
       border:1px solid var(--border);
       color:var(--text2);
@@ -851,34 +851,48 @@
       font-size:11px;
       transition:background .15s,border-color .15s,color .15s,transform .15s;
     }
-    .history-toggle:hover,
-    .history-toggle[aria-expanded="true"]{
+    .inline-toggle:hover,
+    .inline-toggle[aria-expanded="true"]{
       background:rgba(255,255,255,.08);
       border-color:var(--accent);
       color:var(--text);
       transform:translateY(-1px);
     }
-    .history-menu{
-      position:absolute;
-      top:calc(100% + 6px);
-      left:0;
+    .details-row{
       background:var(--panel);
+    }
+    .details-cell{
+      padding:0;
+      border-top:1px solid var(--border);
+    }
+    .details-inner{
+      padding:14px;
+      display:grid;
+      grid-template-columns:2fr 1fr;
+      gap:14px;
+      opacity:0;
+      max-height:0;
+      overflow:hidden;
+      transition:max-height .3s ease, opacity .25s ease;
+    }
+    .details-row.is-open .details-inner{
+      opacity:1;
+      max-height:320px;
+    }
+    .details-section{
+      background:rgba(255,255,255,.03);
       border:1px solid var(--border);
       border-radius:12px;
-      box-shadow:0 12px 26px rgba(0,0,0,.35);
-      padding:10px 12px;
-      min-width:220px;
-      z-index:15;
-      display:none;
+      padding:12px;
+      box-shadow:0 12px 30px rgba(0,0,0,.18);
+      height:100%;
     }
-    .history-menu.is-open{
-      display:block;
-    }
-    .history-menu h4{
-      margin:0 0 8px;
-      font-size:12px;
-      color:var(--text2);
+    .details-title{
+      margin:0 0 10px;
+      font-size:13px;
       letter-spacing:.02em;
+      color:var(--muted);
+      text-transform:uppercase;
     }
     .history-list{
       display:flex;
@@ -968,18 +982,121 @@
     .delivery-pill.pending .dot{
       background:#f59e0b;
     }
+    .delivery-inline{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .delivery-note{
+      color:var(--muted);
+      font-size:12px;
+    }
+    .actions-cell{
+      position:relative;
+      display:flex;
+      gap:6px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .note-btn{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      color:var(--text2);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:.15s background,.15s border-color,.15s color,.15s transform;
+    }
+    .note-btn:hover,
+    .note-btn:focus-visible{
+      background:rgba(255,255,255,.08);
+      border-color:var(--accent);
+      color:var(--text);
+      transform:translateY(-1px);
+    }
+    .note-btn.has-note{
+      color:#facc15;
+      border-color:rgba(250,204,21,.6);
+      box-shadow:0 0 0 1px rgba(250,204,21,.28);
+      background:rgba(250,204,21,.08);
+    }
+    .note-badge{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:#facc15;
+      position:absolute;
+      top:6px;
+      right:6px;
+      display:none;
+    }
+    .note-btn.has-note .note-badge{
+      display:block;
+    }
+    .note-popover{
+      position:absolute;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:12px;
+      box-shadow:0 12px 30px rgba(0,0,0,.35);
+      padding:12px;
+      width:280px;
+      z-index:30;
+      display:none;
+    }
+    .note-popover.is-open{
+      display:block;
+      animation:fadeIn .16s ease;
+    }
+    .note-popover h4{
+      margin:0 0 8px;
+      font-size:13px;
+      letter-spacing:.02em;
+      color:var(--text);
+    }
+    .note-popover textarea{
+      width:100%;
+      min-height:110px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      padding:10px;
+      resize:vertical;
+      font-family:inherit;
+      font-size:13px;
+      outline:none;
+    }
+    .note-popover textarea:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px rgba(59,130,246,.2);
+    }
+    .note-hint{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:6px;
+    }
 
     @media(max-width:780px){
-      .history-menu{
-        right:0;
-        left:auto;
-      }
       .delivery-pill{
         width:100%;
         justify-content:center;
       }
       .client-main{
         white-space:normal;
+      }
+      .details-inner{
+        grid-template-columns:1fr;
+        max-height:500px;
+      }
+      .note-popover{
+        width:92vw;
+        max-width:340px;
       }
     }
 
@@ -2698,8 +2815,8 @@
               <th>Restant</th>
               <th>Avancement</th>
               <th>Statut</th>
-              <th>Livraison</th>
               <th>Actions</th>
+              <th>Livraison</th>
             </tr>
           </thead>
         <tbody id="tbody">
@@ -3505,8 +3622,13 @@
       let data = [];
       let editingId = null;
       let activeArtistFilter = "";
-      let openHistoryMenu = null;
+      let openDetailsId = null;
+      let openDetailsRow = null;
+      let openDetailsToggle = null;
+      let openNoteCtx = null;
       let deliveryStatusMap = {};
+      let notesMap = {};
+      const notesStorageKey = "prestations_notes_v1";
 
       const log = (...args) => {
         if (debugChk && debugChk.checked) {
@@ -3693,6 +3815,10 @@
           dot.setAttribute("aria-hidden","true");
         }
         el.setAttribute("aria-pressed", isDelivered ? "true" : "false");
+        const inlineNote = el.closest(".delivery-inline")?.querySelector(".delivery-note");
+        if(inlineNote){
+          inlineNote.textContent = isDelivered ? "Livré au client." : "À livrer. Mettre à jour dès l'envoi.";
+        }
       }
 
       function syncDeliveryPills(id, state){
@@ -3767,13 +3893,7 @@
         return history;
       }
 
-      function buildHistoryMenu(rec){
-        const menu = document.createElement("div");
-        menu.className = "history-menu";
-        const title = document.createElement("h4");
-        title.textContent = "Historique des règlements";
-        menu.appendChild(title);
-
+      function buildHistoryList(rec){
         const list = document.createElement("div");
         list.className = "history-list";
         const payments = getPaymentHistory(rec);
@@ -3806,28 +3926,217 @@
           });
         }
 
-        menu.appendChild(list);
-        return menu;
+        return list;
       }
 
-      function closeHistoryMenu(){
-        if(!openHistoryMenu) return;
-        openHistoryMenu.button.setAttribute("aria-expanded","false");
-        openHistoryMenu.menu.classList.remove("is-open");
-        openHistoryMenu = null;
+      function loadNotes(){
+        if(!supportsLocalStorage) return {};
+        try{
+          const raw = localStorage.getItem(notesStorageKey);
+          if(!raw) return {};
+          const parsed = JSON.parse(raw);
+          return parsed && typeof parsed === "object" ? parsed : {};
+        }catch(e){
+          console.error("Impossible de charger les notes", e);
+          return {};
+        }
       }
 
-      function toggleHistoryMenu(button, menu){
-        if(openHistoryMenu && openHistoryMenu.menu !== menu){
-          closeHistoryMenu();
+      function persistNotes(){
+        if(!supportsLocalStorage) return;
+        try{
+          localStorage.setItem(notesStorageKey, JSON.stringify(notesMap));
+        }catch(e){
+          console.error("Impossible de sauvegarder les notes", e);
         }
-        const isOpen = menu.classList.toggle("is-open");
-        button.setAttribute("aria-expanded", isOpen ? "true" : "false");
-        if(isOpen){
-          openHistoryMenu = {button, menu};
-        }else{
-          openHistoryMenu = null;
+      }
+
+      function getNoteValue(id){
+        const key = String(id);
+        return notesMap?.[key] || "";
+      }
+
+      function setNoteValue(id, value){
+        const key = String(id);
+        const clean = (value || "").trim();
+        if(clean){
+          notesMap[key] = clean;
+        }else if(notesMap && key in notesMap){
+          delete notesMap[key];
         }
+        persistNotes();
+        syncNoteIndicators(key);
+      }
+
+      function updateNoteIndicator(btn, value){
+        if(!btn) return;
+        const hasNote = Boolean((value || "").trim());
+        btn.classList.toggle("has-note", hasNote);
+      }
+
+      function syncNoteIndicators(id){
+        const key = String(id);
+        document.querySelectorAll(`.note-btn[data-note-id="${key}"]`).forEach(btn => {
+          updateNoteIndicator(btn, getNoteValue(key));
+        });
+      }
+
+      let notePopover = null;
+      let noteTextarea = null;
+
+      function ensureNotePopover(){
+        if(notePopover) return notePopover;
+        notePopover = document.createElement("div");
+        notePopover.className = "note-popover";
+        const title = document.createElement("h4");
+        title.textContent = "Note interne";
+        notePopover.appendChild(title);
+        noteTextarea = document.createElement("textarea");
+        noteTextarea.placeholder = "Retard client, Livraison prévue vendredi, etc.";
+        notePopover.appendChild(noteTextarea);
+        const hint = document.createElement("div");
+        hint.className = "note-hint";
+        hint.textContent = "Sauvegarde automatique";
+        notePopover.appendChild(hint);
+        document.body.appendChild(notePopover);
+
+        const save = () => {
+          if(!openNoteCtx) return;
+          setNoteValue(openNoteCtx.id, noteTextarea.value);
+        };
+        let debounce;
+        noteTextarea.addEventListener("input", () => {
+          clearTimeout(debounce);
+          debounce = setTimeout(save, 300);
+        });
+        noteTextarea.addEventListener("blur", save);
+        return notePopover;
+      }
+
+      function closeNotePopover(){
+        if(notePopover){
+          notePopover.classList.remove("is-open");
+        }
+        openNoteCtx = null;
+      }
+
+      function positionNotePopover(button){
+        const panel = ensureNotePopover();
+        const rect = button.getBoundingClientRect();
+        const width = panel.offsetWidth || 280;
+        const margin = 8;
+        let left = rect.left + window.scrollX;
+        if(left + width > window.innerWidth + window.scrollX - margin){
+          left = window.innerWidth + window.scrollX - width - margin;
+        }
+        let top = rect.bottom + window.scrollY + margin;
+        if(panel.offsetHeight && (top + panel.offsetHeight > window.scrollY + window.innerHeight - margin)){
+          top = rect.top + window.scrollY - panel.offsetHeight - margin;
+          if(top < window.scrollY + margin){
+            top = rect.bottom + window.scrollY + margin;
+          }
+        }
+        panel.style.left = `${Math.max(margin + window.scrollX, left)}px`;
+        panel.style.top = `${top}px`;
+      }
+
+      function openNotePopover(button, id){
+        const panel = ensureNotePopover();
+        if(openNoteCtx && openNoteCtx.id === id){
+          closeNotePopover();
+          return;
+        }
+        openNoteCtx = {button, id};
+        const value = getNoteValue(id);
+        noteTextarea.value = value;
+        positionNotePopover(button);
+        panel.classList.add("is-open");
+        noteTextarea.focus();
+        updateNoteIndicator(button, value);
+      }
+
+      function closeDetails(){
+        if(openDetailsRow && openDetailsRow.parentNode){
+          openDetailsRow.parentNode.removeChild(openDetailsRow);
+        }
+        if(openDetailsToggle){
+          openDetailsToggle.setAttribute("aria-expanded","false");
+          openDetailsToggle.classList.remove("is-open");
+          openDetailsToggle.textContent = "+";
+        }
+        openDetailsId = null;
+        openDetailsRow = null;
+        openDetailsToggle = null;
+      }
+
+      function buildDetailsRow(r){
+        const tr = document.createElement("tr");
+        tr.className = "details-row";
+        tr.dataset.detailFor = r.id;
+        const td = document.createElement("td");
+        td.colSpan = 100;
+        td.className = "details-cell";
+        const inner = document.createElement("div");
+        inner.className = "details-inner";
+
+        const historySection = document.createElement("div");
+        historySection.className = "details-section";
+        const hTitle = document.createElement("div");
+        hTitle.className = "details-title";
+        hTitle.textContent = "Historique des règlements";
+        historySection.appendChild(hTitle);
+        historySection.appendChild(buildHistoryList(r));
+
+        const deliverySection = document.createElement("div");
+        deliverySection.className = "details-section";
+        const dTitle = document.createElement("div");
+        dTitle.className = "details-title";
+        dTitle.textContent = "Livraison";
+        const dRow = document.createElement("div");
+        dRow.className = "delivery-inline";
+        const deliveryBtn = document.createElement("button");
+        deliveryBtn.type = "button";
+        deliveryBtn.className = "delivery-pill";
+        deliveryBtn.dataset.deliveryId = r.id;
+        deliveryBtn.innerHTML = `<span class="dot"></span><span class="delivery-label"></span>`;
+        applyDeliveryState(deliveryBtn, getDeliveryStatus(r.id));
+        deliveryBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleDeliveryStatus(r.id);
+        });
+        const deliveryText = document.createElement("div");
+        deliveryText.className = "delivery-note";
+        deliveryText.textContent = getDeliveryStatus(r.id) === "delivered" ? "Livré au client." : "À livrer. Mettre à jour dès l'envoi.";
+        dRow.appendChild(deliveryBtn);
+        dRow.appendChild(deliveryText);
+        deliverySection.appendChild(dTitle);
+        deliverySection.appendChild(dRow);
+
+        inner.appendChild(historySection);
+        inner.appendChild(deliverySection);
+        td.appendChild(inner);
+        tr.appendChild(td);
+
+        requestAnimationFrame(() => {
+          tr.classList.add("is-open");
+        });
+        return tr;
+      }
+
+      function toggleDetails(r, mainRow, toggleBtn){
+        if(openDetailsId === r.id){
+          closeDetails();
+          return;
+        }
+        closeDetails();
+        const details = buildDetailsRow(r);
+        mainRow.parentNode.insertBefore(details, mainRow.nextSibling);
+        openDetailsRow = details;
+        openDetailsId = r.id;
+        openDetailsToggle = toggleBtn;
+        toggleBtn.setAttribute("aria-expanded","true");
+        toggleBtn.classList.add("is-open");
+        toggleBtn.textContent = "▾";
       }
 
       function renderArtistChips(records){
@@ -4558,25 +4867,12 @@
           const clientEl = document.createElement("div");
           clientEl.className = "client";
           clientEl.textContent = r.client || "";
-          const historyBtn = document.createElement("button");
-          historyBtn.type = "button";
-          historyBtn.className = "history-toggle";
-          historyBtn.setAttribute("aria-label", "Historique des règlements");
-          historyBtn.setAttribute("aria-expanded", "false");
-          historyBtn.textContent = "▾";
-          const historyMenu = buildHistoryMenu(r);
-          historyBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleHistoryMenu(historyBtn, historyMenu);
-          });
           clientRow.appendChild(clientEl);
-          clientRow.appendChild(historyBtn);
           const meta = document.createElement("div");
           meta.className = "mobile-meta";
           meta.textContent = (r.type || "") + (r.description ? " — " + r.description : "");
           left.appendChild(clientRow);
           left.appendChild(meta);
-          left.appendChild(historyMenu);
           header.appendChild(left);
 
           const headerActions = document.createElement("div");
@@ -4645,6 +4941,15 @@
           progress.appendChild(bar);
           card.appendChild(progress);
 
+          const historySection = document.createElement("div");
+          historySection.className = "details-section";
+          const historyTitle = document.createElement("div");
+          historyTitle.className = "details-title";
+          historyTitle.textContent = "Historique des règlements";
+          historySection.appendChild(historyTitle);
+          historySection.appendChild(buildHistoryList(r));
+          card.appendChild(historySection);
+
           const actions = document.createElement("div");
           actions.className = "mobile-card-actions";
           const encBtn = document.createElement("button");
@@ -4664,8 +4969,20 @@
           delBtn.className = "btn btn-outline";
           delBtn.textContent = "Supprimer";
           delBtn.addEventListener("click", () => handleDelete(r));
+          const noteBtn = document.createElement("button");
+          noteBtn.type = "button";
+          noteBtn.className = "note-btn";
+          noteBtn.dataset.noteId = r.id;
+          noteBtn.setAttribute("aria-label", "Note interne");
+          noteBtn.innerHTML = '✎<span class="note-badge"></span>';
+          updateNoteIndicator(noteBtn, getNoteValue(r.id));
+          noteBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            openNotePopover(noteBtn, r.id);
+          });
           secondary.appendChild(editBtn);
           secondary.appendChild(delBtn);
+          secondary.appendChild(noteBtn);
           actions.appendChild(encBtn);
           actions.appendChild(secondary);
           card.appendChild(actions);
@@ -4676,7 +4993,8 @@
 
       function render(){
         if(!tbody) return;
-        closeHistoryMenu();
+        closeDetails();
+        closeNotePopover();
         tbody.innerHTML = "";
 
         renderArtistChips(data);
@@ -4713,27 +5031,25 @@
           tdClient.className = "client-cell";
           const c1 = document.createElement("div");
           c1.className = "client-main";
+          const toggleBtn = document.createElement("button");
+          toggleBtn.type = "button";
+          toggleBtn.className = "inline-toggle";
+          toggleBtn.setAttribute("aria-label", "Afficher le détail");
+          toggleBtn.setAttribute("aria-expanded", openDetailsId === r.id ? "true" : "false");
+          toggleBtn.textContent = openDetailsId === r.id ? "▾" : "+";
+          toggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleDetails(r, tr, toggleBtn);
+          });
           const name = document.createElement("span");
           name.textContent = r.client || "";
-          const historyBtn = document.createElement("button");
-          historyBtn.type = "button";
-          historyBtn.className = "history-toggle";
-          historyBtn.setAttribute("aria-label", "Historique des règlements");
-          historyBtn.setAttribute("aria-expanded", "false");
-          historyBtn.textContent = "▾";
-          const historyMenu = buildHistoryMenu(r);
-          historyBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleHistoryMenu(historyBtn, historyMenu);
-          });
+          c1.appendChild(toggleBtn);
           c1.appendChild(name);
-          c1.appendChild(historyBtn);
           const c2 = document.createElement("div");
           c2.className = "small";
           c2.textContent = (r.type || "") + (r.description ? " — " + r.description : "");
           tdClient.appendChild(c1);
           tdClient.appendChild(c2);
-          tdClient.appendChild(historyMenu);
           tr.appendChild(tdClient);
 
           const tdMontant = document.createElement("td");
@@ -4791,6 +5107,7 @@
           tr.appendChild(tdStatus);
 
           const tdActions = document.createElement("td");
+          tdActions.className = "actions-cell";
           const encBtn = document.createElement("button");
           encBtn.type = "button";
           encBtn.className = "btn btn-primary";
@@ -4809,9 +5126,22 @@
           delBtn.textContent = "Supprimer";
           delBtn.addEventListener("click", () => handleDelete(r));
 
+          const noteBtn = document.createElement("button");
+          noteBtn.type = "button";
+          noteBtn.className = "note-btn";
+          noteBtn.dataset.noteId = r.id;
+          noteBtn.setAttribute("aria-label", "Note interne");
+          noteBtn.innerHTML = '✎<span class="note-badge"></span>';
+          updateNoteIndicator(noteBtn, getNoteValue(r.id));
+          noteBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            openNotePopover(noteBtn, r.id);
+          });
+
           tdActions.appendChild(encBtn);
           tdActions.appendChild(editBtn);
           tdActions.appendChild(delBtn);
+          tdActions.appendChild(noteBtn);
           tr.appendChild(tdActions);
 
           const tdDelivery = document.createElement("td");
@@ -5169,10 +5499,12 @@
       }
 
       document.addEventListener("click", (e) => {
-        if(!openHistoryMenu) return;
-        const {button, menu} = openHistoryMenu;
-        if(button.contains(e.target) || menu.contains(e.target)) return;
-        closeHistoryMenu();
+        if(openNoteCtx){
+          const panel = notePopover || document.querySelector(".note-popover");
+          if(panel && !panel.contains(e.target) && !openNoteCtx.button.contains(e.target)){
+            closeNotePopover();
+          }
+        }
       });
 
       /* ==== Capture pour "Prestations enregistrées" ==== */
@@ -5219,6 +5551,7 @@ if (followupCopyBtn) {
 }
 
       deliveryStatusMap = loadDeliveryStatus();
+      notesMap = loadNotes();
       load();
       pruneDeliveryStatus(data);
       render();
