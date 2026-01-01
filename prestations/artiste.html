@@ -7,18 +7,18 @@
   <style>
     :root {
       --bg:#0b0e14;
-      --card:#111827;
-      --panel:#0f172a;
+      --card:#0f172a;
+      --panel:#111827;
       --muted:#9ca3af;
       --accent:#3b82f6;
       --accent2:#22d3ee;
       --border:#1f2937;
       --text:#e5e7eb;
       --text2:#9ca3af;
-      --shadow:0 8px 28px rgba(0,0,0,.32);
-      --nav-bg:#0f172a;
+      --shadow:0 12px 32px rgba(0,0,0,.35);
+      --nav-bg:linear-gradient(120deg,rgba(59,130,246,.12),rgba(34,211,238,.08)),#0b1220;
       --nav-mobile-bg:#0f172a;
-      --nav-sheen:linear-gradient(90deg,rgba(255,255,255,.05),transparent 50%);
+      --nav-sheen:linear-gradient(90deg,rgba(255,255,255,.05),transparent 55%);
       --bg-gradient:var(--bg);
       --suno-orange:#FF7A18;
     }
@@ -26,6 +26,7 @@
     [data-theme="light"] {
       --bg:#f3f4f6;
       --card:#ffffff;
+      --panel:#f8fafc;
       --text:#0f172a;
       --text2:#4b5563;
       --border:#e5e7eb;
@@ -43,17 +44,17 @@
     *, *::before, *::after { box-sizing:border-box; }
     * { scroll-behavior:auto; }
 
-  body {
-    font-family: "Inter", system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    background: var(--bg-gradient);
-    color:var(--text);
-    margin:0;
-    overflow-y:auto;
-    overflow-x:hidden;
-  }
-  body.nav-open{
-    overflow:hidden;
-  }
+    body {
+      font-family: "Inter", system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background: var(--bg-gradient);
+      color:var(--text);
+      margin:0;
+      overflow-y:auto;
+      overflow-x:hidden;
+    }
+    body.nav-open{
+      overflow:hidden;
+    }
 
     .container { max-width:1200px; margin:36px auto 0 auto; padding:0 16px; }
 
@@ -63,12 +64,12 @@
       align-items:center;
       flex-wrap:nowrap;
       gap:12px;
-      padding:10px 14px;
-      min-height:70px;
+      padding:12px 16px;
+      min-height:76px;
       background:var(--nav-bg);
       border:1px solid var(--border);
       border-radius:18px;
-      box-shadow:0 12px 30px rgba(0,0,0,.35);
+      box-shadow:0 14px 34px rgba(0,0,0,.38);
       margin-bottom:16px;
       overflow:hidden;
       isolation:isolate;
@@ -92,11 +93,11 @@
       height:100%;
       flex-shrink:0;
     }
-    .nav-left{ flex:0 0 auto; }
+    .nav-left{ flex:0 0 auto; gap:12px; }
     .nav-center{
       flex:1 1 auto;
       gap:8px;
-      justify-content:flex-start;
+      justify-content:center;
       position:relative;
       min-width:0;
       overflow:visible;
@@ -107,52 +108,7 @@
       gap:8px;
       padding-left:4px;
     }
-    .privacy-toggle{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      height:44px;
-      padding:0 14px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      color:inherit;
-      font-weight:600;
-      cursor:pointer;
-      transition:.18s background,.18s border-color,.18s transform,.18s box-shadow;
-    }
-    [data-theme="light"] .privacy-toggle{
-      background:rgba(255,255,255,.9);
-    }
-    .privacy-toggle:hover{
-      border-color:var(--accent);
-      box-shadow:0 10px 22px rgba(0,0,0,.25);
-      transform:translateY(-1px);
-    }
-    .privacy-toggle.is-active{
-      background:linear-gradient(135deg,rgba(59,130,246,.14),rgba(34,211,238,.14));
-      border-color:var(--accent);
-      box-shadow:0 12px 26px rgba(34,211,238,.2);
-    }
-    .privacy-toggle.icon-only{
-      width:44px;
-      padding:0;
-      justify-content:center;
-      gap:0;
-    }
-    .privacy-toggle-icon{ font-size:16px; }
-    .privacy-toggle-text{ font-size:13px; }
-    .sr-only{
-      position:absolute;
-      width:1px;
-      height:1px;
-      padding:0;
-      margin:-1px;
-      overflow:hidden;
-      clip:rect(0,0,0,0);
-      white-space:nowrap;
-      border:0;
-    }
+
     .nav-toggle{
       display:none;
       align-items:center;
@@ -166,7 +122,7 @@
       background:rgba(255,255,255,.03);
       color:inherit;
       cursor:pointer;
-      transition:.2s background,.2s border-color,.2s transform;
+      transition:.2s background,.2s border-color,.2s transform,.2s box-shadow;
     }
     [data-theme="light"] .nav-toggle{
       background:rgba(255,255,255,.9);
@@ -174,6 +130,7 @@
     .nav-toggle:hover{
       border-color:var(--accent);
       transform:translateY(-1px);
+      box-shadow:0 10px 22px rgba(0,0,0,.28);
     }
     .nav-toggle .bar{
       width:20px;
@@ -194,11 +151,12 @@
     .top-nav.is-open .nav-toggle .bar:nth-child(3){
       transform:translateY(-6px) rotate(-45deg);
     }
+
     .nav-links{
       display:flex;
       gap:8px;
       align-items:center;
-      justify-content:flex-start;
+      justify-content:center;
       flex:1 1 auto;
       min-width:0;
       padding:6px 10px;
@@ -217,7 +175,7 @@
       position:relative;
       color:var(--text2);
       text-decoration:none;
-      min-width:108px;
+      min-width:96px;
       height:40px;
       display:inline-flex;
       justify-content:center;
@@ -229,9 +187,9 @@
       border:1px solid transparent;
       background:#0f172a;
       font-size:13px;
-      font-weight:700;
+      font-weight:800;
       letter-spacing:.01em;
-      transition:.18s background,.18s border-color,.18s color;
+      transition:.18s background,.18s border-color,.18s color,.18s box-shadow;
       white-space:nowrap;
       flex:0 0 auto;
     }
@@ -260,10 +218,7 @@
       background:#111827;
       color:#f8fafc;
       border-color:rgba(59,130,246,.45);
-      box-shadow:none;
-    }
-    .nav-link[data-tab-target="beatsengine"].active{
-      border-color:rgba(255,122,24,.35);
+      box-shadow:0 10px 22px rgba(0,0,0,.24);
     }
     [data-theme="light"] .nav-link.active{
       background:linear-gradient(135deg,rgba(59,130,246,.14),rgba(16,185,129,.16));
@@ -271,25 +226,44 @@
       box-shadow:0 8px 18px rgba(59,130,246,.22);
     }
     .nav-link.active::after{ opacity:1; transform:translateY(0); background:linear-gradient(135deg,rgba(255,255,255,.8),rgba(255,255,255,.4)); }
-    .nav-link[data-tab-target="beatsengine"].active::after{
-      background:var(--suno-orange);
-    }
+
     .theme-toggle{
       display:flex;
       align-items:center;
       gap:8px;
       height:100%;
     }
+    .switch{position:relative;display:inline-block;width:48px;height:26px;}
+    .switch input{opacity:0;width:0;height:0;}
+    .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#1f2937;transition:.2s;border-radius:999px;border:1px solid var(--border);}
+    .slider:before{position:absolute;content:\"\";height:20px;width:20px;left:3px;bottom:2px;background:white;transition:.2s;border-radius:50%;box-shadow:0 4px 12px rgba(0,0,0,.25);}
+    input:checked + .slider{background:linear-gradient(135deg,#3b82f6,#22d3ee);}
+    input:checked + .slider:before{transform:translateX(20px);}
+
+    .nav-actions .nav-cta{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      height:44px;
+      padding:0 16px;
+      border-radius:12px;
+      font-weight:900;
+      text-decoration:none;
+      color:#fff;
+      background:linear-gradient(135deg,#22c55e,#16a34a);
+      border:1px solid rgba(34,197,94,.45);
+      box-shadow:0 12px 28px rgba(34,197,94,.25);
+      white-space:nowrap;
+    }
+
     @media(max-width:820px){
       .top-nav{ gap:10px; }
-      .nav-link{ min-width:100px; padding:0 10px; font-size:12px; }
+      .nav-link{ min-width:94px; padding:0 10px; font-size:12px; }
       .nav-links{ gap:8px; padding:6px 8px; }
       .theme-toggle{ padding:6px 8px; }
     }
     @media(max-width:768px){
-      .top-nav::after{
-        display:none;
-      }
+      .top-nav::after{ display:none; }
       .top-nav{
         overflow:visible;
         padding:0 12px;
@@ -305,25 +279,10 @@
         z-index:60;
         flex-wrap:nowrap;
       }
-      .top-nav .logo-wrap img{
-        width:80%;
-        max-width:160px;
-        height:auto;
-      }
-      .nav-center{
-        order:0;
-        width:auto;
-        flex:1 1 auto;
-        min-width:0;
-      }
-      .nav-actions{
-        margin-left:12px;
-        gap:8px;
-        flex:0 0 auto;
-      }
-      .nav-toggle{
-        display:inline-flex;
-      }
+      .top-nav .logo-wrap img{ width:80%; max-width:160px; height:auto; }
+      .nav-center{ order:0; width:auto; flex:1 1 auto; min-width:0; }
+      .nav-actions{ margin-left:12px; gap:8px; flex:0 0 auto; }
+      .nav-toggle{ display:inline-flex; }
       .nav-links{
         position:fixed;
         top:60px;
@@ -353,32 +312,14 @@
         max-height:calc(100vh - 60px);
         transition:max-height .32s ease, opacity .22s ease, transform .22s ease, visibility 0s;
       }
-      .nav-link{
-        width:100%;
-        justify-content:flex-start;
-      }
-      .theme-toggle{
-        padding:8px;
-        border-radius:12px;
-        gap:0;
-      }
-      .theme-toggle .switch{
-        display:none;
-      }
-      .theme-toggle .theme-icon{
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        width:36px;
-        height:36px;
-        border-radius:12px;
-        border:1px solid var(--border);
-        background:var(--nav-mobile-bg);
-        cursor:pointer;
-      }
+      .nav-link{ width:100%; justify-content:flex-start; }
+      .nav-actions .nav-cta{ display:none; }
+      .theme-toggle{ padding:8px; border-radius:12px; gap:0; }
+      .theme-toggle .switch{ display:none; }
+      .theme-toggle .theme-icon{ display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:12px; border:1px solid var(--border); background:var(--nav-mobile-bg); cursor:pointer; }
     }
     @media(max-width:640px){
-      .nav-link{ min-width:96px; padding:0 8px; }
+      .nav-link{ min-width:92px; padding:0 8px; }
       .top-nav{ padding:0 10px; }
     }
 
@@ -394,45 +335,21 @@
       text-decoration:none;
       color:inherit;
     }
-    .logo-wrap img{
-      width:220px;
-      height:auto;
-      display:block;
-      border-radius:14px;
-      transition:transform .2s ease, opacity .2s ease;
-    }
-    .logo-compact{
-      padding:6px 10px;
-      border-radius:14px;
-    }
+    .logo-wrap img{ width:200px; height:auto; display:block; border-radius:14px; transition:transform .2s ease, opacity .2s ease; }
+    .logo-compact{ padding:8px 10px; border-radius:14px; }
     .logo-compact img{ width:160px; }
+    .brand-meta{ display:flex; flex-direction:column; gap:4px; }
+    .brand-name{ font-weight:900; letter-spacing:.02em; font-size:16px; }
+    .brand-subline{ color:var(--text2); font-size:13px; }
 
     h1 { font-size:clamp(26px,4vw,40px); margin:0; padding:0; line-height:1.15; }
-    h2 { margin:0 0 10px; font-size:clamp(18px,2.4vw,22px); }
+    h2 { margin:0 0 10px; font-size:clamp(20px,3vw,28px); }
 
-    .page-content{
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-      margin-bottom:48px;
-    }
-  </style>
-  <style>
+    .page-content{ display:flex; flex-direction:column; gap:18px; margin-bottom:48px; }
+
     .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;border:1px solid var(--border);color:var(--muted);font-size:12px;background:rgba(255,255,255,.03);text-transform:uppercase;letter-spacing:.08em;font-weight:700;}
     [data-theme="light"] .eyebrow{background:rgba(15,23,42,.04);}    
-    .hero{
-      position:relative;
-      display:grid;
-      gap:18px;
-      grid-template-columns:1fr;
-      padding:22px;
-      border-radius:20px;
-      background:linear-gradient(135deg,rgba(59,130,246,.10),rgba(34,197,94,.08)),var(--card);
-      border:1px solid rgba(59,130,246,.35);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-      isolation:isolate;
-    }
+    .hero{ position:relative; display:grid; gap:18px; grid-template-columns:1fr 0.9fr; padding:22px; border-radius:20px; background:linear-gradient(135deg,rgba(59,130,246,.10),rgba(34,197,94,.08)),var(--card); border:1px solid rgba(59,130,246,.35); box-shadow:var(--shadow); overflow:hidden; isolation:isolate; }
     .hero::after{content:"";position:absolute;width:380px;height:380px;inset:auto -120px -180px auto;background:radial-gradient(circle,rgba(34,197,94,.18),transparent 60%);opacity:.7;filter:blur(12px);pointer-events:none;z-index:0;}
     .hero-grid{display:grid;grid-template-columns:1fr 0.9fr;gap:22px;align-items:center;position:relative;z-index:1;}
     .hero h1{font-size:clamp(30px,5vw,48px);line-height:1.05;margin-bottom:8px;}
@@ -449,15 +366,24 @@
     .hero-visual{position:relative;border-radius:18px;overflow:hidden;border:1px solid rgba(59,130,246,.32);background:linear-gradient(120deg,rgba(59,130,246,.16),rgba(15,23,42,.8)),url("assets/mc-skual-studio.jpg") center/cover no-repeat;min-height:220px;box-shadow:var(--shadow);}    
     .hero-visual::after{content:"Studio SZD";position:absolute;bottom:12px;left:12px;padding:8px 12px;border-radius:12px;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);font-weight:700;letter-spacing:.02em;}
 
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:12px;}
+    .stat-card{border:1px solid var(--border);background:var(--panel);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow);}    
+    .stat-title{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:800;}
+    .stat-value{font-size:20px;font-weight:900;}
+
     .section{border:1px solid var(--border);background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:16px;}
     .section-header{display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:10px;}
     .section-header h2{margin:0;font-size:clamp(20px,3vw,26px);}    
     .muted{color:var(--text2);font-size:14px;line-height:1.6;}
+    .subhead{color:var(--text);font-weight:800;font-size:16px;}
 
-    .method-grid,.pricing-grid,.edu-grid,.releases-grid{display:grid;grid-template-columns:1fr;gap:12px;}
+    .method-grid,.pricing-grid,.edu-grid,.releases-grid,.feature-grid{display:grid;grid-template-columns:1fr;gap:12px;}
     .card-tile{border:1px solid var(--border);background:var(--panel);border-radius:14px;padding:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px;}
     .card-tile h3{margin:0;font-size:17px;display:flex;align-items:center;gap:10px;}
     .card-tile p{margin:0;color:var(--text2);line-height:1.55;}
+
+    .feature-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
+    .pill-tag{padding:8px 12px;border-radius:12px;border:1px solid var(--border);font-weight:800;color:var(--text);background:rgba(255,255,255,.02);}    
 
     .pricing-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
     .pricing-card{position:relative;overflow:hidden;border:1px solid var(--border);background:var(--panel);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);}    
@@ -487,13 +413,17 @@
 
     .pill{padding:6px 10px;border-radius:999px;border:1px solid var(--border);color:var(--muted);font-size:12px;background:rgba(255,255,255,.04);}    
 
+    .list-inline{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0;list-style:none;color:var(--text2);}    
+    .list-inline li{display:flex;align-items:center;gap:6px;font-weight:700;}
+
     @media(max-width:960px){
       .hero-grid{grid-template-columns:1fr;}
       .hero-visual{min-height:200px;}
     }
     @media(max-width:620px){
       .section,.hero{padding:16px;}
-      .pricing-grid,.method-grid,.edu-grid,.releases-grid{grid-template-columns:1fr;}
+      .pricing-grid,.method-grid,.edu-grid,.releases-grid,.feature-grid{grid-template-columns:1fr;}
+      .stat-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));}
     }
   </style>
 </head>
@@ -508,26 +438,27 @@
             data-light-src="szd_logo_black.png"
             alt="Logo">
         </a>
+        <div class="brand-meta">
+          <span class="brand-name">SZD Studio</span>
+          <span class="brand-subline">Producteur & ingénieur du son</span>
+        </div>
       </div>
       <div class="nav-center">
         <div class="nav-links" id="nav-links">
-          <a class="nav-link active" data-priority="main" href="#prestations" data-tab-target="prestations">Prestations</a>
-          <a class="nav-link" data-priority="main" href="#beatsengine" data-tab-target="beatsengine">BeatsEngine</a>
-          <a class="nav-link" data-priority="main" href="#facturation" data-tab-target="facturation">Facturation</a>
-          <a class="nav-link" data-priority="main" href="#rdv" data-tab-target="rdv">RDV</a>
-          <a class="nav-link" data-priority="secondary" href="#licence" data-tab-target="licence">Licence</a>
-          <a class="nav-link" data-priority="secondary" href="#famille" data-tab-target="famille">Famille</a>
+          <a class="nav-link active" href="#accueil">Accueil</a>
+          <a class="nav-link" href="#bio">Qui suis-je</a>
+          <a class="nav-link" href="#instrumentales">Instrumentales</a>
+          <a class="nav-link" href="#tarifs">Tarifs</a>
+          <a class="nav-link" href="#formats">Comprendre les formats</a>
+          <a class="nav-link" href="#contact">Contact</a>
         </div>
       </div>
       <div class="nav-actions">
+        <a class="nav-cta" href="https://wa.me/33600000000?text=Bonjour%20%21%20Je%20souhaite%20planifier%20un%20projet%20instrumental%20avec%20toi." target="_blank" rel="noopener noreferrer">Contact / WhatsApp</a>
         <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-controls="nav-links" aria-expanded="false" type="button">
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
-        </button>
-        <button type="button" class="privacy-toggle icon-only" id="togglePrivacyMode" aria-pressed="false" aria-label="Mode présentation" title="Mode présentation">
-          <span class="privacy-toggle-icon" aria-hidden="true">👁️</span>
-          <span class="privacy-toggle-text sr-only">Mode présentation</span>
         </button>
         <div class="theme-toggle">
           <span class="theme-icon" aria-hidden="true">🌙</span>
@@ -540,55 +471,92 @@
     </nav>
 
     <main class="page-content">
-      <section class="hero" id="prestations">
+      <section class="hero" id="accueil">
         <div class="hero-grid">
           <div>
             <div class="eyebrow">Produit final prêt à partager</div>
             <h1>Instrumentales professionnelles</h1>
-            <p>Producteur depuis 2006 — Travail sérieux, rapide et humain. Chaque instru est pensée pour mettre la voix en avant et livrée avec un suivi personnalisé.</p>
+            <p>Producteur depuis 2006 – accompagnement sérieux, humain et rapide. Chaque instru est construite pour mettre la voix au centre, avec un suivi qui évite les mauvaises surprises.</p>
             <div class="tags">
               <span class="chip">Afro</span>
               <span class="chip">Drill</span>
               <span class="chip">Trap</span>
-              <span class="chip">Mélodique</span>
+              <span class="chip">RnB / Mélodique</span>
+              <span class="chip">Pop urbaine</span>
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="https://wa.me/33600000000?text=Bonjour%20%21%20Je%20souhaite%20travailler%20sur%20une%20instrumentale%20avec%20toi.%20Peux-tu%20me%20partager%20tes%20disponibilit%C3%A9s%20et%20les%20prochaines%20%C3%A9tapes%20%3F" target="_blank" rel="noopener noreferrer">WhatsApp direct</a>
+              <a class="btn btn-primary" href="https://wa.me/33600000000?text=Bonjour%20%21%20Je%20souhaite%20r%C3%A9server%20une%20instrumentale%20%28Single%2FEP%2FAlbum%29.%20Peux-tu%20me%20donner%20les%20prochaines%20%C3%A9tapes%20%3F" target="_blank" rel="noopener noreferrer">WhatsApp immédiat</a>
               <a class="btn btn-outline" href="#tarifs">Voir les formats</a>
             </div>
             <div class="cta-note">
               <span>Réponse rapide, rendez-vous en studio ou à distance.</span>
               <span class="pill">Licence exclusive uniquement</span>
             </div>
+            <div class="stat-grid">
+              <div class="stat-card"><span class="stat-title">Expérience</span><span class="stat-value">18+ ans de production</span><p class="muted">Hip-hop, afro, pop urbaine, scènes locales et plateformes.</p></div>
+              <div class="stat-card"><span class="stat-title">Accompagnement</span><span class="stat-value">Méthode en 4 étapes</span><p class="muted">Brief clair, propositions rapides, retours guidés.</p></div>
+              <div class="stat-card"><span class="stat-title">Livraison</span><span class="stat-value">Stems + Mixage</span><p class="muted">Prêt pour la distribution, radios et live.</p></div>
+            </div>
           </div>
           <div class="hero-visual" aria-hidden="true"></div>
         </div>
       </section>
 
-      <section class="section" id="beatsengine">
+      <section class="section" id="bio">
+        <div class="section-header">
+          <h2>Qui suis-je</h2>
+          <span class="pill">Producteur & beatmaker</span>
+        </div>
+        <p class="muted">Je produis depuis 2006 et j’accompagne des artistes émergents comme confirmés à structurer leur son, leur message et leurs sorties. Mon approche : un cadre clair, un langage simple et une exigence de résultat. Pas de pack générique : chaque instru est pensée pour ta voix, ton public et ton calendrier.</p>
+        <div class="feature-grid">
+          <div class="card-tile"><h3>🎯 Vision</h3><p>Créer des instrumentales qui servent ton storytelling et qui passent partout : streaming, scène, radios locales ou nationales.</p></div>
+          <div class="card-tile"><h3>🤝 Différence</h3><p>Pas d’abonnements, pas de beats recyclés. On travaille en direct, en exclusivité, avec un suivi humain et des délais tenus.</p></div>
+          <div class="card-tile"><h3>🛠️ Studio & outils</h3><p>Travail en studio équipé ou en distanciel avec validation à chaque étape, stems propres et options de mixage/arrangements.</p></div>
+        </div>
+      </section>
+
+      <section class="section" id="instrumentales">
+        <div class="section-header">
+          <h2>Instrumentales taillées pour la voix</h2>
+          <span class="pill">Clarté, dynamique, cohérence</span>
+        </div>
+        <p class="muted">Chaque prod est construite pour faciliter l’enregistrement et la diffusion. On part de tes influences, on cale le BPM et la tonalité, puis on prépare une structure ready-to-voice pour que tu puisses poser sans perdre de temps.</p>
+        <div class="feature-grid">
+          <div class="card-tile"><h3>✅ Structure prête</h3><p>Intro, couplets, refrains, ponts : la structure est livrée avec des transitions claires pour guider ton flow.</p></div>
+          <div class="card-tile"><h3>🎚️ Stems & cohérence</h3><p>Stems propres, variations maîtrisées, headroom optimisé pour le mix et le mastering.</p></div>
+          <div class="card-tile"><h3>📅 Disponibilités</h3><p>Créneaux dédiés pour les artistes : sessions en studio ou en visio, validation rapide des idées et ajustements prioritaires.</p></div>
+        </div>
+        <ul class="list-inline">
+          <li>• Tonalité & BPM définis ensemble</li>
+          <li>• Options mixage sur demande</li>
+          <li>• Roadmap claire jusqu’à la livraison</li>
+        </ul>
+      </section>
+
+      <section class="section" id="methode">
         <div class="section-header">
           <h2>Méthode de travail</h2>
           <span class="pill">Process clair et humain</span>
         </div>
-        <p class="muted">Chaque étape est structurée pour garder ton projet fluide et aligné avec ta vision. Tu sais exactement où on en est et ce qui arrive ensuite.</p>
+        <p class="muted">Chaque étape est structurée pour garder ton projet fluide et aligné avec ta vision. Pas de flou : tu sais où on en est, ce qui est validé et ce qui arrive ensuite.</p>
         <div class="method-grid">
-          <div class="card-tile"><h3>🎧 Écoute du projet</h3><p>On discute de ton univers, des références, du rythme et des objectifs pour capter l’essence du morceau.</p></div>
-          <div class="card-tile"><h3>🎼 Proposition d’instrumentale</h3><p>Création d’une base solide avec structure claire, ready-to-voice, adaptée à ton flow.</p></div>
-          <div class="card-tile"><h3>✏️ Ajustements</h3><p>Allers-retours rapides : arrangements, sound design, variations rythmiques et transitions.</p></div>
-          <div class="card-tile"><h3>🚀 Livraison finale</h3><p>Fichiers livrés en stems + mixage optionnel. Prêt pour la distribution et la scène.</p></div>
+          <div class="card-tile"><h3>🎧 Écoute du projet</h3><p>On décortique tes références, la vibe recherchée, le BPM, la tonalité et le positionnement que tu veux donner.</p></div>
+          <div class="card-tile"><h3>🎼 Proposition d’instrumentale</h3><p>Création d’une base solide avec structure claire, ready-to-voice, adaptée à ton flow et à ta voix.</p></div>
+          <div class="card-tile"><h3>✏️ Ajustements guidés</h3><p>Allers-retours rapides : arrangements, sound design, variations rythmiques, transitions, équilibrage.</p></div>
+          <div class="card-tile"><h3>🚀 Livraison sécurisée</h3><p>Stems + mixage optionnel, naming propre, export optimisé pour distribution et scène.</p></div>
         </div>
       </section>
 
       <section class="section" id="tarifs">
         <div class="section-header">
           <h2>Tarifs — formats maîtrisés</h2>
-          <span class="pill">Guidage pour choisir le bon pack</span>
+          <span class="pill">Parler le langage des artistes</span>
         </div>
         <div class="pricing-grid">
           <div class="pricing-card">
             <div class="badge">À l’unité — Single</div>
             <h3>Single</h3>
-            <p class="muted">Idéal pour tester un style ou sortir un single rapidement.</p>
+            <p class="muted">Idéal pour tester un style ou sortir un titre rapidement.</p>
             <p class="price">100 €</p>
             <ul class="feature-list">
               <li>✔️ 1 instrumentale exclusive</li>
@@ -599,20 +567,20 @@
           <div class="pricing-card popular">
             <div class="badge popular-badge">⭐ Le plus populaire</div>
             <h3>Pack EP (3 à 5 titres)</h3>
-            <p class="muted">Le meilleur format pour construire une identité artistique solide.</p>
+            <p class="muted">Le format le plus efficace pour construire une identité solide.</p>
             <p class="price">480 € (3 titres) – 750 € (5 titres)</p>
             <ul class="feature-list">
               <li>✔️ 3 à 5 instrumentales exclusives</li>
               <li>✔️ Mixage inclus pour chaque titre</li>
               <li>✔️ Harmonisation sonore du projet</li>
               <li>✔️ Ajustements prioritaires</li>
-              <li>✔️ Accompagnement artistique</li>
+              <li>✔️ Accompagnement artistique dédié</li>
             </ul>
           </div>
           <div class="pricing-card">
             <div class="badge">Pack Album</div>
             <h3>Album (8 à 12 titres)</h3>
-            <p class="muted">Pour les artistes confirmés avec une vraie vision de projet.</p>
+            <p class="muted">Pour les artistes avec une vision claire et une fanbase active.</p>
             <p class="price">Sur devis</p>
             <ul class="feature-list">
               <li>✔️ 8 à 12 instrumentales exclusives</li>
@@ -626,47 +594,48 @@
           <span class="rule">Licence exclusive uniquement</span>
           <span class="rule">Paiement possible en plusieurs fois (acompte)</span>
           <span class="rule">Aucun abonnement</span>
-          <span class="rule">Travail sérieux et humain</span>
+          <span class="rule">Planning partagé et validé ensemble</span>
         </div>
       </section>
 
-      <section class="section" id="licence">
+      <section class="section" id="formats">
         <div class="section-header">
-          <h2>Comprendre les formats musicaux</h2>
-          <span class="pill">Simple, clair, actionnable</span>
+          <h2>Comprendre les formats</h2>
+          <span class="pill">Pédagogique & rassurant</span>
         </div>
+        <p class="muted">Choisir le bon format, c’est choisir le bon rythme de sortie. Voici quand opter pour un single, un EP ou un album, et comment éviter les erreurs courantes.</p>
         <div class="edu-grid">
           <div class="edu-card">
             <h3>Single</h3>
-            <p class="muted">1 titre unique pour tester un style ou rester actif.</p>
+            <p class="muted">1 titre unique pour tester ou rester visible.</p>
             <ul class="feature-list">
-              <li>✔️ Début de projet</li>
-              <li>✔️ Test artistique</li>
-              <li>✔️ Maintenir la visibilité</li>
+              <li>✔️ Tester un style ou une collab</li>
+              <li>✔️ Maintenir la présence entre deux projets</li>
+              <li>⚠️ Erreur à éviter : négliger la promo</li>
             </ul>
           </div>
           <div class="edu-card">
             <h3>EP</h3>
-            <p class="muted">3 à 5 titres pour un mini-projet cohérent et crédible.</p>
+            <p class="muted">3 à 5 titres pour installer ton univers.</p>
             <ul class="feature-list">
-              <li>✔️ Montre ton univers</li>
-              <li>✔️ Donne de la crédibilité</li>
-              <li>✔️ Format le plus utilisé par les émergents</li>
+              <li>✔️ Suffisant pour montrer la direction</li>
+              <li>✔️ Format le plus crédible pour émerger</li>
+              <li>⚠️ Erreur à éviter : tracks trop différentes</li>
             </ul>
           </div>
           <div class="edu-card">
             <h3>Album</h3>
-            <p class="muted">8 titres ou plus pour une vision artistique complète.</p>
+            <p class="muted">8 titres ou plus pour une vision complète.</p>
             <ul class="feature-list">
-              <li>✔️ Fanbase existante</li>
-              <li>✔️ Vision claire</li>
-              <li>✔️ Projet long terme</li>
+              <li>✔️ Cohérence globale, storytelling long</li>
+              <li>✔️ Demande une fanbase et un plan marketing</li>
+              <li>⚠️ Erreur à éviter : calendrier trop serré</li>
             </ul>
           </div>
         </div>
       </section>
 
-      <section class="section" id="facturation">
+      <section class="section" id="sorties">
         <div class="section-header">
           <h2>Dernières sorties</h2>
           <span class="pill">Crédibilité & références</span>
@@ -674,21 +643,21 @@
         <div id="releasesGrid" class="releases-grid" aria-live="polite"></div>
       </section>
 
-      <section class="section contact" id="rdv">
+      <section class="section contact" id="contact">
         <div class="section-header">
-          <h2>Un projet ? Parlons-en.</h2>
-          <span class="pill">WhatsApp direct</span>
+          <h2>Contact & rendez-vous</h2>
+          <span class="pill">WhatsApp prioritaire</span>
         </div>
-        <p class="muted">Dis-moi ce que tu veux construire : single, EP ou album. Je te réponds rapidement avec un plan clair et un créneau de travail.</p>
+        <p class="muted">Dis-moi ce que tu veux construire : single, EP ou album. Je te réponds rapidement avec un plan clair, les étapes et un créneau pour avancer.</p>
         <div class="actions">
           <a class="btn btn-primary" href="https://wa.me/33600000000?text=Hello%20%21%20Je%20veux%20r%C3%A9server%20une%20instrumentale%20%28Single%2FEP%2FAlbum%29.%20Peux-tu%20me%20donner%20les%20prochaines%20%C3%A9tapes%20et%20un%20cr%C3%A9neau%20%3F" target="_blank" rel="noopener noreferrer">Envoyer sur WhatsApp</a>
-          <a class="btn btn-outline" href="#prestations">Revenir en haut</a>
+          <a class="btn btn-outline" href="#accueil">Revenir en haut</a>
         </div>
       </section>
     </main>
   </div>
 
-  <footer class="footer" id="famille">SZD Studio — Producteur & beatmaker.</footer>
+  <footer class="footer">SZD Studio — Producteur & beatmaker.</footer>
 
   <script>
     function updateThemeLogos(theme){
@@ -709,9 +678,7 @@
       const navLinksContainer = document.getElementById("nav-links");
 
       function syncToggleState(isOpen){
-        if(nav){
-          nav.classList.toggle("is-open", Boolean(isOpen));
-        }
+        if(nav){ nav.classList.toggle("is-open", Boolean(isOpen)); }
         if(navToggle){
           navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
           navToggle.setAttribute("aria-label", isOpen ? "Fermer le menu" : "Ouvrir le menu");
@@ -720,9 +687,7 @@
         document.body.classList.toggle("nav-open", shouldLock);
       }
 
-      function closeMobileMenu(){
-        syncToggleState(false);
-      }
+      function closeMobileMenu(){ syncToggleState(false); }
 
       if(navToggle && navLinksContainer){
         navToggle.addEventListener("click", () => {
@@ -730,78 +695,19 @@
           syncToggleState(isOpen);
         });
 
-        window.addEventListener("resize", () => {
-          if(window.innerWidth > 768){
-            closeMobileMenu();
-          }
-        });
+        window.addEventListener("resize", () => { if(window.innerWidth > 768){ closeMobileMenu(); } });
 
         navLinksContainer.addEventListener("click", (event) => {
           const target = event.target;
           if(target && target.closest("a")){
             closeMobileMenu();
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            target.classList.add('active');
           }
         });
 
         syncToggleState(nav?.classList.contains("is-open"));
       }
-    })();
-  </script>
-  <script>
-    (function(){
-      const PRIVACY_KEY = "szd_privacy_mode";
-      const CLASSNAME = "privacy-mode";
-      const body = document.body;
-      const toggleBtn = document.getElementById("togglePrivacyMode");
-      const icon = toggleBtn ? toggleBtn.querySelector(".privacy-toggle-icon") : null;
-      const label = toggleBtn ? toggleBtn.querySelector(".privacy-toggle-text") : null;
-
-      function readSaved(){
-        try {
-          return localStorage.getItem(PRIVACY_KEY) === "1";
-        } catch(e) {
-          return false;
-        }
-      }
-
-      function setPrivacy(enabled, persist=true){
-        if(body){
-          body.classList.toggle(CLASSNAME, enabled);
-        }
-        if(toggleBtn){
-          toggleBtn.classList.toggle("is-active", enabled);
-          toggleBtn.setAttribute("aria-pressed", enabled ? "true" : "false");
-        }
-        if(icon){
-          icon.textContent = enabled ? "🙈" : "👁️";
-        }
-        if(label){
-          label.textContent = enabled ? "Mode présentation activé" : "Mode présentation";
-        }
-        if(persist){
-          try {
-            localStorage.setItem(PRIVACY_KEY, enabled ? "1" : "0");
-          } catch(e) {}
-        }
-      }
-
-      const initial = readSaved();
-      setPrivacy(initial, false);
-
-      document.addEventListener("DOMContentLoaded", () => {
-        if(toggleBtn){
-          toggleBtn.addEventListener("click", () => {
-            const next = !body.classList.contains(CLASSNAME);
-            setPrivacy(next);
-          });
-        }
-      });
-
-      window.addEventListener("storage", (event) => {
-        if(event.key === PRIVACY_KEY){
-          setPrivacy(event.newValue === "1", false);
-        }
-      });
     })();
   </script>
   <script>
@@ -835,9 +741,7 @@
         if(!toggle) return;
 
         var saved = null;
-        try {
-          saved = localStorage.getItem(THEME_KEY);
-        } catch(e) {}
+        try { saved = localStorage.getItem(THEME_KEY); } catch(e) {}
 
         var initialTheme = saved === "light" ? "light" : "dark";
         applyTheme(initialTheme);
