@@ -826,6 +826,163 @@
       color:#991b1b;
     }
 
+    .client-cell{
+      position:relative;
+    }
+    .client-main{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-weight:600;
+      white-space:nowrap;
+    }
+    .history-toggle{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--border);
+      color:var(--text2);
+      border-radius:8px;
+      width:22px;
+      height:22px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      padding:0;
+      font-size:11px;
+      transition:background .15s,border-color .15s,color .15s,transform .15s;
+    }
+    .history-toggle:hover,
+    .history-toggle[aria-expanded="true"]{
+      background:rgba(255,255,255,.08);
+      border-color:var(--accent);
+      color:var(--text);
+      transform:translateY(-1px);
+    }
+    .history-menu{
+      position:absolute;
+      top:calc(100% + 6px);
+      left:0;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:12px;
+      box-shadow:0 12px 26px rgba(0,0,0,.35);
+      padding:10px 12px;
+      min-width:220px;
+      z-index:15;
+      display:none;
+    }
+    .history-menu.is-open{
+      display:block;
+    }
+    .history-menu h4{
+      margin:0 0 8px;
+      font-size:12px;
+      color:var(--text2);
+      letter-spacing:.02em;
+    }
+    .history-list{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      max-height:260px;
+      overflow:auto;
+    }
+    .history-item{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      padding:6px 8px;
+      border-radius:10px;
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--border);
+    }
+    .history-meta{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+    .history-date{
+      color:var(--muted);
+      font-size:12px;
+    }
+    .history-amount{
+      font-weight:700;
+      font-size:13px;
+    }
+    .history-tag{
+      font-size:11px;
+      padding:3px 8px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text2);
+      white-space:nowrap;
+    }
+    .history-tag.partial{ color:#facc15; border-color:rgba(250,204,21,.4); }
+    .history-tag.total{ color:#22c55e; border-color:rgba(34,197,94,.45); }
+    .history-empty{
+      color:var(--muted);
+      font-size:12px;
+      padding:6px 0;
+    }
+
+    .delivery-pill{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      padding:4px 10px;
+      border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:12px;
+      cursor:pointer;
+      transition:.15s background,.15s border-color,.15s color,.15s transform;
+    }
+    .delivery-pill .dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      display:block;
+      background:var(--muted);
+    }
+    .delivery-pill:hover{
+      background:rgba(255,255,255,.06);
+      border-color:var(--accent);
+      transform:translateY(-1px);
+    }
+    .delivery-pill.delivered{
+      background:rgba(22,163,74,.16);
+      border-color:rgba(34,197,94,.5);
+      color:#bbf7d0;
+    }
+    .delivery-pill.delivered .dot{
+      background:#22c55e;
+    }
+    .delivery-pill.pending{
+      background:rgba(248,180,0,.12);
+      border-color:rgba(234,179,8,.5);
+      color:#fde68a;
+    }
+    .delivery-pill.pending .dot{
+      background:#f59e0b;
+    }
+
+    @media(max-width:780px){
+      .history-menu{
+        right:0;
+        left:auto;
+      }
+      .delivery-pill{
+        width:100%;
+        justify-content:center;
+      }
+      .client-main{
+        white-space:normal;
+      }
+    }
+
     .checkbox-toggle{ display:flex; align-items:center; gap:8px; }
 
     .alert{
@@ -2173,6 +2330,12 @@
         align-items:flex-start;
         gap:10px;
       }
+      .mobile-header-actions{
+        display:flex;
+        flex-direction:column;
+        align-items:flex-end;
+        gap:6px;
+      }
       .mobile-card .client{
         font-weight:700;
         font-size:15px;
@@ -2535,11 +2698,12 @@
               <th>Restant</th>
               <th>Avancement</th>
               <th>Statut</th>
+              <th>Livraison</th>
               <th>Actions</th>
             </tr>
           </thead>
         <tbody id="tbody">
-          <tr><td colspan="10" class="small">Aucune prestation ne correspond.</td></tr>
+          <tr><td colspan="9" class="small">Aucune prestation ne correspond.</td></tr>
         </tbody>
       </table>
       <div id="mobileCards" class="mobile-cards" aria-live="polite"></div>
@@ -3315,6 +3479,7 @@
       const mobileCards = $("mobileCards");
       const collapseButtons = Array.from(document.querySelectorAll(".collapse-toggle"));
       const mobileQuery = window.matchMedia("(max-width: 768px)");
+      const deliveryStorageKey = "prestations_delivery_status_v1";
 
       const WHATSAPP_LEVELS = [
         {
@@ -3340,6 +3505,8 @@
       let data = [];
       let editingId = null;
       let activeArtistFilter = "";
+      let openHistoryMenu = null;
+      let deliveryStatusMap = {};
 
       const log = (...args) => {
         if (debugChk && debugChk.checked) {
@@ -3441,7 +3608,7 @@
         try {
           const raw = localStorage.getItem(storageKey);
           if(!raw) return;
-          data = JSON.parse(raw) || [];
+          data = (JSON.parse(raw) || []).map(normalizeRecord);
         } catch(e) {
           console.error(e);
           showStatus("Impossible de lire les données locales.", false);
@@ -3474,6 +3641,193 @@
         if(!full) return "client";
         const parts = full.trim().split(/\s+/);
         return parts[0] || "client";
+      }
+
+      function normalizeRecord(rec = {}){
+        const copy = {...rec};
+        copy.id = copy.id || Date.now() + Math.random();
+        copy.paidAmount = Number(copy.paidAmount || 0);
+        if(!Array.isArray(copy.payments)){
+          copy.payments = [];
+        }
+        return copy;
+      }
+
+      function loadDeliveryStatus(){
+        if(!supportsLocalStorage) return {};
+        try{
+          const raw = localStorage.getItem(deliveryStorageKey);
+          if(!raw) return {};
+          const parsed = JSON.parse(raw);
+          return parsed && typeof parsed === "object" ? parsed : {};
+        }catch(e){
+          console.error("Impossible de charger les statuts de livraison", e);
+          return {};
+        }
+      }
+
+      function persistDeliveryStatus(){
+        if(!supportsLocalStorage) return;
+        try{
+          localStorage.setItem(deliveryStorageKey, JSON.stringify(deliveryStatusMap));
+        }catch(e){
+          console.error("Impossible de sauvegarder les statuts de livraison", e);
+        }
+      }
+
+      function getDeliveryStatus(id){
+        return deliveryStatusMap?.[id] === "delivered" ? "delivered" : "pending";
+      }
+
+      function applyDeliveryState(el, state){
+        if(!el) return;
+        const isDelivered = state === "delivered";
+        el.classList.toggle("delivered", isDelivered);
+        el.classList.toggle("pending", !isDelivered);
+        const label = el.querySelector(".delivery-label") || el;
+        if(label){
+          label.textContent = isDelivered ? "Livré" : "À livrer";
+        }
+        const dot = el.querySelector(".dot");
+        if(dot){
+          dot.setAttribute("aria-hidden","true");
+        }
+        el.setAttribute("aria-pressed", isDelivered ? "true" : "false");
+      }
+
+      function syncDeliveryPills(id, state){
+        document.querySelectorAll(`.delivery-pill[data-delivery-id="${id}"]`).forEach(el => {
+          applyDeliveryState(el, state);
+        });
+      }
+
+      function toggleDeliveryStatus(id){
+        const current = getDeliveryStatus(id);
+        const next = current === "delivered" ? "pending" : "delivered";
+        deliveryStatusMap[id] = next;
+        persistDeliveryStatus();
+        syncDeliveryPills(id, next);
+      }
+
+      function pruneDeliveryStatus(records){
+        if(!records || !records.length){
+          if(Object.keys(deliveryStatusMap || {}).length){
+            deliveryStatusMap = {};
+            persistDeliveryStatus();
+          }
+          return;
+        }
+        const ids = new Set(records.map(r => r.id));
+        let changed = false;
+        Object.keys(deliveryStatusMap || {}).forEach(key => {
+          if(!ids.has(Number(key)) && !ids.has(key)){
+            delete deliveryStatusMap[key];
+            changed = true;
+          }
+        });
+        if(changed){
+          persistDeliveryStatus();
+        }
+      }
+
+      function recordPayment(rec, amount, type){
+        if(!rec) return;
+        if(!Array.isArray(rec.payments)){
+          rec.payments = [];
+        }
+        rec.payments.push({
+          amount: Number(amount || 0),
+          type: type === "total" ? "total" : "partial",
+          date: new Date().toISOString()
+        });
+      }
+
+      function formatPaymentDate(value){
+        if(!value) return "Date inconnue";
+        const d = new Date(value);
+        if(Number.isNaN(d.getTime())) return value;
+        return d.toLocaleDateString("fr-FR");
+      }
+
+      function getPaymentHistory(rec){
+        if(!rec) return [];
+        const history = Array.isArray(rec.payments) ? [...rec.payments] : [];
+        if(!history.length && getPaid(rec) > 0){
+          history.push({
+            amount: getPaid(rec),
+            type: isSettled(rec) ? "total" : "partial",
+            date: rec.lastPaymentAt || rec.date || ""
+          });
+        }
+        history.sort((a,b) => {
+          const da = new Date(a.date || 0).getTime();
+          const db = new Date(b.date || 0).getTime();
+          return db - da;
+        });
+        return history;
+      }
+
+      function buildHistoryMenu(rec){
+        const menu = document.createElement("div");
+        menu.className = "history-menu";
+        const title = document.createElement("h4");
+        title.textContent = "Historique des règlements";
+        menu.appendChild(title);
+
+        const list = document.createElement("div");
+        list.className = "history-list";
+        const payments = getPaymentHistory(rec);
+
+        if(!payments.length){
+          const empty = document.createElement("div");
+          empty.className = "history-empty";
+          empty.textContent = "Aucun paiement enregistré.";
+          list.appendChild(empty);
+        }else{
+          payments.forEach(p => {
+            const item = document.createElement("div");
+            item.className = "history-item";
+            const meta = document.createElement("div");
+            meta.className = "history-meta";
+            const d = document.createElement("div");
+            d.className = "history-date";
+            d.textContent = formatPaymentDate(p.date);
+            const a = document.createElement("div");
+            a.className = "history-amount amount-mask";
+            a.textContent = eur(p.amount || 0);
+            meta.appendChild(d);
+            meta.appendChild(a);
+            const tag = document.createElement("span");
+            tag.className = "history-tag " + (p.type === "total" ? "total" : "partial");
+            tag.textContent = p.type === "total" ? "Total" : "Partiel";
+            item.appendChild(meta);
+            item.appendChild(tag);
+            list.appendChild(item);
+          });
+        }
+
+        menu.appendChild(list);
+        return menu;
+      }
+
+      function closeHistoryMenu(){
+        if(!openHistoryMenu) return;
+        openHistoryMenu.button.setAttribute("aria-expanded","false");
+        openHistoryMenu.menu.classList.remove("is-open");
+        openHistoryMenu = null;
+      }
+
+      function toggleHistoryMenu(button, menu){
+        if(openHistoryMenu && openHistoryMenu.menu !== menu){
+          closeHistoryMenu();
+        }
+        const isOpen = menu.classList.toggle("is-open");
+        button.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        if(isOpen){
+          openHistoryMenu = {button, menu};
+        }else{
+          openHistoryMenu = null;
+        }
       }
 
       function renderArtistChips(records){
@@ -4128,6 +4482,8 @@
           return;
         }
         r.paidAmount = (r.paidAmount || 0) + val;
+        recordPayment(r, val, r.paidAmount >= (r.montant || 0) ? "total" : "partial");
+        r.lastPaymentAt = new Date().toISOString();
         persist();
         updateTotals(filterRecords(data));
         render();
@@ -4148,6 +4504,10 @@
       function handleDelete(r){
         if (!confirm("Supprimer cette prestation ?")) return;
         data = data.filter(x => x.id !== r.id);
+        if(deliveryStatusMap && r.id in deliveryStatusMap){
+          delete deliveryStatusMap[r.id];
+          persistDeliveryStatus();
+        }
         persist();
         updateTotals(filterRecords(data));
         render();
@@ -4192,16 +4552,35 @@
 
           const header = document.createElement("header");
           const left = document.createElement("div");
+          left.className = "client-cell";
+          const clientRow = document.createElement("div");
+          clientRow.className = "client-main";
           const clientEl = document.createElement("div");
           clientEl.className = "client";
           clientEl.textContent = r.client || "";
+          const historyBtn = document.createElement("button");
+          historyBtn.type = "button";
+          historyBtn.className = "history-toggle";
+          historyBtn.setAttribute("aria-label", "Historique des règlements");
+          historyBtn.setAttribute("aria-expanded", "false");
+          historyBtn.textContent = "▾";
+          const historyMenu = buildHistoryMenu(r);
+          historyBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleHistoryMenu(historyBtn, historyMenu);
+          });
+          clientRow.appendChild(clientEl);
+          clientRow.appendChild(historyBtn);
           const meta = document.createElement("div");
           meta.className = "mobile-meta";
           meta.textContent = (r.type || "") + (r.description ? " — " + r.description : "");
-          left.appendChild(clientEl);
+          left.appendChild(clientRow);
           left.appendChild(meta);
+          left.appendChild(historyMenu);
           header.appendChild(left);
 
+          const headerActions = document.createElement("div");
+          headerActions.className = "mobile-header-actions";
           const pill = document.createElement("span");
           pill.className = "status-pill " + cls + " mobile-status";
           const dot = document.createElement("span");
@@ -4210,7 +4589,20 @@
           text.textContent = label;
           pill.appendChild(dot);
           pill.appendChild(text);
-          header.appendChild(pill);
+          headerActions.appendChild(pill);
+
+          const deliveryBtn = document.createElement("button");
+          deliveryBtn.type = "button";
+          deliveryBtn.className = "delivery-pill";
+          deliveryBtn.dataset.deliveryId = r.id;
+          deliveryBtn.innerHTML = `<span class="dot"></span><span class="delivery-label"></span>`;
+          applyDeliveryState(deliveryBtn, getDeliveryStatus(r.id));
+          deliveryBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleDeliveryStatus(r.id);
+          });
+          headerActions.appendChild(deliveryBtn);
+          header.appendChild(headerActions);
           card.appendChild(header);
 
           const dateRow = document.createElement("div");
@@ -4284,6 +4676,7 @@
 
       function render(){
         if(!tbody) return;
+        closeHistoryMenu();
         tbody.innerHTML = "";
 
         renderArtistChips(data);
@@ -4291,7 +4684,7 @@
         if(!records.length){
           const tr = document.createElement("tr");
           const td = document.createElement("td");
-          td.colSpan = 10;
+          td.colSpan = 9;
           td.className = "small";
           td.textContent = "Aucune prestation ne correspond.";
           tr.appendChild(td);
@@ -4317,14 +4710,30 @@
           tr.appendChild(tdDate);
 
           const tdClient = document.createElement("td");
+          tdClient.className = "client-cell";
           const c1 = document.createElement("div");
-          c1.textContent = r.client || "";
-          c1.style.fontWeight = "600";
+          c1.className = "client-main";
+          const name = document.createElement("span");
+          name.textContent = r.client || "";
+          const historyBtn = document.createElement("button");
+          historyBtn.type = "button";
+          historyBtn.className = "history-toggle";
+          historyBtn.setAttribute("aria-label", "Historique des règlements");
+          historyBtn.setAttribute("aria-expanded", "false");
+          historyBtn.textContent = "▾";
+          const historyMenu = buildHistoryMenu(r);
+          historyBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleHistoryMenu(historyBtn, historyMenu);
+          });
+          c1.appendChild(name);
+          c1.appendChild(historyBtn);
           const c2 = document.createElement("div");
           c2.className = "small";
           c2.textContent = (r.type || "") + (r.description ? " — " + r.description : "");
           tdClient.appendChild(c1);
           tdClient.appendChild(c2);
+          tdClient.appendChild(historyMenu);
           tr.appendChild(tdClient);
 
           const tdMontant = document.createElement("td");
@@ -4404,6 +4813,21 @@
           tdActions.appendChild(editBtn);
           tdActions.appendChild(delBtn);
           tr.appendChild(tdActions);
+
+          const tdDelivery = document.createElement("td");
+          tdDelivery.style.textAlign = "right";
+          const deliveryBtn = document.createElement("button");
+          deliveryBtn.type = "button";
+          deliveryBtn.className = "delivery-pill";
+          deliveryBtn.dataset.deliveryId = r.id;
+          deliveryBtn.innerHTML = `<span class="dot"></span><span class="delivery-label"></span>`;
+          applyDeliveryState(deliveryBtn, getDeliveryStatus(r.id));
+          deliveryBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleDeliveryStatus(r.id);
+          });
+          tdDelivery.appendChild(deliveryBtn);
+          tr.appendChild(tdDelivery);
 
           tbody.appendChild(tr);
         });
@@ -4564,9 +4988,11 @@
       }
 
       function addRecord(rec){
-        rec.id = rec.id || Date.now() + Math.random();
-        rec.paidAmount = rec.paidAmount || 0;
-        data.push(rec);
+        const normalized = normalizeRecord(rec);
+        if(Array.isArray(rec.payments)){
+          normalized.payments = rec.payments;
+        }
+        data.push(normalized);
       }
 
       if(formEl){
@@ -4588,6 +5014,12 @@
           } else {
             if(paye.checked){
               rec.paidAmount = rec.montant;
+              rec.payments = [{
+                amount: rec.montant,
+                type: "total",
+                date: new Date().toISOString()
+              }];
+              rec.lastPaymentAt = rec.payments[0].date;
             }
             addRecord(rec);
             showStatus("Prestation ajoutée.");
@@ -4676,15 +5108,21 @@
             const txt = await file.text();
             const arr = JSON.parse(txt);
             if(!Array.isArray(arr)) throw new Error("Format JSON invalide");
-            data = arr.map(r => ({
-              id: r.id || Date.now()+Math.random(),
+            data = arr.map(r => normalizeRecord({
+              ...r,
               client: r.client || "",
               type: r.type || "Clip",
               description: r.description || "",
               date: r.date || "",
               montant: Number(r.montant||0),
-              paidAmount: Number(r.paidAmount||0)
+              paidAmount: Number(r.paidAmount||0),
+              payments: Array.isArray(r.payments) ? r.payments.map(p => ({
+                amount: Number(p.amount || 0),
+                type: p?.type === "total" ? "total" : "partial",
+                date: p?.date || ""
+              })) : []
             }));
+            pruneDeliveryStatus(data);
             persist();
             render();
             showStatus("Import JSON réussi.");
@@ -4701,6 +5139,9 @@
         clearAllBtn.addEventListener("click", () => {
           if(confirm("Effacer TOUTES les prestations ?")){
             data = [];
+            deliveryStatusMap = {};
+            persistDeliveryStatus();
+            closeHistoryMenu();
             persist();
             render();
             showStatus("Tous les enregistrements ont été supprimés.");
@@ -4726,6 +5167,13 @@
       if (filterType) {
         filterType.addEventListener("change", render);
       }
+
+      document.addEventListener("click", (e) => {
+        if(!openHistoryMenu) return;
+        const {button, menu} = openHistoryMenu;
+        if(button.contains(e.target) || menu.contains(e.target)) return;
+        closeHistoryMenu();
+      });
 
       /* ==== Capture pour "Prestations enregistrées" ==== */
 if (captureBtn && typeof html2canvas !== "undefined") {
@@ -4770,7 +5218,9 @@ if (followupCopyBtn) {
   });
 }
 
+      deliveryStatusMap = loadDeliveryStatus();
       load();
+      pruneDeliveryStatus(data);
       render();
       showStatus(
         supportsLocalStorage ? "Sauvegarde locale active." : "Mode secours actif (stockage bloqué).",
