@@ -153,8 +153,25 @@
       border-color:var(--accent);
       box-shadow:0 12px 26px rgba(34,211,238,.2);
     }
+    .privacy-toggle.icon-only{
+      width:44px;
+      padding:0;
+      justify-content:center;
+      gap:0;
+    }
     .privacy-toggle-icon{ font-size:16px; }
     .privacy-toggle-text{ font-size:13px; }
+    .sr-only{
+      position:absolute;
+      width:1px;
+      height:1px;
+      padding:0;
+      margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
+    }
     .nav-toggle{
       display:none;
       align-items:center;
@@ -948,16 +965,22 @@
     #bloc-calendar{max-width:900px;margin:24px auto;}
 
     /* ====== CAPTURE MOBILE RÉCAP ====== */
-    #capture-mobile{
-      display:none;
-      width:380px;
-      max-width:100%;
-      margin:0 auto;
-      padding:16px;
-      background:var(--bg);
-      color:var(--text);
-      border-radius:16px;
-    }
+#capture-mobile{
+  display:none;
+  width:380px;
+  max-width:100%;
+  margin:0 auto;
+  padding:16px;
+  background:var(--bg);
+  color:var(--text);
+  border-radius:16px;
+}
+#capture-mobile.smart-capture{
+  width:420px;
+  gap:8px;
+  background:var(--card);
+  border:1px solid var(--border);
+}
     .cap-header{
       display:flex;
       flex-direction:column;
@@ -988,14 +1011,31 @@
       opacity:1 !important;
       visibility:visible !important;
     }
-    .cap-title{
-      font-size:16px;
-      font-weight:700;
-    }
-    .cap-sub{
-      font-size:11px;
-      color:var(--text2);
-    }
+.cap-title{
+  font-size:16px;
+  font-weight:700;
+}
+.cap-sub{
+  font-size:11px;
+  color:var(--text2);
+}
+.cap-highlight{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:11px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+}
+.cap-highlight .dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--accent);
+  display:inline-block;
+}
     .cap-summary{
       display:grid;
       grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
@@ -1108,10 +1148,25 @@
       font-size: 0.875rem; 
       color: var(--muted);
     }
-    .cap-row-progress-label span:last-child {
-      font-weight: 600;
-      color: var(--text);
-    }
+.cap-row-progress-label span:last-child {
+  font-weight: 600;
+  color: var(--text);
+}
+.cap-message{
+  margin-top:8px;
+  padding:10px 12px;
+  border-radius:12px;
+  background:rgba(15,23,42,.55);
+  border:1px dashed var(--border);
+  font-size:12px;
+  color:var(--text);
+  line-height:1.5;
+  white-space:pre-line;
+}
+[data-theme="light"] .cap-message{
+  background:rgba(248,250,252,.92);
+  color:#0f172a;
+}
 
     /* Bloc recherche plus premium */
     .filter-panel{
@@ -1123,6 +1178,7 @@
       display:flex;
       flex-direction:column;
       gap:10px;
+      position:relative;
     }
     [data-theme="light"] .filter-panel{
       background:linear-gradient(145deg, rgba(37,99,235,.08), rgba(34,197,94,.05)), var(--card);
@@ -1143,9 +1199,78 @@
       border-top:1px dashed var(--border);
     }
     .filter-actions .row{ gap:12px; }
+    .presentation-filter-toggle{
+      position:absolute;
+      top:12px;
+      right:12px;
+      width:38px;
+      height:38px;
+      border-radius:10px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:.15s background,.15s border-color,.15s box-shadow, .15s transform;
+    }
+    .presentation-filter-toggle:hover{
+      border-color:var(--accent);
+      background:rgba(59,130,246,.08);
+      transform:translateY(-1px);
+    }
+    .presentation-filter-toggle.is-active{
+      background:linear-gradient(135deg,rgba(59,130,246,.16),rgba(34,211,238,.14));
+      border-color:rgba(59,130,246,.7);
+      box-shadow:0 10px 24px rgba(59,130,246,.25);
+    }
     @media(max-width:780px){
       .filter-row{ grid-template-columns:1fr; }
       .filter-actions{ flex-direction:column; align-items:flex-start; }
+    }
+
+    .artist-chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:2px;
+    }
+    .artist-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      cursor:pointer;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.01em;
+      transition:.15s transform,.15s box-shadow,.15s border-color,.15s background;
+    }
+    .artist-chip:hover{
+      transform:translateY(-1px);
+      border-color:var(--accent);
+      box-shadow:0 8px 18px rgba(0,0,0,.25);
+    }
+    .artist-chip::before{
+      content:"";
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:var(--artist-color, var(--accent));
+      box-shadow:0 0 0 4px color-mix(in srgb, var(--artist-color, var(--accent)) 18%, transparent);
+    }
+    .artist-chip.is-active{
+      background:color-mix(in srgb, var(--artist-color, var(--accent)) 16%, transparent);
+      border-color:color-mix(in srgb, var(--artist-color, var(--accent)) 70%, transparent);
+      box-shadow:0 10px 22px color-mix(in srgb, var(--artist-color, var(--accent)) 35%, rgba(0,0,0,.25));
+    }
+    [data-theme="light"] .artist-chip{
+      background:rgba(255,255,255,.9);
     }
 
     /* BeatsEngine Premium */
@@ -1814,8 +1939,11 @@
     }
 
     .mobile-only{ display:none; }
-    .mobile-cards{ display:none; }
-    .collapse-toggle{ display:none; }
+.mobile-cards{ display:none; }
+.collapse-toggle{ display:none; }
+.mobile-smart-btn{
+  display:none;
+}
 
     @media(max-width:768px){
       .container{ margin-top:20px; padding:0 12px; }
@@ -1860,10 +1988,15 @@
       .collapsible-content{
         display:none;
       }
-      .collapsible-content.is-open{
-        display:block;
-      }
-      .mobile-only{ display:flex; }
+  .collapsible-content.is-open{
+    display:block;
+  }
+  .mobile-only{ display:flex; }
+  .mobile-smart-btn{
+    display:inline-flex;
+    width:100%;
+    justify-content:center;
+  }
 
       table,
       thead{
@@ -1985,9 +2118,9 @@
           <span class="bar"></span>
           <span class="bar"></span>
         </button>
-        <button type="button" class="privacy-toggle" id="togglePrivacyMode" aria-pressed="false">
+        <button type="button" class="privacy-toggle icon-only" id="togglePrivacyMode" aria-pressed="false" aria-label="Mode présentation" title="Mode présentation">
           <span class="privacy-toggle-icon" aria-hidden="true">👁️</span>
-          <span class="privacy-toggle-text">Mode présentation</span>
+          <span class="privacy-toggle-text sr-only">Mode présentation</span>
         </button>
         <div class="theme-toggle">
           <span class="theme-icon" aria-hidden="true">🌙</span>
@@ -2073,13 +2206,14 @@
               <span class="collapse-icon">▾</span>
             </button>
           </div>
-          <div id="search-filter-content" class="collapsible-content is-open">
-            <div class="filter-panel">
-              <div class="filter-row">
-                <div>
-                  <label for="search">Filtre texte</label>
-                  <input type="text" id="search" placeholder="Client, type, description…">
-                </div>
+      <div id="search-filter-content" class="collapsible-content is-open">
+        <div class="filter-panel">
+          <button type="button" class="presentation-filter-toggle" id="filterPrivacyToggle" aria-pressed="false" aria-label="Mode présentation" title="Mode présentation">👁️</button>
+          <div class="filter-row">
+            <div>
+              <label for="search">Filtre texte</label>
+              <input type="text" id="search" placeholder="Client, type, description…">
+            </div>
                 <div>
                   <label for="filterStatus">Statut</label>
                   <select id="filterStatus">
@@ -2117,13 +2251,14 @@
                   <span>Affinez vos résultats :</span>
                   <span class="pill">Texte</span>
                   <span class="pill">Statut</span>
-                  <span class="pill">Type</span>
-                </div>
-              </div>
+              <span class="pill">Type</span>
             </div>
           </div>
+        </div>
+          <div class="artist-chips" id="artistChips" aria-label="Filtrer par artiste"></div>
+      </div>
 
-          <div class="section-subheader mobile-only">
+      <div class="section-subheader mobile-only">
             <h3>Totaux</h3>
             <button type="button" class="collapse-toggle" data-collapse-target="totals-content" aria-expanded="true">
               <span class="collapse-label">Masquer</span>
@@ -2164,6 +2299,7 @@
       <div class="small">Clique sur "Encaisser" pour enregistrer un paiement partiel ou total.</div>
       <div class="toolbar" style="margin-top:10px;">
         <button type="button" class="btn btn-outline" id="captureRecap">📸 Capture </button>
+        <button type="button" class="btn btn-primary mobile-smart-btn" id="smartCapture">📱 Capture mobile intelligente</button>
         </div>
         <table>
           <thead>
@@ -2666,6 +2802,7 @@
       const CLASSNAME = "privacy-mode";
       const body = document.body;
       const toggleBtn = document.getElementById("togglePrivacyMode");
+      const filterToggleBtn = document.getElementById("filterPrivacyToggle");
       const icon = toggleBtn ? toggleBtn.querySelector(".privacy-toggle-icon") : null;
       const label = toggleBtn ? toggleBtn.querySelector(".privacy-toggle-text") : null;
 
@@ -2706,6 +2843,11 @@
           toggleBtn.classList.toggle("is-active", enabled);
           toggleBtn.setAttribute("aria-pressed", enabled ? "true" : "false");
         }
+        if(filterToggleBtn){
+          filterToggleBtn.classList.toggle("is-active", enabled);
+          filterToggleBtn.setAttribute("aria-pressed", enabled ? "true" : "false");
+          filterToggleBtn.textContent = enabled ? "🙈" : "👁️";
+        }
         if(icon){
           icon.textContent = enabled ? "🙈" : "👁️";
         }
@@ -2726,6 +2868,12 @@
       document.addEventListener("DOMContentLoaded", () => {
         if(toggleBtn){
           toggleBtn.addEventListener("click", () => {
+            const next = !body.classList.contains(CLASSNAME);
+            setPrivacy(next);
+          });
+        }
+        if(filterToggleBtn){
+          filterToggleBtn.addEventListener("click", () => {
             const next = !body.classList.contains(CLASSNAME);
             setPrivacy(next);
           });
@@ -2920,6 +3068,8 @@
       const search = $("search");
       const filterStatus = $("filterStatus");
       const filterType = $("filterType");
+      const artistChipsWrap = $("artistChips");
+      const filterPrivacyToggle = $("filterPrivacyToggle");
 
       const client = $("client");
       const type = $("type");
@@ -2935,6 +3085,7 @@
       const resetBtn = $("reset");
       const addDemoBtn = $("addDemo");
       const captureBtn = $("captureRecap");
+      const smartCaptureBtn = $("smartCapture");
       const followupList = $("followupList");
       const followupCounts = $("followupCounts");
       const mobileCards = $("mobileCards");
@@ -2964,6 +3115,7 @@
 
       let data = [];
       let editingId = null;
+      let activeArtistFilter = "";
 
       const log = (...args) => {
         if (debugChk && debugChk.checked) {
@@ -2975,6 +3127,21 @@
       };
 
       const isMobile = () => mobileQuery.matches;
+      const artistColorCache = new Map();
+
+      function colorForArtist(name = ""){
+        if(!name) return "var(--accent)";
+        if(artistColorCache.has(name)) return artistColorCache.get(name);
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+          hash = name.charCodeAt(i) + ((hash << 5) - hash);
+          hash |= 0;
+        }
+        const hue = Math.abs(hash) % 360;
+        const color = `hsl(${hue}, 70%, 60%)`;
+        artistColorCache.set(name, color);
+        return color;
+      }
 
       function syncCollapseTarget(targetId, open){
         const content = document.getElementById(targetId);
@@ -3081,6 +3248,38 @@
         return parts[0] || "client";
       }
 
+      function renderArtistChips(records){
+        if(!artistChipsWrap) return;
+        const source = Array.isArray(records) ? records : data;
+        const artists = Array.from(new Set((source || []).map(r => r.client).filter(Boolean))).sort((a,b) => a.localeCompare(b, "fr"));
+        if(activeArtistFilter && !artists.includes(activeArtistFilter)){
+          activeArtistFilter = "";
+        }
+        artistChipsWrap.innerHTML = "";
+        if(!artists.length){
+          artistChipsWrap.style.display = "none";
+          return;
+        }
+        artistChipsWrap.style.display = "flex";
+        const frag = document.createDocumentFragment();
+        artists.forEach(name => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "artist-chip";
+          btn.textContent = name;
+          btn.style.setProperty("--artist-color", colorForArtist(name));
+          const isActive = activeArtistFilter === name;
+          btn.classList.toggle("is-active", isActive);
+          btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+          btn.addEventListener("click", () => {
+            activeArtistFilter = isActive ? "" : name;
+            render();
+          });
+          frag.appendChild(btn);
+        });
+        artistChipsWrap.appendChild(frag);
+      }
+
       function buildWhatsAppUrl(name, level){
         const targetName = name || "client";
         const message = (level?.template || "").replace("[Prénom]", targetName);
@@ -3091,12 +3290,14 @@
         const q = (search?.value || "").toLowerCase();
         const fStatus = filterStatus?.value || "all";
         const fType = filterType?.value || "all";
+        const artist = (activeArtistFilter || "").toLowerCase();
 
         return list.filter(r => {
           if(q){
             const blob = [r.client,r.type,r.description].join(" ").toLowerCase();
             if(!blob.includes(q)) return false;
           }
+          if(artist && (r.client || "").toLowerCase() !== artist) return false;
           if(fType !== "all" && r.type !== fType) return false;
           if(fStatus !== "all"){
             const settled = isSettled(r);
@@ -3151,6 +3352,7 @@
         });
 
         zone.innerHTML = "";
+        zone.classList.remove("smart-capture");
 
         const header = document.createElement("div");
         header.className = "cap-header";
@@ -3179,6 +3381,17 @@
         sub.textContent = "Généré le " + dateStr;
         header.appendChild(title);
         header.appendChild(sub);
+        if(activeArtistFilter){
+          const highlight = document.createElement("div");
+          highlight.className = "cap-highlight";
+          const dot = document.createElement("span");
+          dot.className = "dot";
+          const name = document.createElement("span");
+          name.textContent = activeArtistFilter;
+          highlight.appendChild(dot);
+          highlight.appendChild(name);
+          header.appendChild(highlight);
+        }
         zone.appendChild(header);
 
         const summaryWrap = document.createElement("div");
@@ -3252,13 +3465,163 @@
         return summary;
       }
 
-      function updateFollowUps(){
+      function buildSmartCapture(records){
+        const zone = document.getElementById("capture-mobile");
+        if(!zone){
+          throw new Error("Zone de capture introuvable pour le récapitulatif mobile.");
+        }
+        const list = Array.isArray(records) ? records : [];
+        zone.innerHTML = "";
+        zone.classList.add("smart-capture");
+
+        const now = new Date();
+        const dateStr = now.toLocaleString("fr-FR", {
+          day:"2-digit", month:"2-digit", year:"numeric",
+          hour:"2-digit", minute:"2-digit"
+        });
+
+        const header = document.createElement("div");
+        header.className = "cap-header";
+
+        const headerLogo = document.querySelector(".nav-left .logo-wrap");
+        if(!headerLogo){
+          throw new Error("Logo source introuvable pour la capture mobile.");
+        }
+        const clonedLogo = headerLogo.cloneNode(true);
+        clonedLogo.classList.add("cap-logo-clone");
+        clonedLogo.removeAttribute("href");
+        const clonedImg = clonedLogo.querySelector("img");
+        if(!clonedImg){
+          throw new Error("Image du logo introuvable pour la capture mobile.");
+        }
+        clonedImg.style.opacity = "1";
+        clonedImg.style.visibility = "visible";
+        clonedImg.style.display = "block";
+        header.appendChild(clonedLogo);
+
+        const title = document.createElement("div");
+        title.className = "cap-title";
+        title.textContent = "Capture mobile intelligente";
+        const sub = document.createElement("div");
+        sub.className = "cap-sub";
+        sub.textContent = "Prêt à partager — " + dateStr;
+        header.appendChild(title);
+        header.appendChild(sub);
+        if(activeArtistFilter){
+          const highlight = document.createElement("div");
+          highlight.className = "cap-highlight";
+          const dot = document.createElement("span");
+          dot.className = "dot";
+          const name = document.createElement("span");
+          name.textContent = activeArtistFilter;
+          highlight.appendChild(dot);
+          highlight.appendChild(name);
+          header.appendChild(highlight);
+        }
+        zone.appendChild(header);
+
+        if(!list.length){
+          const empty = document.createElement("div");
+          empty.className = "cap-item";
+          empty.textContent = "Aucune prestation ne correspond aux filtres.";
+          zone.appendChild(empty);
+          return { totalRestant: 0 };
+        }
+
+        const frag = document.createDocumentFragment();
+        let totalRestant = 0;
+        const messageLines = [];
+
+        list.forEach(r => {
+          const remaining = getRemaining(r);
+          const paid = getPaid(r);
+          const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(paid/r.montant*100)) : 0;
+          const days = daysSince(r.date);
+          const late = Math.max(0, (days || 0) - 15);
+
+          let cls = "muted";
+          let label = "Non payé";
+          if(isSettled(r)){
+            cls = "paid"; label = "Payé";
+          }else if(paid > 0){
+            cls = "partial"; label = "Partiel";
+          }
+
+          totalRestant += remaining;
+          messageLines.push({
+            client: r.client || "Client",
+            label,
+            days: days !== null ? days + "j" : "date ?",
+            remaining
+          });
+
+          const item = document.createElement("div");
+          item.className = "cap-item";
+          item.innerHTML = `
+            <div class="cap-client">${r.client || ""}</div>
+            <div class="cap-subtitle">${(r.type || "")}${r.description ? " — " + r.description : ""}</div>
+            <div class="cap-row"><span>Date</span><span>${r.date || ""}</span></div>
+            <div class="cap-row"><span>Jours depuis la prestation</span><span>${days !== null ? days + " j" : "N/A"}</span></div>
+            <div class="cap-row"><span>Jours de retard</span><span>${late} j</span></div>
+            <div class="cap-row"><span>Statut</span><span class="status-pill ${cls}"><span class="dot"></span><span>${label}</span></span></div>
+            <div class="cap-row"><span>Restant dû</span><span class="amount-mask">${eur(remaining)}</span></div>
+            <div class="cap-progress-wrap">
+              <div class="cap-row-progress-label">
+                <span>Avancement</span>
+                <span>${percent} %</span>
+              </div>
+              <div class="progress">
+                <div class="progress-inner" style="width:${percent}%;"></div>
+              </div>
+            </div>
+          `;
+          frag.appendChild(item);
+        });
+
+        const summaryWrap = document.createElement("div");
+        summaryWrap.className = "cap-summary";
+        const kpi = document.createElement("div");
+        kpi.className = "cap-kpi due";
+        const l = document.createElement("div");
+        l.className = "label";
+        l.textContent = "Restant dû total";
+        const v = document.createElement("div");
+        v.className = "value amount-mask";
+        v.textContent = eur(totalRestant);
+        kpi.appendChild(l);
+        kpi.appendChild(v);
+        summaryWrap.appendChild(kpi);
+        zone.appendChild(summaryWrap);
+
+        zone.appendChild(frag);
+
+        const message = document.createElement("div");
+        message.className = "cap-message";
+        const artistLabel = activeArtistFilter ? activeArtistFilter : "Sélection courante";
+        const msgTitle = document.createElement("div");
+        msgTitle.textContent = `💬 WhatsApp — ${artistLabel}`;
+        message.appendChild(msgTitle);
+        messageLines.forEach(line => {
+          const row = document.createElement("div");
+          row.innerHTML = `• ${line.client} — ${line.label} — ${line.days} — Restant <span class="amount-mask">${eur(line.remaining)}</span>`;
+          message.appendChild(row);
+        });
+        const totalRow = document.createElement("div");
+        totalRow.innerHTML = `Total restant : <span class="amount-mask">${eur(totalRestant)}</span>`;
+        message.appendChild(totalRow);
+        zone.appendChild(message);
+
+        return { totalRestant };
+      }
+
+      function updateFollowUps(list){
         if(!followupList) return;
 
         followupList.innerHTML = "";
         let soft = 0, firm = 0, critical = 0;
 
-        const items = data
+        const source = Array.isArray(list) ? list : data;
+        const items = (source || [])
           .map(r => ({...r, days: daysSince(r.date), remaining: getRemaining(r)}))
           .filter(r => r.remaining > 0 && r.days !== null && r.days >= 15)
           .sort((a,b) => (b.days||0) - (a.days||0));
@@ -3526,6 +3889,7 @@
         if(!tbody) return;
         tbody.innerHTML = "";
 
+        renderArtistChips(data);
         const records = filterRecords(data);
         if(!records.length){
           const tr = document.createElement("tr");
@@ -3538,7 +3902,7 @@
           const totals = updateTotals(records);
           renderMobileCards(records);
           buildMobileRecap(records, totals);
-          updateFollowUps();
+          updateFollowUps(records);
           return;
         }
 
@@ -3650,7 +4014,7 @@
         const totals = updateTotals(records);
         renderMobileCards(records);
         buildMobileRecap(records, totals);
-        updateFollowUps();
+        updateFollowUps(records);
       }
 
       collapseButtons.forEach(btn => {
@@ -3685,7 +4049,7 @@
         mobileQuery.addEventListener("change", handleViewportChange);
       }
 
-      function captureRecap(records){
+      function captureRecap(records, options = {}){
         console.log("CAPTURE 0: démarrage captureRecap");
         try{
           console.log("CAPTURE 1: récupération records");
@@ -3716,7 +4080,8 @@
           }
 
           console.log("CAPTURE 4: buildMobileRecap en cours");
-          const totals = buildMobileRecap(list);
+          const builder = typeof options.builder === "function" ? options.builder : buildMobileRecap;
+          const totals = builder(list);
           if(!totals){
             throw new Error("buildMobileRecap n'a pas renvoyé de totaux.");
           }
@@ -3745,7 +4110,8 @@
             }).then(canvas => {
               console.log("CAPTURE 7: html2canvas OK, création du lien de téléchargement");
               const link = document.createElement("a");
-              link.download = "recap_prestations_mobile_"+ts()+".png";
+              const prefix = options.prefix || "recap_prestations_mobile_";
+              link.download = prefix + ts() + ".png";
               link.href = canvas.toDataURL("image/png");
               link.click();
               showStatus("Récapitulatif capturé (format mobile) !");
@@ -3967,6 +4333,11 @@
 if (captureBtn && typeof html2canvas !== "undefined") {
   captureBtn.addEventListener("click", () => {
     captureRecap(filterRecords(data));
+  });
+}
+if (smartCaptureBtn && typeof html2canvas !== "undefined") {
+  smartCaptureBtn.addEventListener("click", () => {
+    captureRecap(filterRecords(data), { builder: buildSmartCapture, prefix: "recap_prestations_smart_" });
   });
 }
 
