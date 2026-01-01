@@ -836,6 +836,53 @@
       font-weight:600;
       white-space:nowrap;
     }
+    .delay-indicator{
+      width:9px;
+      height:9px;
+      border-radius:999px;
+      background:var(--muted);
+      display:inline-block;
+      flex-shrink:0;
+      opacity:0;
+    }
+    .delay-indicator.is-visible{
+      opacity:1;
+      animation:slowBlink 1.6s ease-in-out infinite;
+    }
+    .delay-indicator.late{
+      background:#fbbf24;
+      box-shadow:0 0 0 4px rgba(251,191,36,.18);
+    }
+    .delay-indicator.critical{
+      background:#ef4444;
+      box-shadow:0 0 0 4px rgba(239,68,68,.16);
+    }
+    @keyframes slowBlink{
+      0%, 60%{ opacity:1; }
+      100%{ opacity:.35; }
+    }
+    .date-toggle{
+      background:transparent;
+      border:none;
+      color:inherit;
+      font:inherit;
+      padding:4px 8px;
+      margin:-4px -8px;
+      border-radius:10px;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition:color .15s, background .15s, transform .15s;
+    }
+    .date-toggle:hover,
+    .date-toggle:focus-visible,
+    .date-toggle.is-open{
+      color:var(--accent);
+      background:rgba(59,130,246,.12);
+      transform:translateY(-1px);
+      outline:none;
+    }
     .inline-toggle{
       background:rgba(255,255,255,.04);
       border:1px solid var(--border);
@@ -1024,19 +1071,6 @@
       border-color:rgba(250,204,21,.6);
       box-shadow:0 0 0 1px rgba(250,204,21,.28);
       background:rgba(250,204,21,.08);
-    }
-    .note-badge{
-      width:8px;
-      height:8px;
-      border-radius:999px;
-      background:#facc15;
-      position:absolute;
-      top:6px;
-      right:6px;
-      display:none;
-    }
-    .note-btn.has-note .note-badge{
-      display:block;
     }
     .note-popover{
       position:absolute;
@@ -1636,7 +1670,7 @@
       display:flex;
       flex-wrap:wrap;
       gap:8px;
-      margin-top:2px;
+      margin-top:14px;
     }
     .artist-chip{
       display:inline-flex;
@@ -3759,6 +3793,18 @@
         return Math.floor(diff / (1000*60*60*24));
       }
 
+      function getDelayState(rec){
+        if(!rec) return null;
+        const pendingPayment = !isSettled(rec);
+        const pendingDelivery = getDeliveryStatus(rec.id) !== "delivered";
+        if(!pendingPayment && !pendingDelivery) return null;
+        const days = daysSince(rec.date);
+        if(days === null) return null;
+        if(days >= 30) return {level:"critical", days};
+        if(days >= 15) return {level:"late", days};
+        return null;
+      }
+
       function extractFirstName(full){
         if(!full) return "client";
         const parts = full.trim().split(/\s+/);
@@ -4062,7 +4108,6 @@
         if(openDetailsToggle){
           openDetailsToggle.setAttribute("aria-expanded","false");
           openDetailsToggle.classList.remove("is-open");
-          openDetailsToggle.textContent = "+";
         }
         openDetailsId = null;
         openDetailsRow = null;
@@ -4136,7 +4181,6 @@
         openDetailsToggle = toggleBtn;
         toggleBtn.setAttribute("aria-expanded","true");
         toggleBtn.classList.add("is-open");
-        toggleBtn.textContent = "▾";
       }
 
       function renderArtistChips(records){
@@ -4847,6 +4891,7 @@
           const paid = getPaid(r);
           const remaining = getRemaining(r);
           const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(paid/r.montant*100)) : 0;
+          const delay = getDelayState(r);
 
           let cls = "muted";
           let label = "Non payé";
@@ -4864,6 +4909,13 @@
           left.className = "client-cell";
           const clientRow = document.createElement("div");
           clientRow.className = "client-main";
+          if(delay){
+            const indicator = document.createElement("span");
+            indicator.className = "delay-indicator is-visible " + (delay.level === "critical" ? "critical" : "late");
+            indicator.title = delay.level === "critical" ? `${delay.days} jours : prioritaire` : `${delay.days} jours : à relancer`;
+            indicator.setAttribute("aria-label", delay.level === "critical" ? `Retard critique (${delay.days} jours)` : `Retard (${delay.days} jours)`);
+            clientRow.appendChild(indicator);
+          }
           const clientEl = document.createElement("div");
           clientEl.className = "client";
           clientEl.textContent = r.client || "";
@@ -4974,7 +5026,7 @@
           noteBtn.className = "note-btn";
           noteBtn.dataset.noteId = r.id;
           noteBtn.setAttribute("aria-label", "Note interne");
-          noteBtn.innerHTML = '✎<span class="note-badge"></span>';
+          noteBtn.textContent = "✎";
           updateNoteIndicator(noteBtn, getNoteValue(r.id));
           noteBtn.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -5024,26 +5076,38 @@
           const tr = document.createElement("tr");
 
           const tdDate = document.createElement("td");
-          tdDate.textContent = r.date || "";
+          const dateBtn = document.createElement("button");
+          dateBtn.type = "button";
+          dateBtn.className = "date-toggle";
+          dateBtn.setAttribute("aria-label", "Afficher le détail de la prestation");
+          dateBtn.setAttribute("aria-expanded", openDetailsId === r.id ? "true" : "false");
+          if(openDetailsId === r.id){
+            dateBtn.classList.add("is-open");
+          }
+          const dateLabel = document.createElement("span");
+          dateLabel.textContent = r.date || "Date à préciser";
+          dateBtn.appendChild(dateLabel);
+          dateBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleDetails(r, tr, dateBtn);
+          });
+          tdDate.appendChild(dateBtn);
           tr.appendChild(tdDate);
 
           const tdClient = document.createElement("td");
           tdClient.className = "client-cell";
           const c1 = document.createElement("div");
           c1.className = "client-main";
-          const toggleBtn = document.createElement("button");
-          toggleBtn.type = "button";
-          toggleBtn.className = "inline-toggle";
-          toggleBtn.setAttribute("aria-label", "Afficher le détail");
-          toggleBtn.setAttribute("aria-expanded", openDetailsId === r.id ? "true" : "false");
-          toggleBtn.textContent = openDetailsId === r.id ? "▾" : "+";
-          toggleBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleDetails(r, tr, toggleBtn);
-          });
+          const delay = getDelayState(r);
+          if(delay){
+            const indicator = document.createElement("span");
+            indicator.className = "delay-indicator is-visible " + (delay.level === "critical" ? "critical" : "late");
+            indicator.title = delay.level === "critical" ? `${delay.days} jours : prioritaire` : `${delay.days} jours : à relancer`;
+            indicator.setAttribute("aria-label", delay.level === "critical" ? `Retard critique (${delay.days} jours)` : `Retard (${delay.days} jours)`);
+            c1.appendChild(indicator);
+          }
           const name = document.createElement("span");
           name.textContent = r.client || "";
-          c1.appendChild(toggleBtn);
           c1.appendChild(name);
           const c2 = document.createElement("div");
           c2.className = "small";
@@ -5131,7 +5195,7 @@
           noteBtn.className = "note-btn";
           noteBtn.dataset.noteId = r.id;
           noteBtn.setAttribute("aria-label", "Note interne");
-          noteBtn.innerHTML = '✎<span class="note-badge"></span>';
+          noteBtn.textContent = "✎";
           updateNoteIndicator(noteBtn, getNoteValue(r.id));
           noteBtn.addEventListener("click", (e) => {
             e.stopPropagation();
