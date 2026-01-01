@@ -975,12 +975,121 @@
   color:var(--text);
   border-radius:16px;
 }
-#capture-mobile.smart-capture{
-  width:420px;
-  gap:8px;
-  background:var(--card);
-  border:1px solid var(--border);
-}
+    #capture-mobile.smart-capture{
+      width:420px;
+      gap:8px;
+      background:var(--card);
+      border:1px solid var(--border);
+    }
+    /* Capture dédiée aux relances (mobile) */
+    #followup-capture{
+      display:none;
+      width:400px;
+      max-width:100%;
+      margin:0 auto;
+      padding:16px;
+      background:var(--bg);
+      color:var(--text);
+      border-radius:16px;
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+    }
+    #followup-capture .cap-header{
+      margin-bottom:10px;
+    }
+    #followup-capture .relance-summary{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      gap:8px;
+      margin:8px 0 12px;
+    }
+    .relance-kpi{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:10px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      box-shadow:var(--shadow);
+    }
+    .relance-kpi .label{
+      font-size:11px;
+      color:var(--text2);
+      letter-spacing:.05em;
+      text-transform:uppercase;
+    }
+    .relance-kpi .value{
+      font-size:16px;
+      font-weight:800;
+    }
+    .relance-item{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:12px;
+      margin-bottom:10px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      box-shadow:var(--shadow);
+    }
+    .relance-top{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      align-items:flex-start;
+    }
+    .relance-urgency{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.01em;
+    }
+    .relance-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+      gap:6px;
+    }
+    .relance-row{
+      display:flex;
+      justify-content:space-between;
+      gap:6px;
+      font-size:12px;
+      color:var(--text2);
+    }
+    .relance-row strong{
+      color:var(--text);
+    }
+    .relance-message{
+      margin-top:6px;
+      padding:10px 12px;
+      border-radius:10px;
+      background:rgba(255,255,255,.03);
+      border:1px dashed var(--border);
+      font-size:12px;
+      line-height:1.5;
+      white-space:pre-line;
+    }
+    .followup-mobile-actions{
+      display:none;
+      width:100%;
+      margin:8px 0 0;
+    }
+    .followup-capture-btn,
+    .followup-copy-btn{
+      display:none;
+      width:100%;
+      justify-content:center;
+      gap:8px;
+      font-weight:700;
+    }
     .cap-header{
       display:flex;
       flex-direction:column;
@@ -1199,32 +1308,6 @@
       border-top:1px dashed var(--border);
     }
     .filter-actions .row{ gap:12px; }
-    .presentation-filter-toggle{
-      position:absolute;
-      top:12px;
-      right:12px;
-      width:38px;
-      height:38px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.04);
-      color:var(--text);
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      transition:.15s background,.15s border-color,.15s box-shadow, .15s transform;
-    }
-    .presentation-filter-toggle:hover{
-      border-color:var(--accent);
-      background:rgba(59,130,246,.08);
-      transform:translateY(-1px);
-    }
-    .presentation-filter-toggle.is-active{
-      background:linear-gradient(135deg,rgba(59,130,246,.16),rgba(34,211,238,.14));
-      border-color:rgba(59,130,246,.7);
-      box-shadow:0 10px 24px rgba(59,130,246,.25);
-    }
     @media(max-width:780px){
       .filter-row{ grid-template-columns:1fr; }
       .filter-actions{ flex-direction:column; align-items:flex-start; }
@@ -1997,6 +2080,15 @@
     width:100%;
     justify-content:center;
   }
+  .followup-mobile-actions{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .followup-capture-btn,
+  .followup-copy-btn{
+    display:inline-flex;
+  }
 
       table,
       thead{
@@ -2199,16 +2291,15 @@
         </div>
 
         <div class="card filter-card">
-          <div class="section-header">
-            <h2>Recherche & filtre</h2>
-            <button type="button" class="collapse-toggle" data-collapse-target="search-filter-content" aria-expanded="true">
-              <span class="collapse-label">Masquer</span>
-              <span class="collapse-icon">▾</span>
-            </button>
-          </div>
+      <div class="section-header">
+        <h2>Recherche & filtre</h2>
+        <button type="button" class="collapse-toggle" data-collapse-target="search-filter-content" aria-expanded="true">
+          <span class="collapse-label">Masquer</span>
+          <span class="collapse-icon">▾</span>
+        </button>
+      </div>
       <div id="search-filter-content" class="collapsible-content is-open">
         <div class="filter-panel">
-          <button type="button" class="presentation-filter-toggle" id="filterPrivacyToggle" aria-pressed="false" aria-label="Mode présentation" title="Mode présentation">👁️</button>
           <div class="filter-row">
             <div>
               <label for="search">Filtre texte</label>
@@ -2332,6 +2423,14 @@
         <span class="pill">30 jours : relance urgente</span>
         <span class="pill">45 jours : relance critique</span>
         <span class="pill" id="followupCounts">0 relance en attente</span>
+      </div>
+      <div class="followup-mobile-actions mobile-only" aria-label="Actions mobiles pour les relances automatiques">
+        <button type="button" class="btn btn-primary followup-capture-btn" id="followupCaptureBtn">
+          📸 Capture relances
+        </button>
+        <button type="button" class="btn btn-outline followup-copy-btn" id="followupCopyBtn">
+          💬 Copier le message
+        </button>
       </div>
       <div id="followupList" class="grid followup-grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:10px;"></div>
     </div>
@@ -2743,6 +2842,7 @@
 
   <!-- Zone de capture mobile cachée -->
   <div id="capture-mobile"></div>
+  <div id="followup-capture"></div>
 
   </div>
 
@@ -2802,7 +2902,6 @@
       const CLASSNAME = "privacy-mode";
       const body = document.body;
       const toggleBtn = document.getElementById("togglePrivacyMode");
-      const filterToggleBtn = document.getElementById("filterPrivacyToggle");
       const icon = toggleBtn ? toggleBtn.querySelector(".privacy-toggle-icon") : null;
       const label = toggleBtn ? toggleBtn.querySelector(".privacy-toggle-text") : null;
 
@@ -2843,11 +2942,6 @@
           toggleBtn.classList.toggle("is-active", enabled);
           toggleBtn.setAttribute("aria-pressed", enabled ? "true" : "false");
         }
-        if(filterToggleBtn){
-          filterToggleBtn.classList.toggle("is-active", enabled);
-          filterToggleBtn.setAttribute("aria-pressed", enabled ? "true" : "false");
-          filterToggleBtn.textContent = enabled ? "🙈" : "👁️";
-        }
         if(icon){
           icon.textContent = enabled ? "🙈" : "👁️";
         }
@@ -2868,12 +2962,6 @@
       document.addEventListener("DOMContentLoaded", () => {
         if(toggleBtn){
           toggleBtn.addEventListener("click", () => {
-            const next = !body.classList.contains(CLASSNAME);
-            setPrivacy(next);
-          });
-        }
-        if(filterToggleBtn){
-          filterToggleBtn.addEventListener("click", () => {
             const next = !body.classList.contains(CLASSNAME);
             setPrivacy(next);
           });
@@ -3069,7 +3157,6 @@
       const filterStatus = $("filterStatus");
       const filterType = $("filterType");
       const artistChipsWrap = $("artistChips");
-      const filterPrivacyToggle = $("filterPrivacyToggle");
 
       const client = $("client");
       const type = $("type");
@@ -3088,6 +3175,8 @@
       const smartCaptureBtn = $("smartCapture");
       const followupList = $("followupList");
       const followupCounts = $("followupCounts");
+      const followupCaptureBtn = $("followupCaptureBtn");
+      const followupCopyBtn = $("followupCopyBtn");
       const mobileCards = $("mobileCards");
       const collapseButtons = Array.from(document.querySelectorAll(".collapse-toggle"));
       const mobileQuery = window.matchMedia("(max-width: 768px)");
@@ -3141,6 +3230,10 @@
         const color = `hsl(${hue}, 70%, 60%)`;
         artistColorCache.set(name, color);
         return color;
+      }
+
+      function formatAmountForText(value){
+        return document.body.classList.contains("privacy-mode") ? "•••• €" : eur(value);
       }
 
       function syncCollapseTarget(targetId, open){
@@ -3328,8 +3421,8 @@
         return totals;
       }
 
-      function buildMobileRecap(records, totals){
-        const zone = document.getElementById("capture-mobile");
+      function buildMobileRecap(records, target){
+        const zone = target || document.getElementById("capture-mobile");
         if(!zone){
           throw new Error("Zone de capture introuvable pour le récapitulatif mobile.");
         }
@@ -3465,8 +3558,8 @@
         return summary;
       }
 
-      function buildSmartCapture(records){
-        const zone = document.getElementById("capture-mobile");
+      function buildSmartCapture(records, target){
+        const zone = target || document.getElementById("capture-mobile");
         if(!zone){
           throw new Error("Zone de capture introuvable pour le récapitulatif mobile.");
         }
@@ -3614,17 +3707,186 @@
         return { totalRestant };
       }
 
+      function getFollowupItems(list){
+        const source = Array.isArray(list) ? list : filterRecords(data);
+        return (source || [])
+          .map(r => ({
+            ...r,
+            days: daysSince(r.date),
+            remaining: getRemaining(r)
+          }))
+          .filter(r => r.remaining > 0 && r.days !== null && r.days >= 15)
+          .sort((a,b) => (b.days || 0) - (a.days || 0))
+          .map(r => {
+            const urgency = (r.days || 0) >= 45 ? "critical" : (r.days || 0) >= 30 ? "firm" : "soft";
+            const urgencyLabel = urgency === "critical" ? "Relance critique" : urgency === "firm" ? "Relance urgente" : "Relance douce";
+            const paceLabel = urgency === "critical" ? "Critique" : urgency === "firm" ? "Prioritaire" : "Douce";
+            const whatsappLevel = [...WHATSAPP_LEVELS].reverse().find(level => (r.days || 0) >= level.threshold) || WHATSAPP_LEVELS[0];
+            return {
+              ...r,
+              urgency,
+              urgencyLabel,
+              paceLabel,
+              whatsappLevel,
+              late: Math.max(0, (r.days || 0) - 15)
+            };
+          });
+      }
+
+      function formatFollowupShareMessage(items){
+        const list = Array.isArray(items) ? items : [];
+        const artistLabel = activeArtistFilter || "Tous artistes";
+        if(!list.length){
+          return `Relances ${artistLabel} : aucune relance à traiter.`;
+        }
+        const lines = list.map(item => {
+          const level = item.urgency === "critical" ? "Critique" : item.urgency === "firm" ? "Urgente" : "Douce";
+          return `• ${item.client} — ${level} — ${item.days}j (${item.late}j retard) — Restant ${formatAmountForText(item.remaining)}`;
+        });
+        return [`Relances ${artistLabel} (${list.length})`, ...lines].join("\\n");
+      }
+
+      function buildFollowupCapture(records, target){
+        const zone = target || document.getElementById("followup-capture");
+        if(!zone){
+          throw new Error("Conteneur de capture relances introuvable.");
+        }
+        const items = getFollowupItems(records);
+        zone.innerHTML = "";
+
+        const header = document.createElement("div");
+        header.className = "cap-header";
+        const headerLogo = document.querySelector(".nav-left .logo-wrap");
+        if(!headerLogo){
+          throw new Error("Logo source introuvable pour la capture relances.");
+        }
+        const clonedLogo = headerLogo.cloneNode(true);
+        clonedLogo.classList.add("cap-logo-clone");
+        clonedLogo.removeAttribute("href");
+        const clonedImg = clonedLogo.querySelector("img");
+        if(!clonedImg){
+          throw new Error("Image du logo introuvable pour la capture relances.");
+        }
+        clonedImg.style.opacity = "1";
+        clonedImg.style.visibility = "visible";
+        clonedImg.style.display = "block";
+        header.appendChild(clonedLogo);
+
+        const title = document.createElement("div");
+        title.className = "cap-title";
+        title.textContent = "Relances automatiques — Mobile";
+        const sub = document.createElement("div");
+        sub.className = "cap-sub";
+        const now = new Date();
+        sub.textContent = "Prêt pour WhatsApp — " + now.toLocaleDateString("fr-FR");
+        header.appendChild(title);
+        header.appendChild(sub);
+        if(activeArtistFilter){
+          const highlight = document.createElement("div");
+          highlight.className = "cap-highlight";
+          const dot = document.createElement("span");
+          dot.className = "dot";
+          dot.style.background = colorForArtist(activeArtistFilter);
+          const name = document.createElement("span");
+          name.textContent = activeArtistFilter;
+          highlight.appendChild(dot);
+          highlight.appendChild(name);
+          header.appendChild(highlight);
+        }
+        zone.appendChild(header);
+
+        const summary = document.createElement("div");
+        summary.className = "relance-summary";
+        const totalRemaining = items.reduce((acc, r) => acc + (r.remaining || 0), 0);
+        const relancesKpi = document.createElement("div");
+        relancesKpi.className = "relance-kpi";
+        relancesKpi.innerHTML = `<div class="label">Relances à effectuer</div><div class="value">${items.length}</div>`;
+        const remainingKpi = document.createElement("div");
+        remainingKpi.className = "relance-kpi";
+        remainingKpi.innerHTML = `<div class="label">Restant dû</div><div class="value amount-mask">${eur(totalRemaining)}</div>`;
+        summary.appendChild(relancesKpi);
+        summary.appendChild(remainingKpi);
+        zone.appendChild(summary);
+
+        if(!items.length){
+          const empty = document.createElement("div");
+          empty.className = "cap-item";
+          empty.textContent = "Aucune relance pour les filtres actifs.";
+          zone.appendChild(empty);
+          return { totalRestant: totalRemaining, relances: 0 };
+        }
+
+        const frag = document.createDocumentFragment();
+        items.forEach(item => {
+          const wrap = document.createElement("div");
+          wrap.className = "relance-item";
+
+          const top = document.createElement("div");
+          top.className = "relance-top";
+          const info = document.createElement("div");
+          const clientLabel = document.createElement("div");
+          clientLabel.className = "cap-client";
+          clientLabel.textContent = item.client || "Client";
+          const subtitle = document.createElement("div");
+          subtitle.className = "cap-subtitle";
+          subtitle.textContent = (item.type || "") + (item.description ? " — " + item.description : "");
+          info.appendChild(clientLabel);
+          info.appendChild(subtitle);
+          top.appendChild(info);
+
+          const urgency = document.createElement("span");
+          urgency.className = "relance-urgency";
+          const icon = item.urgency === "critical" ? "🚨" : item.urgency === "firm" ? "🚀" : "🌱";
+          urgency.textContent = `${icon} ${item.urgencyLabel}`;
+          top.appendChild(urgency);
+          wrap.appendChild(top);
+
+          const grid = document.createElement("div");
+          grid.className = "relance-grid";
+          [
+            ["Jours depuis prestation", (item.days || 0) + " j"],
+            ["Jours de retard", (item.late || 0) + " j"],
+            ["Niveau WhatsApp", item.paceLabel],
+            ["Restant dû", `<span class="amount-mask">${eur(item.remaining || 0)}</span>`]
+          ].forEach(([label, value]) => {
+            const row = document.createElement("div");
+            row.className = "relance-row";
+            const l = document.createElement("span");
+            l.textContent = label;
+            const v = document.createElement("span");
+            v.innerHTML = value;
+            row.appendChild(l);
+            row.appendChild(v);
+            grid.appendChild(row);
+          });
+          wrap.appendChild(grid);
+
+          const message = document.createElement("div");
+          message.className = "relance-message";
+          const template = (item.whatsappLevel?.template || "").replace("[Prénom]", extractFirstName(item.client));
+          message.textContent = `${template}\nRestant : ${formatAmountForText(item.remaining)}\nRetard : ${item.late} jours`;
+          wrap.appendChild(message);
+
+          frag.appendChild(wrap);
+        });
+
+        zone.appendChild(frag);
+
+        const recapMessage = document.createElement("div");
+        recapMessage.className = "cap-message";
+        recapMessage.innerHTML = `💬 Message à partager<br>${formatFollowupShareMessage(items).replace(/\\n/g,"<br>")}`;
+        zone.appendChild(recapMessage);
+
+        return { totalRestant: totalRemaining, relances: items.length };
+      }
+
       function updateFollowUps(list){
         if(!followupList) return;
 
         followupList.innerHTML = "";
         let soft = 0, firm = 0, critical = 0;
 
-        const source = Array.isArray(list) ? list : data;
-        const items = (source || [])
-          .map(r => ({...r, days: daysSince(r.date), remaining: getRemaining(r)}))
-          .filter(r => r.remaining > 0 && r.days !== null && r.days >= 15)
-          .sort((a,b) => (b.days||0) - (a.days||0));
+        const items = getFollowupItems(list);
 
         if(!items.length){
           const empty = document.createElement("div");
@@ -3636,16 +3898,16 @@
         }
 
         items.forEach(r => {
-          const urgency = (r.days || 0) >= 45 ? "critical" : (r.days || 0) >= 30 ? "firm" : "soft";
+          const urgency = r.urgency;
           if(urgency === "critical") critical++; else if(urgency === "firm") firm++; else soft++;
 
           const item = document.createElement("div");
           item.className = "cap-item followup-card";
 
-          const actionLabel = urgency === "critical" ? "Relance critique" : urgency === "firm" ? "Relance urgente" : "Relance à prévoir";
+          const actionLabel = r.urgencyLabel;
           const pillClass = urgency === "critical" ? "critical" : (urgency === "firm" ? "muted" : "partial");
           const actionIcon = urgency === "critical" ? "🚨" : urgency === "firm" ? "🚀" : "🌱";
-          const paceLabel = urgency === "critical" ? "Critique" : urgency === "firm" ? "Prioritaire" : "Douce";
+          const paceLabel = r.paceLabel;
           const availableLevels = WHATSAPP_LEVELS.filter(level => (r.days || 0) >= level.threshold);
 
           item.innerHTML = `
@@ -3901,7 +4163,7 @@
           tbody.appendChild(tr);
           const totals = updateTotals(records);
           renderMobileCards(records);
-          buildMobileRecap(records, totals);
+          buildMobileRecap(records);
           updateFollowUps(records);
           return;
         }
@@ -4013,7 +4275,7 @@
 
         const totals = updateTotals(records);
         renderMobileCards(records);
-        buildMobileRecap(records, totals);
+        buildMobileRecap(records);
         updateFollowUps(records);
       }
 
@@ -4071,9 +4333,10 @@
           }
 
           console.log("CAPTURE 3: récupération du conteneur de capture");
-          const zone = document.getElementById("capture-mobile");
+          const targetId = options.targetId || "capture-mobile";
+          const zone = document.getElementById(targetId);
           if(!zone){
-            throw new Error("Conteneur #capture-mobile introuvable.");
+            throw new Error("Conteneur de capture introuvable.");
           }
           if(!(zone instanceof HTMLElement)){
             throw new Error("Élément de capture invalide.");
@@ -4081,7 +4344,7 @@
 
           console.log("CAPTURE 4: buildMobileRecap en cours");
           const builder = typeof options.builder === "function" ? options.builder : buildMobileRecap;
-          const totals = builder(list);
+          const totals = builder(list, zone);
           if(!totals){
             throw new Error("buildMobileRecap n'a pas renvoyé de totaux.");
           }
@@ -4110,7 +4373,7 @@
             }).then(canvas => {
               console.log("CAPTURE 7: html2canvas OK, création du lien de téléchargement");
               const link = document.createElement("a");
-              const prefix = options.prefix || "recap_prestations_mobile_";
+              const prefix = options.prefix || (targetId === "capture-mobile" ? "recap_prestations_mobile_" : `${targetId}_`);
               link.download = prefix + ts() + ".png";
               link.href = canvas.toDataURL("image/png");
               link.click();
@@ -4338,6 +4601,37 @@ if (captureBtn && typeof html2canvas !== "undefined") {
 if (smartCaptureBtn && typeof html2canvas !== "undefined") {
   smartCaptureBtn.addEventListener("click", () => {
     captureRecap(filterRecords(data), { builder: buildSmartCapture, prefix: "recap_prestations_smart_" });
+  });
+}
+if (followupCaptureBtn && typeof html2canvas !== "undefined") {
+  followupCaptureBtn.addEventListener("click", () => {
+    captureRecap(filterRecords(data), { builder: buildFollowupCapture, prefix: "relances_mobile_", targetId: "followup-capture" });
+  });
+}
+if (followupCopyBtn) {
+  followupCopyBtn.addEventListener("click", async () => {
+    const items = getFollowupItems(filterRecords(data));
+    if(!items.length){
+      showStatus("Aucune relance à copier avec les filtres actuels.", false);
+      return;
+    }
+    const message = formatFollowupShareMessage(items);
+    try{
+      if(navigator?.clipboard?.writeText){
+        await navigator.clipboard.writeText(message);
+      }else{
+        const area = document.createElement("textarea");
+        area.value = message;
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand("copy");
+        document.body.removeChild(area);
+      }
+      showStatus("Message de relance copié !");
+    }catch(err){
+      console.error(err);
+      showStatus("Impossible de copier le message.", false);
+    }
   });
 }
 
