@@ -126,6 +126,35 @@
       gap:8px;
       padding-left:4px;
     }
+    .privacy-toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      height:44px;
+      padding:0 14px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:inherit;
+      font-weight:600;
+      cursor:pointer;
+      transition:.18s background,.18s border-color,.18s transform,.18s box-shadow;
+    }
+    [data-theme="light"] .privacy-toggle{
+      background:rgba(255,255,255,.9);
+    }
+    .privacy-toggle:hover{
+      border-color:var(--accent);
+      box-shadow:0 10px 22px rgba(0,0,0,.25);
+      transform:translateY(-1px);
+    }
+    .privacy-toggle.is-active{
+      background:linear-gradient(135deg,rgba(59,130,246,.14),rgba(34,211,238,.14));
+      border-color:var(--accent);
+      box-shadow:0 12px 26px rgba(34,211,238,.2);
+    }
+    .privacy-toggle-icon{ font-size:16px; }
+    .privacy-toggle-text{ font-size:13px; }
     .nav-toggle{
       display:none;
       align-items:center;
@@ -1764,6 +1793,25 @@
       transition:opacity .16s ease;
     }
     .track-copy-feedback.visible{ opacity:1; }
+    .privacy-mode .amount-mask{
+      position:relative;
+      color:transparent !important;
+      text-shadow:none !important;
+    }
+    .privacy-mode .amount-mask::after{
+      content:"•••• €";
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      color:var(--text);
+      pointer-events:none;
+      text-shadow:none;
+    }
+    .privacy-mode .amount-input{
+      -webkit-text-security: disc;
+    }
   </style>
   <link rel="stylesheet" href="assets/szd-cards.css">
 </head>
@@ -1794,6 +1842,10 @@
           <span class="bar"></span>
           <span class="bar"></span>
           <span class="bar"></span>
+        </button>
+        <button type="button" class="privacy-toggle" id="togglePrivacyMode" aria-pressed="false">
+          <span class="privacy-toggle-icon" aria-hidden="true">👁️</span>
+          <span class="privacy-toggle-text">Mode présentation</span>
         </button>
         <div class="theme-toggle">
           <span class="theme-icon" aria-hidden="true">🌙</span>
@@ -1850,7 +1902,7 @@
               </div>
               <div>
                 <label for="montant">Montant (€)</label>
-                <input type="text" inputmode="decimal" id="montant" placeholder="ex : 800 ou 800,00">
+                <input type="text" inputmode="decimal" id="montant" class="amount-input" placeholder="ex : 800 ou 800,00">
               </div>
               <div class="checkbox-toggle" style="align-self:end;">
                 <input type="checkbox" id="paye">
@@ -1924,17 +1976,17 @@
           <div class="totals" style="margin-top:14px;">
             <div class="kpi">
               <div class="label">Total facturé</div>
-              <div class="value" id="totalMontant">0 €</div>
+              <div class="value amount-mask" id="totalMontant">0 €</div>
               <div class="sub">Somme des prestations</div>
             </div>
             <div class="kpi">
               <div class="label">Total reçu</div>
-              <div class="value" id="totalRecu">0 €</div>
+              <div class="value amount-mask" id="totalRecu">0 €</div>
               <div class="sub">Somme des paiements</div>
             </div>
             <div class="kpi">
               <div class="label">Total restant</div>
-              <div class="value" id="totalRestant">0 €</div>
+              <div class="value amount-mask" id="totalRestant">0 €</div>
               <div class="sub">À encaisser</div>
             </div>
           </div>
@@ -2447,6 +2499,87 @@
     }
   </script>
 
+  <!-- SCRIPT MODE PRÉSENTATION -->
+  <script>
+    (function(){
+      const PRIVACY_KEY = "szd_privacy_mode";
+      const CLASSNAME = "privacy-mode";
+      const body = document.body;
+      const toggleBtn = document.getElementById("togglePrivacyMode");
+      const icon = toggleBtn ? toggleBtn.querySelector(".privacy-toggle-icon") : null;
+      const label = toggleBtn ? toggleBtn.querySelector(".privacy-toggle-text") : null;
+
+      function readSaved(){
+        try {
+          return localStorage.getItem(PRIVACY_KEY) === "1";
+        } catch(e) {
+          return false;
+        }
+      }
+
+      function syncFramePrivacy(frame, enabled){
+        try{
+          frame?.contentDocument?.body?.classList.toggle(CLASSNAME, enabled);
+        }catch(err){}
+      }
+
+      function bindFrame(frame){
+        if(!frame || frame.dataset.privacyBound === "1") return;
+        frame.addEventListener("load", () => {
+          syncFramePrivacy(frame, body?.classList.contains(CLASSNAME));
+        });
+        frame.dataset.privacyBound = "1";
+      }
+
+      function applyToFrames(enabled){
+        document.querySelectorAll(".embed-frame").forEach((frame) => {
+          bindFrame(frame);
+          syncFramePrivacy(frame, enabled);
+        });
+      }
+
+      function setPrivacy(enabled, persist=true){
+        if(body){
+          body.classList.toggle(CLASSNAME, enabled);
+        }
+        if(toggleBtn){
+          toggleBtn.classList.toggle("is-active", enabled);
+          toggleBtn.setAttribute("aria-pressed", enabled ? "true" : "false");
+        }
+        if(icon){
+          icon.textContent = enabled ? "🙈" : "👁️";
+        }
+        if(label){
+          label.textContent = enabled ? "Mode présentation activé" : "Mode présentation";
+        }
+        applyToFrames(enabled);
+        if(persist){
+          try {
+            localStorage.setItem(PRIVACY_KEY, enabled ? "1" : "0");
+          } catch(e) {}
+        }
+      }
+
+      const initial = readSaved();
+      setPrivacy(initial, false);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        if(toggleBtn){
+          toggleBtn.addEventListener("click", () => {
+            const next = !body.classList.contains(CLASSNAME);
+            setPrivacy(next);
+          });
+        }
+      });
+
+      window.addEventListener("storage", (event) => {
+        if(event.key === PRIVACY_KEY){
+          setPrivacy(event.newValue === "1", false);
+        }
+      });
+    })();
+  </script>
+
   <!-- SCRIPT TABS -->
   <script>
     (function(){
@@ -2871,7 +3004,7 @@
         l.className = "label";
         l.textContent = "Restant dû total";
         const v = document.createElement("div");
-        v.className = "value";
+        v.className = "value amount-mask";
         v.textContent = eur(summary.totalRestant || 0);
         kpi.appendChild(l);
         kpi.appendChild(v);
@@ -2907,9 +3040,9 @@
             <div class="cap-client">${r.client || ""}</div>
             <div class="cap-subtitle">${(r.type || "")}${r.description ? " — " + r.description : ""}</div>
             <div class="cap-row"><span>Date</span><span>${r.date || ""}</span></div>
-            <div class="cap-row"><span>Facturé</span><span>${eur(r.montant || 0)}</span></div>
-            <div class="cap-row"><span>Reçu</span><span>${eur(paid)}</span></div>
-            <div class="cap-row"><span>Restant</span><span>${eur(remaining)}</span></div>
+            <div class="cap-row"><span>Facturé</span><span class="amount-mask">${eur(r.montant || 0)}</span></div>
+            <div class="cap-row"><span>Reçu</span><span class="amount-mask">${eur(paid)}</span></div>
+            <div class="cap-row"><span>Restant</span><span class="amount-mask">${eur(remaining)}</span></div>
             <div class="cap-progress-wrap">
               <div class="cap-row-progress-label">
                 <span>Avancement</span>
@@ -2981,7 +3114,7 @@
             <div class="followup-meta">
               <div class="followup-stat">
                 <span class="label">💶 Restant dû</span>
-                <span class="value">${eur(r.remaining)}</span>
+                <span class="value amount-mask">${eur(r.remaining)}</span>
               </div>
               <div class="followup-stat">
                 <span class="label">⏳ Ancienneté</span>
@@ -3076,15 +3209,18 @@
           tr.appendChild(tdClient);
 
           const tdMontant = document.createElement("td");
+          tdMontant.classList.add("amount-mask");
           tdMontant.textContent = eur(r.montant || 0);
           tr.appendChild(tdMontant);
 
           const tdRecu = document.createElement("td");
+          tdRecu.classList.add("amount-mask");
           tdRecu.textContent = eur(getPaid(r));
           tr.appendChild(tdRecu);
 
           const remaining = getRemaining(r);
           const tdRestant = document.createElement("td");
+          tdRestant.classList.add("amount-mask");
           tdRestant.textContent = eur(remaining);
           tr.appendChild(tdRestant);
 
