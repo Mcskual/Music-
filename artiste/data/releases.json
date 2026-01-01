@@ -1,19 +1,19 @@
 [
   {
     "title": "Atlas – Afro Drill",
-    "cover": "assets/mc-skual-studio.jpg",
+    "cover": "../prestations/assets/mc-skual-studio.jpg",
     "link": "https://open.spotify.com/",
     "platform": "Spotify"
   },
   {
     "title": "Nocturne – Trap Mélodique",
-    "cover": "assets/mc-skual-portrait.jpg",
+    "cover": "../prestations/assets/mc-skual-portrait.jpg",
     "link": "https://youtube.com/",
     "platform": "YouTube"
   },
   {
     "title": "Pulse – Afro Fusion",
-    "cover": "assets/pro-session.svg",
+    "cover": "../prestations/assets/pro-session.svg",
     "link": "https://soundcloud.com/",
     "platform": "SoundCloud"
   }
