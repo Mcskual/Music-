@@ -1,0 +1,56 @@
+[
+  {
+    "title": "Nocturne 24",
+    "artist": "Louna",
+    "type": "Single",
+    "year": "2024",
+    "cover": "assets/releases/mono-lines.svg",
+    "link": "#",
+    "cta": "Écouter"
+  },
+  {
+    "title": "Verre fumé",
+    "artist": "SKUAL",
+    "type": "Single",
+    "year": "2024",
+    "cover": "assets/releases/azur-lines.svg",
+    "link": "#",
+    "cta": "Écouter"
+  },
+  {
+    "title": "Ligne Claire",
+    "artist": "Aria",
+    "type": "EP",
+    "year": "2023",
+    "cover": "assets/releases/emerald-grid.svg",
+    "link": "#",
+    "cta": "Écouter"
+  },
+  {
+    "title": "Nuit Blanche",
+    "artist": "Milo",
+    "type": "Single",
+    "year": "2023",
+    "cover": "assets/releases/mono-lines.svg",
+    "link": "#",
+    "cta": "Écouter"
+  },
+  {
+    "title": "Equinoxe",
+    "artist": "Diana",
+    "type": "EP",
+    "year": "2022",
+    "cover": "assets/releases/azur-lines.svg",
+    "link": "#",
+    "cta": "Écouter"
+  },
+  {
+    "title": "Vecteur",
+    "artist": "Nams",
+    "type": "Single",
+    "year": "2022",
+    "cover": "assets/releases/emerald-grid.svg",
+    "link": "#",
+    "cta": "Écouter"
+  }
+]
