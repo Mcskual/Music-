@@ -2499,16 +2499,21 @@
         flex-direction:column;
         gap:12px;
         margin-top:10px;
+        max-height:70vh;
+        overflow:auto;
+        padding-right:4px;
       }
       .mobile-card{
         background:var(--card);
         border:1px solid var(--border);
         border-radius:14px;
-        padding:12px;
         box-shadow:var(--shadow);
         display:flex;
         flex-direction:column;
-        gap:8px;
+        overflow:hidden;
+      }
+      .mobile-card.mobile-accordion{
+        padding:0;
       }
       .mobile-card.priority-card{
         background:color-mix(in srgb, var(--card) 78%, var(--accent) 12%);
@@ -2652,6 +2657,76 @@
         justify-content:center;
         width:100%;
         height:100%;
+      }
+      .mobile-accordion-trigger{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        width:100%;
+        padding:12px;
+        background:transparent;
+        border:0;
+        color:inherit;
+        cursor:pointer;
+        text-align:left;
+        font-weight:700;
+        font-size:15px;
+      }
+      .accordion-arrow{
+        transition:transform .22s ease;
+        display:inline-flex;
+        align-items:center;
+      }
+      .mobile-card.is-open .accordion-arrow{
+        transform:rotate(90deg);
+      }
+      .accordion-label{
+        flex:1;
+        min-width:0;
+      }
+      .accordion-indicators{
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        font-size:15px;
+      }
+      .hourglass-indicator{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        width:26px;
+        height:26px;
+        border-radius:50%;
+        background:rgba(255,255,255,.06);
+        border:1px solid var(--border);
+        box-shadow:0 8px 16px rgba(0,0,0,.18);
+      }
+      [data-theme="light"] .hourglass-indicator{
+        background:#f8fafc;
+      }
+      .mobile-accordion-panel{
+        padding:0 12px 12px;
+        overflow:hidden;
+        max-height:0;
+        opacity:0;
+        pointer-events:none;
+        transition:max-height .28s ease, opacity .24s ease;
+      }
+      .mobile-card.is-open .mobile-accordion-panel{
+        opacity:1;
+        pointer-events:auto;
+      }
+      .mobile-card-body{
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+      }
+      .mobile-card-header{
+        display:flex;
+        justify-content:space-between;
+        align-items:flex-start;
+        gap:10px;
+        padding-top:4px;
       }
 
       [data-theme="light"] .nav-links{
@@ -3705,6 +3780,7 @@
       let openDetailsRow = null;
       let openDetailsToggle = null;
       let openNoteCtx = null;
+      let openMobileCardId = null;
       let deliveryStatusMap = {};
       let notesMap = {};
       const notesStorageKey = "prestations_notes_v1";
@@ -4931,6 +5007,30 @@
         showStatus("Prestation supprimée.");
       }
 
+      function setMobileCardState(card, open){
+        if(!card) return;
+        const panel = card.querySelector(".mobile-accordion-panel");
+        const trigger = card.querySelector(".mobile-accordion-trigger");
+        if(!panel || !trigger) return;
+        trigger.setAttribute("aria-expanded", open ? "true" : "false");
+        panel.setAttribute("aria-hidden", open ? "false" : "true");
+        card.classList.toggle("is-open", !!open);
+        const fullHeight = panel.scrollHeight;
+        const target = open ? fullHeight : 0;
+        panel.style.maxHeight = target + "px";
+        panel.style.opacity = open ? "1" : "0";
+        panel.style.pointerEvents = open ? "auto" : "none";
+      }
+
+      function toggleMobileCard(cardId){
+        openMobileCardId = openMobileCardId === cardId ? null : cardId;
+        const cards = mobileCards ? mobileCards.querySelectorAll(".mobile-card") : [];
+        cards.forEach(card => {
+          const currentId = card.dataset.id;
+          setMobileCardState(card, openMobileCardId && String(openMobileCardId) === String(currentId));
+        });
+      }
+
       function renderMobileCards(records){
         if(!mobileCards) return;
         if(!isMobile()){
@@ -4939,10 +5039,15 @@
           return;
         }
 
+        if(openMobileCardId && !records.some(rec => String(rec.id) === String(openMobileCardId))){
+          openMobileCardId = null;
+        }
+
         mobileCards.setAttribute("aria-hidden","false");
         mobileCards.innerHTML = "";
 
         if(!records.length){
+          openMobileCardId = null;
           const empty = document.createElement("div");
           empty.className = "mobile-card mobile-empty";
           empty.textContent = "Aucune prestation ne correspond.";
@@ -4955,6 +5060,7 @@
           const remaining = getRemaining(r);
           const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(paid/r.montant*100)) : 0;
           const delay = getDelayState(r);
+          const isOpen = openMobileCardId && String(openMobileCardId) === String(r.id);
 
           let cls = "muted";
           let label = "Non payé";
@@ -4965,12 +5071,58 @@
           }
 
           const card = document.createElement("div");
-          card.className = "mobile-card";
+          card.className = "mobile-card mobile-accordion";
+          card.dataset.id = String(r.id);
           if(delay){
             card.classList.add("priority-card");
           }
 
-          const header = document.createElement("header");
+          const panelId = `mobile-panel-${r.id}`;
+          const trigger = document.createElement("button");
+          trigger.type = "button";
+          trigger.className = "mobile-accordion-trigger";
+          trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
+          trigger.setAttribute("aria-controls", panelId);
+
+          const arrow = document.createElement("span");
+          arrow.className = "accordion-arrow";
+          arrow.textContent = "▸";
+          trigger.appendChild(arrow);
+
+          const title = document.createElement("span");
+          title.className = "accordion-label";
+          title.textContent = r.client || "Artiste";
+          trigger.appendChild(title);
+
+          const indicators = document.createElement("span");
+          indicators.className = "accordion-indicators";
+          if(delay){
+            const hg = document.createElement("span");
+            hg.className = "hourglass-indicator";
+            hg.textContent = "⏳";
+            const info = delay.reason === "payment"
+              ? `${delay.days} jours depuis le dernier paiement`
+              : `${delay.days} jours depuis la prestation`;
+            hg.title = info;
+            hg.setAttribute("aria-label", `Relance prioritaire : ${info}`);
+            indicators.appendChild(hg);
+          }
+          trigger.appendChild(indicators);
+          trigger.addEventListener("click", () => toggleMobileCard(String(r.id)));
+          card.appendChild(trigger);
+
+          const panel = document.createElement("div");
+          panel.className = "mobile-accordion-panel";
+          panel.id = panelId;
+          panel.setAttribute("role","region");
+          panel.setAttribute("aria-hidden", isOpen ? "false" : "true");
+
+          const body = document.createElement("div");
+          body.className = "mobile-card-body";
+
+          const header = document.createElement("div");
+          header.className = "mobile-card-header";
+
           const left = document.createElement("div");
           left.className = "client-cell";
           const clientRow = document.createElement("div");
@@ -5023,12 +5175,12 @@
           });
           headerActions.appendChild(deliveryBtn);
           header.appendChild(headerActions);
-          card.appendChild(header);
+          body.appendChild(header);
 
           const dateRow = document.createElement("div");
           dateRow.className = "mobile-meta";
           dateRow.textContent = r.date ? `Date : ${r.date}` : "Date non renseignée";
-          card.appendChild(dateRow);
+          body.appendChild(dateRow);
 
           const amounts = document.createElement("div");
           amounts.className = "mobile-amounts";
@@ -5048,7 +5200,7 @@
             wrap.appendChild(v);
             amounts.appendChild(wrap);
           });
-          card.appendChild(amounts);
+          body.appendChild(amounts);
 
           const progress = document.createElement("div");
           progress.className = "mobile-progress";
@@ -5063,7 +5215,7 @@
           bar.appendChild(inner);
           progress.appendChild(progressHead);
           progress.appendChild(bar);
-          card.appendChild(progress);
+          body.appendChild(progress);
 
           const historySection = document.createElement("div");
           historySection.className = "details-section";
@@ -5072,7 +5224,7 @@
           historyTitle.textContent = "Historique des règlements";
           historySection.appendChild(historyTitle);
           historySection.appendChild(buildHistoryList(r));
-          card.appendChild(historySection);
+          body.appendChild(historySection);
 
           const actions = document.createElement("div");
           actions.className = "mobile-card-actions";
@@ -5109,9 +5261,12 @@
           secondary.appendChild(noteBtn);
           actions.appendChild(encBtn);
           actions.appendChild(secondary);
-          card.appendChild(actions);
+          body.appendChild(actions);
 
+          panel.appendChild(body);
+          card.appendChild(panel);
           mobileCards.appendChild(card);
+          setMobileCardState(card, !!isOpen);
         });
       }
 
