@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Instrus sur-mesure — SZD Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="assets/theme-init.js"></script>
   <link rel="stylesheet" href="assets/artiste.css">
 </head>
 <body data-page="instrus">
@@ -22,6 +25,14 @@
           <span class="brand-sub">Production & mix</span>
         </div>
       </div>
+      <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale" aria-expanded="false">
+        <a class="nav-link" data-active-pages="home" href="index.html">Accueil</a>
+        <a class="nav-link" data-active-pages="home" href="index.html#sorties">Sorties</a>
+        <a class="nav-link" data-active-pages="instrus" href="instrus.html">Instrus</a>
+        <a class="nav-link" data-active-pages="tarifs" href="tarifs.html">Tarifs</a>
+        <a class="nav-link" data-active-pages="apropos" href="qui-suis-je.html">À propos</a>
+        <a class="nav-link" data-active-pages="contact" href="contact.html">Contact</a>
+      </nav>
       <div class="header-actions">
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Basculer le thème">
           <span class="theme-icon" data-theme-icon aria-hidden="true">🌙</span>
@@ -32,25 +43,28 @@
           <span class="bar"></span>
         </button>
       </div>
-      <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale" aria-expanded="false">
-        <a class="nav-link" data-active-pages="home" href="index.html">Accueil</a>
-        <a class="nav-link" data-active-pages="home" href="index.html#sorties">Sorties</a>
-        <a class="nav-link" data-active-pages="instrus" href="instrus.html">Instrus</a>
-        <a class="nav-link" data-active-pages="tarifs" href="tarifs.html">Tarifs</a>
-        <a class="nav-link" data-active-pages="apropos" href="qui-suis-je.html">À propos</a>
-        <a class="nav-link" data-active-pages="contact" href="contact.html">Contact</a>
-      </nav>
     </div>
   </header>
+  <div class="nav-backdrop" data-nav-backdrop></div>
 
   <main class="page-shell">
     <section class="hero">
-      <div class="eyebrow">Instrumentales professionnelles</div>
-      <h1>Lecteur audio type Spotify</h1>
-      <p class="lead">YouTube IFrame API, vidéo masquée, un seul player global. Play/pause custom, progress bar fluide et surbrillance de l’instru active.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="tarifs.html">Choisir un pack</a>
-        <a class="btn btn-ghost" href="https://wa.me/33600000000?text=Salut%2C%20je%20viens%20de%20la%20page%20Instrus%20et%20je%20veux%20parler%20d%E2%80%99un%20titre." target="_blank" rel="noopener noreferrer">WhatsApp direct</a>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Instrumentales professionnelles</div>
+          <h1>Lecteur audio complet</h1>
+          <p class="lead">Interaction immédiate au tap ou au clic : play/pause, progression, volume, next/prev. Mini-player sticky en mobile, panneau complet en desktop.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="tarifs.html">Choisir un pack</a>
+            <a class="btn btn-ghost" href="https://wa.me/33600000000?text=Salut%2C%20je%20viens%20de%20la%20page%20Instrus%20et%20je%20veux%20parler%20d%E2%80%99un%20titre." target="_blank" rel="noopener noreferrer">WhatsApp direct</a>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="panel-card">
+            <p class="muted">Audio local prioritaire, YouTube en fallback. Le thème jour/nuit ne masque rien : contrôles, textes et cartes restent visibles.</p>
+            <a class="btn btn-full" href="contact.html">Planifier un appel</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -58,46 +72,58 @@
       <div class="section-head">
         <span class="eyebrow">Catalogue audio</span>
         <h2>Un seul player, plusieurs instrus</h2>
-        <p class="muted">Miniatures automatiques, lecture unique, stop des autres pistes. L’UI reste sombre et mobile-first.</p>
+        <p class="muted">Données JSON, filtres par genre et recherche instantanée. Carte active mise en avant avec progression en direct.</p>
       </div>
-      <div class="instru-grid" data-instrus-grid aria-live="polite"></div>
-      <div class="mini-player" data-mini-player>
-        <div>
-          <p class="mini-title" data-mini-title>Lecture en attente</p>
-          <p class="mini-artist" data-mini-artist></p>
-        </div>
-        <button class="play-btn" type="button" data-mini-toggle aria-label="Lire ou mettre en pause">
-          <span class="icon-play">▶</span>
-          <span class="icon-pause">❚❚</span>
-        </button>
-        <a class="btn btn-quiet" href="https://wa.me/33600000000?text=Je%20veux%20valider%20cette%20instru%20SZD%20Studio" target="_blank" rel="noopener noreferrer">Brief rapide</a>
-      </div>
-    </section>
 
-    <section class="section">
-      <div class="section-head">
-        <span class="eyebrow">Approche</span>
-        <h2>Processus clair, sans surcharge</h2>
-        <p class="muted">Structure lisible, basses maîtrisées, transitions nettes. L’objectif : enregistrer vite, avec un rendu déjà premium.</p>
+      <div class="filter-bar">
+        <label class="field">
+          <span class="field-label">Rechercher un titre</span>
+          <input class="text-input" type="search" placeholder="Titre ou ambiance" data-search-input>
+        </label>
+        <div class="chips" data-genre-chips></div>
       </div>
-      <div class="cards-grid two-col">
-        <article class="card">
-          <div class="badge">Direction</div>
-          <h3>Brief en moins de 10 minutes</h3>
-          <p class="muted">Références, tempo, tonalité et mood. On valide rapidement pour passer en production sans perte d’énergie.</p>
-        </article>
-        <article class="card">
-          <div class="badge">Structure</div>
-          <h3>Sections prêtes à enregistrer</h3>
-          <p class="muted">Intros, couplets, refrains et ponts équilibrés. Chaque transition est pensée pour guider la prise de voix.</p>
-        </article>
+
+      <div class="player-layout">
+        <aside class="player-panel" aria-live="polite">
+          <div class="player-cover" data-now-cover></div>
+          <div class="player-meta">
+            <p class="eyebrow" data-now-genre>Genre</p>
+            <h3 class="player-title" data-now-title>Aucune instru en lecture</h3>
+            <p class="muted" data-now-subtitle>Choisis une carte pour lancer la lecture.</p>
+          </div>
+          <div class="player-controls">
+            <div class="control-row">
+              <button class="icon-btn" type="button" data-prev title="Piste précédente">⏮</button>
+              <button class="play-btn large" type="button" data-toggle title="Lecture ou pause">
+                <span class="icon-play">▶</span>
+                <span class="icon-pause">❚❚</span>
+              </button>
+              <button class="icon-btn" type="button" data-next title="Piste suivante">⏭</button>
+            </div>
+            <div class="control-row">
+              <div class="timecode" data-now-time>0:00</div>
+              <div class="progress" role="presentation">
+                <div class="progress-bar" data-progress-bar></div>
+                <input class="progress-input" type="range" min="0" max="100" value="0" step="0.1" data-progress-input aria-label="Navigation dans le morceau">
+              </div>
+              <div class="timecode" data-now-duration>0:00</div>
+            </div>
+            <div class="control-row">
+              <button class="icon-btn" type="button" data-mute title="Muet">🔈</button>
+              <input class="slider" type="range" min="0" max="1" step="0.01" value="0.8" data-volume aria-label="Volume">
+              <div class="pill" data-now-bpm>BPM</div>
+            </div>
+            <div class="control-row player-links">
+              <a class="btn btn-quiet" href="instrus.html" data-now-youtube target="_blank" rel="noopener noreferrer">Ouvrir sur YouTube</a>
+              <button class="btn btn-primary" type="button" data-now-contact>Parler de cette instru</button>
+            </div>
+          </div>
+        </aside>
+
+        <div class="track-list" data-instru-list aria-live="polite"></div>
       </div>
     </section>
   </main>
-
-  <div class="player-shell" aria-hidden="true">
-    <div id="yt-player"></div>
-  </div>
 
   <footer class="footer-shell">
     <div class="site-footer">
@@ -108,13 +134,31 @@
         <a class="footer-link" href="tarifs.html">Tarifs</a>
         <a class="footer-link" href="qui-suis-je.html">À propos</a>
         <a class="footer-link" href="contact.html">Contact</a>
-        <a class="footer-link" href="#">Mentions légales</a>
+        <a class="footer-link" href="mentions-legales.html">Mentions légales</a>
       </div>
       <p class="footer-meta">Copyright SZD Studio — production, mix & accompagnement.</p>
     </div>
   </footer>
 
-  <script src="assets/artiste.js"></script>
-  <script src="assets/player.js"></script>
+  <div class="mini-player" data-mini-player>
+    <div class="mini-info">
+      <p class="mini-title" data-mini-title>Lecture en attente</p>
+      <p class="mini-artist" data-mini-artist></p>
+      <div class="mini-progress" data-mini-progress></div>
+    </div>
+    <div class="mini-actions">
+      <button class="icon-btn" type="button" data-mini-prev aria-label="Piste précédente">⏮</button>
+      <button class="play-btn" type="button" data-mini-toggle aria-label="Lire ou mettre en pause">
+        <span class="icon-play">▶</span>
+        <span class="icon-pause">❚❚</span>
+      </button>
+      <button class="icon-btn" type="button" data-mini-next aria-label="Piste suivante">⏭</button>
+    </div>
+  </div>
+
+  <audio data-audio-player preload="metadata"></audio>
+
+  <script src="assets/artiste.js" defer></script>
+  <script src="assets/instrus.js" defer></script>
 </body>
 </html>

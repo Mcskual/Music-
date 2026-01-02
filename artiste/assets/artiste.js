@@ -1,7 +1,6 @@
 (function(){
   const THEME_KEY = "szd_theme";
 
-  // Swap logo according to current theme
   function updateThemeLogos(theme){
     const mode = theme === "light" ? "light" : "dark";
     document.querySelectorAll('[data-light-src][data-dark-src]').forEach((img) => {
@@ -13,11 +12,10 @@
   function applyTheme(theme){
     const root = document.documentElement;
     const themeIcon = document.querySelector("[data-theme-icon]");
-    const isLight = theme === "light";
-    if(isLight) root.setAttribute("data-theme","light");
-    else root.removeAttribute("data-theme");
-    if(themeIcon) themeIcon.textContent = isLight ? "☀️" : "🌙";
-    updateThemeLogos(theme);
+    const mode = theme === "light" ? "light" : "dark";
+    root.setAttribute("data-theme", mode);
+    if(themeIcon) themeIcon.textContent = mode === "light" ? "☀️" : "🌙";
+    updateThemeLogos(mode);
   }
 
   function getSavedTheme(){
@@ -35,7 +33,8 @@
 
     const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
     const stored = getSavedTheme();
-    const initial = stored || (prefersLight ? "light" : "dark");
+    const preset = document.documentElement.getAttribute("data-theme");
+    const initial = stored || preset || (prefersLight ? "light" : "dark");
     applyTheme(initial);
 
     toggle.addEventListener("click", () => {
@@ -68,6 +67,7 @@
   function initHeaderMenu(){
     const nav = document.getElementById("primaryNav");
     const menuToggle = document.getElementById("menuToggle");
+    const backdrop = document.querySelector("[data-nav-backdrop]");
     if(!nav || !menuToggle) return;
 
     const closeMenu = () => {
@@ -78,20 +78,34 @@
       document.body.classList.remove("nav-open");
     };
 
+    const openMenu = () => {
+      nav.classList.add("is-open");
+      menuToggle.classList.add("is-open");
+      menuToggle.setAttribute("aria-expanded","true");
+      nav.setAttribute("aria-expanded","true");
+      document.body.classList.add("nav-open");
+    };
+
     menuToggle.addEventListener("click", () => {
-      const isOpen = nav.classList.toggle("is-open");
-      menuToggle.classList.toggle("is-open", isOpen);
-      menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      nav.setAttribute("aria-expanded", isOpen ? "true" : "false");
-      document.body.classList.toggle("nav-open", isOpen);
+      const isOpen = nav.classList.contains("is-open");
+      if(isOpen) closeMenu();
+      else openMenu();
     });
 
     nav.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => closeMenu());
     });
 
+    if(backdrop){
+      backdrop.addEventListener("click", closeMenu);
+    }
+
     window.addEventListener("resize", () => {
-      if(window.innerWidth >= 960) closeMenu();
+      if(window.innerWidth >= 720) closeMenu();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if(event.key === "Escape") closeMenu();
     });
   }
 
@@ -173,60 +187,11 @@
       .catch(() => { grid.innerHTML = '<p class="muted">Impossible de charger les sorties.</p>'; });
   }
 
-  function initPricingSwitch(){
-    const triggers = Array.from(document.querySelectorAll("[data-tab-target]"));
-    const panels = Array.from(document.querySelectorAll("[data-tab-panel]"));
-    if(!triggers.length || !panels.length) return;
-
-    const shell = triggers[0].closest(".switch-shell");
-
-    const updateIndicator = (target) => {
-      if(!shell) return;
-      const index = triggers.findIndex(btn => btn.dataset.tabTarget === target);
-      shell.style.setProperty("--switch-index", Math.max(0, index));
-    };
-
-    const activate = (target) => {
-      if(!target) return;
-
-      triggers.forEach((btn) => {
-        const isActive = btn.dataset.tabTarget === target;
-        btn.classList.toggle("is-active", isActive);
-        btn.setAttribute("aria-selected", isActive ? "true" : "false");
-        btn.setAttribute("aria-pressed", isActive ? "true" : "false");
-        btn.setAttribute("tabindex", isActive ? "0" : "-1");
-      });
-
-      panels.forEach((panel) => {
-        const isActive = panel.dataset.tabPanel === target;
-        panel.hidden = !isActive;
-        panel.setAttribute("aria-hidden", isActive ? "false" : "true");
-        panel.classList.toggle("is-active", isActive);
-        panel.classList.remove("is-entering");
-        if(isActive){
-          void panel.offsetWidth; // force reflow for animation
-          panel.classList.add("is-entering");
-          setTimeout(() => panel.classList.remove("is-entering"), 360);
-        }
-      });
-
-      updateIndicator(target);
-    };
-
-    const initialTarget = triggers.find(btn => btn.classList.contains("is-active"))?.dataset.tabTarget || triggers[0].dataset.tabTarget;
-    activate(initialTarget);
-
-    triggers.forEach(btn => {
-      btn.addEventListener("click", () => activate(btn.dataset.tabTarget));
-    });
-  }
-
   document.addEventListener("DOMContentLoaded", () => {
     initTheme();
     initHeaderMenu();
     initAccordion();
     initReleases();
-    initPricingSwitch();
     setActiveNav();
   });
 })();
