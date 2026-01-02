@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SZD Studio — Sorties à la une</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="assets/theme-init.js"></script>
   <link rel="stylesheet" href="assets/artiste.css">
 </head>
 <body class="page-sorties" data-page="home">
@@ -22,6 +25,14 @@
           <span class="brand-sub">Production & mix</span>
         </div>
       </div>
+      <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale" aria-expanded="false">
+        <a class="nav-link" data-active-pages="home" href="index.html">Accueil</a>
+        <a class="nav-link" data-active-pages="home" href="#sorties">Sorties</a>
+        <a class="nav-link" data-active-pages="instrus" href="instrus.html">Instrus</a>
+        <a class="nav-link" data-active-pages="tarifs" href="tarifs.html">Tarifs</a>
+        <a class="nav-link" data-active-pages="apropos" href="qui-suis-je.html">À propos</a>
+        <a class="nav-link" data-active-pages="contact" href="contact.html">Contact</a>
+      </nav>
       <div class="header-actions">
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Basculer le thème">
           <span class="theme-icon" data-theme-icon aria-hidden="true">🌙</span>
@@ -32,63 +43,71 @@
           <span class="bar"></span>
         </button>
       </div>
-      <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale" aria-expanded="false">
-        <a class="nav-link" data-active-pages="home" href="index.html">Accueil</a>
-        <a class="nav-link" data-active-pages="home" href="index.html#sorties">Sorties</a>
-        <a class="nav-link" data-active-pages="instrus" href="instrus.html">Instrus</a>
-        <a class="nav-link" data-active-pages="tarifs" href="tarifs.html">Tarifs</a>
-        <a class="nav-link" data-active-pages="apropos" href="qui-suis-je.html">À propos</a>
-        <a class="nav-link" data-active-pages="contact" href="contact.html">Contact</a>
-      </nav>
     </div>
   </header>
+  <div class="nav-backdrop" data-nav-backdrop></div>
 
   <main class="page-shell">
     <section class="hero" id="sorties">
-      <div class="eyebrow">Références récentes</div>
-      <h1>Sorties à la une</h1>
-      <p class="lead">Catalogue premium, livré comme une app : cartes claires, CTA directs, aucune fioriture. Chaque morceau est suivi du brief à la mise en ligne.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Écouter une sélection</a>
-        <a class="btn btn-ghost" href="tarifs.html">Voir les tarifs</a>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Références récentes</div>
+          <h1>Sorties à la une</h1>
+          <p class="lead">Une page qui réagit comme une app : CTA directs, cartes larges, contraste lisible en jour comme en nuit.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="instrus.html">Écouter les instrus</a>
+            <a class="btn btn-ghost" href="tarifs.html">Voir les tarifs</a>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="panel-card">
+            <p class="muted">Accompagnement complet : direction artistique, production, mixage et mise en ligne. La même exigence que sur les sorties ci-dessous.</p>
+            <a class="btn btn-full" href="contact.html">Planifier un appel</a>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <div class="section-head">
         <span class="eyebrow">Catalogue réel</span>
-        <h2>Des sorties suivies de bout en bout</h2>
-        <p class="muted">Cover, type, année et lien d’écoute. Aucune décoration inutile : uniquement des projets finalisés et livrés.</p>
+        <h2>Des projets suivis de bout en bout</h2>
+        <p class="muted">Cover, type, année et lien d’écoute. Le thème reste parfaitement lisible en jour comme en nuit.</p>
       </div>
       <div class="cards-grid release-grid" data-releases-grid aria-live="polite"></div>
       <div class="credibility">
-        <p>Direction artistique, composition, mixage et livraison plateformes : chaque morceau est accompagné jusqu’au bout, sans automatisation ni shortcuts.</p>
+        <p>Direction artistique, composition, mixage et livraison plateformes : chaque morceau est accompagné jusqu’au bout, sans automatisation ni raccourci.</p>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section section-alt">
       <div class="section-head">
         <span class="eyebrow">Positionnement</span>
         <h2>Studio premium, tonalité claire</h2>
-        <p class="muted">Une esthétique sombre, lisible, pensée pour des artistes qui veulent un rendu sérieux et immédiat.</p>
+        <p class="muted">Une esthétique sobre et précise, pensée pour mobile et desktop avec des espaces respirables et des grilles adaptées.</p>
       </div>
-      <div class="cards-grid two-col">
+      <div class="cards-grid three-col">
         <article class="card">
           <div class="badge">Méthode</div>
           <h3>Clarté et vitesse</h3>
-          <p class="muted">Brief rapide, validations courtes, livrables structurés. Tu sais ce que tu reçois, quand et comment.</p>
+          <p class="muted">Validations courtes, livrables structurés et retours rapides. Tu sais ce que tu reçois et quand.</p>
         </article>
         <article class="card">
           <div class="badge">Livraison</div>
-          <h3>Prêt pour les plateformes</h3>
-          <p class="muted">Export, stems et mixage maîtrisé. Les sorties à la une sont le reflet exact de cette exigence.</p>
+          <h3>Prêt plateformes</h3>
+          <p class="muted">Export, stems et mixage maîtrisé. Les sorties reflètent exactement ce standard.</p>
+        </article>
+        <article class="card">
+          <div class="badge">Accompagnement</div>
+          <h3>Vision partagée</h3>
+          <p class="muted">Dialogue continu, références précises et suivi rigoureux pour un rendu premium.</p>
         </article>
       </div>
       <div class="cta-panel">
         <div>
           <p class="eyebrow">Besoin d’un retour rapide ?</p>
           <h3>Parle-moi du prochain titre</h3>
-          <p class="muted">Un message concis suffit : objectif, référence de son, calendrier. Je réponds avec un plan clair.</p>
+          <p class="muted">Un message concis suffit : objectif, référence de son, calendrier. Réponse avec un plan clair.</p>
         </div>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://wa.me/33600000000?text=Salut%2C%20je%20viens%20de%20la%20page%20Artiste%20et%20je%20souhaite%20discuter%20d%E2%80%99un%20projet." target="_blank" rel="noopener noreferrer">WhatsApp prioritaire</a>
@@ -102,17 +121,17 @@
     <div class="site-footer">
       <div class="footer-links">
         <a class="footer-link" href="index.html">Accueil</a>
-        <a class="footer-link" href="index.html#sorties">Sorties</a>
+        <a class="footer-link" href="#sorties">Sorties</a>
         <a class="footer-link" href="instrus.html">Instrus</a>
         <a class="footer-link" href="tarifs.html">Tarifs</a>
         <a class="footer-link" href="qui-suis-je.html">À propos</a>
         <a class="footer-link" href="contact.html">Contact</a>
-        <a class="footer-link" href="#">Mentions légales</a>
+        <a class="footer-link" href="mentions-legales.html">Mentions légales</a>
       </div>
       <p class="footer-meta">Copyright SZD Studio — production, mix & accompagnement.</p>
     </div>
   </footer>
 
-  <script src="assets/artiste.js"></script>
+  <script src="assets/artiste.js" defer></script>
 </body>
 </html>

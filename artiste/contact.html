@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact — SZD Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="assets/theme-init.js"></script>
   <link rel="stylesheet" href="assets/artiste.css">
 </head>
 <body data-page="contact">
@@ -22,6 +25,14 @@
           <span class="brand-sub">Production & mix</span>
         </div>
       </div>
+      <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale" aria-expanded="false">
+        <a class="nav-link" data-active-pages="home" href="index.html">Accueil</a>
+        <a class="nav-link" data-active-pages="home" href="index.html#sorties">Sorties</a>
+        <a class="nav-link" data-active-pages="instrus" href="instrus.html">Instrus</a>
+        <a class="nav-link" data-active-pages="tarifs" href="tarifs.html">Tarifs</a>
+        <a class="nav-link" data-active-pages="apropos" href="qui-suis-je.html">À propos</a>
+        <a class="nav-link" data-active-pages="contact" href="contact.html">Contact</a>
+      </nav>
       <div class="header-actions">
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Basculer le thème">
           <span class="theme-icon" data-theme-icon aria-hidden="true">🌙</span>
@@ -32,25 +43,28 @@
           <span class="bar"></span>
         </button>
       </div>
-      <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale" aria-expanded="false">
-        <a class="nav-link" data-active-pages="home" href="index.html">Accueil</a>
-        <a class="nav-link" data-active-pages="home" href="index.html#sorties">Sorties</a>
-        <a class="nav-link" data-active-pages="instrus" href="instrus.html">Instrus</a>
-        <a class="nav-link" data-active-pages="tarifs" href="tarifs.html">Tarifs</a>
-        <a class="nav-link" data-active-pages="apropos" href="qui-suis-je.html">À propos</a>
-        <a class="nav-link" data-active-pages="contact" href="contact.html">Contact</a>
-      </nav>
     </div>
   </header>
+  <div class="nav-backdrop" data-nav-backdrop></div>
 
   <main class="page-shell">
     <section class="hero">
-      <div class="eyebrow">Contact</div>
-      <h1>Parlons de ton prochain titre</h1>
-      <p class="lead">WhatsApp direct avec message pré-rempli. Objectif : style, références, deadline. Je reviens avec un plan clair et un budget maîtrisé.</p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="https://wa.me/33600000000?text=Salut%2C%20je%20veux%20lancer%20un%20projet%20avec%20toi." target="_blank" rel="noopener noreferrer">WhatsApp prioritaire</a>
-        <a class="btn btn-ghost" href="mailto:contact@szd.studio?subject=Projet%20artistique">Envoyer un mail</a>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Contact</div>
+          <h1>Parlons de ton prochain titre</h1>
+          <p class="lead">WhatsApp direct ou mail : le routing est clair, les CTA restent visibles en mode clair ou sombre.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://wa.me/33600000000?text=Salut%2C%20je%20veux%20lancer%20un%20projet%20avec%20toi." target="_blank" rel="noopener noreferrer">WhatsApp prioritaire</a>
+            <a class="btn btn-ghost" href="mailto:contact@szd.studio?subject=Projet%20artistique">Envoyer un mail</a>
+          </div>
+        </div>
+        <div class="hero-panel">
+          <div class="panel-card">
+            <p class="muted">Navigation mobile avec mini-player et menu hamburger stable. Desktop élargi pour une lecture confortable.</p>
+            <a class="btn btn-full" href="tarifs.html">Voir les tarifs</a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -58,7 +72,7 @@
       <div class="section-head">
         <span class="eyebrow">Disponibilités</span>
         <h2>Réponse rapide, créneau réservé</h2>
-        <p class="muted">Je travaille en créneaux courts pour garder de la fraîcheur. Les plannings sont partagés dès validation.</p>
+        <p class="muted">Travail en créneaux courts pour garder de la fraîcheur. Les plannings sont partagés dès validation.</p>
       </div>
       <div class="cards-grid two-col">
         <article class="card">
@@ -72,20 +86,20 @@
             <li>✔️ BPM/tonalité si déjà définis</li>
             <li>✔️ Deadline et formats finaux attendus</li>
           </ul>
-          <p class="note">Plus le brief est clair, plus la première version est juste.</p>
+          <p class="note">Plus les infos sont claires, plus la première version est juste.</p>
         </article>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section section-alt">
       <div class="section-head">
         <span class="eyebrow">Action</span>
         <h2>Prendre rendez-vous</h2>
-        <p class="muted">Explique ton projet en quelques lignes. Je confirme un créneau et les étapes.</p>
+        <p class="muted">Explique ton projet en quelques lignes. Retour avec créneau et étapes.</p>
       </div>
       <div class="hero-actions">
         <a class="btn btn-primary" href="https://calendly.com/" target="_blank" rel="noopener noreferrer">Choisir un créneau</a>
-        <a class="btn btn-ghost" href="tarifs.html">Voir les tarifs</a>
+        <a class="btn btn-ghost" href="instrus.html">Écouter des instrus</a>
       </div>
     </section>
   </main>
@@ -99,12 +113,12 @@
         <a class="footer-link" href="tarifs.html">Tarifs</a>
         <a class="footer-link" href="qui-suis-je.html">À propos</a>
         <a class="footer-link" href="contact.html">Contact</a>
-        <a class="footer-link" href="#">Mentions légales</a>
+        <a class="footer-link" href="mentions-legales.html">Mentions légales</a>
       </div>
       <p class="footer-meta">Copyright SZD Studio — production, mix & accompagnement.</p>
     </div>
   </footer>
 
-  <script src="assets/artiste.js"></script>
+  <script src="assets/artiste.js" defer></script>
 </body>
 </html>

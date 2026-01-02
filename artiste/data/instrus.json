@@ -1,37 +1,52 @@
 [
   {
+    "id": "instru-001",
     "title": "Nocturne 24",
-    "artist": "SZD Studio",
-    "youtubeId": "dQw4w9WgXcQ",
-    "type": "Single",
-    "year": 2024
+    "genre": "Trap",
+    "bpm": 138,
+    "mood": "Atmospheric",
+    "cover": "/artiste/assets/releases/mono-lines.svg",
+    "audio": "/artiste/audio/nocturne-24.mp3",
+    "youtube": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
   },
   {
+    "id": "instru-002",
     "title": "Verre Fumé",
-    "artist": "SZD Studio",
-    "youtubeId": "3JZ4pnNtyxQ",
-    "type": "Single",
-    "year": 2023
+    "genre": "Drill",
+    "bpm": 142,
+    "mood": "Dark",
+    "cover": "/artiste/assets/releases/azur-lines.svg",
+    "audio": "",
+    "youtube": "https://www.youtube.com/watch?v=3JZ4pnNtyxQ"
   },
   {
+    "id": "instru-003",
     "title": "Éclipse",
-    "artist": "SZD Studio",
-    "youtubeId": "ktvTqknDobU",
-    "type": "EP",
-    "year": 2023
+    "genre": "Afro",
+    "bpm": 102,
+    "mood": "Groove",
+    "cover": "/artiste/assets/releases/emerald-grid.svg",
+    "audio": "",
+    "youtube": "https://www.youtube.com/watch?v=ktvTqknDobU"
   },
   {
+    "id": "instru-004",
     "title": "Ligne Claire",
-    "artist": "SZD Studio",
-    "youtubeId": "VbfpW0pbvaU",
-    "type": "Single",
-    "year": 2022
+    "genre": "RnB",
+    "bpm": 94,
+    "mood": "Smooth",
+    "cover": "/artiste/assets/releases/mono-lines.svg",
+    "audio": "",
+    "youtube": "https://www.youtube.com/watch?v=VbfpW0pbvaU"
   },
   {
+    "id": "instru-005",
     "title": "Velours",
-    "artist": "SZD Studio",
-    "youtubeId": "uelHwf8o7_U",
-    "type": "Single",
-    "year": 2022
+    "genre": "Pop",
+    "bpm": 116,
+    "mood": "Warm",
+    "cover": "/artiste/assets/releases/azur-lines.svg",
+    "audio": "",
+    "youtube": "https://www.youtube.com/watch?v=uelHwf8o7_U"
   }
 ]
