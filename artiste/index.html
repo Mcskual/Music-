@@ -7,38 +7,45 @@
   <link rel="stylesheet" href="assets/artiste.css">
 </head>
 <body>
-  <div class="container">
-    <nav class="top-nav" aria-label="Navigation principale">
-      <div class="nav-left">
-        <a class="logo-wrap logo-compact" href="/artiste/" aria-label="Revenir à la vitrine artiste">
-          <img
-            src="/prestations/szd_logo_white.png"
-            data-dark-src="/prestations/szd_logo_white.png"
-            data-light-src="/prestations/szd_logo_black.png"
-            alt="Logo">
-        </a>
-        <div class="brand-meta">
-          <span class="brand-name">SZD Studio</span>
-          <span class="brand-subline">Producteur & ingénieur du son</span>
-        </div>
+  <div class="mobile-header">
+    <div class="brand">
+      <a class="logo-wrap" href="/artiste/" aria-label="Retour à l'accueil artiste">
+        <img
+          src="/prestations/szd_logo_white.png"
+          data-dark-src="/prestations/szd_logo_white.png"
+          data-light-src="/prestations/szd_logo_black.png"
+          alt="Logo SZD Studio">
+      </a>
+      <div class="brand-meta">
+        <span class="brand-name">SZD Studio</span>
+        <span class="brand-sub">Producteur & ingénieur du son</span>
       </div>
-      <div class="nav-center">
-        <div class="nav-links" id="nav-links">
-          <a class="nav-link active" href="/artiste/#accueil">Accueil</a>
-          <a class="nav-link" href="/artiste/qui-suis-je.html">Qui suis-je</a>
-          <a class="nav-link" href="/artiste/">Instrumentales</a>
-          <a class="nav-link" href="/artiste/#tarifs">Tarifs</a>
-          <a class="nav-link" href="/artiste/#formats">Comprendre les formats</a>
-          <a class="nav-link" href="/artiste/#contact">Contact</a>
+    </div>
+    <div class="mobile-actions">
+      <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-controls="sideNav" aria-expanded="false" type="button">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="side-nav" id="sideNav" aria-label="Fil conducteur">
+      <div class="side-top">
+        <div class="brand">
+          <a class="logo-wrap" href="/artiste/" aria-label="Retour à l'accueil artiste">
+            <img
+              src="/prestations/szd_logo_white.png"
+              data-dark-src="/prestations/szd_logo_white.png"
+              data-light-src="/prestations/szd_logo_black.png"
+              alt="Logo SZD Studio">
+          </a>
+          <div class="brand-meta">
+            <span class="brand-name">SZD Studio</span>
+            <span class="brand-sub">Producteur depuis 2006</span>
+          </div>
         </div>
-      </div>
-      <div class="nav-actions">
-        <a class="nav-cta" href="https://wa.me/33600000000?text=Bonjour%20%21%20Je%20souhaite%20planifier%20un%20projet%20instrumental%20avec%20toi." target="_blank" rel="noopener noreferrer">Contact / WhatsApp</a>
-        <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-controls="nav-links" aria-expanded="false" type="button">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
         <div class="theme-toggle">
           <span class="theme-icon" aria-hidden="true">🌙</span>
           <label class="switch" aria-label="Basculer le thème nuit/jour">
@@ -47,190 +54,215 @@
           </label>
         </div>
       </div>
-    </nav>
 
-    <main class="page-content">
-      <section class="hero" id="accueil">
-        <div class="hero-grid">
-          <div>
-            <div class="eyebrow">Produit final prêt à partager</div>
-            <h1>Instrumentales professionnelles</h1>
-            <p>Producteur depuis 2006 – accompagnement sérieux, humain et rapide. Chaque instru est construite pour mettre la voix au centre, avec un suivi qui évite les mauvaises surprises.</p>
-            <div class="tags">
-              <span class="chip">Afro</span>
-              <span class="chip">Drill</span>
-              <span class="chip">Trap</span>
-              <span class="chip">RnB / Mélodique</span>
-              <span class="chip">Pop urbaine</span>
+      <nav class="nav-links" id="nav-links">
+        <button class="nav-link active" data-target="studio"><span class="icon">🎧</span> Studio</button>
+        <button class="nav-link" data-target="instrumentales"><span class="icon">🎼</span> Instrumentales</button>
+        <button class="nav-link" data-target="tarifs"><span class="icon">💼</span> Tarifs</button>
+        <button class="nav-link" data-target="formats"><span class="icon">📚</span> Comprendre</button>
+        <button class="nav-link" data-target="contact"><span class="icon">💬</span> WhatsApp</button>
+      </nav>
+
+      <div class="side-cta">
+        <p class="muted">Je guide ton projet de l'idée à la sortie. Licence exclusive uniquement.</p>
+        <a class="btn btn-primary btn-full" href="https://wa.me/33600000000?text=Salut%2C%20je%20viens%20de%20la%20page%20Artiste%20et%20je%20souhaite%20discuter%20d%E2%80%99un%20projet." target="_blank" rel="noopener noreferrer">WhatsApp prioritaire</a>
+      </div>
+    </aside>
+
+    <main class="content" id="mainContent">
+      <section class="section section-hero" id="studio" data-section>
+        <div class="section-head">
+          <div class="eyebrow">Accompagnement sérieux & humain</div>
+          <h1>Studio dédié aux artistes exigeants</h1>
+          <p class="lead">Producteur depuis 2006. Je conçois des instrumentales qui placent ta voix au centre, avec un suivi clair et un rendu prêt à distribuer.</p>
+          <div class="chips">
+            <span class="chip">Afro</span>
+            <span class="chip">Drill</span>
+            <span class="chip">Trap</span>
+            <span class="chip">RnB</span>
+            <span class="chip">Pop urbaine</span>
+          </div>
+          <div class="stats">
+            <div class="stat-card">
+              <span class="stat-label">Positionnement</span>
+              <span class="stat-value">Sérieux, humain, suivi cadré</span>
             </div>
-            <div class="actions">
-              <a class="btn btn-primary" href="https://wa.me/33600000000?text=Bonjour%20%21%20Je%20souhaite%20r%C3%A9server%20une%20instrumentale%20%28Single%2FEP%2FAlbum%29.%20Peux-tu%20me%20donner%20les%20prochaines%20%C3%A9tapes%20%3F" target="_blank" rel="noopener noreferrer">WhatsApp immédiat</a>
-              <a class="btn btn-outline" href="#tarifs">Voir les formats</a>
+            <div class="stat-card">
+              <span class="stat-label">Livraison</span>
+              <span class="stat-value">Stems + mixage optionnel</span>
             </div>
-            <div class="cta-note">
-              <span>Réponse rapide, rendez-vous en studio ou à distance.</span>
-              <span class="pill">Licence exclusive uniquement</span>
-            </div>
-            <div class="stat-grid">
-              <div class="stat-card"><span class="stat-title">Expérience</span><span class="stat-value">18+ ans de production</span><p class="muted">Hip-hop, afro, pop urbaine, scènes locales et plateformes.</p></div>
-              <div class="stat-card"><span class="stat-title">Accompagnement</span><span class="stat-value">Méthode en 4 étapes</span><p class="muted">Brief clair, propositions rapides, retours guidés.</p></div>
-              <div class="stat-card"><span class="stat-title">Livraison</span><span class="stat-value">Stems + Mixage</span><p class="muted">Prêt pour la distribution, radios et live.</p></div>
+            <div class="stat-card">
+              <span class="stat-label">Disponibilité</span>
+              <span class="stat-value">Studio & distanciel</span>
             </div>
           </div>
-          <div class="hero-visual" aria-hidden="true"></div>
+        </div>
+        <div class="hero-panel">
+          <div class="panel-title">En moins de 10 secondes, tu sais :</div>
+          <ul class="panel-list">
+            <li>Qui est le producteur : SZD Studio, 18 ans d'expérience.</li>
+            <li>Ce que tu obtiens : instru prête à enregistrer, licence exclusive.</li>
+            <li>Comment avancer : choisis un pack, clique sur WhatsApp.</li>
+          </ul>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://wa.me/33600000000?text=Salut%2C%20je%20viens%20de%20la%20page%20Artiste%20et%20je%20souhaite%20discuter%20d%E2%80%99un%20projet." target="_blank" rel="noopener noreferrer">Commencer sur WhatsApp</a>
+            <a class="btn btn-ghost" href="#tarifs">Voir les packs</a>
+          </div>
         </div>
       </section>
 
-      <section class="section" id="bio">
-        <div class="section-header">
-          <h2>Qui suis-je</h2>
-          <span class="pill">Producteur & beatmaker</span>
+      <section class="section" id="instrumentales" data-section>
+        <div class="section-head">
+          <span class="eyebrow">Approche musicale</span>
+          <h2>Instrumentales sur-mesure, prêtes à poser</h2>
+          <p class="muted">Structure ready-to-voice, BPM & tonalité définis ensemble. Tu reçois une base solide pour enregistrer vite et bien.</p>
         </div>
-        <p class="muted">Je produis depuis 2006 et j’accompagne des artistes émergents comme confirmés à structurer leur son, leur message et leurs sorties. Mon approche : un cadre clair, un langage simple et une exigence de résultat. Pas de pack générique : chaque instru est pensée pour ta voix, ton public et ton calendrier.</p>
         <div class="feature-grid">
-          <div class="card-tile"><h3>🎯 Vision</h3><p>Créer des instrumentales qui servent ton storytelling et qui passent partout : streaming, scène, radios locales ou nationales.</p></div>
-          <div class="card-tile"><h3>🤝 Différence</h3><p>Pas d’abonnements, pas de beats recyclés. On travaille en direct, en exclusivité, avec un suivi humain et des délais tenus.</p></div>
-          <div class="card-tile"><h3>🛠️ Studio & outils</h3><p>Travail en studio équipé ou en distanciel avec validation à chaque étape, stems propres et options de mixage/arrangements.</p></div>
+          <article class="card">
+            <h3>🎚️ Méthode</h3>
+            <p>Brief clair, validation rapide, transitions maîtrisées. Chaque section est pensée pour guider ton flow.</p>
+          </article>
+          <article class="card">
+            <h3>🎯 Résultat</h3>
+            <p>Stems propres, variations maîtrisées, headroom optimisé. Tu repars avec une structure prête pour la voix.</p>
+          </article>
+          <article class="card">
+            <h3>🎵 Styles</h3>
+            <p>Afro, Drill, Trap, RnB, Pop urbaine. Possibilité d'explorer des fusions pour coller à ta direction.</p>
+          </article>
+        </div>
+        <div class="deliverables">
+          <div>
+            <h3>Ce que tu reçois</h3>
+            <ul>
+              <li>Structure détaillée (intro, couplets, refrains, ponts).</li>
+              <li>Stems + export mixé sur demande.</li>
+              <li>Roadmap claire jusqu'à la livraison.</li>
+            </ul>
+          </div>
+          <div class="releases">
+            <div class="releases-header">
+              <h3>Dernières sorties</h3>
+              <span class="pill">Références récentes</span>
+            </div>
+            <div id="releasesGrid" class="releases-grid" aria-live="polite"></div>
+          </div>
         </div>
       </section>
 
-      <section class="section" id="instrumentales">
-        <div class="section-header">
-          <h2>Instrumentales taillées pour la voix</h2>
-          <span class="pill">Clarté, dynamique, cohérence</span>
-        </div>
-        <p class="muted">Chaque prod est construite pour faciliter l’enregistrement et la diffusion. On part de tes influences, on cale le BPM et la tonalité, puis on prépare une structure ready-to-voice pour que tu puisses poser sans perdre de temps.</p>
-        <div class="feature-grid">
-          <div class="card-tile"><h3>✅ Structure prête</h3><p>Intro, couplets, refrains, ponts : la structure est livrée avec des transitions claires pour guider ton flow.</p></div>
-          <div class="card-tile"><h3>🎚️ Stems & cohérence</h3><p>Stems propres, variations maîtrisées, headroom optimisé pour le mix et le mastering.</p></div>
-          <div class="card-tile"><h3>📅 Disponibilités</h3><p>Créneaux dédiés pour les artistes : sessions en studio ou en visio, validation rapide des idées et ajustements prioritaires.</p></div>
-        </div>
-        <ul class="list-inline">
-          <li>• Tonalité & BPM définis ensemble</li>
-          <li>• Options mixage sur demande</li>
-          <li>• Roadmap claire jusqu’à la livraison</li>
-        </ul>
-      </section>
-
-      <section class="section" id="methode">
-        <div class="section-header">
-          <h2>Méthode de travail</h2>
-          <span class="pill">Process clair et humain</span>
-        </div>
-        <p class="muted">Chaque étape est structurée pour garder ton projet fluide et aligné avec ta vision. Pas de flou : tu sais où on en est, ce qui est validé et ce qui arrive ensuite.</p>
-        <div class="method-grid">
-          <div class="card-tile"><h3>🎧 Écoute du projet</h3><p>On décortique tes références, la vibe recherchée, le BPM, la tonalité et le positionnement que tu veux donner.</p></div>
-          <div class="card-tile"><h3>🎼 Proposition d’instrumentale</h3><p>Création d’une base solide avec structure claire, ready-to-voice, adaptée à ton flow et à ta voix.</p></div>
-          <div class="card-tile"><h3>✏️ Ajustements guidés</h3><p>Allers-retours rapides : arrangements, sound design, variations rythmiques, transitions, équilibrage.</p></div>
-          <div class="card-tile"><h3>🚀 Livraison sécurisée</h3><p>Stems + mixage optionnel, naming propre, export optimisé pour distribution et scène.</p></div>
-        </div>
-      </section>
-
-      <section class="section" id="tarifs">
-        <div class="section-header">
-          <h2>Tarifs — formats maîtrisés</h2>
-          <span class="pill">Parler le langage des artistes</span>
+      <section class="section" id="tarifs" data-section>
+        <div class="section-head">
+          <span class="eyebrow">Packs clairs</span>
+          <h2>Tarifs lisibles, licence exclusive</h2>
+          <p class="muted">Choisis le format qui sert ton calendrier. Rien d'inutile, pas d'abonnement.</p>
         </div>
         <div class="pricing-grid">
-          <div class="pricing-card">
-            <div class="badge">À l’unité — Single</div>
-            <h3>Single</h3>
-            <p class="muted">Idéal pour tester un style ou sortir un titre rapidement.</p>
+          <article class="pricing-card">
+            <div class="badge">Single</div>
+            <h3>À l’unité</h3>
             <p class="price">100 €</p>
             <ul class="feature-list">
               <li>✔️ 1 instrumentale exclusive</li>
               <li>✔️ Structure prête à enregistrer</li>
               <li>➕ Mixage : +80 €</li>
             </ul>
-          </div>
-          <div class="pricing-card popular">
-            <div class="badge popular-badge">⭐ Le plus populaire</div>
-            <h3>Pack EP (3 à 5 titres)</h3>
-            <p class="muted">Le format le plus efficace pour construire une identité solide.</p>
+            <p class="muted small">Idéal pour tester un style ou maintenir ta présence.</p>
+          </article>
+          <article class="pricing-card popular">
+            <div class="badge popular-badge">⭐ Pack EP (3 à 5 titres)</div>
+            <h3>Le plus populaire</h3>
             <p class="price">480 € (3 titres) – 750 € (5 titres)</p>
             <ul class="feature-list">
-              <li>✔️ 3 à 5 instrumentales exclusives</li>
-              <li>✔️ Mixage inclus pour chaque titre</li>
+              <li>✔️ Instrumentales exclusives</li>
+              <li>✔️ Mixage inclus sur chaque titre</li>
               <li>✔️ Harmonisation sonore du projet</li>
               <li>✔️ Ajustements prioritaires</li>
               <li>✔️ Accompagnement artistique dédié</li>
             </ul>
-          </div>
-          <div class="pricing-card">
+            <p class="muted small">Format conseillé pour installer ton univers et convertir vite.</p>
+          </article>
+          <article class="pricing-card">
             <div class="badge">Pack Album</div>
-            <h3>Album (8 à 12 titres)</h3>
-            <p class="muted">Pour les artistes avec une vision claire et une fanbase active.</p>
+            <h3>8 à 12 titres</h3>
             <p class="price">Sur devis</p>
             <ul class="feature-list">
-              <li>✔️ 8 à 12 instrumentales exclusives</li>
-              <li>✔️ Mixage complet & cohérence sonore</li>
               <li>✔️ Direction artistique globale</li>
+              <li>✔️ Cohérence & storytelling long</li>
               <li>✔️ Préparation diffusion plateformes</li>
+              <li>✔️ Mixage complet</li>
             </ul>
-          </div>
+            <p class="muted small">Pour les artistes avec vision claire et fanbase active.</p>
+          </article>
         </div>
         <div class="rules">
           <span class="rule">Licence exclusive uniquement</span>
-          <span class="rule">Paiement possible en plusieurs fois (acompte)</span>
-          <span class="rule">Aucun abonnement</span>
           <span class="rule">Planning partagé et validé ensemble</span>
+          <span class="rule">Paiement possible en plusieurs fois</span>
         </div>
       </section>
 
-      <section class="section" id="formats">
-        <div class="section-header">
-          <h2>Comprendre les formats</h2>
-          <span class="pill">Pédagogique & rassurant</span>
+      <section class="section" id="formats" data-section>
+        <div class="section-head">
+          <span class="eyebrow">Comprendre les formats</span>
+          <h2>Choisir le bon format et éviter les erreurs</h2>
+          <p class="muted">Single, EP ou Album : voici quand les utiliser et comment rester cohérent.</p>
         </div>
-        <p class="muted">Choisir le bon format, c’est choisir le bon rythme de sortie. Voici quand opter pour un single, un EP ou un album, et comment éviter les erreurs courantes.</p>
         <div class="edu-grid">
-          <div class="edu-card">
-            <h3>Single</h3>
-            <p class="muted">1 titre unique pour tester ou rester visible.</p>
+          <article class="edu-card">
+            <div class="edu-title">
+              <h3>Single</h3>
+              <span class="pill">1 titre</span>
+            </div>
+            <p>Pour tester un style ou garder ta visibilité.</p>
             <ul class="feature-list">
-              <li>✔️ Tester un style ou une collab</li>
-              <li>✔️ Maintenir la présence entre deux projets</li>
-              <li>⚠️ Erreur à éviter : négliger la promo</li>
+              <li>✔️ Rapide à produire et promouvoir</li>
+              <li>✔️ Idéal pour collaborer</li>
+              <li>⚠️ Erreur : négliger la promo ou la cohérence visuelle</li>
             </ul>
-          </div>
-          <div class="edu-card">
-            <h3>EP</h3>
-            <p class="muted">3 à 5 titres pour installer ton univers.</p>
+            <p class="muted small">Choisis-le pour valider une direction ou nourrir ton audience.</p>
+          </article>
+          <article class="edu-card">
+            <div class="edu-title">
+              <h3>EP</h3>
+              <span class="pill">3-5 titres</span>
+            </div>
+            <p>Format le plus efficace pour installer ton univers.</p>
             <ul class="feature-list">
-              <li>✔️ Suffisant pour montrer la direction</li>
-              <li>✔️ Format le plus crédible pour émerger</li>
-              <li>⚠️ Erreur à éviter : tracks trop différentes</li>
+              <li>✔️ Suffisant pour une narration solide</li>
+              <li>✔️ Budget maîtrisé, impact fort</li>
+              <li>⚠️ Erreur : des tracks trop différentes</li>
             </ul>
-          </div>
-          <div class="edu-card">
-            <h3>Album</h3>
-            <p class="muted">8 titres ou plus pour une vision complète.</p>
+            <p class="muted small">À privilégier pour convertir l'audience et préparer un album.</p>
+          </article>
+          <article class="edu-card">
+            <div class="edu-title">
+              <h3>Album</h3>
+              <span class="pill">8+ titres</span>
+            </div>
+            <p>Vision complète pour artistes déjà suivis.</p>
             <ul class="feature-list">
-              <li>✔️ Cohérence globale, storytelling long</li>
-              <li>✔️ Demande une fanbase et un plan marketing</li>
-              <li>⚠️ Erreur à éviter : calendrier trop serré</li>
+              <li>✔️ Cohérence globale & storytelling long</li>
+              <li>✔️ Convient aux fanbases engagées</li>
+              <li>⚠️ Erreur : calendrier trop serré, budget sous-estimé</li>
             </ul>
-          </div>
+            <p class="muted small">À choisir quand ta communauté attend un projet structuré.</p>
+          </article>
         </div>
       </section>
 
-      <section class="section" id="sorties">
-        <div class="section-header">
-          <h2>Dernières sorties</h2>
-          <span class="pill">Crédibilité & références</span>
+      <section class="section section-contact" id="contact" data-section>
+        <div class="section-head">
+          <span class="eyebrow">Passe à l'action</span>
+          <h2>Écris-moi sur WhatsApp</h2>
+          <p class="muted">Je réponds avec un plan clair : format, étapes, budget et créneau.</p>
         </div>
-        <div id="releasesGrid" class="releases-grid" aria-live="polite"></div>
-      </section>
-
-      <section class="section contact" id="contact">
-        <div class="section-header">
-          <h2>Contact & rendez-vous</h2>
-          <span class="pill">WhatsApp prioritaire</span>
-        </div>
-        <p class="muted">Dis-moi ce que tu veux construire : single, EP ou album. Je te réponds rapidement avec un plan clair, les étapes et un créneau pour avancer.</p>
-        <div class="actions">
-          <a class="btn btn-primary" href="https://wa.me/33600000000?text=Hello%20%21%20Je%20veux%20r%C3%A9server%20une%20instrumentale%20%28Single%2FEP%2FAlbum%29.%20Peux-tu%20me%20donner%20les%20prochaines%20%C3%A9tapes%20et%20un%20cr%C3%A9neau%20%3F" target="_blank" rel="noopener noreferrer">Envoyer sur WhatsApp</a>
-          <a class="btn btn-outline" href="#accueil">Revenir en haut</a>
+        <div class="contact-box">
+          <div>
+            <p>Message pré-rempli :</p>
+            <p class="quote">“Salut, je viens de la page Artiste et je souhaite discuter d’un projet.”</p>
+            <p class="muted">WhatsApp reste le canal prioritaire pour démarrer rapidement.</p>
+          </div>
+          <a class="btn btn-primary btn-large" href="https://wa.me/33600000000?text=Salut%2C%20je%20viens%20de%20la%20page%20Artiste%20et%20je%20souhaite%20discuter%20d%E2%80%99un%20projet." target="_blank" rel="noopener noreferrer">Ouvrir WhatsApp</a>
         </div>
       </section>
     </main>
@@ -238,6 +270,6 @@
 
   <footer class="footer">SZD Studio — Producteur & beatmaker.</footer>
 
-    <script src="assets/artiste.js"></script>
+  <script src="assets/artiste.js"></script>
 </body>
 </html>
