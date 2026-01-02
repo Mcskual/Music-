@@ -2497,7 +2497,12 @@
         box-shadow:var(--shadow);
         overflow:hidden;
       }
-      .artist-toggle{
+      .mobile-artiste-card{
+        display:flex;
+        flex-direction:column;
+        gap:0;
+      }
+      .artiste-toggle{
         width:100%;
         text-align:left;
         padding:12px;
@@ -2505,26 +2510,58 @@
         border:0;
         color:inherit;
         display:flex;
-        align-items:center;
-        justify-content:space-between;
-        gap:10px;
+        flex-direction:column;
+        gap:6px;
         font-weight:700;
         font-size:15px;
         cursor:pointer;
       }
-      .artist-toggle .artist-name{
+      .artiste-row{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:8px;
+      }
+      .artiste-name{
         flex:1;
         min-width:0;
+        font-weight:800;
       }
-      .artist-toggle .artist-chevron{
-        transition:transform .22s ease;
+      .artiste-summary{
+        color:var(--text2);
+        font-size:13px;
+        display:flex;
+        gap:6px;
+        align-items:center;
+        flex-wrap:wrap;
       }
-      .mobile-prestation.is-open .artist-toggle .artist-chevron{
-        transform:rotate(90deg);
+      .artiste-summary .amount-mask{
+        font-weight:700;
+        color:inherit;
       }
-      .artist-details{
+      .artiste-status{
+        font-size:12px;
+        font-weight:800;
+        padding:6px 10px;
+        border-radius:999px;
+        border:1px solid var(--border);
+        background:rgba(255,255,255,0.04);
+        color:inherit;
+        white-space:nowrap;
+      }
+      .artiste-status.relance{
+        color:#f97316;
+        border-color:rgba(249,115,22,.35);
+        background:rgba(249,115,22,.08);
+      }
+      .artiste-status.ok{
+        color:#22c55e;
+        border-color:rgba(34,197,94,.35);
+        background:rgba(34,197,94,.08);
+      }
+      .artiste-details{
         border-top:1px solid var(--border);
-        padding:12px;
+        padding:0 12px 12px;
         background:var(--panel);
         max-height:0;
         opacity:0;
@@ -2532,15 +2569,34 @@
         overflow:hidden;
         transition:max-height .28s ease, opacity .24s ease;
       }
-      .artist-details.hidden{
+      .artiste-details.hidden{
         max-height:0;
         opacity:0;
         pointer-events:none;
       }
-      .mobile-prestation.is-open .artist-details{
-        max-height:820px;
+      .mobile-prestation.is-open .artiste-details{
+        max-height:1200px;
         opacity:1;
         pointer-events:auto;
+      }
+      .artiste-chevron{
+        transition:transform .22s ease;
+      }
+      .mobile-prestation.is-open .artiste-toggle .artiste-chevron{
+        transform:rotate(90deg);
+      }
+      .mobile-prestation-list{
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        margin-top:10px;
+      }
+      .mobile-prestation-detail{
+        background:var(--card);
+        border:1px solid var(--border);
+        border-radius:12px;
+        padding:10px;
+        box-shadow:var(--shadow);
       }
       .mobile-header-actions{
         display:flex;
@@ -2548,7 +2604,7 @@
         align-items:flex-end;
         gap:6px;
       }
-      .artist-toggle{
+      .artiste-toggle{
         font-weight:700;
         font-size:15px;
       }
@@ -4974,14 +5030,194 @@
         showStatus("Prestation supprimée.");
       }
 
+      function normalizeArtistLabel(name){
+        const base = (name || "Artiste").trim();
+        return base || "Artiste";
+      }
+
+      function groupRecordsByArtist(records){
+        const groups = new Map();
+        (records || []).forEach(r => {
+          const display = normalizeArtistLabel(r.client);
+          const key = display.toLowerCase();
+          if(!groups.has(key)){
+            groups.set(key, { key, name: display, records: [], remaining: 0, count: 0, late: false });
+          }
+          const group = groups.get(key);
+          const remaining = getRemaining(r);
+          group.records.push(r);
+          group.count += 1;
+          group.remaining += remaining;
+          const delay = getDelayState(r);
+          const unpaid = remaining > 0;
+          if(unpaid && delay){
+            group.late = true;
+          }
+        });
+        return Array.from(groups.values());
+      }
+
+      function buildMobilePrestationDetail(r){
+        const paid = getPaid(r);
+        const remaining = getRemaining(r);
+        const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(paid/r.montant*100)) : 0;
+        let cls = "muted";
+        let label = "Non payé";
+        if(isSettled(r)){
+          cls = "paid"; label = "Payé";
+        }else if(paid > 0){
+          cls = "partial"; label = "Partiel";
+        }
+
+        const detail = document.createElement("div");
+        detail.className = "mobile-prestation-detail";
+
+        const body = document.createElement("div");
+        body.className = "mobile-card-body";
+
+        const header = document.createElement("div");
+        header.className = "mobile-card-header";
+
+        const left = document.createElement("div");
+        left.className = "client-cell";
+        const clientRow = document.createElement("div");
+        clientRow.className = "client-main";
+        const clientEl = document.createElement("div");
+        clientEl.className = "client";
+        clientEl.textContent = r.client || "";
+        clientRow.appendChild(clientEl);
+        const meta = document.createElement("div");
+        meta.className = "mobile-meta";
+        meta.textContent = (r.type || "") + (r.description ? " — " + r.description : "");
+        left.appendChild(clientRow);
+        left.appendChild(meta);
+        header.appendChild(left);
+
+        const headerActions = document.createElement("div");
+        headerActions.className = "mobile-header-actions";
+        const pill = document.createElement("span");
+        pill.className = "status-pill " + cls + " mobile-status";
+        const dot = document.createElement("span");
+        dot.className = "dot";
+        const text = document.createElement("span");
+        text.textContent = label;
+        pill.appendChild(dot);
+        pill.appendChild(text);
+        headerActions.appendChild(pill);
+
+        const deliveryBtn = document.createElement("button");
+        deliveryBtn.type = "button";
+        deliveryBtn.className = "delivery-pill";
+        deliveryBtn.dataset.deliveryId = r.id;
+        deliveryBtn.innerHTML = `<span class="dot"></span><span class="delivery-label"></span>`;
+        applyDeliveryState(deliveryBtn, getDeliveryStatus(r.id));
+        deliveryBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          toggleDeliveryStatus(r.id);
+        });
+        headerActions.appendChild(deliveryBtn);
+        header.appendChild(headerActions);
+        body.appendChild(header);
+
+        const dateRow = document.createElement("div");
+        dateRow.className = "mobile-meta";
+        dateRow.textContent = r.date ? `Date : ${r.date}` : "Date non renseignée";
+        body.appendChild(dateRow);
+
+        const amounts = document.createElement("div");
+        amounts.className = "mobile-amounts";
+        [
+          {label:"Facturé", value: eur(r.montant || 0)},
+          {label:"Reçu", value: eur(paid)},
+          {label:"Restant", value: eur(remaining)}
+        ].forEach(item => {
+          const wrap = document.createElement("div");
+          const l = document.createElement("div");
+          l.className = "label";
+          l.textContent = item.label;
+          const v = document.createElement("div");
+          v.className = "value amount-mask";
+          v.textContent = item.value;
+          wrap.appendChild(l);
+          wrap.appendChild(v);
+          amounts.appendChild(wrap);
+        });
+        body.appendChild(amounts);
+
+        const progress = document.createElement("div");
+        progress.className = "mobile-progress";
+        const progressHead = document.createElement("div");
+        progressHead.className = "cap-row-progress-label";
+        progressHead.innerHTML = `<span>Avancement</span><span>${percent} %</span>`;
+        const bar = document.createElement("div");
+        bar.className = "progress";
+        const inner = document.createElement("div");
+        inner.className = "progress-inner";
+        inner.style.width = percent + "%";
+        bar.appendChild(inner);
+        progress.appendChild(progressHead);
+        progress.appendChild(bar);
+        body.appendChild(progress);
+
+        const historySection = document.createElement("div");
+        historySection.className = "details-section";
+        const historyTitle = document.createElement("div");
+        historyTitle.className = "details-title";
+        historyTitle.textContent = "Historique des règlements";
+        historySection.appendChild(historyTitle);
+        historySection.appendChild(buildHistoryList(r));
+        body.appendChild(historySection);
+
+        const actions = document.createElement("div");
+        actions.className = "mobile-card-actions";
+        const encBtn = document.createElement("button");
+        encBtn.type = "button";
+        encBtn.className = "btn btn-primary mobile-full-btn";
+        encBtn.textContent = "Encaisser";
+        encBtn.addEventListener("click", () => handleEncaisser(r));
+        const secondary = document.createElement("div");
+        secondary.className = "mobile-secondary-actions";
+        const editBtn = document.createElement("button");
+        editBtn.type = "button";
+        editBtn.className = "btn btn-outline";
+        editBtn.textContent = "Modifier";
+        editBtn.addEventListener("click", () => handleEdit(r));
+        const delBtn = document.createElement("button");
+        delBtn.type = "button";
+        delBtn.className = "btn btn-outline";
+        delBtn.textContent = "Supprimer";
+        delBtn.addEventListener("click", () => handleDelete(r));
+        const noteBtn = document.createElement("button");
+        noteBtn.type = "button";
+        noteBtn.className = "note-btn";
+        noteBtn.dataset.noteId = r.id;
+        noteBtn.setAttribute("aria-label", "Note interne");
+        noteBtn.textContent = "✎";
+        updateNoteIndicator(noteBtn, getNoteValue(r.id));
+        noteBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          openNotePopover(noteBtn, r.id);
+        });
+        secondary.appendChild(editBtn);
+        secondary.appendChild(delBtn);
+        secondary.appendChild(noteBtn);
+        actions.appendChild(encBtn);
+        actions.appendChild(secondary);
+        body.appendChild(actions);
+
+        detail.appendChild(body);
+        return detail;
+      }
+
       function setMobileCardState(card, open){
         if(!card) return;
-        const panel = card.querySelector(".artist-details");
-        const trigger = card.querySelector(".artist-toggle");
+        const panel = card.querySelector(".artiste-details");
+        const trigger = card.querySelector(".artiste-toggle");
         if(!panel || !trigger) return;
         trigger.setAttribute("aria-expanded", open ? "true" : "false");
         panel.setAttribute("aria-hidden", open ? "false" : "true");
         card.classList.toggle("is-open", !!open);
+        panel.classList.toggle("hidden", !open);
         const fullHeight = panel.scrollHeight;
         panel.style.maxHeight = open ? fullHeight + "px" : "0px";
         panel.style.opacity = open ? "1" : "0";
@@ -5005,14 +5241,15 @@
           return;
         }
 
-        if(openMobileCardId && !records.some(rec => String(rec.id) === String(openMobileCardId))){
+        const groups = groupRecordsByArtist(records);
+        if(openMobileCardId && !groups.some(group => String(group.key) === String(openMobileCardId))){
           openMobileCardId = null;
         }
 
         mobileCards.setAttribute("aria-hidden","false");
         mobileCards.innerHTML = "";
 
-        if(!records.length){
+        if(!groups.length){
           openMobileCardId = null;
           const empty = document.createElement("div");
           empty.className = "mobile-prestation mobile-empty";
@@ -5021,184 +5258,76 @@
           return;
         }
 
-        records.forEach(r => {
-          const paid = getPaid(r);
-          const remaining = getRemaining(r);
-          const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(paid/r.montant*100)) : 0;
-          const isOpen = openMobileCardId && String(openMobileCardId) === String(r.id);
+        groups.sort((a, b) => {
+          if(a.late && !b.late) return -1;
+          if(!a.late && b.late) return 1;
+          return a.name.localeCompare(b.name, "fr", {sensitivity:"base"});
+        });
 
-          let cls = "muted";
-          let label = "Non payé";
-          if(isSettled(r)){
-            cls = "paid"; label = "Payé";
-          }else if(paid > 0){
-            cls = "partial"; label = "Partiel";
-          }
-
+        groups.forEach(group => {
+          const isOpen = openMobileCardId && String(openMobileCardId) === String(group.key);
           const card = document.createElement("div");
-          card.className = "mobile-prestation";
-          card.dataset.id = String(r.id);
+          card.className = "mobile-prestation mobile-artiste-card";
+          card.dataset.id = String(group.key);
 
-          const panelId = `mobile-panel-${r.id}`;
+          const panelId = `mobile-panel-${group.key}`;
           const trigger = document.createElement("button");
           trigger.type = "button";
-          trigger.className = "artist-toggle";
+          trigger.className = "artiste-toggle";
           trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
           trigger.setAttribute("aria-controls", panelId);
 
+          const headerRow = document.createElement("div");
+          headerRow.className = "artiste-row";
           const title = document.createElement("span");
-          title.className = "artist-name";
-          title.textContent = r.client || "Artiste";
-          trigger.appendChild(title);
-
+          title.className = "artiste-name";
+          title.textContent = group.name;
+          headerRow.appendChild(title);
+          const status = document.createElement("span");
+          status.className = "artiste-status " + (group.late ? "relance" : "ok");
+          status.textContent = group.late ? "À relancer" : "OK";
+          headerRow.appendChild(status);
           const chevron = document.createElement("span");
-          chevron.className = "artist-chevron";
+          chevron.className = "artiste-chevron";
           chevron.textContent = "▸";
-          trigger.appendChild(chevron);
+          headerRow.appendChild(chevron);
+          trigger.appendChild(headerRow);
 
-          trigger.addEventListener("click", () => toggleMobileCard(String(r.id)));
+          const summary = document.createElement("div");
+          summary.className = "artiste-summary";
+          const count = document.createElement("span");
+          count.textContent = `${group.count} prestation${group.count > 1 ? "s" : ""}`;
+          const sep = document.createElement("span");
+          sep.textContent = "·";
+          const remaining = document.createElement("span");
+          remaining.className = "amount-mask";
+          remaining.textContent = eur(group.remaining || 0);
+          const remainingWrap = document.createElement("span");
+          remainingWrap.appendChild(document.createTextNode(" "));
+          remainingWrap.appendChild(remaining);
+          remainingWrap.appendChild(document.createTextNode(" restant"));
+          summary.appendChild(count);
+          summary.appendChild(sep);
+          summary.appendChild(remainingWrap);
+          trigger.appendChild(summary);
+
+          trigger.addEventListener("click", () => toggleMobileCard(String(group.key)));
           card.appendChild(trigger);
 
           const panel = document.createElement("div");
-          panel.className = "artist-details";
+          panel.className = "artiste-details hidden";
           panel.id = panelId;
           panel.setAttribute("role","region");
           panel.setAttribute("aria-hidden", isOpen ? "false" : "true");
 
-          const body = document.createElement("div");
-          body.className = "mobile-card-body";
-
-          const header = document.createElement("div");
-          header.className = "mobile-card-header";
-
-          const left = document.createElement("div");
-          left.className = "client-cell";
-          const clientRow = document.createElement("div");
-          clientRow.className = "client-main";
-          const clientEl = document.createElement("div");
-          clientEl.className = "client";
-          clientEl.textContent = r.client || "";
-          clientRow.appendChild(clientEl);
-          const meta = document.createElement("div");
-          meta.className = "mobile-meta";
-          meta.textContent = (r.type || "") + (r.description ? " — " + r.description : "");
-          left.appendChild(clientRow);
-          left.appendChild(meta);
-          header.appendChild(left);
-
-          const headerActions = document.createElement("div");
-          headerActions.className = "mobile-header-actions";
-          const pill = document.createElement("span");
-          pill.className = "status-pill " + cls + " mobile-status";
-          const dot = document.createElement("span");
-          dot.className = "dot";
-          const text = document.createElement("span");
-          text.textContent = label;
-          pill.appendChild(dot);
-          pill.appendChild(text);
-          headerActions.appendChild(pill);
-
-          const deliveryBtn = document.createElement("button");
-          deliveryBtn.type = "button";
-          deliveryBtn.className = "delivery-pill";
-          deliveryBtn.dataset.deliveryId = r.id;
-          deliveryBtn.innerHTML = `<span class="dot"></span><span class="delivery-label"></span>`;
-          applyDeliveryState(deliveryBtn, getDeliveryStatus(r.id));
-          deliveryBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleDeliveryStatus(r.id);
+          const list = document.createElement("div");
+          list.className = "mobile-prestation-list";
+          const ordered = [...group.records].sort((a, b) => (a.date || "").localeCompare(b.date || ""));
+          ordered.forEach(rec => {
+            list.appendChild(buildMobilePrestationDetail(rec));
           });
-          headerActions.appendChild(deliveryBtn);
-          header.appendChild(headerActions);
-          body.appendChild(header);
+          panel.appendChild(list);
 
-          const dateRow = document.createElement("div");
-          dateRow.className = "mobile-meta";
-          dateRow.textContent = r.date ? `Date : ${r.date}` : "Date non renseignée";
-          body.appendChild(dateRow);
-
-          const amounts = document.createElement("div");
-          amounts.className = "mobile-amounts";
-          [
-            {label:"Facturé", value: eur(r.montant || 0)},
-            {label:"Reçu", value: eur(paid)},
-            {label:"Restant", value: eur(remaining)}
-          ].forEach(item => {
-            const wrap = document.createElement("div");
-            const l = document.createElement("div");
-            l.className = "label";
-            l.textContent = item.label;
-            const v = document.createElement("div");
-            v.className = "value amount-mask";
-            v.textContent = item.value;
-            wrap.appendChild(l);
-            wrap.appendChild(v);
-            amounts.appendChild(wrap);
-          });
-          body.appendChild(amounts);
-
-          const progress = document.createElement("div");
-          progress.className = "mobile-progress";
-          const progressHead = document.createElement("div");
-          progressHead.className = "cap-row-progress-label";
-          progressHead.innerHTML = `<span>Avancement</span><span>${percent} %</span>`;
-          const bar = document.createElement("div");
-          bar.className = "progress";
-          const inner = document.createElement("div");
-          inner.className = "progress-inner";
-          inner.style.width = percent + "%";
-          bar.appendChild(inner);
-          progress.appendChild(progressHead);
-          progress.appendChild(bar);
-          body.appendChild(progress);
-
-          const historySection = document.createElement("div");
-          historySection.className = "details-section";
-          const historyTitle = document.createElement("div");
-          historyTitle.className = "details-title";
-          historyTitle.textContent = "Historique des règlements";
-          historySection.appendChild(historyTitle);
-          historySection.appendChild(buildHistoryList(r));
-          body.appendChild(historySection);
-
-          const actions = document.createElement("div");
-          actions.className = "mobile-card-actions";
-          const encBtn = document.createElement("button");
-          encBtn.type = "button";
-          encBtn.className = "btn btn-primary mobile-full-btn";
-          encBtn.textContent = "Encaisser";
-          encBtn.addEventListener("click", () => handleEncaisser(r));
-          const secondary = document.createElement("div");
-          secondary.className = "mobile-secondary-actions";
-          const editBtn = document.createElement("button");
-          editBtn.type = "button";
-          editBtn.className = "btn btn-outline";
-          editBtn.textContent = "Modifier";
-          editBtn.addEventListener("click", () => handleEdit(r));
-          const delBtn = document.createElement("button");
-          delBtn.type = "button";
-          delBtn.className = "btn btn-outline";
-          delBtn.textContent = "Supprimer";
-          delBtn.addEventListener("click", () => handleDelete(r));
-          const noteBtn = document.createElement("button");
-          noteBtn.type = "button";
-          noteBtn.className = "note-btn";
-          noteBtn.dataset.noteId = r.id;
-          noteBtn.setAttribute("aria-label", "Note interne");
-          noteBtn.textContent = "✎";
-          updateNoteIndicator(noteBtn, getNoteValue(r.id));
-          noteBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            openNotePopover(noteBtn, r.id);
-          });
-          secondary.appendChild(editBtn);
-          secondary.appendChild(delBtn);
-          secondary.appendChild(noteBtn);
-          actions.appendChild(encBtn);
-          actions.appendChild(secondary);
-          body.appendChild(actions);
-
-          panel.appendChild(body);
           card.appendChild(panel);
           mobileCards.appendChild(card);
           setMobileCardState(card, !!isOpen);
