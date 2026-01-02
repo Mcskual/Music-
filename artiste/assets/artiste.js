@@ -27,21 +27,35 @@
     try { saved = localStorage.getItem(THEME_KEY); } catch(e) {}
     const initialTheme = saved === "light" ? "light" : "dark";
     applyTheme(initialTheme);
-    toggle.checked = initialTheme !== "light";
+
+    const isCheckbox = toggle.tagName === "INPUT" && toggle.type === "checkbox";
+    const syncToggle = (theme) => {
+      if(isCheckbox) toggle.checked = theme !== "light";
+      toggle.setAttribute("data-mode", theme);
+    };
+    syncToggle(initialTheme);
 
     const persistTheme = (theme) => {
       applyTheme(theme);
-      toggle.checked = theme !== "light";
+      syncToggle(theme);
       try { localStorage.setItem(THEME_KEY, theme); } catch(e) {}
     };
 
-    toggle.addEventListener("change", () => {
-      const next = toggle.checked ? "dark" : "light";
-      persistTheme(next);
-    });
+    if(isCheckbox){
+      toggle.addEventListener("change", () => {
+        const next = toggle.checked ? "dark" : "light";
+        persistTheme(next);
+      });
+    } else {
+      toggle.addEventListener("click", () => {
+        const currentTheme = document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
+        const next = currentTheme === "light" ? "dark" : "light";
+        persistTheme(next);
+      });
+    }
 
     const themeIcon = document.querySelector(".theme-icon");
-    if(themeIcon){
+    if(themeIcon && themeIcon.closest("button") !== toggle){
       themeIcon.setAttribute("role","button");
       themeIcon.setAttribute("tabindex","0");
       themeIcon.addEventListener("click", () => {
@@ -94,6 +108,34 @@
 
     window.addEventListener("resize", () => {
       if(window.innerWidth >= 960){ closeNav(nav, navToggle); }
+    });
+  }
+
+  function initHeaderMenu(){
+    const nav = document.getElementById("primaryNav");
+    const menuToggle = document.getElementById("menuToggle");
+    if(!nav || !menuToggle) return;
+
+    const closeMenu = () => {
+      nav.classList.remove("is-open");
+      menuToggle.classList.remove("is-open");
+      menuToggle.setAttribute("aria-expanded","false");
+      nav.setAttribute("aria-expanded","false");
+    };
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = nav.classList.toggle("is-open");
+      menuToggle.classList.toggle("is-open", isOpen);
+      menuToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      nav.setAttribute("aria-expanded", isOpen ? "true" : "false");
+    });
+
+    nav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => closeMenu());
+    });
+
+    window.addEventListener("resize", () => {
+      if(window.innerWidth >= 960) closeMenu();
     });
   }
 
@@ -169,6 +211,7 @@
   document.addEventListener("DOMContentLoaded", () => {
     initTheme();
     initNav();
+    initHeaderMenu();
     initSectionObserver();
     initReleases();
   });

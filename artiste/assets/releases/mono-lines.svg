@@ -1,0 +1,25 @@
+<svg width="900" height="900" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Lignes monochromes</title>
+  <desc id="desc">Dégradés violets et bleus avec motif ondulé</desc>
+  <defs>
+    <linearGradient id="waves" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#312e81"/>
+      <stop offset="50%" stop-color="#4338ca"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="gloss" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#818cf8" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0.8"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="900" fill="#0b1021"/>
+  <g stroke="url(#waves)" stroke-width="18" fill="none" opacity="0.85">
+    <path d="M-40 220 C180 120, 360 200, 520 260 S860 420, 940 200"/>
+    <path d="M-20 460 C160 360, 340 460, 520 520 S820 660, 940 480"/>
+    <path d="M-40 700 C120 600, 320 680, 520 760 S880 920, 960 660"/>
+  </g>
+  <rect x="140" y="160" width="620" height="180" rx="32" fill="#0f172a" opacity="0.7"/>
+  <rect x="180" y="620" width="540" height="80" rx="20" fill="url(#gloss)" opacity="0.9"/>
+  <text x="200" y="250" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-size="84" font-weight="700" fill="#e0e7ff" letter-spacing="3">NOCTURNE</text>
+  <text x="200" y="710" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-size="44" font-weight="600" fill="#0b1021" letter-spacing="6">SZD</text>
+</svg>

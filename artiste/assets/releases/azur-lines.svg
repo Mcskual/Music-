@@ -1,0 +1,23 @@
+<svg width="900" height="900" viewBox="0 0 900 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Texture bleu azur</title>
+  <desc id="desc">Formes géométriques fluides avec dégradés bleus et verts</desc>
+  <defs>
+    <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="50%" stop-color="#0ea5e9"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="30%" cy="25%" r="60%">
+      <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="900" height="900" fill="#0b1224"/>
+  <rect width="900" height="900" fill="url(#glow)"/>
+  <g stroke="url(#g1)" stroke-width="14" fill="none" opacity="0.75">
+    <path d="M80 220 C240 120, 420 160, 620 230 S860 360, 820 520 640 760, 460 780 180 700, 120 520 140 320, 300 260 520 320, 620 480"/>
+    <path d="M120 140 C280 60, 520 80, 700 180 S860 380, 780 560 620 760, 380 740 180 620, 140 420 180 260, 360 240 560 300, 680 480"/>
+  </g>
+  <circle cx="720" cy="180" r="120" fill="#38bdf8" opacity="0.08"/>
+  <text x="70" y="820" font-family="'Inter', 'Helvetica Neue', Arial, sans-serif" font-size="96" font-weight="700" fill="#e0f2fe" letter-spacing="2">SZD</text>
+</svg>
