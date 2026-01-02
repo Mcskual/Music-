@@ -33,13 +33,12 @@
         </button>
       </div>
       <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale" aria-expanded="false">
-        <a class="nav-link" data-page-link="home" href="/artiste/">Accueil</a>
-        <a class="nav-link" data-page-link="sorties" href="/artiste/sorties.html">Sorties</a>
-        <a class="nav-link" data-page-link="instrus" href="/artiste/instrus.html">Instrus</a>
-        <a class="nav-link" data-page-link="tarifs" href="/artiste/tarifs.html">Tarifs</a>
-        <a class="nav-link" data-page-link="faq" href="/artiste/faq.html">FAQ</a>
-        <a class="nav-link" data-page-link="apropos" href="/artiste/a-propos.html">À propos</a>
-        <a class="nav-link" data-page-link="contact" href="/artiste/contact.html">Contact</a>
+        <a class="nav-link" data-active-pages="home" href="/artiste/">Accueil</a>
+        <a class="nav-link" data-active-pages="home" href="/artiste/#sorties">Sorties</a>
+        <a class="nav-link" data-active-pages="instrus" href="/artiste/instrus.html">Instrus</a>
+        <a class="nav-link" data-active-pages="tarifs" href="/artiste/tarifs.html">Tarifs</a>
+        <a class="nav-link" data-active-pages="apropos" href="/artiste/qui-suis-je.html">À propos</a>
+        <a class="nav-link" data-active-pages="contact" href="/artiste/contact.html">Contact</a>
       </nav>
     </div>
   </header>
@@ -48,7 +47,7 @@
     <section class="hero">
       <div class="eyebrow">Contact</div>
       <h1>Parlons de ton prochain titre</h1>
-      <p class="lead">Un message synthétique suffit : style, références, deadline. Je reviens avec un plan clair et un budget maîtrisé.</p>
+      <p class="lead">WhatsApp direct avec message pré-rempli. Objectif : style, références, deadline. Je reviens avec un plan clair et un budget maîtrisé.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="https://wa.me/33600000000?text=Salut%2C%20je%20veux%20lancer%20un%20projet%20avec%20toi." target="_blank" rel="noopener noreferrer">WhatsApp prioritaire</a>
         <a class="btn btn-ghost" href="mailto:contact@szd.studio?subject=Projet%20artistique">Envoyer un mail</a>
@@ -91,7 +90,21 @@
     </section>
   </main>
 
-  <footer class="footer">SZD Studio — Producteur & beatmaker.</footer>
+  <footer class="footer-shell">
+    <div class="site-footer">
+      <div class="footer-links">
+        <a class="footer-link" href="/artiste/">Accueil</a>
+        <a class="footer-link" href="/artiste/#sorties">Sorties</a>
+        <a class="footer-link" href="/artiste/instrus.html">Instrus</a>
+        <a class="footer-link" href="/artiste/tarifs.html">Tarifs</a>
+        <a class="footer-link" href="/artiste/qui-suis-je.html">À propos</a>
+        <a class="footer-link" href="/artiste/contact.html">Contact</a>
+        <a class="footer-link" href="#">Mentions légales</a>
+      </div>
+      <p class="footer-meta">Copyright SZD Studio — production, mix & accompagnement.</p>
+    </div>
+  </footer>
+
   <script src="assets/artiste.js"></script>
 </body>
 </html>

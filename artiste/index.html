@@ -33,22 +33,21 @@
         </button>
       </div>
       <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale" aria-expanded="false">
-        <a class="nav-link" data-page-link="home" href="/artiste/">Accueil</a>
-        <a class="nav-link" data-page-link="sorties" href="/artiste/sorties.html">Sorties</a>
-        <a class="nav-link" data-page-link="instrus" href="/artiste/instrus.html">Instrus</a>
-        <a class="nav-link" data-page-link="tarifs" href="/artiste/tarifs.html">Tarifs</a>
-        <a class="nav-link" data-page-link="faq" href="/artiste/faq.html">FAQ</a>
-        <a class="nav-link" data-page-link="apropos" href="/artiste/a-propos.html">À propos</a>
-        <a class="nav-link" data-page-link="contact" href="/artiste/contact.html">Contact</a>
+        <a class="nav-link" data-active-pages="home" href="/artiste/">Accueil</a>
+        <a class="nav-link" data-active-pages="home" href="/artiste/#sorties">Sorties</a>
+        <a class="nav-link" data-active-pages="instrus" href="/artiste/instrus.html">Instrus</a>
+        <a class="nav-link" data-active-pages="tarifs" href="/artiste/tarifs.html">Tarifs</a>
+        <a class="nav-link" data-active-pages="apropos" href="/artiste/qui-suis-je.html">À propos</a>
+        <a class="nav-link" data-active-pages="contact" href="/artiste/contact.html">Contact</a>
       </nav>
     </div>
   </header>
 
   <main class="page-shell">
-    <section class="hero">
+    <section class="hero" id="sorties">
       <div class="eyebrow">Références récentes</div>
       <h1>Sorties à la une</h1>
-      <p class="lead">Vitrine sobre et précise : les sorties réelles suivies du brief à la livraison. Chaque carte reflète un accompagnement complet, mixage compris.</p>
+      <p class="lead">Catalogue premium, livré comme une app : cartes claires, CTA directs, aucune fioriture. Chaque morceau est suivi du brief à la mise en ligne.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer">Écouter une sélection</a>
         <a class="btn btn-ghost" href="/artiste/tarifs.html">Voir les tarifs</a>
@@ -99,7 +98,20 @@
     </section>
   </main>
 
-  <footer class="footer">SZD Studio — Producteur & beatmaker.</footer>
+  <footer class="footer-shell">
+    <div class="site-footer">
+      <div class="footer-links">
+        <a class="footer-link" href="/artiste/">Accueil</a>
+        <a class="footer-link" href="/artiste/#sorties">Sorties</a>
+        <a class="footer-link" href="/artiste/instrus.html">Instrus</a>
+        <a class="footer-link" href="/artiste/tarifs.html">Tarifs</a>
+        <a class="footer-link" href="/artiste/qui-suis-je.html">À propos</a>
+        <a class="footer-link" href="/artiste/contact.html">Contact</a>
+        <a class="footer-link" href="#">Mentions légales</a>
+      </div>
+      <p class="footer-meta">Copyright SZD Studio — production, mix & accompagnement.</p>
+    </div>
+  </footer>
 
   <script src="assets/artiste.js"></script>
 </body>

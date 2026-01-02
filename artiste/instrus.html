@@ -33,13 +33,12 @@
         </button>
       </div>
       <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale" aria-expanded="false">
-        <a class="nav-link" data-page-link="home" href="/artiste/">Accueil</a>
-        <a class="nav-link" data-page-link="sorties" href="/artiste/sorties.html">Sorties</a>
-        <a class="nav-link" data-page-link="instrus" href="/artiste/instrus.html">Instrus</a>
-        <a class="nav-link" data-page-link="tarifs" href="/artiste/tarifs.html">Tarifs</a>
-        <a class="nav-link" data-page-link="faq" href="/artiste/faq.html">FAQ</a>
-        <a class="nav-link" data-page-link="apropos" href="/artiste/a-propos.html">À propos</a>
-        <a class="nav-link" data-page-link="contact" href="/artiste/contact.html">Contact</a>
+        <a class="nav-link" data-active-pages="home" href="/artiste/">Accueil</a>
+        <a class="nav-link" data-active-pages="home" href="/artiste/#sorties">Sorties</a>
+        <a class="nav-link" data-active-pages="instrus" href="/artiste/instrus.html">Instrus</a>
+        <a class="nav-link" data-active-pages="tarifs" href="/artiste/tarifs.html">Tarifs</a>
+        <a class="nav-link" data-active-pages="apropos" href="/artiste/qui-suis-je.html">À propos</a>
+        <a class="nav-link" data-active-pages="contact" href="/artiste/contact.html">Contact</a>
       </nav>
     </div>
   </header>
@@ -47,11 +46,31 @@
   <main class="page-shell">
     <section class="hero">
       <div class="eyebrow">Instrumentales professionnelles</div>
-      <h1>Des instrus taillées pour ta voix</h1>
-      <p class="lead">Afro, drill, trap ou RnB : chaque production est pensée pour que ton flow s’installe immédiatement. Brief concis, livrables prêts à enregistrer.</p>
+      <h1>Lecteur audio type Spotify</h1>
+      <p class="lead">YouTube IFrame API, vidéo masquée, un seul player global. Play/pause custom, progress bar fluide et surbrillance de l’instru active.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="/artiste/tarifs.html">Choisir un pack</a>
         <a class="btn btn-ghost" href="https://wa.me/33600000000?text=Salut%2C%20je%20viens%20de%20la%20page%20Instrus%20et%20je%20veux%20parler%20d%E2%80%99un%20titre." target="_blank" rel="noopener noreferrer">WhatsApp direct</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <span class="eyebrow">Catalogue audio</span>
+        <h2>Un seul player, plusieurs instrus</h2>
+        <p class="muted">Miniatures automatiques, lecture unique, stop des autres pistes. L’UI reste sombre et mobile-first.</p>
+      </div>
+      <div class="instru-grid" data-instrus-grid aria-live="polite"></div>
+      <div class="mini-player" data-mini-player>
+        <div>
+          <p class="mini-title" data-mini-title>Lecture en attente</p>
+          <p class="mini-artist" data-mini-artist></p>
+        </div>
+        <button class="play-btn" type="button" data-mini-toggle aria-label="Lire ou mettre en pause">
+          <span class="icon-play">▶</span>
+          <span class="icon-pause">❚❚</span>
+        </button>
+        <a class="btn btn-quiet" href="https://wa.me/33600000000?text=Je%20veux%20valider%20cette%20instru%20SZD%20Studio" target="_blank" rel="noopener noreferrer">Brief rapide</a>
       </div>
     </section>
 
@@ -65,7 +84,7 @@
         <article class="card">
           <div class="badge">Direction</div>
           <h3>Brief en moins de 10 minutes</h3>
-          <p class="muted">Références, tempo, tonalité et mood. On valide rapidement pour passer en production sans perdre d’énergie.</p>
+          <p class="muted">Références, tempo, tonalité et mood. On valide rapidement pour passer en production sans perte d’énergie.</p>
         </article>
         <article class="card">
           <div class="badge">Structure</div>
@@ -74,67 +93,28 @@
         </article>
       </div>
     </section>
-
-    <section class="section">
-      <div class="section-head">
-        <span class="eyebrow">Livrables</span>
-        <h2>Ce que tu reçois systématiquement</h2>
-        <p class="muted">Des fichiers propres, exploitables et cohérents avec les standards plateforme.</p>
-      </div>
-      <div class="cards-grid two-col">
-        <article class="card">
-          <div class="badge">Technique</div>
-          <ul class="feature-list">
-            <li>✔️ Stems séparés et nommés</li>
-            <li>✔️ Export pré-mixé avec headroom</li>
-            <li>✔️ BPM & tonalité documentés</li>
-          </ul>
-          <p class="note">Un rendu exploitable pour ton ingénieur ou pour poursuivre au studio.</p>
-        </article>
-        <article class="card">
-          <div class="badge">Suivi</div>
-          <ul class="feature-list">
-            <li>✔️ Ajustements mineurs inclus</li>
-            <li>✔️ Option mixage et pré-master</li>
-            <li>✔️ Delivery cloud sécurisé</li>
-          </ul>
-          <p class="note">Toujours une même logique : clarté, disponibilité, délais tenus.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <span class="eyebrow">Engagements</span>
-        <h2>Lisible, premium, sans surplus</h2>
-        <p class="muted">Pas d’effets décoratifs, pas de licences douteuses. Juste des instrus exclusives et un accompagnement humain.</p>
-      </div>
-      <div class="cards-grid three-col">
-        <article class="card">
-          <h3>Exclusivité</h3>
-          <p class="muted">Chaque instru est unique et retirée du catalogue dès validation.</p>
-        </article>
-        <article class="card">
-          <h3>Communication</h3>
-          <p class="muted">Retour rapide, points réguliers, recap partagé pour éviter les surprises.</p>
-        </article>
-        <article class="card">
-          <h3>Résultat</h3>
-          <p class="muted">Un rendu sombre, moderne, inspiré de références premium sans copier.</p>
-        </article>
-      </div>
-      <div class="cta-panel">
-        <div>
-          <p class="eyebrow">Prêt à avancer</p>
-          <h3>Planifions la prochaine instru</h3>
-          <p class="muted">Envoie ton mood, deux références et une date cible. Je réponds avec un calendrier simple.</p>
-        </div>
-        <a class="btn btn-primary" href="/artiste/tarifs.html">Voir les packs</a>
-      </div>
-    </section>
   </main>
 
-  <footer class="footer">SZD Studio — Producteur & beatmaker.</footer>
+  <div class="player-shell" aria-hidden="true">
+    <div id="yt-player"></div>
+  </div>
+
+  <footer class="footer-shell">
+    <div class="site-footer">
+      <div class="footer-links">
+        <a class="footer-link" href="/artiste/">Accueil</a>
+        <a class="footer-link" href="/artiste/#sorties">Sorties</a>
+        <a class="footer-link" href="/artiste/instrus.html">Instrus</a>
+        <a class="footer-link" href="/artiste/tarifs.html">Tarifs</a>
+        <a class="footer-link" href="/artiste/qui-suis-je.html">À propos</a>
+        <a class="footer-link" href="/artiste/contact.html">Contact</a>
+        <a class="footer-link" href="#">Mentions légales</a>
+      </div>
+      <p class="footer-meta">Copyright SZD Studio — production, mix & accompagnement.</p>
+    </div>
+  </footer>
+
   <script src="assets/artiste.js"></script>
+  <script src="assets/player.js"></script>
 </body>
 </html>
