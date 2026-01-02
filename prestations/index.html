@@ -652,13 +652,8 @@
     }
     th,td{
       padding:7px 8px;
-      border-bottom:1px solid #111827;
       text-align:left;
       vertical-align:top;
-    }
-    [data-theme="light"] th,
-    [data-theme="light"] td{
-      border-bottom:1px solid #e5e7eb;
     }
     th{
       font-weight:500;
@@ -666,50 +661,54 @@
       color:#9ca3af;
       white-space:nowrap;
       background:rgba(15,23,42,.85);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    td{
+      border-bottom:none;
     }
     [data-theme="light"] th{
       background:#f3f4f6;
       color:#6b7280;
+      border-bottom:1px solid rgba(15,23,42,.08);
+    }
+    .prestations-table,
+    .prestations-table th,
+    .prestations-table td,
+    .prestations-table *{
+      border-left:none !important;
+      border-right:none !important;
     }
     .prestations-table{
       border-spacing:0;
     }
     .prestations-table tbody tr{
-      background:color-mix(in srgb, var(--card) 88%, transparent);
-      transition:background .18s ease, box-shadow .18s ease;
+      background:rgba(255,255,255,0.03);
+      transition:background .18s ease;
+      border-bottom:1px solid rgba(255,255,255,0.04);
     }
     .prestations-table tbody tr:nth-child(even){
-      background:color-mix(in srgb, var(--card) 78%, rgba(255,255,255,.02));
+      background:rgba(255,255,255,0.07);
     }
     [data-theme="light"] .prestations-table tbody tr{
-      background:color-mix(in srgb, #ffffff 92%, var(--card) 8%);
+      background:rgba(248,250,252,0.92);
+      border-bottom:1px solid rgba(15,23,42,0.06);
     }
     [data-theme="light"] .prestations-table tbody tr:nth-child(even){
-      background:color-mix(in srgb, #f8fafc 88%, #e5e7eb 12%);
+      background:rgba(241,245,249,0.95);
     }
     .prestations-table tbody tr:hover{
-      background:color-mix(in srgb, var(--card) 74%, var(--accent) 16%);
-      box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
+      background:rgba(59,130,246,0.08);
     }
     [data-theme="light"] .prestations-table tbody tr:hover{
-      background:color-mix(in srgb, #ffffff 88%, var(--accent) 10%);
-      box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--accent) 24%, transparent);
+      background:rgba(59,130,246,0.12);
     }
     .prestations-table tbody tr.priority-row td{
-      box-shadow:inset 3px 0 color-mix(in srgb, var(--accent) 38%, #475569 62%);
-      background:color-mix(in srgb, var(--card) 70%, color-mix(in srgb, var(--accent) 16%, transparent));
-    }
-    .prestations-table tbody tr.priority-row:hover td{
-      background:color-mix(in srgb, var(--card) 68%, color-mix(in srgb, var(--accent) 22%, transparent));
-      box-shadow:inset 3px 0 color-mix(in srgb, var(--accent) 46%, #475569 54%);
+      background:rgba(59,130,246,0.12);
+      border-bottom:1px solid rgba(59,130,246,0.2);
     }
     [data-theme="light"] .prestations-table tbody tr.priority-row td{
-      background:color-mix(in srgb, #ffffff 88%, color-mix(in srgb, var(--accent) 14%, #cbd5e1 86%));
-      box-shadow:inset 3px 0 color-mix(in srgb, var(--accent) 32%, #94a3b8 68%);
-    }
-    [data-theme="light"] .prestations-table tbody tr.priority-row:hover td{
-      background:color-mix(in srgb, #ffffff 86%, color-mix(in srgb, var(--accent) 20%, #dbeafe 80%));
-      box-shadow:inset 3px 0 color-mix(in srgb, var(--accent) 40%, #94a3b8 60%);
+      background:rgba(191,219,254,0.35);
+      border-bottom:1px solid rgba(59,130,246,0.2);
     }
 
     .small{ font-size:12px; color:#8aa0b5;}
@@ -865,37 +864,19 @@
       white-space:nowrap;
     }
     .delay-indicator{
-      position:relative;
-      width:18px;
-      height:18px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      flex-shrink:0;
-      color:var(--muted);
-      opacity:0;
-      display:none;
-      transform-origin:center;
-      transform:scale(.94);
+      color:#f59e0b;
+      font-size:.9rem;
+      margin-left:6px;
     }
     .delay-indicator::before{
       content:"⏳";
       font-size:14px;
       line-height:1;
     }
-    .delay-indicator.is-visible{
-      display:inline-flex;
-      opacity:1;
-    }
-    .delay-indicator.late{
-      animation:delayPulseSoft 2.4s ease-in-out infinite;
-      color:color-mix(in srgb, var(--accent) 40%, #cbd5e1 60%);
-    }
-    @keyframes delayPulseSoft{
-      0%{ transform:scale(.94); opacity:1; }
-      60%{ transform:scale(1.06); opacity:.82; }
-      100%{ transform:scale(1.04); opacity:.72; }
-    }
+    .delay-indicator.is-visible{ opacity:1; }
     .date-toggle{
       background:transparent;
       border:none;
@@ -2494,42 +2475,72 @@
       td{
         display:block;
       }
+      .prestations-enregistrees{
+        max-height:60vh;
+        overflow-y:auto;
+        overscroll-behavior:contain;
+      }
       .mobile-cards{
         display:flex;
         flex-direction:column;
-        gap:12px;
+        gap:10px;
         margin-top:10px;
-        max-height:70vh;
-        overflow:auto;
+        max-height:60vh;
+        overflow-y:auto;
+        overscroll-behavior:contain;
         padding-right:4px;
       }
-      .mobile-card{
+      .mobile-prestation{
         background:var(--card);
         border:1px solid var(--border);
         border-radius:14px;
         box-shadow:var(--shadow);
-        display:flex;
-        flex-direction:column;
         overflow:hidden;
       }
-      .mobile-card.mobile-accordion{
-        padding:0;
-      }
-      .mobile-card.priority-card{
-        background:color-mix(in srgb, var(--card) 78%, var(--accent) 12%);
-        border-color:color-mix(in srgb, var(--accent) 36%, var(--border));
-        box-shadow:0 12px 26px rgba(59,130,246,.24);
-      }
-      [data-theme="light"] .mobile-card.priority-card{
-        background:color-mix(in srgb, #ffffff 88%, var(--accent) 12%);
-        border-color:color-mix(in srgb, var(--accent) 30%, #d1d5db 70%);
-        box-shadow:0 12px 24px rgba(59,130,246,.18);
-      }
-      .mobile-card header{
+      .artist-toggle{
+        width:100%;
+        text-align:left;
+        padding:12px;
+        background:transparent;
+        border:0;
+        color:inherit;
         display:flex;
+        align-items:center;
         justify-content:space-between;
-        align-items:flex-start;
         gap:10px;
+        font-weight:700;
+        font-size:15px;
+        cursor:pointer;
+      }
+      .artist-toggle .artist-name{
+        flex:1;
+        min-width:0;
+      }
+      .artist-toggle .artist-chevron{
+        transition:transform .22s ease;
+      }
+      .mobile-prestation.is-open .artist-toggle .artist-chevron{
+        transform:rotate(90deg);
+      }
+      .artist-details{
+        border-top:1px solid var(--border);
+        padding:12px;
+        background:var(--panel);
+        max-height:0;
+        opacity:0;
+        pointer-events:none;
+        overflow:hidden;
+        transition:max-height .28s ease, opacity .24s ease;
+      }
+      .artist-details.hidden{
+        max-height:0;
+        opacity:0;
+        pointer-events:none;
+      }
+      .mobile-prestation.is-open .artist-details{
+        max-height:820px;
+        opacity:1;
+        pointer-events:auto;
       }
       .mobile-header-actions{
         display:flex;
@@ -2537,7 +2548,7 @@
         align-items:flex-end;
         gap:6px;
       }
-      .mobile-card .client{
+      .artist-toggle{
         font-weight:700;
         font-size:15px;
       }
@@ -2593,6 +2604,11 @@
         text-align:center;
         color:var(--text2);
         font-size:13px;
+      }
+      .capture-mobile-btn{
+        position:sticky;
+        top:72px;
+        z-index:20;
       }
 
       [data-theme="light"] body.nav-open::before{
@@ -2657,64 +2673,6 @@
         justify-content:center;
         width:100%;
         height:100%;
-      }
-      .mobile-accordion-trigger{
-        display:flex;
-        align-items:center;
-        gap:12px;
-        width:100%;
-        padding:12px;
-        background:transparent;
-        border:0;
-        color:inherit;
-        cursor:pointer;
-        text-align:left;
-        font-weight:700;
-        font-size:15px;
-      }
-      .accordion-arrow{
-        transition:transform .22s ease;
-        display:inline-flex;
-        align-items:center;
-      }
-      .mobile-card.is-open .accordion-arrow{
-        transform:rotate(90deg);
-      }
-      .accordion-label{
-        flex:1;
-        min-width:0;
-      }
-      .accordion-indicators{
-        display:inline-flex;
-        align-items:center;
-        gap:6px;
-        font-size:15px;
-      }
-      .hourglass-indicator{
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        width:26px;
-        height:26px;
-        border-radius:50%;
-        background:rgba(255,255,255,.06);
-        border:1px solid var(--border);
-        box-shadow:0 8px 16px rgba(0,0,0,.18);
-      }
-      [data-theme="light"] .hourglass-indicator{
-        background:#f8fafc;
-      }
-      .mobile-accordion-panel{
-        padding:0 12px 12px;
-        overflow:hidden;
-        max-height:0;
-        opacity:0;
-        pointer-events:none;
-        transition:max-height .28s ease, opacity .24s ease;
-      }
-      .mobile-card.is-open .mobile-accordion-panel{
-        opacity:1;
-        pointer-events:auto;
       }
       .mobile-card-body{
         display:flex;
@@ -2952,25 +2910,25 @@
         </div>
     </div>
 
-    <div class="card" style="margin-top:20px;">
+    <div class="card prestations-enregistrees" style="margin-top:20px;">
       <h2>Prestations enregistrées</h2>
       <div class="small">Clique sur "Encaisser" pour enregistrer un paiement partiel ou total.</div>
       <div class="toolbar" style="margin-top:10px;">
         <button type="button" class="btn btn-outline" id="captureRecap">📸 Capture </button>
-        <button type="button" class="btn btn-primary mobile-smart-btn" id="smartCapture">📱 Capture mobile intelligente</button>
+        <button type="button" class="btn btn-primary mobile-smart-btn capture-mobile-btn" id="smartCapture">📱 Capture mobile intelligente</button>
         </div>
         <table class="prestations-table">
           <thead>
             <tr>
-              <th>Date</th>
               <th>Client / Type</th>
+              <th>Statut</th>
+              <th>Avancement</th>
+              <th>Actions</th>
+              <th>Livraison</th>
               <th>Montant</th>
               <th>Reçu</th>
               <th>Restant</th>
-              <th>Avancement</th>
-              <th>Statut</th>
-              <th>Actions</th>
-              <th>Livraison</th>
+              <th>Date</th>
             </tr>
           </thead>
         <tbody id="tbody">
@@ -4879,6 +4837,12 @@
         }
 
         items.forEach(r => {
+          const delay = getDelayState(r);
+          const delayTitle = delay
+            ? (delay.reason === "payment"
+              ? `${delay.days} jours depuis le dernier paiement`
+              : `${delay.days} jours depuis la prestation`)
+            : "";
           const urgency = r.urgency;
           if(urgency === "critical") critical++; else if(urgency === "firm") firm++; else soft++;
 
@@ -4894,8 +4858,11 @@
           item.innerHTML = `
             <div class="followup-head">
               <div>
-                <div class="cap-client">${r.client || "Client"}</div>
-                <div class="cap-subtitle">${r.type || ""}${r.description ? " — " + r.description : ""}</div>
+              <div class="cap-client">${r.client || "Client"}</div>
+                <div class="cap-subtitle">
+                  ${r.type || ""}${r.description ? " — " + r.description : ""}
+                  ${delay ? `<span class="delay-indicator" title="${delayTitle}" aria-label="En attente de règlement depuis plus de 30 jours"></span>` : ""}
+                </div>
               </div>
               <span class="status-pill ${pillClass} followup-pill">
                 <span class="dot"></span>
@@ -5009,22 +4976,21 @@
 
       function setMobileCardState(card, open){
         if(!card) return;
-        const panel = card.querySelector(".mobile-accordion-panel");
-        const trigger = card.querySelector(".mobile-accordion-trigger");
+        const panel = card.querySelector(".artist-details");
+        const trigger = card.querySelector(".artist-toggle");
         if(!panel || !trigger) return;
         trigger.setAttribute("aria-expanded", open ? "true" : "false");
         panel.setAttribute("aria-hidden", open ? "false" : "true");
         card.classList.toggle("is-open", !!open);
         const fullHeight = panel.scrollHeight;
-        const target = open ? fullHeight : 0;
-        panel.style.maxHeight = target + "px";
+        panel.style.maxHeight = open ? fullHeight + "px" : "0px";
         panel.style.opacity = open ? "1" : "0";
         panel.style.pointerEvents = open ? "auto" : "none";
       }
 
       function toggleMobileCard(cardId){
         openMobileCardId = openMobileCardId === cardId ? null : cardId;
-        const cards = mobileCards ? mobileCards.querySelectorAll(".mobile-card") : [];
+        const cards = mobileCards ? mobileCards.querySelectorAll(".mobile-prestation") : [];
         cards.forEach(card => {
           const currentId = card.dataset.id;
           setMobileCardState(card, openMobileCardId && String(openMobileCardId) === String(currentId));
@@ -5049,7 +5015,7 @@
         if(!records.length){
           openMobileCardId = null;
           const empty = document.createElement("div");
-          empty.className = "mobile-card mobile-empty";
+          empty.className = "mobile-prestation mobile-empty";
           empty.textContent = "Aucune prestation ne correspond.";
           mobileCards.appendChild(empty);
           return;
@@ -5059,7 +5025,6 @@
           const paid = getPaid(r);
           const remaining = getRemaining(r);
           const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(paid/r.montant*100)) : 0;
-          const delay = getDelayState(r);
           const isOpen = openMobileCardId && String(openMobileCardId) === String(r.id);
 
           let cls = "muted";
@@ -5071,48 +5036,31 @@
           }
 
           const card = document.createElement("div");
-          card.className = "mobile-card mobile-accordion";
+          card.className = "mobile-prestation";
           card.dataset.id = String(r.id);
-          if(delay){
-            card.classList.add("priority-card");
-          }
 
           const panelId = `mobile-panel-${r.id}`;
           const trigger = document.createElement("button");
           trigger.type = "button";
-          trigger.className = "mobile-accordion-trigger";
+          trigger.className = "artist-toggle";
           trigger.setAttribute("aria-expanded", isOpen ? "true" : "false");
           trigger.setAttribute("aria-controls", panelId);
 
-          const arrow = document.createElement("span");
-          arrow.className = "accordion-arrow";
-          arrow.textContent = "▸";
-          trigger.appendChild(arrow);
-
           const title = document.createElement("span");
-          title.className = "accordion-label";
+          title.className = "artist-name";
           title.textContent = r.client || "Artiste";
           trigger.appendChild(title);
 
-          const indicators = document.createElement("span");
-          indicators.className = "accordion-indicators";
-          if(delay){
-            const hg = document.createElement("span");
-            hg.className = "hourglass-indicator";
-            hg.textContent = "⏳";
-            const info = delay.reason === "payment"
-              ? `${delay.days} jours depuis le dernier paiement`
-              : `${delay.days} jours depuis la prestation`;
-            hg.title = info;
-            hg.setAttribute("aria-label", `Relance prioritaire : ${info}`);
-            indicators.appendChild(hg);
-          }
-          trigger.appendChild(indicators);
+          const chevron = document.createElement("span");
+          chevron.className = "artist-chevron";
+          chevron.textContent = "▸";
+          trigger.appendChild(chevron);
+
           trigger.addEventListener("click", () => toggleMobileCard(String(r.id)));
           card.appendChild(trigger);
 
           const panel = document.createElement("div");
-          panel.className = "mobile-accordion-panel";
+          panel.className = "artist-details";
           panel.id = panelId;
           panel.setAttribute("role","region");
           panel.setAttribute("aria-hidden", isOpen ? "false" : "true");
@@ -5127,19 +5075,6 @@
           left.className = "client-cell";
           const clientRow = document.createElement("div");
           clientRow.className = "client-main";
-          const indicator = document.createElement("span");
-          indicator.className = "delay-indicator";
-          indicator.hidden = true;
-          if(delay){
-            indicator.classList.add("is-visible","late");
-            indicator.hidden = false;
-            const title = delay.reason === "payment"
-              ? `${delay.days} jours depuis le dernier paiement`
-              : `${delay.days} jours depuis la prestation`;
-            indicator.title = title;
-            indicator.setAttribute("aria-label", `Relance prioritaire : ${title}`);
-          }
-          clientRow.appendChild(indicator);
           const clientEl = document.createElement("div");
           clientEl.className = "client";
           clientEl.textContent = r.client || "";
@@ -5301,47 +5236,11 @@
 
         records.forEach(r => {
           const tr = document.createElement("tr");
-          const delay = getDelayState(r);
-          if(delay){
-            tr.classList.add("priority-row");
-          }
-
-          const tdDate = document.createElement("td");
-          const dateBtn = document.createElement("button");
-          dateBtn.type = "button";
-          dateBtn.className = "date-toggle";
-          dateBtn.setAttribute("aria-label", "Afficher le détail de la prestation");
-          dateBtn.setAttribute("aria-expanded", openDetailsId === r.id ? "true" : "false");
-          if(openDetailsId === r.id){
-            dateBtn.classList.add("is-open");
-          }
-          const dateLabel = document.createElement("span");
-          dateLabel.textContent = r.date || "Date à préciser";
-          dateBtn.appendChild(dateLabel);
-          dateBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            toggleDetails(r, tr, dateBtn);
-          });
-          tdDate.appendChild(dateBtn);
-          tr.appendChild(tdDate);
 
           const tdClient = document.createElement("td");
           tdClient.className = "client-cell";
           const c1 = document.createElement("div");
           c1.className = "client-main";
-          const indicator = document.createElement("span");
-          indicator.className = "delay-indicator";
-          indicator.hidden = true;
-          if(delay){
-            indicator.classList.add("is-visible","late");
-            indicator.hidden = false;
-            const title = delay.reason === "payment"
-              ? `${delay.days} jours depuis le dernier paiement`
-              : `${delay.days} jours depuis la prestation`;
-            indicator.title = title;
-            indicator.setAttribute("aria-label", `Relance prioritaire : ${title}`);
-          }
-          c1.appendChild(indicator);
           const name = document.createElement("span");
           name.textContent = r.client || "";
           c1.appendChild(name);
@@ -5352,36 +5251,9 @@
           tdClient.appendChild(c2);
           tr.appendChild(tdClient);
 
-          const tdMontant = document.createElement("td");
-          tdMontant.classList.add("amount-mask");
-          tdMontant.textContent = eur(r.montant || 0);
-          tr.appendChild(tdMontant);
-
-          const tdRecu = document.createElement("td");
-          tdRecu.classList.add("amount-mask");
-          tdRecu.textContent = eur(getPaid(r));
-          tr.appendChild(tdRecu);
-
+          const paid = getPaid(r);
           const remaining = getRemaining(r);
-          const tdRestant = document.createElement("td");
-          tdRestant.classList.add("amount-mask");
-          tdRestant.textContent = eur(remaining);
-          tr.appendChild(tdRestant);
-
-          const tdProgress = document.createElement("td");
-          const wrapper = document.createElement("div");
-          wrapper.className = "small";
-          const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(getPaid(r)/r.montant*100)) : 0;
-          wrapper.textContent = percent + " %";
-          const bar = document.createElement("div");
-          bar.className = "progress";
-          const inner = document.createElement("div");
-          inner.className = "progress-inner";
-          inner.style.width = percent + "%";
-          bar.appendChild(inner);
-          tdProgress.appendChild(wrapper);
-          tdProgress.appendChild(bar);
-          tr.appendChild(tdProgress);
+          const percent = (r.montant && r.montant > 0) ? Math.min(100, Math.round(paid/r.montant*100)) : 0;
 
           const tdStatus = document.createElement("td");
           const pill = document.createElement("span");
@@ -5394,7 +5266,7 @@
           if(isSettled(r)){
             cls = "paid";
             label.textContent = "Payé";
-          }else if(getPaid(r) > 0){
+          }else if(paid > 0){
             cls = "partial";
             label.textContent = "Partiel";
           }else{
@@ -5405,6 +5277,20 @@
           pill.appendChild(label);
           tdStatus.appendChild(pill);
           tr.appendChild(tdStatus);
+
+          const tdProgress = document.createElement("td");
+          const wrapper = document.createElement("div");
+          wrapper.className = "small";
+          wrapper.textContent = percent + " %";
+          const bar = document.createElement("div");
+          bar.className = "progress";
+          const inner = document.createElement("div");
+          inner.className = "progress-inner";
+          inner.style.width = percent + "%";
+          bar.appendChild(inner);
+          tdProgress.appendChild(wrapper);
+          tdProgress.appendChild(bar);
+          tr.appendChild(tdProgress);
 
           const tdActions = document.createElement("td");
           tdActions.className = "actions-cell";
@@ -5445,7 +5331,6 @@
           tr.appendChild(tdActions);
 
           const tdDelivery = document.createElement("td");
-          tdDelivery.style.textAlign = "right";
           const deliveryBtn = document.createElement("button");
           deliveryBtn.type = "button";
           deliveryBtn.className = "delivery-pill";
@@ -5458,6 +5343,40 @@
           });
           tdDelivery.appendChild(deliveryBtn);
           tr.appendChild(tdDelivery);
+
+          const tdMontant = document.createElement("td");
+          tdMontant.classList.add("amount-mask");
+          tdMontant.textContent = eur(r.montant || 0);
+          tr.appendChild(tdMontant);
+
+          const tdRecu = document.createElement("td");
+          tdRecu.classList.add("amount-mask");
+          tdRecu.textContent = eur(paid);
+          tr.appendChild(tdRecu);
+
+          const tdRestant = document.createElement("td");
+          tdRestant.classList.add("amount-mask");
+          tdRestant.textContent = eur(remaining);
+          tr.appendChild(tdRestant);
+
+          const tdDate = document.createElement("td");
+          const dateBtn = document.createElement("button");
+          dateBtn.type = "button";
+          dateBtn.className = "date-toggle";
+          dateBtn.setAttribute("aria-label", "Afficher le détail de la prestation");
+          dateBtn.setAttribute("aria-expanded", openDetailsId === r.id ? "true" : "false");
+          if(openDetailsId === r.id){
+            dateBtn.classList.add("is-open");
+          }
+          const dateLabel = document.createElement("span");
+          dateLabel.textContent = r.date || "Date à préciser";
+          dateBtn.appendChild(dateLabel);
+          dateBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleDetails(r, tr, dateBtn);
+          });
+          tdDate.appendChild(dateBtn);
+          tr.appendChild(tdDate);
 
           tbody.appendChild(tr);
         });
