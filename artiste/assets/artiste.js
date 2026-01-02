@@ -173,11 +173,60 @@
       .catch(() => { grid.innerHTML = '<p class="muted">Impossible de charger les sorties.</p>'; });
   }
 
+  function initPricingSwitch(){
+    const triggers = Array.from(document.querySelectorAll("[data-tab-target]"));
+    const panels = Array.from(document.querySelectorAll("[data-tab-panel]"));
+    if(!triggers.length || !panels.length) return;
+
+    const shell = triggers[0].closest(".switch-shell");
+
+    const updateIndicator = (target) => {
+      if(!shell) return;
+      const index = triggers.findIndex(btn => btn.dataset.tabTarget === target);
+      shell.style.setProperty("--switch-index", Math.max(0, index));
+    };
+
+    const activate = (target) => {
+      if(!target) return;
+
+      triggers.forEach((btn) => {
+        const isActive = btn.dataset.tabTarget === target;
+        btn.classList.toggle("is-active", isActive);
+        btn.setAttribute("aria-selected", isActive ? "true" : "false");
+        btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+        btn.setAttribute("tabindex", isActive ? "0" : "-1");
+      });
+
+      panels.forEach((panel) => {
+        const isActive = panel.dataset.tabPanel === target;
+        panel.hidden = !isActive;
+        panel.setAttribute("aria-hidden", isActive ? "false" : "true");
+        panel.classList.toggle("is-active", isActive);
+        panel.classList.remove("is-entering");
+        if(isActive){
+          void panel.offsetWidth; // force reflow for animation
+          panel.classList.add("is-entering");
+          setTimeout(() => panel.classList.remove("is-entering"), 360);
+        }
+      });
+
+      updateIndicator(target);
+    };
+
+    const initialTarget = triggers.find(btn => btn.classList.contains("is-active"))?.dataset.tabTarget || triggers[0].dataset.tabTarget;
+    activate(initialTarget);
+
+    triggers.forEach(btn => {
+      btn.addEventListener("click", () => activate(btn.dataset.tabTarget));
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     initTheme();
     initHeaderMenu();
     initAccordion();
     initReleases();
+    initPricingSwitch();
     setActiveNav();
   });
 })();

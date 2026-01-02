@@ -44,128 +44,240 @@
   </header>
 
   <main class="page-shell">
-    <section class="hero">
-      <div class="eyebrow">Tarifs clairs</div>
-      <h1>Des packs lisibles, rien d’inutile</h1>
-      <p class="lead">Mobile-first, prêt pour des paiements et un mini player sticky. Chaque offre reste premium, sans surcharge ni conditions floues.</p>
+    <section class="hero hero-pricing">
+      <div class="hero-copy">
+        <div class="eyebrow">Grille tarifs</div>
+        <h1>Tarifs clairs pour instru & vidéo</h1>
+        <p class="lead">Mobile-first, CTA visibles, aucune mention drone. Instrumentales retirées du catalogue après achat, vidéos pensées pour performer en ligne.</p>
+      </div>
+      <div class="switch-shell" role="tablist" aria-label="Changer le type de prestations">
+        <button class="switch-btn is-active" type="button" role="tab" aria-selected="true" data-tab-target="instrumentales">Instrumentales</button>
+        <button class="switch-btn" type="button" role="tab" aria-selected="false" data-tab-target="video">Vidéo</button>
+        <span class="switch-highlight" aria-hidden="true"></span>
+      </div>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="https://wa.me/33600000000?text=Salut%2C%20je%20veux%20valider%20un%20pack%20avec%20toi." target="_blank" rel="noopener noreferrer">Réserver un créneau</a>
+        <a class="btn btn-primary" href="https://wa.me/33600000000?text=Je%20veux%20d%C3%A9couvrir%20les%20packs%20SZD%20Studio" target="_blank" rel="noopener noreferrer">Parler d’un projet</a>
         <a class="btn btn-ghost" href="instrus.html">Écouter des instrus</a>
       </div>
     </section>
 
-    <section class="section">
-      <div class="section-head">
-        <span class="eyebrow">1️⃣ Offre "Instrumentale à l’unité"</span>
-        <h2>Single exclusif</h2>
-        <p class="muted">Pour lancer un morceau immédiatement avec un cadre clair.</p>
-      </div>
-      <div class="pricing-grid">
-        <article class="pricing-card">
-          <div class="badge">Instrumentale à l’unité</div>
-          <strong>Production complète</strong>
-          <p class="price">100 €</p>
-          <ul class="feature-list">
-            <li>✔️ Composition dédiée et structure prête à poser</li>
-            <li>✔️ Adaptation artiste (tempo, tonalité, placements)</li>
-            <li>✔️ Licence exclusive, claire et documentée</li>
-            <li>✔️ Export pré-mixé + stems nommés</li>
-          </ul>
-          <p class="tagline">Idéal pour sécuriser un single sans perdre de temps.</p>
-          <a class="btn btn-primary btn-full" href="https://wa.me/33600000000?text=Je%20veux%20booker%20une%20instrumentale%20exclusive%20avec%20SZD%20Studio" target="_blank" rel="noopener noreferrer">Booker maintenant</a>
-        </article>
-      </div>
-    </section>
+    <div class="tab-panels">
+      <section class="tab-panel is-active" data-tab-panel="instrumentales" role="tabpanel" aria-hidden="false">
+        <section class="section">
+          <div class="section-head">
+            <span class="eyebrow">Licences exclusives</span>
+            <h2>Chaque instrumentale achetée est retirée du catalogue</h2>
+            <p class="muted">Toutes les instrumentales sont en LICENCE EXCLUSIVE. Tu possèdes la prod, sans partage ni rediffusion ailleurs.</p>
+          </div>
+          <div class="packs-grid">
+            <article class="pack-card">
+              <div class="pack-top">
+                <div class="pack-name">Pack Solo</div>
+                <p class="pack-price">100 €</p>
+              </div>
+              <p class="pack-sub">1 instrumentale exclusive</p>
+              <ul class="pack-features">
+                <li>WAV haute qualité</li>
+                <li>Licence exclusive incluse</li>
+                <li>Retrait immédiat du catalogue</li>
+              </ul>
+              <a class="btn btn-primary btn-full" href="https://wa.me/33600000000?text=Je%20choisis%20le%20Pack%20Solo%20(1%20instrumentale%20exclusive)" target="_blank" rel="noopener noreferrer">Choisir ce pack</a>
+            </article>
 
-    <section class="section">
-      <div class="section-head">
-        <span class="eyebrow">2️⃣ Pack EP (7 sons)</span>
-        <h2>Prix avantageux, suivi humain</h2>
-        <p class="muted">Planification, direction artistique et économies visibles sur le volume.</p>
-      </div>
-      <div class="pricing-grid">
-        <article class="pricing-card">
-          <div class="badge">EP 7 titres</div>
-          <strong>Direction artistique incluse</strong>
-          <p class="price">Sur devis</p>
-          <ul class="feature-list">
-            <li>✔️ Composition dédiée pour 7 titres</li>
-            <li>✔️ Moodboard sonore + accompagnement studio</li>
-            <li>✔️ Mixage et pré-master intégrés</li>
-            <li>✔️ Livraison plateformes + stems organisés</li>
-          </ul>
-          <p class="tagline">Un seul interlocuteur, un rendu homogène, une économie visible sur le pack.</p>
-          <a class="btn btn-ghost btn-full" href="https://wa.me/33600000000?text=Je%20veux%20planifier%20un%20pack%20EP%20de%207%20titres" target="_blank" rel="noopener noreferrer">Planifier le pack</a>
-        </article>
-      </div>
-    </section>
+            <article class="pack-card accent">
+              <div class="pack-top">
+                <div class="pack-name">Pack Duo</div>
+                <span class="pill success">Avantage</span>
+                <p class="pack-price">180 €</p>
+              </div>
+              <p class="pack-sub">2 instrumentales exclusives</p>
+              <ul class="pack-features">
+                <li>WAV haute qualité</li>
+                <li>Licence exclusive incluse</li>
+                <li>Retrait immédiat du catalogue</li>
+              </ul>
+              <a class="btn btn-primary btn-full" href="https://wa.me/33600000000?text=Je%20choisis%20le%20Pack%20Duo%20(2%20instrumentales%20exclusives)" target="_blank" rel="noopener noreferrer">Choisir ce pack</a>
+            </article>
 
-    <section class="section">
-      <div class="section-head">
-        <span class="eyebrow">3️⃣ FAQ (valeur éducative)</span>
-        <h2>Questions fréquentes</h2>
-        <p class="muted">Réponses concises pour avancer vite.</p>
-      </div>
-      <div class="faq-grid">
-        <article class="accordion">
-          <button class="accordion-trigger" type="button" aria-expanded="false">
-            <span>C’est quoi un single ?</span>
-            <span class="accordion-icon">+</span>
-          </button>
-          <div class="accordion-panel">
-            <p>Un titre isolé, pensé pour être publié rapidement. Structure nette, mixage prêt pour la distribution.</p>
-          </div>
-        </article>
-        <article class="accordion">
-          <button class="accordion-trigger" type="button" aria-expanded="false">
-            <span>Différence EP / Album ?</span>
-            <span class="accordion-icon">+</span>
-          </button>
-          <div class="accordion-panel">
-            <p>Un EP regroupe quelques titres (ici 7) avec une direction commune. L’album est plus long et demande un travail narratif et de mastering plus poussé.</p>
-          </div>
-        </article>
-        <article class="accordion">
-          <button class="accordion-trigger" type="button" aria-expanded="false">
-            <span>Droits d’utilisation ?</span>
-            <span class="accordion-icon">+</span>
-          </button>
-          <div class="accordion-panel">
-            <p>Licence exclusive : pas de revente ni de réutilisation ailleurs. Les stems, masters et documents de licence sont fournis.</p>
-          </div>
-        </article>
-        <article class="accordion">
-          <button class="accordion-trigger" type="button" aria-expanded="false">
-            <span>Livraison ?</span>
-            <span class="accordion-icon">+</span>
-          </button>
-          <div class="accordion-panel">
-            <p>Exports aux normes streaming, stems organisés, dossier cloud sécurisé. Un PDF récap est prêt pour ton distributeur.</p>
-          </div>
-        </article>
-        <article class="accordion">
-          <button class="accordion-trigger" type="button" aria-expanded="false">
-            <span>Délais ?</span>
-            <span class="accordion-icon">+</span>
-          </button>
-          <div class="accordion-panel">
-            <p>48h à 5 jours pour un single selon la complexité. Pour un EP, un calendrier est partagé dès le brief.</p>
-          </div>
-        </article>
-      </div>
-    </section>
+            <article class="pack-card">
+              <div class="pack-top">
+                <div class="pack-name">Pack Trio</div>
+                <p class="pack-price">250 €</p>
+              </div>
+              <p class="pack-sub">3 instrumentales exclusives</p>
+              <ul class="pack-features">
+                <li>WAV haute qualité</li>
+                <li>Licence exclusive incluse</li>
+                <li>Retrait immédiat du catalogue</li>
+              </ul>
+              <a class="btn btn-primary btn-full" href="https://wa.me/33600000000?text=Je%20choisis%20le%20Pack%20Trio%20(3%20instrumentales%20exclusives)" target="_blank" rel="noopener noreferrer">Choisir ce pack</a>
+            </article>
 
-    <section class="section">
-      <div class="section-head">
-        <span class="eyebrow">Contact</span>
-        <h2>Caler un projet maintenant</h2>
-        <p class="muted">Un message synthétique suffit : style, deadline, objectif. Je réponds avec une proposition nette.</p>
-      </div>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="https://wa.me/33600000000?text=Salut%2C%20je%20veux%20parler%20de%20ton%20pack%20EP%20ou%20single." target="_blank" rel="noopener noreferrer">WhatsApp prioritaire</a>
-        <a class="btn btn-ghost" href="contact.html">Passer par email</a>
-      </div>
-    </section>
+            <article class="pack-card focus">
+              <div class="pack-top">
+                <div class="pack-name">Pack Studio</div>
+                <p class="pack-price">80 € / instru</p>
+              </div>
+              <p class="pack-sub">4 instrumentales et +</p>
+              <ul class="pack-features">
+                <li>Licence exclusive incluse pour chaque instru</li>
+                <li>Retrait du catalogue dès validation</li>
+                <li class="highlight">Tarif dégressif projet</li>
+              </ul>
+              <a class="btn btn-primary btn-full" href="https://wa.me/33600000000?text=Je%20choisis%20le%20Pack%20Studio%20(4%20instrus%20et%20+)" target="_blank" rel="noopener noreferrer">Choisir ce pack</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <span class="eyebrow">Options instrumentales</span>
+            <h2>Options payantes, facultatives et cumulables</h2>
+            <p class="muted">Ajoute uniquement ce dont tu as besoin. Chaque option reste clairement identifiée comme payante.</p>
+          </div>
+          <div class="options-grid">
+            <article class="option-card">
+              <div class="option-top">
+                <div>
+                  <p class="option-name">Mix & Master</p>
+                  <p class="muted">Optimisation prête streaming</p>
+                </div>
+                <p class="option-price">+80 €</p>
+              </div>
+            </article>
+            <article class="option-card">
+              <div class="option-top">
+                <div>
+                  <p class="option-name">Stems séparés</p>
+                  <p class="muted">Toutes les pistes prêtes au mix</p>
+                </div>
+                <p class="option-price">+200 €</p>
+              </div>
+            </article>
+          </div>
+          <p class="note">Options payantes, cumulables et sans obligation.</p>
+        </section>
+      </section>
+
+      <section class="tab-panel" data-tab-panel="video" role="tabpanel" aria-hidden="true" hidden>
+        <section class="section">
+          <div class="section-head">
+            <span class="eyebrow">Vidéo (sans drone)</span>
+            <h2>Packs vidéo prêts pour les réseaux</h2>
+            <p class="muted">Montage, tournage léger ou concepts créatifs : chaque pack est lisible, avec CTA clair.</p>
+          </div>
+          <div class="packs-grid">
+            <article class="pack-card">
+              <div class="pack-top">
+                <div class="pack-name">Just Montage</div>
+                <p class="pack-price">80 €</p>
+              </div>
+              <p class="pack-sub">Montage uniquement</p>
+              <ul class="pack-features">
+                <li>Nettoyage audio et transitions fluides</li>
+                <li>Export optimisé plateformes</li>
+              </ul>
+              <a class="btn btn-primary btn-full" href="https://wa.me/33600000000?text=Je%20choisis%20le%20pack%20Just%20Montage" target="_blank" rel="noopener noreferrer">Choisir ce pack</a>
+            </article>
+
+            <article class="pack-card">
+              <div class="pack-top">
+                <div class="pack-name">Pack Freestyle</div>
+                <p class="pack-price">150 €</p>
+              </div>
+              <p class="pack-sub">Tournage léger + montage</p>
+              <ul class="pack-features">
+                <li>Tournage agile, angles dynamiques</li>
+                <li>Montage rythmé et lisible</li>
+              </ul>
+              <a class="btn btn-primary btn-full" href="https://wa.me/33600000000?text=Je%20choisis%20le%20Pack%20Freestyle" target="_blank" rel="noopener noreferrer">Choisir ce pack</a>
+            </article>
+
+            <article class="pack-card recommended">
+              <div class="pack-top">
+                <div class="pack-name">Pack Silver</div>
+                <span class="pill success">Recommandé</span>
+                <p class="pack-price">250 €</p>
+              </div>
+              <p class="pack-sub">Carte complète pour single ou clip</p>
+              <ul class="pack-features">
+                <li>Montage</li>
+                <li>Écriture du scénario</li>
+                <li>Vignette YouTube</li>
+                <li>Teaser réseaux</li>
+              </ul>
+              <a class="btn btn-primary btn-full" href="https://wa.me/33600000000?text=Je%20choisis%20le%20Pack%20Silver%20pour%20mon%20clip" target="_blank" rel="noopener noreferrer">Choisir ce pack</a>
+            </article>
+
+            <article class="pack-card">
+              <div class="pack-top">
+                <div class="pack-name">Pack Pro</div>
+                <p class="pack-price">350 €</p>
+              </div>
+              <p class="pack-sub">Tout le Pack Silver + finitions</p>
+              <ul class="pack-features">
+                <li>Tout le Pack Silver</li>
+                <li>Retouches avancées</li>
+                <li>Formats réseaux inclus</li>
+              </ul>
+              <a class="btn btn-primary btn-full" href="https://wa.me/33600000000?text=Je%20choisis%20le%20Pack%20Pro%20vid%C3%A9o" target="_blank" rel="noopener noreferrer">Choisir ce pack</a>
+            </article>
+
+            <article class="pack-card focus">
+              <div class="pack-top">
+                <div class="pack-name">Animation Clip</div>
+                <span class="pill info">Nouveau</span>
+                <p class="pack-price">300 €</p>
+              </div>
+              <p class="pack-sub">Clip animé (motion / IA) sans tournage</p>
+              <ul class="pack-features">
+                <li>Idéal single ou lyric</li>
+                <li>Livraison prête plateformes</li>
+              </ul>
+              <a class="btn btn-primary btn-full" href="https://wa.me/33600000000?text=Je%20choisis%20le%20pack%20Animation%20Clip" target="_blank" rel="noopener noreferrer">Choisir ce pack</a>
+            </article>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <span class="eyebrow">Options vidéo</span>
+            <h2>Options payantes, visibles et cumulables</h2>
+            <p class="muted">Aucune surprise : chaque option est ajoutée seulement si tu la valides.</p>
+          </div>
+          <div class="options-grid">
+            <article class="option-card">
+              <div class="option-top">
+                <div>
+                  <p class="option-name">Retouche supplémentaire</p>
+                  <p class="muted">Aller-retour en plus</p>
+                </div>
+                <p class="option-price">+30 €</p>
+              </div>
+            </article>
+            <article class="option-card">
+              <div class="option-top">
+                <div>
+                  <p class="option-name">Version verticale réseaux</p>
+                  <p class="muted">Formats courts inclus</p>
+                </div>
+                <p class="option-price">+40 €</p>
+              </div>
+            </article>
+            <article class="option-card">
+              <div class="option-top">
+                <div>
+                  <p class="option-name">Livraison express</p>
+                  <p class="muted">Priorité sur la timeline</p>
+                </div>
+                <p class="option-price">+50 €</p>
+              </div>
+            </article>
+          </div>
+          <p class="note">Options payantes, cumulables, sans drone.</p>
+        </section>
+      </section>
+    </div>
   </main>
 
   <footer class="footer-shell">
