@@ -1,49 +1,64 @@
 (function(){
   const THEME_KEY = "szd_theme";
 
+  // Swap logo according to current theme
   function updateThemeLogos(theme){
     const mode = theme === "light" ? "light" : "dark";
     document.querySelectorAll('[data-light-src][data-dark-src]').forEach((img) => {
       const target = mode === "light" ? img.dataset.lightSrc : img.dataset.darkSrc;
-      if (target) img.setAttribute("src", target);
+      if (target && img.getAttribute("src") !== target) img.setAttribute("src", target);
     });
   }
 
   function applyTheme(theme){
     const root = document.documentElement;
     const themeIcon = document.querySelector("[data-theme-icon]");
-    if(theme === "light") root.setAttribute("data-theme","light");
+    const isLight = theme === "light";
+    if(isLight) root.setAttribute("data-theme","light");
     else root.removeAttribute("data-theme");
-    if(themeIcon) themeIcon.textContent = theme === "light" ? "☀️" : "🌙";
+    if(themeIcon) themeIcon.textContent = isLight ? "☀️" : "🌙";
     updateThemeLogos(theme);
+  }
+
+  function getSavedTheme(){
+    try { return localStorage.getItem(THEME_KEY); } catch(e) { return null; }
+  }
+
+  function persistTheme(theme){
+    applyTheme(theme);
+    try { localStorage.setItem(THEME_KEY, theme); } catch(e) {}
   }
 
   function initTheme(){
     const toggle = document.getElementById("themeToggle");
     if(!toggle) return;
 
-    let savedTheme = null;
-    try { savedTheme = localStorage.getItem(THEME_KEY); } catch(e) {}
-    const initialTheme = savedTheme === "light" ? "light" : "dark";
-    applyTheme(initialTheme);
-
-    const persistTheme = (theme) => {
-      applyTheme(theme);
-      try { localStorage.setItem(THEME_KEY, theme); } catch(e) {}
-    };
+    const prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+    const stored = getSavedTheme();
+    const initial = stored || (prefersLight ? "light" : "dark");
+    applyTheme(initial);
 
     toggle.addEventListener("click", () => {
       const current = document.documentElement.getAttribute("data-theme") === "light" ? "light" : "dark";
       const next = current === "light" ? "dark" : "light";
       persistTheme(next);
     });
+
+    if(window.matchMedia){
+      window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", (event) => {
+        const saved = getSavedTheme();
+        if(saved) return; // user preference has priority
+        applyTheme(event.matches ? "light" : "dark");
+      });
+    }
   }
 
   function setActiveNav(){
     const currentPage = document.body.dataset.page;
     if(!currentPage) return;
-    document.querySelectorAll("[data-page-link]").forEach(link => {
-      const isActive = link.dataset.pageLink === currentPage;
+    document.querySelectorAll("[data-active-pages]").forEach(link => {
+      const pages = link.dataset.activePages.split(",").map(v => v.trim());
+      const isActive = pages.includes(currentPage);
       link.classList.toggle("active", isActive);
       if(isActive) link.setAttribute("aria-current","page");
       else link.removeAttribute("aria-current");
