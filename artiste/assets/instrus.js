@@ -1,15 +1,18 @@
 (function(){
   const listEl = document.querySelector("[data-instru-list]");
   const chipsEl = document.querySelector("[data-genre-chips]");
+  const moodChipsEl = document.querySelector("[data-mood-chips]");
   const searchInput = document.querySelector("[data-search-input]");
   const audio = document.querySelector("[data-audio-player]");
+  const trackNodes = document.querySelectorAll("[data-track-item]");
 
-  if(!listEl || !chipsEl || !audio) return;
+  if(!listEl || !chipsEl || !audio || !trackNodes.length) return;
 
   const nowCover = document.querySelector("[data-now-cover]");
   const nowGenre = document.querySelector("[data-now-genre]");
   const nowTitle = document.querySelector("[data-now-title]");
   const nowSubtitle = document.querySelector("[data-now-subtitle]");
+  const nowMood = document.querySelector("[data-now-mood]");
   const nowTime = document.querySelector("[data-now-time]");
   const nowDuration = document.querySelector("[data-now-duration]");
   const nowBpm = document.querySelector("[data-now-bpm]");
@@ -56,7 +59,8 @@
     }
 
     if(nowTitle) nowTitle.textContent = track.title;
-    if(nowSubtitle) nowSubtitle.textContent = track.artist || "";
+    if(nowSubtitle) nowSubtitle.textContent = track.artist || track.mood || "";
+    if(nowMood) nowMood.textContent = track.mood || "Mood";
     if(nowGenre) nowGenre.textContent = track.genre || "Genre";
     if(nowBpm) nowBpm.textContent = `${track.bpm || "–"} BPM`;
     if(nowCover) nowCover.style.backgroundImage = `url(${track.cover})`;
@@ -109,6 +113,25 @@
   }
 
   function handleError(){
+    if(currentId){
+      const failing = allTracks.find(t => t.id === currentId);
+      if(failing) failing.available = false;
+      if(cardsById.has(currentId)){
+        const entry = cardsById.get(currentId);
+        entry.card.classList.add("is-muted", "is-disabled");
+        entry.playBtn.disabled = true;
+        const badges = entry.card.querySelector(".track-badges");
+        if(badges && !badges.querySelector(".pill.warning")){
+          const warn = document.createElement("span");
+          warn.className = "pill warning";
+          warn.textContent = "Aperçu indisponible";
+          badges.appendChild(warn);
+        }
+      }
+    }
+    currentId = null;
+    audio.removeAttribute("src");
+    audio.load();
     markActiveCards(null, false);
     updateNowPlayingUI(null);
   }
@@ -124,7 +147,7 @@
   }
 
   function setTrack(track){
-    if(!track) return;
+    if(!track || !track.available) return;
     currentId = track.id;
     updateNowPlayingUI(track);
     markActiveCards(track.id, false);
@@ -142,9 +165,22 @@
     }
   }
 
+  function findPlayableIndex(startIndex, direction = 1){
+    if(!filteredTracks.length) return null;
+    const max = filteredTracks.length;
+    for(let i = 0; i < max; i++){
+      const target = (startIndex + (i * direction) + max) % max;
+      const candidate = filteredTracks[target];
+      if(candidate && candidate.available) return target;
+    }
+    return null;
+  }
+
   function playTrackByIndex(index){
-    if(index < 0 || index >= filteredTracks.length) return;
-    const track = filteredTracks[index];
+    if(!filteredTracks.length) return;
+    const playableIndex = findPlayableIndex(index);
+    if(playableIndex === null) return;
+    const track = filteredTracks[playableIndex];
     setTrack(track);
   }
 
@@ -160,17 +196,17 @@
   function prevTrack(){
     if(!filteredTracks.length) return;
     let idx = filteredTracks.findIndex(t => t.id === currentId);
-    if(idx === -1) idx = 0;
-    const target = (idx - 1 + filteredTracks.length) % filteredTracks.length;
-    playTrackByIndex(target);
+    if(idx === -1) idx = filteredTracks.length - 1;
+    const target = findPlayableIndex(idx - 1, -1);
+    if(target !== null) playTrackByIndex(target);
   }
 
   function nextTrack(){
     if(!filteredTracks.length) return;
     let idx = filteredTracks.findIndex(t => t.id === currentId);
     if(idx === -1) idx = 0;
-    const target = (idx + 1) % filteredTracks.length;
-    playTrackByIndex(target);
+    const target = findPlayableIndex(idx + 1, 1);
+    if(target !== null) playTrackByIndex(target);
   }
 
   function renderEmpty(){
@@ -205,7 +241,7 @@
     pill.className = "pill";
     pill.textContent = track.mood || "Exclusive";
     badges.appendChild(pill);
-    if(!track.audio){
+    if(!track.audio || !track.available){
       const warn = document.createElement("span");
       warn.className = "pill warning";
       warn.textContent = "Aperçu indisponible";
@@ -227,7 +263,11 @@
     playBtn.className = "play-btn";
     playBtn.type = "button";
     playBtn.innerHTML = '<span class="icon-play">▶</span><span class="icon-pause">❚❚</span>';
-    playBtn.addEventListener("click", (e) => { e.stopPropagation(); startTrack(track.id); });
+    if(track.available){
+      playBtn.addEventListener("click", (e) => { e.stopPropagation(); startTrack(track.id); });
+    } else {
+      playBtn.disabled = true;
+    }
 
     const contactBtn = document.createElement("button");
     contactBtn.className = "btn btn-quiet";
@@ -242,7 +282,12 @@
 
     card.append(thumb, body, actions);
 
-    card.addEventListener("click", () => startTrack(track.id));
+    if(track.available){
+      card.addEventListener("click", () => startTrack(track.id));
+    } else {
+      card.classList.add("is-disabled");
+      card.setAttribute("aria-disabled", "true");
+    }
 
     cardsById.set(track.id, { card, playBtn, progressBar: bar });
     return card;
@@ -267,38 +312,44 @@
     const query = (searchInput?.value || "").toLowerCase();
     const activeChip = chipsEl.querySelector(".chip.is-active");
     const activeGenre = activeChip ? activeChip.dataset.genre : "Tous";
+    const activeMoodChip = moodChipsEl?.querySelector(".chip.is-active");
+    const activeMood = activeMoodChip ? activeMoodChip.dataset.mood : "Tous";
 
     filteredTracks = allTracks.filter(track => {
       const matchesGenre = activeGenre === "Tous" || track.genre === activeGenre;
-      const matchesQuery = track.title.toLowerCase().includes(query) || (track.mood || "").toLowerCase().includes(query);
-      return matchesGenre && matchesQuery;
+      const matchesMood = activeMood === "Tous" || track.mood === activeMood;
+      const matchesQuery = track.title.toLowerCase().includes(query)
+        || (track.mood || "").toLowerCase().includes(query)
+        || (track.bpm || "").toString().includes(query);
+      return matchesGenre && matchesMood && matchesQuery;
     });
 
     renderList(filteredTracks);
   }
 
-  function buildChips(genres){
-    chipsEl.innerHTML = "";
+  function buildChips(values, container, dataKey){
+    if(!container) return;
+    container.innerHTML = "";
     const all = document.createElement("button");
     all.className = "chip is-active";
     all.type = "button";
-    all.dataset.genre = "Tous";
+    all.dataset[dataKey] = "Tous";
     all.textContent = "Tous";
-    chipsEl.appendChild(all);
+    container.appendChild(all);
 
-    genres.forEach((genre) => {
+    values.forEach((value) => {
       const btn = document.createElement("button");
       btn.className = "chip";
       btn.type = "button";
-      btn.dataset.genre = genre;
-      btn.textContent = genre;
-      chipsEl.appendChild(btn);
+      btn.dataset[dataKey] = value;
+      btn.textContent = value;
+      container.appendChild(btn);
     });
 
-    chipsEl.addEventListener("click", (event) => {
+    container.addEventListener("click", (event) => {
       const target = event.target.closest(".chip");
       if(!target) return;
-      chipsEl.querySelectorAll(".chip").forEach(chip => chip.classList.remove("is-active"));
+      container.querySelectorAll(".chip").forEach(chip => chip.classList.remove("is-active"));
       target.classList.add("is-active");
       applyFilters();
     });
@@ -308,7 +359,7 @@
     const index = filteredTracks.findIndex(t => t.id === id);
     if(index === -1) return;
     const track = filteredTracks[index];
-    if(!track.audio){
+    if(!track.available){
       const entry = cardsById.get(track.id);
       if(entry) entry.card.classList.add("is-muted");
       return;
@@ -370,6 +421,8 @@
 
   function normalizeTrack(raw){
     const cover = raw.cover || "assets/releases/mono-lines.svg";
+    const hasAudio = !!raw.audio;
+    const available = raw.available !== false && hasAudio;
     return {
       id: raw.id || generateId(),
       title: raw.title || "Instru",
@@ -378,22 +431,37 @@
       bpm: raw.bpm || "",
       mood: raw.mood || "Exclusive",
       cover,
-      audio: raw.audio || "",
+      audio: hasAudio ? raw.audio : "",
+      available
     };
   }
 
+  function parseTracks(){
+    return Array.from(trackNodes).map(node => normalizeTrack({
+      id: node.dataset.id,
+      title: node.dataset.title,
+      genre: node.dataset.genre,
+      bpm: node.dataset.bpm,
+      mood: node.dataset.mood,
+      cover: node.dataset.cover,
+      audio: node.dataset.audio,
+      available: node.dataset.available !== "false",
+    }));
+  }
+
   function loadTracks(){
-    fetch("data/instrus.json")
-      .then(res => res.ok ? res.json() : [])
-      .then(data => Array.isArray(data) ? data.map(normalizeTrack).filter(track => !!track.audio) : [])
-      .then((tracks) => {
-        allTracks = tracks;
-        const genres = Array.from(new Set(tracks.map(t => t.genre).filter(Boolean)));
-        buildChips(genres);
-        filteredTracks = [...tracks];
-        renderList(filteredTracks);
-      })
-      .catch(() => renderEmpty());
+    const tracks = parseTracks();
+    allTracks = tracks;
+    if(!tracks.length){
+      renderEmpty();
+      return;
+    }
+    const genres = Array.from(new Set(tracks.map(t => t.genre).filter(Boolean)));
+    const moods = Array.from(new Set(tracks.map(t => t.mood).filter(Boolean)));
+    buildChips(genres, chipsEl, "genre");
+    buildChips(moods, moodChipsEl, "mood");
+    filteredTracks = [...tracks];
+    renderList(filteredTracks);
   }
 
   setVolume(0.8);
