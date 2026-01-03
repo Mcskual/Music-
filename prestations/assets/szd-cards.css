@@ -7,6 +7,11 @@
   --sZD-lift-distance: -4px;
 }
 
+html,
+body {
+  touch-action: manipulation;
+}
+
 /* Ajustement du glow en thème clair */
 [data-theme="light"] {
   --sZD-glow-primary: rgba(59, 130, 246, 0.32);
