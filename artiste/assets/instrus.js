@@ -13,7 +13,6 @@
   const nowTime = document.querySelector("[data-now-time]");
   const nowDuration = document.querySelector("[data-now-duration]");
   const nowBpm = document.querySelector("[data-now-bpm]");
-  const nowYoutube = document.querySelector("[data-now-youtube]");
   const nowContact = document.querySelector("[data-now-contact]");
   const progressBar = document.querySelector("[data-progress-bar]");
   const progressInput = document.querySelector("[data-progress-input]");
@@ -36,19 +35,13 @@
   let currentId = null;
   let isUserSeeking = false;
   let cardsById = new Map();
+  const contactTarget = "contact.html#infos-contact";
 
   function formatTime(value){
     if(!value || Number.isNaN(value)) return "0:00";
     const minutes = Math.floor(value / 60);
     const seconds = Math.floor(value % 60).toString().padStart(2,"0");
     return `${minutes}:${seconds}`;
-  }
-
-  function extractYoutubeId(value){
-    if(!value) return "";
-    if(/^[a-zA-Z0-9_-]{11}$/.test(value)) return value;
-    const match = value.match(/[?&]v=([^&#]+)/) || value.match(/youtu\.be\/(.*?)(?:\?|#|$)/);
-    return match ? match[1] : "";
   }
 
   function updateNowPlayingUI(track){
@@ -58,7 +51,6 @@
       if(nowCover) nowCover.style.backgroundImage = "none";
       if(nowGenre) nowGenre.textContent = "Genre";
       if(nowBpm) nowBpm.textContent = "BPM";
-      if(nowYoutube) nowYoutube.href = "instrus.html";
       if(nowContact) nowContact.onclick = null;
       return;
     }
@@ -68,8 +60,7 @@
     if(nowGenre) nowGenre.textContent = track.genre || "Genre";
     if(nowBpm) nowBpm.textContent = `${track.bpm || "–"} BPM`;
     if(nowCover) nowCover.style.backgroundImage = `url(${track.cover})`;
-    if(nowYoutube) nowYoutube.href = track.youtube || `https://www.youtube.com/watch?v=${track.youtubeId || ""}`;
-    if(nowContact) nowContact.onclick = () => window.open(`https://wa.me/33600000000?text=Je%20veux%20valider%20l'instru%20${encodeURIComponent(track.title)}`, "_blank", "noopener,noreferrer");
+    if(nowContact) nowContact.onclick = () => { window.location.href = `${contactTarget}?titre=${encodeURIComponent(track.title)}`; };
     if(miniTitle) miniTitle.textContent = track.title;
     if(miniArtist) miniArtist.textContent = track.genre ? `${track.genre} • ${track.bpm || ""} BPM` : (track.artist || "");
   }
@@ -118,10 +109,6 @@
   }
 
   function handleError(){
-    const track = allTracks.find(t => t.id === currentId);
-    if(track && track.youtube){
-      window.open(track.youtube, "_blank", "noopener,noreferrer");
-    }
     markActiveCards(null, false);
     updateNowPlayingUI(null);
   }
@@ -142,7 +129,7 @@
     updateNowPlayingUI(track);
     markActiveCards(track.id, false);
     const contactText = encodeURIComponent(`Salut, je veux sécuriser l'instru ${track.title}`);
-    if(nowContact) nowContact.onclick = () => window.open(`https://wa.me/33600000000?text=${contactText}`, "_blank", "noopener,noreferrer");
+    if(nowContact) nowContact.onclick = () => { window.location.href = `${contactTarget}?message=${contactText}`; };
 
     const playFromAudio = () => {
       audio.play().catch(() => {});
@@ -152,8 +139,6 @@
       audio.src = track.audio;
       audio.load();
       playFromAudio();
-    } else if(track.youtube){
-      window.open(track.youtube, "_blank", "noopener,noreferrer");
     }
   }
 
@@ -220,6 +205,12 @@
     pill.className = "pill";
     pill.textContent = track.mood || "Exclusive";
     badges.appendChild(pill);
+    if(!track.audio){
+      const warn = document.createElement("span");
+      warn.className = "pill warning";
+      warn.textContent = "Aperçu indisponible";
+      badges.appendChild(warn);
+    }
 
     const progress = document.createElement("div");
     progress.className = "progress";
@@ -238,14 +229,16 @@
     playBtn.innerHTML = '<span class="icon-play">▶</span><span class="icon-pause">❚❚</span>';
     playBtn.addEventListener("click", (e) => { e.stopPropagation(); startTrack(track.id); });
 
-    const ytBtn = document.createElement("a");
-    ytBtn.className = "btn btn-quiet";
-    ytBtn.textContent = "YouTube";
-    ytBtn.href = track.youtube || `https://www.youtube.com/watch?v=${track.youtubeId || ""}`;
-    ytBtn.target = "_blank";
-    ytBtn.rel = "noopener noreferrer";
+    const contactBtn = document.createElement("button");
+    contactBtn.className = "btn btn-quiet";
+    contactBtn.type = "button";
+    contactBtn.textContent = "Parler de cette instru";
+    contactBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      window.location.href = `${contactTarget}?titre=${encodeURIComponent(track.title)}`;
+    });
 
-    actions.append(playBtn, ytBtn);
+    actions.append(playBtn, contactBtn);
 
     card.append(thumb, body, actions);
 
@@ -315,6 +308,11 @@
     const index = filteredTracks.findIndex(t => t.id === id);
     if(index === -1) return;
     const track = filteredTracks[index];
+    if(!track.audio){
+      const entry = cardsById.get(track.id);
+      if(entry) entry.card.classList.add("is-muted");
+      return;
+    }
     const isSame = currentId === track.id;
     if(isSame){
       togglePlay();
@@ -371,8 +369,7 @@
   }
 
   function normalizeTrack(raw){
-    const youtubeId = extractYoutubeId(raw.youtube || raw.youtubeId || "");
-    const cover = raw.cover || (youtubeId ? `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg` : "assets/releases/mono-lines.svg");
+    const cover = raw.cover || "assets/releases/mono-lines.svg";
     return {
       id: raw.id || generateId(),
       title: raw.title || "Instru",
@@ -382,15 +379,13 @@
       mood: raw.mood || "Exclusive",
       cover,
       audio: raw.audio || "",
-      youtube: raw.youtube || (youtubeId ? `https://www.youtube.com/watch?v=${youtubeId}` : ""),
-      youtubeId
     };
   }
 
   function loadTracks(){
     fetch("data/instrus.json")
       .then(res => res.ok ? res.json() : [])
-      .then(data => Array.isArray(data) ? data.map(normalizeTrack) : [])
+      .then(data => Array.isArray(data) ? data.map(normalizeTrack).filter(track => !!track.audio) : [])
       .then((tracks) => {
         allTracks = tracks;
         const genres = Array.from(new Set(tracks.map(t => t.genre).filter(Boolean)));

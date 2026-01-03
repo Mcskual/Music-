@@ -12,21 +12,15 @@
 <body data-page="contact">
   <header class="site-header" aria-label="En-tête principal">
     <div class="header-inner">
-      <div class="brand">
-        <a href="index.html" class="brand-logo" aria-label="Retour à l'accueil artiste">
-          <img
-            id="szdLogo"
-            src="assets/logo/szd_logo_white.png"
-            data-dark="assets/logo/szd_logo_white.png"
-            data-light="assets/logo/szd_logo_black.png"
-            alt="SZD Studio"
-          />
-        </a>
-        <div class="brand-meta">
-          <span class="brand-name">SZD Studio</span>
-          <span class="brand-sub">Production & mix</span>
-        </div>
-      </div>
+      <a href="index.html" class="brand-logo" aria-label="Retour à l'accueil artiste">
+        <img
+          id="szdLogo"
+          src="/prestations/szd_logo_white.png"
+          data-dark="/prestations/szd_logo_white.png"
+          data-light="/prestations/szd_logo_black.png"
+          alt="SZD"
+        />
+      </a>
       <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale" aria-expanded="false">
         <a class="nav-link" data-active-pages="home" href="index.html">Accueil</a>
         <a class="nav-link" data-active-pages="home" href="index.html#sorties">Sorties</a>
@@ -55,10 +49,10 @@
         <div class="hero-copy">
           <div class="eyebrow">Contact</div>
           <h1>Parlons de ton prochain titre</h1>
-          <p class="lead">WhatsApp direct ou mail : le routing est clair, les CTA restent visibles en mode clair ou sombre.</p>
+          <p class="lead">Message direct ou mail : le routing est clair, les CTA restent visibles en mode clair ou sombre.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="https://wa.me/33600000000?text=Salut%2C%20je%20veux%20lancer%20un%20projet%20avec%20toi." target="_blank" rel="noopener noreferrer">WhatsApp prioritaire</a>
-            <a class="btn btn-ghost" href="mailto:contact@szd.studio?subject=Projet%20artistique">Envoyer un mail</a>
+            <a class="btn btn-primary" href="#infos-contact">Envoyer un message</a>
+            <a class="btn btn-ghost" href="#disponibilites">Voir les infos clés</a>
           </div>
         </div>
         <div class="hero-panel">
@@ -70,7 +64,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="disponibilites">
       <div class="section-head">
         <span class="eyebrow">Disponibilités</span>
         <h2>Réponse rapide, créneau réservé</h2>
@@ -79,7 +73,7 @@
       <div class="cards-grid two-col">
         <article class="card">
           <div class="badge">Canaux</div>
-          <p class="muted">WhatsApp reste le canal prioritaire. Email possible pour le suivi et l’envoi des fichiers.</p>
+          <p class="muted">Message direct prioritaire. Email possible pour le suivi et l’envoi des fichiers.</p>
         </article>
         <article class="card">
           <div class="badge">Infos utiles</div>
@@ -93,16 +87,17 @@
       </div>
     </section>
 
-    <section class="section section-alt">
+    <section class="section section-alt" id="infos-contact">
       <div class="section-head">
         <span class="eyebrow">Action</span>
         <h2>Prendre rendez-vous</h2>
         <p class="muted">Explique ton projet en quelques lignes. Retour avec créneau et étapes.</p>
       </div>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="https://calendly.com/" target="_blank" rel="noopener noreferrer">Choisir un créneau</a>
+        <button class="btn btn-primary" type="button" data-copy-email>Copier l’adresse mail</button>
         <a class="btn btn-ghost" href="instrus.html">Écouter des instrus</a>
       </div>
+      <p class="note">Adresse mail : <span class="pill">contact@szd.studio</span> — copie en un clic, réponse rapide.</p>
     </section>
   </main>
 
