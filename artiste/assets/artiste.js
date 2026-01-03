@@ -1,15 +1,14 @@
 (function(){
   const logo = document.getElementById("szdLogo");
-  const themeIcon = document.querySelector("[data-theme-icon]");
 
   function applyTheme(theme) {
-    const mode = theme === "light" ? "light" : "dark";
-    document.body.dataset.theme = mode;
-    document.documentElement.dataset.theme = mode;
+    document.body.dataset.theme = theme;
     if (logo) {
-      logo.src = mode === "light" ? logo.dataset.light : logo.dataset.dark;
+      logo.src =
+        theme === "light"
+          ? logo.dataset.light
+          : logo.dataset.dark;
     }
-    if (themeIcon) themeIcon.textContent = mode === "light" ? "☀️" : "🌙";
   }
 
   const savedTheme = localStorage.getItem("theme") || "dark";
