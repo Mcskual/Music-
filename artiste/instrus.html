@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Instrus sur-mesure — SZD Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,22 +43,35 @@
   </header>
   <div class="nav-backdrop" data-nav-backdrop></div>
 
-  <main class="page-shell">
-    <section class="hero">
-      <div class="hero-grid">
+  <main class="page-shell page-shell--instru">
+    <section class="hero hero--app">
+      <div class="hero-grid hero-grid--stack">
         <div class="hero-copy">
-          <div class="eyebrow">Instrumentales professionnelles</div>
-          <h1>Lecteur audio complet</h1>
-          <p class="lead">Interaction immédiate au tap ou au clic : play/pause, progression, volume, next/prev. Mini-player sticky en mobile, panneau complet en desktop.</p>
+          <div class="eyebrow">Instrumentales prêtes à signer</div>
+          <h1>Interface type app, pensée mobile-first</h1>
+          <p class="lead">Cartes tactiles, play instantané, player unique qui suit partout. Pas d’iframe ni de lien externe : uniquement vos fichiers audio locaux.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="tarifs.html">Choisir un pack</a>
-            <a class="btn btn-ghost" href="contact.html">Parler d’un projet</a>
+            <a class="btn btn-primary" href="contact.html">Discuter d’un morceau</a>
+            <a class="btn btn-ghost" href="tarifs.html">Voir les packs</a>
+          </div>
+          <div class="hero-highlights">
+            <span class="pill">Mode mobile dédié</span>
+            <span class="pill">Progression en temps réel</span>
+            <span class="pill">Stop auto des autres pistes</span>
           </div>
         </div>
-        <div class="hero-panel">
-          <div class="panel-card">
-            <p class="muted">Audio local prioritaire, aucun lien externe. Le thème jour/nuit ne masque rien : contrôles, textes et cartes restent visibles.</p>
-            <a class="btn btn-full" href="contact.html">Planifier un appel</a>
+        <div class="hero-panel hero-panel--glass">
+          <div class="panel-card panel-card--grid">
+            <div>
+              <p class="muted">Navigation fluide : glisser sur la barre de progression, accéder au volume et au mute sans quitter l’écran.</p>
+              <p class="muted">Le mini-player se fixe en bas en mobile pour un contrôle rapide.</p>
+            </div>
+            <div class="panel-tags">
+              <span class="pill">Audio local</span>
+              <span class="pill">Un seul lecteur actif</span>
+              <span class="pill">Transitions douces</span>
+            </div>
+            <a class="btn btn-full btn-primary" href="contact.html">Planifier une écoute</a>
           </div>
         </div>
       </div>
@@ -67,25 +80,38 @@
     <section class="section">
       <div class="section-head">
         <span class="eyebrow">Catalogue audio</span>
-        <h2>Un seul player, plusieurs instrus</h2>
-        <p class="muted">Données JSON, filtres par genre et recherche instantanée. Carte active mise en avant avec progression en direct.</p>
+        <h2>Lecture interne, expérience cohérente</h2>
+        <p class="muted">Fichiers audio stockés en local dans <code>/artiste/audio/</code>, sans chargement externe. Chaque carte déclenche le même player et s’illumine en cours de lecture.</p>
       </div>
 
-      <div class="filter-bar">
-        <label class="field">
-          <span class="field-label">Rechercher un titre</span>
-          <input class="text-input" type="search" placeholder="Titre ou ambiance" data-search-input>
+      <div class="filter-bar filter-bar--stack">
+        <label class="field field--search">
+          <span class="field-label">Rechercher un titre ou un mood</span>
+          <input class="text-input" type="search" placeholder="Titre, BPM ou ambiance" data-search-input>
         </label>
-        <div class="chips" data-genre-chips></div>
+        <div class="filter-rows">
+          <div class="filter-row">
+            <div class="filter-label">Genre</div>
+            <div class="chips" data-genre-chips></div>
+          </div>
+          <div class="filter-row">
+            <div class="filter-label">Ambiance / mood</div>
+            <div class="chips" data-mood-chips></div>
+          </div>
+        </div>
       </div>
 
-      <div class="player-layout">
-        <aside class="player-panel" aria-live="polite">
+      <div class="player-layout player-layout--instru">
+        <aside class="player-panel player-panel--frosted" aria-live="polite">
           <div class="player-cover" data-now-cover></div>
           <div class="player-meta">
             <p class="eyebrow" data-now-genre>Genre</p>
             <h3 class="player-title" data-now-title>Aucune instru en lecture</h3>
             <p class="muted" data-now-subtitle>Choisis une carte pour lancer la lecture.</p>
+            <div class="player-tags">
+              <span class="pill" data-now-bpm>BPM</span>
+              <span class="pill" data-now-mood>Mood</span>
+            </div>
           </div>
           <div class="player-controls">
             <div class="control-row">
@@ -107,7 +133,6 @@
             <div class="control-row">
               <button class="icon-btn" type="button" data-mute title="Muet">🔈</button>
               <input class="slider" type="range" min="0" max="1" step="0.01" value="0.8" data-volume aria-label="Volume">
-              <div class="pill" data-now-bpm>BPM</div>
             </div>
             <div class="control-row player-links">
               <button class="btn btn-primary" type="button" data-now-contact>Parler de cette instru</button>
@@ -116,6 +141,100 @@
         </aside>
 
         <div class="track-list" data-instru-list aria-live="polite"></div>
+      </div>
+
+      <div class="track-source" data-track-source aria-hidden="true">
+        <article
+          data-track-item
+          data-id="instru-001"
+          data-title="Nocturne 24"
+          data-genre="Trap"
+          data-bpm="138"
+          data-mood="Atmospheric"
+          data-cover="assets/releases/mono-lines.svg"
+          data-audio="audio/nocturne-24.mp3"
+          data-available="false"
+        ></article>
+        <article
+          data-track-item
+          data-id="instru-002"
+          data-title="Verre Fumé"
+          data-genre="Drill"
+          data-bpm="142"
+          data-mood="Dark"
+          data-cover="assets/releases/azur-lines.svg"
+          data-audio="audio/verre-fume.mp3"
+          data-available="false"
+        ></article>
+        <article
+          data-track-item
+          data-id="instru-003"
+          data-title="Éclipse"
+          data-genre="Afro"
+          data-bpm="102"
+          data-mood="Groove"
+          data-cover="assets/releases/emerald-grid.svg"
+          data-audio="audio/eclipse.mp3"
+          data-available="false"
+        ></article>
+        <article
+          data-track-item
+          data-id="instru-004"
+          data-title="Ligne Claire"
+          data-genre="RnB"
+          data-bpm="94"
+          data-mood="Smooth"
+          data-cover="assets/releases/mono-lines.svg"
+          data-audio="audio/ligne-claire.mp3"
+          data-available="false"
+        ></article>
+        <article
+          data-track-item
+          data-id="instru-005"
+          data-title="Velours"
+          data-genre="Pop"
+          data-bpm="116"
+          data-mood="Warm"
+          data-cover="assets/releases/azur-lines.svg"
+          data-audio="audio/velours.mp3"
+          data-available="false"
+        ></article>
+      </div>
+    </section>
+
+    <section class="section section--offers">
+      <div class="section-head">
+        <span class="eyebrow">Offre instrumentales</span>
+        <h2>Packs clairs et services audio complémentaires</h2>
+        <p class="muted">Licences prêtes à être signées, tarifs transparents et accompagnement pro.</p>
+      </div>
+      <div class="offer-grid">
+        <article class="offer-card">
+          <h3>Licence exclusive</h3>
+          <p class="offer-price">100 €</p>
+          <ul class="offer-list">
+            <li>Droits clairs</li>
+            <li>Utilisation libre sur les plateformes</li>
+            <li>Travail soigné, rendu professionnel</li>
+            <li>Accompagnement sérieux, sans promesse floue</li>
+          </ul>
+        </article>
+        <article class="offer-card">
+          <h3>Packs avantageux</h3>
+          <ul class="offer-list">
+            <li>2 instrus : prix réduit</li>
+            <li>3 instrus : prix encore réduit</li>
+            <li>4 instrus et + : offre sur mesure</li>
+          </ul>
+        </article>
+        <article class="offer-card">
+          <h3>Services audio</h3>
+          <ul class="offer-list">
+            <li>Mix & mastering : 80 €</li>
+            <li>Stems : sur devis</li>
+            <li>Support direct pour avancer rapidement</li>
+          </ul>
+        </article>
       </div>
     </section>
   </main>
