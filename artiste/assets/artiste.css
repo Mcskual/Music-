@@ -83,19 +83,22 @@ a { color: inherit; text-decoration: none; }
   min-width: 0;
 }
 
-.logo-wrap {
-  display: inline-flex;
+.brand-logo {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  padding: 10px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: rgba(255,255,255,.04);
 }
 
-.logo-wrap img { width: 100%; height: auto; }
+.brand-logo img {
+  height: 38px;
+  width: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .brand-logo img {
+    height: 32px;
+  }
+}
 
 .brand-meta { display: flex; flex-direction: column; gap: 2px; }
 .brand-name { font-weight: 800; letter-spacing: .01em; }
