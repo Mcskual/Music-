@@ -135,10 +135,8 @@
 
       const action = document.createElement("a");
       action.className = "release-action";
-      action.href = item.link || "#";
-      action.target = "_blank";
-      action.rel = "noopener noreferrer";
-      action.textContent = item.cta || "Écouter";
+      action.href = "contact.html";
+      action.textContent = "Parler du projet";
       body.appendChild(action);
 
       card.appendChild(body);
@@ -157,10 +155,34 @@
       .catch(() => { grid.innerHTML = '<p class="muted">Impossible de charger les sorties.</p>'; });
   }
 
+  function initCopyEmail(){
+    const copyBtn = document.querySelector("[data-copy-email]");
+    if(!copyBtn) return;
+    const email = "contact@szd.studio";
+    copyBtn.addEventListener("click", () => {
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(email).then(() => {
+          copyBtn.textContent = "Adresse copiée";
+          setTimeout(() => copyBtn.textContent = "Copier l’adresse mail", 1500);
+        });
+      } else {
+        const input = document.createElement("input");
+        input.value = email;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        copyBtn.textContent = "Adresse copiée";
+        setTimeout(() => copyBtn.textContent = "Copier l’adresse mail", 1500);
+      }
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     initHeaderMenu();
     initAccordion();
     initReleases();
+    initCopyEmail();
     setActiveNav();
   });
 })();
