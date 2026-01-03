@@ -79,25 +79,20 @@ a { color: inherit; text-decoration: none; }
 }
 
 .brand-logo {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: linear-gradient(135deg, rgba(77,163,255,.12), rgba(122,92,255,.12));
 }
 
 .brand-logo img {
-  height: 34px;
+  height: 38px;
   width: auto;
   display: block;
 }
 
 @media (max-width: 768px) {
-  .brand-logo { width: 48px; height: 48px; }
-  .brand-logo img { height: 30px; }
+  .brand-logo img {
+    height: 32px;
+  }
 }
 
 .primary-nav {
