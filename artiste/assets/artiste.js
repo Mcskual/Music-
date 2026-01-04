@@ -27,55 +27,21 @@
     document.querySelectorAll("[data-active-pages]").forEach(link => {
       const pages = link.dataset.activePages.split(",").map(v => v.trim());
       const isActive = pages.includes(currentPage);
-      link.classList.toggle("active", isActive);
-      if(isActive) link.setAttribute("aria-current","page");
-      else link.removeAttribute("aria-current");
+      const activeClass = link.classList.contains("bottom-nav-item") ? "is-active" : "active";
+      link.classList.toggle(activeClass, isActive);
+      if(link.tagName === "A"){
+        if(isActive) link.setAttribute("aria-current","page");
+        else link.removeAttribute("aria-current");
+      }
     });
   }
 
-  function initHeaderMenu(){
-    const nav = document.getElementById("primaryNav");
-    const menuToggle = document.getElementById("menuToggle");
-    const backdrop = document.querySelector("[data-nav-backdrop]");
-    if(!nav || !menuToggle) return;
-
-    const closeMenu = () => {
-      nav.classList.remove("is-open");
-      menuToggle.classList.remove("is-open");
-      menuToggle.setAttribute("aria-expanded","false");
-      nav.setAttribute("aria-expanded","false");
-      document.body.classList.remove("nav-open");
-    };
-
-    const openMenu = () => {
-      nav.classList.add("is-open");
-      menuToggle.classList.add("is-open");
-      menuToggle.setAttribute("aria-expanded","true");
-      nav.setAttribute("aria-expanded","true");
-      document.body.classList.add("nav-open");
-    };
-
-    menuToggle.addEventListener("click", () => {
-      const isOpen = nav.classList.contains("is-open");
-      if(isOpen) closeMenu();
-      else openMenu();
-    });
-
-    nav.querySelectorAll("a").forEach(link => {
-      link.addEventListener("click", () => closeMenu());
-    });
-
-    if(backdrop){
-      backdrop.addEventListener("click", closeMenu);
+  function initLucideIcons(){
+    if(window.lucide && typeof window.lucide.createIcons === "function"){
+      window.lucide.createIcons({
+        attrs: { "aria-hidden": "true" }
+      });
     }
-
-    window.addEventListener("resize", () => {
-      if(window.innerWidth >= 720) closeMenu();
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if(event.key === "Escape") closeMenu();
-    });
   }
 
   function initAccordion(){
@@ -178,11 +144,11 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    initHeaderMenu();
     initAccordion();
     initReleases();
     initCopyEmail();
     setActiveNav();
+    initLucideIcons();
   });
 
   let lastTouchEnd = 0;

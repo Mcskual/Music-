@@ -6,6 +6,7 @@
   <title>Contact — SZD Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="https://unpkg.com/lucide@latest"></script>
   <script src="assets/theme-init.js"></script>
   <link rel="stylesheet" href="assets/artiste.css">
 </head>
@@ -21,27 +22,21 @@
           alt="SZD Studio"
         />
       </a>
-      <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale" aria-expanded="false">
-        <a class="nav-link" data-active-pages="home" href="index.html">Accueil</a>
-        <a class="nav-link" data-active-pages="home" href="index.html#sorties">Sorties</a>
-        <a class="nav-link" data-active-pages="instrus" href="instrus.html">Instrus</a>
-        <a class="nav-link" data-active-pages="tarifs" href="tarifs.html">Tarifs</a>
-        <a class="nav-link" data-active-pages="apropos" href="qui-suis-je.html">À propos</a>
-        <a class="nav-link" data-active-pages="contact" href="contact.html">Contact</a>
-      </nav>
       <div class="header-actions">
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Basculer le thème">
           <span class="theme-icon" data-theme-icon aria-hidden="true">🌙</span>
         </button>
-        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-        </button>
       </div>
     </div>
   </header>
-  <div class="nav-backdrop" data-nav-backdrop></div>
+  <nav class="primary-nav page-nav" aria-label="Navigation principale">
+    <a class="nav-link" data-active-pages="home" href="index.html">Accueil</a>
+    <a class="nav-link" data-active-pages="home" href="index.html#sorties">Sorties</a>
+    <a class="nav-link" data-active-pages="instrus" href="instrus.html">Instrus</a>
+    <a class="nav-link" data-active-pages="tarifs" href="tarifs.html">Tarifs</a>
+    <a class="nav-link" data-active-pages="apropos" href="qui-suis-je.html">À propos</a>
+    <a class="nav-link" data-active-pages="contact" href="contact.html">Contact</a>
+  </nav>
 
   <main class="page-shell">
     <section class="hero">
@@ -115,6 +110,29 @@
       <p class="footer-meta">Copyright SZD Studio — production, mix & accompagnement.</p>
     </div>
   </footer>
+
+  <nav class="mobile-bottom-nav" aria-label="Navigation principale mobile">
+    <a class="bottom-nav-item" data-active-pages="home" href="index.html">
+      <i data-lucide="home"></i>
+      <span class="bottom-nav-label">Accueil</span>
+    </a>
+    <a class="bottom-nav-item" data-active-pages="home" href="index.html#sorties">
+      <i data-lucide="disc"></i>
+      <span class="bottom-nav-label">Sorties</span>
+    </a>
+    <a class="bottom-nav-item" data-active-pages="instrus" href="instrus.html">
+      <i data-lucide="waveform"></i>
+      <span class="bottom-nav-label">Instrus</span>
+    </a>
+    <a class="bottom-nav-item" data-active-pages="tarifs" href="tarifs.html">
+      <i data-lucide="badge-dollar-sign"></i>
+      <span class="bottom-nav-label">Tarifs</span>
+    </a>
+    <a class="bottom-nav-item" data-active-pages="contact" href="contact.html">
+      <i data-lucide="messages-square"></i>
+      <span class="bottom-nav-label">Contact</span>
+    </a>
+  </nav>
 
   <script src="assets/artiste.js" defer></script>
 </body>
