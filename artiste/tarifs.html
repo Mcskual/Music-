@@ -1,250 +1,174 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tarifs — SZD Studio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script src="assets/theme-init.js"></script>
-  <link rel="stylesheet" href="assets/artiste.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SZD Studio | Tarifs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #00e5ff; --bg: #030303; --text: #fff; --sub: #888; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; }
+        
+        nav { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 90px;
+            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+            padding: 0 5%; background: rgba(3, 3, 3, 0.95); backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 9999;
+        }
+        .logo-wrap img { height: 40px; width: auto; }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { color: var(--sub); text-decoration: none; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 150px 20px 80px; }
+
+        /* TABS NAVIGATION */
+        .tabs-header { display: flex; justify-content: center; gap: 15px; margin-bottom: 60px; }
+        .tab-btn { background: #0a0a0a; border: 1px solid #222; color: #fff; padding: 15px 40px; font-family: 'Bebas Neue'; font-size: 1.5rem; cursor: pointer; transition: 0.3s; border-radius: 4px; letter-spacing: 2px; }
+        .tab-btn.active { background: var(--accent); color: #000; border-color: var(--accent); box-shadow: 0 0 20px rgba(0,229,255,0.4); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* PRICE CARDS */
+        .grid-prices { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .card { background: #080808; padding: 45px; border-radius: 12px; border: 1px solid #111; display: flex; flex-direction: column; height: 100%; transition: 0.3s; }
+        .card:hover { border-color: var(--accent); background: #0a0a0a; transform: translateY(-5px); }
+        .card.featured { border: 2px solid var(--accent); box-shadow: 0 10px 40px rgba(0,229,255,0.1); }
+        
+        .card h3 { font-family: 'Bebas Neue'; font-size: 2.2rem; color: var(--accent); margin-bottom: 10px; }
+        .price { font-size: 3.5rem; font-weight: 700; margin-bottom: 25px; font-family: 'Space Grotesk'; letter-spacing: -3px; }
+        
+        .list-pros { list-style: none; margin-bottom: 40px; flex-grow: 1; }
+        .list-pros li { color: #888; margin-bottom: 12px; font-size: 0.9rem; font-weight: 500; display: flex; align-items: center; gap: 12px; }
+        .list-pros li::before { content: ""; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; display: block; }
+
+        .btn-wa { display: block; text-align: center; background: #25D366; color: #fff; text-decoration: none; padding: 18px; border-radius: 6px; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; transition: 0.3s; }
+        .btn-wa:hover { filter: brightness(1.1); transform: scale(1.02); }
+
+        .bonus-box { background: linear-gradient(90deg, #030303, #0a1c1d); border: 1px dashed var(--accent); padding: 40px; border-radius: 12px; text-align: center; margin-top: 40px; }
+
+        @media (max-width: 768px) {
+            .tabs-header { flex-direction: column; }
+            .tab-btn { width: 100%; }
+        }
+    </style>
 </head>
-<body data-page="tarifs">
-  <header class="site-header" aria-label="En-tête principal">
-    <div class="header-inner">
-      <a href="index.html" class="brand-logo" aria-label="Retour à l'accueil artiste">
-        <img
-          id="szdLogo"
-          src="assets/logo/szd_logo_white.png"
-          data-dark="assets/logo/szd_logo_white.png"
-          data-light="assets/logo/szd_logo_black.png"
-          alt="SZD Studio"
-        />
-      </a>
-      <div class="header-actions">
-        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Basculer le thème">
-          <span class="theme-icon" data-theme-icon aria-hidden="true">🌙</span>
-        </button>
-      </div>
-    </div>
-  </header>
-  <nav class="primary-nav page-nav" aria-label="Navigation principale">
-    <a class="nav-link" data-active-pages="home" href="index.html">Accueil</a>
-    <a class="nav-link" data-active-pages="home" href="index.html#sorties">Sorties</a>
-    <a class="nav-link" data-active-pages="instrus" href="instrus.html">Instrus</a>
-    <a class="nav-link" data-active-pages="tarifs" href="tarifs.html">Tarifs</a>
-    <a class="nav-link" data-active-pages="apropos" href="qui-suis-je.html">À propos</a>
-    <a class="nav-link" data-active-pages="contact" href="contact.html">Contact</a>
-  </nav>
-
-  <main class="page-shell">
-    <section class="hero hero-pricing">
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow">Grille tarifs</div>
-          <h1>Licences exclusives claires</h1>
-          <p class="lead">Tarifs prêts à l’emploi pour mobile et desktop. Packs dégressifs, options visibles et FAQ lisible en jour ou nuit.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="instrus.html">Écouter les instrus</a>
-            <a class="btn btn-ghost" href="contact.html">Parler d’un projet</a>
-          </div>
+<body>
+    <nav>
+        <div class="logo-wrap"><img src="logo.png" alt="SZD" onerror="this.src='../logo.png'"></div>
+        <div class="nav-links">
+            <a href="index.html">STUDIO</a>
+            <a href="instrus.html">INSTRUS</a>
+            <a href="tarifs.html" class="active">TARIFS</a>
         </div>
-        <div class="hero-panel">
-          <div class="panel-card">
-            <p class="muted">Chaque instru achetée est retirée du catalogue. Les options sont cumulables et clairement identifiées.</p>
-            <a class="btn btn-full" href="contact.html">Planifier un échange</a>
-          </div>
+        <div class="nav-right">PRESTATIONS / MC SKUAL</div>
+    </nav>
+
+    <div class="container">
+        <div class="tabs-header">
+            <button class="tab-btn active" onclick="openTab(event, 'audio')">AUDIO / PRODUCTION</button>
+            <button class="tab-btn" onclick="openTab(event, 'video')">VIDEO / IMAGE</button>
         </div>
-      </div>
-    </section>
 
-    <section class="section">
-      <div class="section-head">
-        <span class="eyebrow">Packs intelligents</span>
-        <h2>Tarifs exclusifs pour les instrumentales</h2>
-        <p class="muted">Aucune surprise : les packs sont lisibles, avec des CTA directs utilisables sur mobile comme sur desktop.</p>
-      </div>
-      <div class="packs-grid">
-        <article class="pack-card">
-          <div class="pack-top">
-            <div class="pack-name">1 instru</div>
-            <p class="pack-price">100 €</p>
-          </div>
-          <p class="pack-sub">Licence exclusive, retrait du catalogue.</p>
-          <ul class="pack-features">
-            <li>WAV haute qualité</li>
-            <li>Export prêt plateformes</li>
-          </ul>
-          <a class="btn btn-primary btn-full" href="contact.html">Choisir ce pack</a>
-        </article>
-
-        <article class="pack-card accent">
-          <div class="pack-top">
-            <div class="pack-name">2 instrus</div>
-            <span class="pill success">Avantage</span>
-            <p class="pack-price">180 €</p>
-          </div>
-          <p class="pack-sub">Tarif dégressif dès la deuxième instru.</p>
-          <ul class="pack-features">
-            <li>Licences exclusives</li>
-            <li>Livraison synchronisée</li>
-          </ul>
-          <a class="btn btn-primary btn-full" href="contact.html">Choisir ce pack</a>
-        </article>
-
-        <article class="pack-card">
-          <div class="pack-top">
-            <div class="pack-name">3 instrus</div>
-            <p class="pack-price">250 €</p>
-          </div>
-          <p class="pack-sub">Bundle pour enchaîner un EP ou 3 singles.</p>
-          <ul class="pack-features">
-            <li>Retrait du catalogue dès validation</li>
-            <li>Livrables harmonisés</li>
-          </ul>
-          <a class="btn btn-primary btn-full" href="contact.html">Choisir ce pack</a>
-        </article>
-
-        <article class="pack-card focus">
-          <div class="pack-top">
-            <div class="pack-name">4+ instrus</div>
-            <p class="pack-price">80 € / instru</p>
-          </div>
-          <p class="pack-sub">Tarif studio pour les séries de sorties.</p>
-          <ul class="pack-features">
-            <li>Licence exclusive par instru</li>
-            <li>Planning partagé</li>
-            <li class="highlight">Suivi rapproché</li>
-          </ul>
-          <a class="btn btn-primary btn-full" href="contact.html">Choisir ce pack</a>
-        </article>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="section-head">
-        <span class="eyebrow">Options instrumentales</span>
-        <h2>Options payantes, facultatives et cumulables</h2>
-        <p class="muted">Tu ajoutes uniquement ce dont tu as besoin. Les options restent visibles, sans surprise.</p>
-      </div>
-      <div class="options-grid">
-        <article class="option-card">
-          <div class="option-top">
-            <div>
-              <p class="option-name">Mix & Master</p>
-              <p class="muted">Optimisation prête streaming</p>
+        <div id="audio" class="tab-content active">
+            <div class="grid-prices">
+                <div class="card">
+                    <h3>LICENCE EXCLU</h3>
+                    <div class="price">100 €</div>
+                    <ul class="list-pros">
+                        <li>Fichier WAV Haute Qualité inclus</li>
+                        <li>Utilisation commerciale illimitée</li>
+                        <li>Retirée du catalogue après achat</li>
+                        <li>Contrat de cession de droits</li>
+                    </ul>
+                    <a href="https://wa.me/33760083157" class="btn-wa">RÉSERVER SUR WHATSAPP</a>
+                </div>
+                <div class="card featured">
+                    <h3>PACK DUO EXCLU</h3>
+                    <div class="price">180 €</div>
+                    <ul class="list-pros">
+                        <li>2 Instrumentales exclusives</li>
+                        <li>Économie directe de 20€</li>
+                        <li>Coaching direction artistique</li>
+                        <li>Format WAV + Stems (Pistes séparées)</li>
+                    </ul>
+                    <a href="https://wa.me/33760083157" class="btn-wa">PROFITER DU PACK</a>
+                </div>
+                <div class="card">
+                    <h3>PACK ALBUM</h3>
+                    <div class="price">250 €</div>
+                    <ul class="list-pros">
+                        <li>3 Instrumentales exclusives</li>
+                        <li>Meilleure rentabilité (-50€)</li>
+                        <li>Accompagnement projet global</li>
+                        <li>Priorité sur le planning studio</li>
+                    </ul>
+                    <a href="https://wa.me/33760083157" class="btn-wa">LANCER LE PROJET</a>
+                </div>
             </div>
-            <p class="option-price">+80 €</p>
-          </div>
-        </article>
-        <article class="option-card">
-          <div class="option-top">
-            <div>
-              <p class="option-name">Stems séparés</p>
-              <p class="muted">Toutes les pistes prêtes au mix</p>
+            <div class="bonus-box">
+                <h3 style="font-family:'Bebas Neue'; font-size: 2rem; color: var(--accent);">🎚️ MIX & MASTERING : +80€ / TITRE</h3>
+                <p style="color:#666; font-size: 0.9rem; margin-top: 10px;">Le son pro calibré pour Spotify, Apple Music et YouTube.</p>
             </div>
-            <p class="option-price">+200 €</p>
-          </div>
-        </article>
-      </div>
-      <p class="note">Options payantes, cumulables et sans obligation.</p>
-    </section>
+        </div>
 
-    <section class="section">
-      <div class="section-head">
-        <span class="eyebrow">FAQ</span>
-        <h2>Questions fréquentes</h2>
-        <p class="muted">Lisible en mobile comme en desktop, sans contenu masqué selon le thème.</p>
-      </div>
-      <div class="faq-grid">
-        <article class="accordion">
-          <button class="accordion-trigger" type="button" aria-expanded="false">
-            <span>C’est quoi une licence exclusive ?</span>
-            <span class="accordion-icon">＋</span>
-          </button>
-          <div class="accordion-panel" hidden>
-            Une fois achetée, l’instru est retirée du catalogue. Tu es seul à pouvoir l’exploiter, sans partage ni rediffusion.
-          </div>
-        </article>
-        <article class="accordion">
-          <button class="accordion-trigger" type="button" aria-expanded="false">
-            <span>Différence WAV / stems ?</span>
-            <span class="accordion-icon">＋</span>
-          </button>
-          <div class="accordion-panel" hidden>
-            Le WAV est la version stéréo finale. Les stems sont toutes les pistes séparées pour un mixage ou des remix précis.
-          </div>
-        </article>
-        <article class="accordion">
-          <button class="accordion-trigger" type="button" aria-expanded="false">
-            <span>Délais de livraison ?</span>
-            <span class="accordion-icon">＋</span>
-          </button>
-          <div class="accordion-panel" hidden>
-            Une instru exclusive peut être livrée en 48h après validation. Les options (mix/master ou stems) ajoutent un court délai.
-          </div>
-        </article>
-        <article class="accordion">
-          <button class="accordion-trigger" type="button" aria-expanded="false">
-            <span>Peut-on modifier l’instru ?</span>
-            <span class="accordion-icon">＋</span>
-          </button>
-          <div class="accordion-panel" hidden>
-            Oui : structure, tonalité ou tempo peuvent être ajustés avant livraison finale pour coller à ton interprétation.
-          </div>
-        </article>
-        <article class="accordion">
-          <button class="accordion-trigger" type="button" aria-expanded="false">
-            <span>Paiement / acompte ?</span>
-            <span class="accordion-icon">＋</span>
-          </button>
-          <div class="accordion-panel" hidden>
-            Un acompte sécurise la réservation. Le solde est payé à la livraison des fichiers (WAV ou stems selon les options choisies).
-          </div>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer-shell">
-    <div class="site-footer">
-      <div class="footer-links">
-        <a class="footer-link" href="index.html">Accueil</a>
-        <a class="footer-link" href="index.html#sorties">Sorties</a>
-        <a class="footer-link" href="instrus.html">Instrus</a>
-        <a class="footer-link" href="tarifs.html">Tarifs</a>
-        <a class="footer-link" href="qui-suis-je.html">À propos</a>
-        <a class="footer-link" href="contact.html">Contact</a>
-        <a class="footer-link" href="mentions-legales.html">Mentions légales</a>
-      </div>
-      <p class="footer-meta">Copyright SZD Studio — production, mix & accompagnement.</p>
+        <div id="video" class="tab-content">
+            <div class="grid-prices">
+                <div class="card">
+                    <h3>PACK FREESTYLE</h3>
+                    <div class="price">150 €</div>
+                    <ul class="list-pros">
+                        <li>Tournage 1/2 journée (Lieu unique)</li>
+                        <li>Montage dynamique & percutant</li>
+                        <li>Format vertical TikTok/Reels/Shorts</li>
+                    </ul>
+                    <a href="https://wa.me/33760083157" class="btn-wa">WhatsApp</a>
+                </div>
+                <div class="card featured">
+                    <h3>PACK SILVER</h3>
+                    <div class="price">250 €</div>
+                    <ul class="list-pros">
+                        <li>Scénarisation & Storyboard</li>
+                        <li>Étalonnage couleur pro</li>
+                        <li>2 Teasers réseaux sociaux offerts</li>
+                        <li>Vignette YouTube personnalisée</li>
+                    </ul>
+                    <a href="https://wa.me/33760083157" class="btn-wa">WhatsApp</a>
+                </div>
+                <div class="card">
+                    <h3>PACK PRO</h3>
+                    <div class="price">350 €</div>
+                    <ul class="list-pros">
+                        <li>Journée complète / Multi-lieux</li>
+                        <li>Direction artistique complète</li>
+                        <li>Effets visuels avancés (VFX)</li>
+                        <li>Rendu Qualité Cinéma 4K</li>
+                    </ul>
+                    <a href="https://wa.me/33760083157" class="btn-wa">WhatsApp</a>
+                </div>
+            </div>
+        </div>
     </div>
-  </footer>
 
-  <nav class="mobile-bottom-nav" aria-label="Navigation principale mobile">
-    <a class="bottom-nav-item" data-active-pages="home" href="index.html">
-      <i data-lucide="home"></i>
-      <span class="bottom-nav-label">Accueil</span>
-    </a>
-    <a class="bottom-nav-item" data-active-pages="home" href="index.html#sorties">
-      <i data-lucide="disc"></i>
-      <span class="bottom-nav-label">Sorties</span>
-    </a>
-    <a class="bottom-nav-item" data-active-pages="instrus" href="instrus.html">
-      <i data-lucide="waveform"></i>
-      <span class="bottom-nav-label">Instrus</span>
-    </a>
-    <a class="bottom-nav-item" data-active-pages="tarifs" href="tarifs.html">
-      <i data-lucide="badge-dollar-sign"></i>
-      <span class="bottom-nav-label">Tarifs</span>
-    </a>
-    <a class="bottom-nav-item" data-active-pages="contact" href="contact.html">
-      <i data-lucide="messages-square"></i>
-      <span class="bottom-nav-label">Contact</span>
-    </a>
-  </nav>
-
-  <script src="assets/artiste.js" defer></script>
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+            tablinks = document.getElementsByClassName("tab-btn");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.className += " active";
+        }
+    </script>
 </body>
 </html>
