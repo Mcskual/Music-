@@ -3,175 +3,453 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SZD Studio | Mc Skual - Production & Visuals</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>SZD Studio | Mc Skual - Cyber Premium Landing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #00e5ff; --accent-2: #7000ff; --bg: #030303; --text: #fff; --sub: #888; }
+        :root {
+            --bg: #030303;
+            --accent: #00e5ff;
+            --glow: #7000ff;
+            --text: #f7f8fb;
+            --muted: #9aa0b2;
+            --panel: #0a0a0f;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+
+        body {
+            background: radial-gradient(circle at 20% 20%, rgba(112, 0, 255, 0.08), transparent 35%),
+                        radial-gradient(circle at 80% 10%, rgba(0, 229, 255, 0.08), transparent 30%),
+                        var(--bg);
+            color: var(--text);
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        a { color: inherit; text-decoration: none; }
 
         /* HEADER UNIFIÉ */
-        nav { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 90px;
-            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
-            padding: 0 5%; background: rgba(3, 3, 3, 0.9); backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 9999;
+        nav {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 90px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            padding: 0 4vw;
+            background: rgba(3, 3, 3, 0.82);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(18px);
+            z-index: 50;
         }
-        .logo-wrap img { height: 40px; width: auto; transition: 0.3s; }
-        .nav-links { display: flex; gap: 40px; }
-        .nav-links a { color: var(--sub); text-decoration: none; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
-        .nav-right { text-align: right; font-size: 0.7rem; letter-spacing: 2px; color: var(--accent); font-weight: 900; }
 
-        /* HERO AREA */
-        .hero { height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at center, #111 0%, #000 100%); position: relative; }
-        .hero::before { content: ""; position: absolute; top: 20%; left: 50%; width: 300px; height: 300px; background: var(--accent-2); filter: blur(150px); opacity: 0.2; transform: translateX(-50%); }
-        .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 15vw, 10rem); line-height: 0.8; margin-bottom: 15px; z-index: 1; }
-        .hero h1 span { color: var(--accent); text-shadow: 0 0 30px rgba(0,229,255,0.5); }
-        .hero p { letter-spacing: 10px; text-transform: uppercase; color: var(--sub); font-size: 0.9rem; z-index: 1; }
+        .logo-wrap img { height: 40px; width: auto; display: block; }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
-        .sec-title { font-family: 'Bebas Neue'; font-size: 4rem; margin-bottom: 50px; text-transform: uppercase; letter-spacing: 2px; }
+        .nav-links { display: flex; align-items: center; gap: 30px; }
+        .nav-links a {
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--muted);
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+        .nav-links a:hover,
+        .nav-links a.active { color: var(--accent); text-shadow: 0 0 12px rgba(0, 229, 255, 0.7); }
 
-        /* SERVICES CARDS */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .service-card { padding: 50px 40px; background: #080808; border: 1px solid #111; border-radius: 4px; transition: 0.4s; }
-        .service-card:hover { border-color: var(--accent); background: #0a0a0a; transform: translateY(-10px); }
-        .service-card h3 { font-family: 'Bebas Neue'; font-size: 2rem; color: var(--accent); margin-bottom: 20px; }
-        .service-card p { color: var(--sub); font-size: 0.95rem; }
+        .nav-right {
+            text-align: right;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        main { padding-top: 90px; }
+
+        .section { width: min(1200px, 92vw); margin: 0 auto; padding: 110px 0; position: relative; }
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.8rem, 6vw, 4.2rem);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: calc(100vh - 90px);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            align-items: center;
+            gap: 40px;
+            position: relative;
+            width: min(1200px, 92vw);
+            margin: 0 auto;
+            padding: 120px 0 80px;
+        }
+        .hero::before,
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 360px; height: 360px;
+            filter: blur(180px);
+            opacity: 0.35;
+            z-index: -1;
+        }
+        .hero::before { background: var(--glow); top: 5%; left: -10%; }
+        .hero::after { background: var(--accent); bottom: -5%; right: -12%; }
+
+        .hero-meta { text-transform: uppercase; letter-spacing: 6px; color: var(--muted); font-size: 0.85rem; margin-bottom: 14px; }
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(3.8rem, 12vw, 6.8rem);
+            line-height: 0.9;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 18px;
+        }
+        .hero h1 span { color: var(--accent); text-shadow: 0 0 24px rgba(0, 229, 255, 0.5); }
+        .hero p { color: var(--muted); max-width: 520px; font-size: 1.05rem; }
+
+        .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 26px; }
+        .btn {
+            padding: 14px 18px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: linear-gradient(90deg, var(--accent), var(--glow));
+            color: #020202;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 229, 255, 0.25); }
+        .btn.secondary {
+            background: transparent;
+            color: var(--accent);
+            border-color: rgba(0,229,255,0.4);
+            box-shadow: inset 0 0 0 1px rgba(0,229,255,0.2);
+        }
+        .btn.secondary:hover { box-shadow: 0 8px 18px rgba(0,229,255,0.15); }
+
+        /* RELEASES */
+        .releases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+            margin-top: 26px;
+        }
+        .release-card {
+            background: var(--panel);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+        .release-card iframe {
+            width: 100%;
+            min-height: 352px;
+            border: 0;
+            border-radius: 10px;
+            background: #121212;
+        }
+
+        /* TARIFS */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin: 22px 0 10px;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.04);
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active {
+            color: #020202;
+            background: linear-gradient(90deg, var(--accent), var(--glow));
+            border-color: transparent;
+            box-shadow: 0 10px 24px rgba(0,229,255,0.3);
+        }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-top: 18px;
+            align-items: stretch;
+        }
+        .pricing-card {
+            background: linear-gradient(140deg, rgba(112,0,255,0.14), rgba(0,229,255,0.08) 60%, rgba(3,3,3,0.9));
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+            position: relative;
+            overflow: hidden;
+        }
+        .pricing-card::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(160deg, rgba(0,229,255,0.4), rgba(112,0,255,0.3));
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .pricing-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 1px;
+        }
+        .pricing-card p { color: var(--muted); font-size: 0.95rem; }
+        .pricing-card ul { list-style: none; display: grid; gap: 8px; color: #e4e7ee; }
+        .pricing-card li { display: flex; gap: 10px; align-items: baseline; }
+        .pricing-card li::before { content: '▹'; color: var(--accent); }
+
+        .cta-row {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+        .price-tag { font-weight: 800; letter-spacing: 1px; color: var(--accent); font-size: 1.1rem; }
+        .wa-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(0,229,255,0.5);
+            color: #020202;
+            background: linear-gradient(90deg, var(--accent), var(--glow));
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            width: 100%;
+            max-width: 220px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .wa-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(112,0,255,0.25); }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 40px 0 70px;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .nav-links { gap: 18px; }
+            .hero { padding-top: 90px; }
+            .hero-cta { gap: 10px; }
+        }
 
         @media (max-width: 768px) {
-            nav { height: 70px; grid-template-columns: 1fr 2fr; }
+            nav { height: 70px; grid-template-columns: 1fr auto 1fr; }
             .logo-wrap img { height: 28px; }
-            .nav-right { display: none; }
-            .hero h1 { font-size: 5.5rem; }
+            .nav-right { font-size: 0.7rem; }
+            main { padding-top: 70px; }
+            .hero { padding-top: 70px; }
         }
     </style>
 </head>
 <body>
     <nav>
-        <div class="logo-wrap"><img src="logo.png" alt="SZD" onerror="this.src='../logo.png'"></div>
-        <div class="nav-links">
-            <a href="index.html" class="active">STUDIO</a>
-            <a href="instrus.html">INSTRUS</a>
-            <a href="tarifs.html">TARIFS</a>
+        <div class="logo-wrap">
+            <img src="logo.png" alt="SZD Studio Logo" onerror="this.src='../logo.png'">
         </div>
-        <div class="nav-right">SZD STUDIO / MC SKUAL</div>
+        <div class="nav-links">
+            <a href="#studio" class="active">Studio</a>
+            <a href="#instrus">Instrus</a>
+            <a href="#tarifs">Tarifs</a>
+        </div>
+        <div class="nav-right">Mc Skual / SZD Studio</div>
     </nav>
 
-    <header class="hero">
-        <p>Advanced Production</p>
-        <h1>SZD <span>PROD</span></h1>
-    </header>
-
-    <section class="container">
-        <h2 class="sec-title">The <span>Workshop</span></h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>AUDIO PRODUCTION</h3>
-                <p>Beats exclusifs, arrangements millimétrés et direction artistique complète pour tes projets.</p>
+    <main>
+        <section class="hero" id="studio">
+            <div>
+                <div class="hero-meta">Cyber Premium — Artistic Credibility</div>
+                <h1>Mc Skual <span>presents</span><br>SZD PROD</h1>
+                <p>Identité sonore et visuelle taillée pour les artistes ambitieux : prod, mix/master et direction créative avec une patte futuriste.</p>
+                <div class="hero-cta">
+                    <a class="btn" href="#releases">Écouter les sorties</a>
+                    <a class="btn secondary" href="https://wa.me/33600000000" target="_blank" rel="noopener">Parler avec le studio</a>
+                </div>
             </div>
-            <div class="service-card">
-                <h3>MIX & MASTERING</h3>
-                <p>Précision chirurgicale pour un son puissant et clair, prêt pour les plateformes de streaming mondiales.</p>
+        </section>
+
+        <section class="section" id="instrus">
+            <h2 class="section-title">Releases</h2>
+            <p style="color: var(--muted); max-width: 820px;">Preuve sociale : les dernières sorties produites et mixées par SZD Studio. Immerse-toi dans le son Mc Skual.</p>
+            <div class="releases-grid">
+                <div class="release-card">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/0VjIjW4GlUZAMYd2vXMi3b?utm_source=generator" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+                </div>
+                <div class="release-card">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/7ouMYWpwJ422jRcDASZB7P?utm_source=generator" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+                </div>
+                <div class="release-card">
+                    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/3Qm86XLflmIXVm1wcwkgDK?utm_source=generator" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+                </div>
             </div>
-            <div class="service-card">
-                <h3>VISUALS & CLIPS</h3>
-                <p>De la scénarisation à l'étalonnage, on donne une identité visuelle forte à ton univers musical.</p>
+        </section>
+
+        <section class="section" id="tarifs">
+            <h2 class="section-title">Tarifs</h2>
+            <p style="color: var(--muted); max-width: 820px;">Choisis ton univers : Audio ou Vidéo. Chaque carte place le bouton WhatsApp au même niveau pour un call-to-action immédiat.</p>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-target="audio">Audio</button>
+                <button class="tab-btn" data-target="video">Vidéo</button>
             </div>
-        </div>
-    </section>
 
-    <footer style="text-align:center; padding: 50px; color: #333; font-weight: 700; text-transform: uppercase; letter-spacing: 5px; font-size: 0.7rem;">
-        SZD STUDIO © 2026 - Montlouis-sur-Loire
-    </footer>
-</body>
-</html><!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SZD Studio | Mc Skual - Production & Visuals</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
-    <style>
-        :root { --accent: #00e5ff; --accent-2: #7000ff; --bg: #030303; --text: #fff; --sub: #888; }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+            <div id="audio" class="tab-panel active">
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Beatmaker Custom</h3>
+                        <p>Production sur-mesure, identité sonore unique pour ton prochain single.</p>
+                        <ul>
+                            <li>Session créative en visio ou en studio</li>
+                            <li>Livraison stems + master instrumental</li>
+                            <li>2 allers-retours inclus</li>
+                        </ul>
+                        <div class="cta-row">
+                            <div class="price-tag">À partir de 220€</div>
+                            <a class="wa-btn" href="https://wa.me/33600000000" target="_blank" rel="noopener">WhatsApp</a>
+                        </div>
+                    </div>
 
-        /* HEADER UNIFIÉ */
-        nav { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 90px;
-            display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
-            padding: 0 5%; background: rgba(3, 3, 3, 0.9); backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 9999;
-        }
-        .logo-wrap img { height: 40px; width: auto; transition: 0.3s; }
-        .nav-links { display: flex; gap: 40px; }
-        .nav-links a { color: var(--sub); text-decoration: none; font-size: 0.85rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
-        .nav-right { text-align: right; font-size: 0.7rem; letter-spacing: 2px; color: var(--accent); font-weight: 900; }
+                    <div class="pricing-card">
+                        <h3>Mix & Master</h3>
+                        <p>Mixage chirurgical + mastering streaming ready pour un rendu mondial.</p>
+                        <ul>
+                            <li>Nettoyage, spatialisation et loudness optimisé</li>
+                            <li>Version explicite/clean + pré-master vinyl</li>
+                            <li>3 révisions rapides</li>
+                        </ul>
+                        <div class="cta-row">
+                            <div class="price-tag">À partir de 180€</div>
+                            <a class="wa-btn" href="https://wa.me/33600000000" target="_blank" rel="noopener">WhatsApp</a>
+                        </div>
+                    </div>
 
-        /* HERO AREA */
-        .hero { height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; background: radial-gradient(circle at center, #111 0%, #000 100%); position: relative; }
-        .hero::before { content: ""; position: absolute; top: 20%; left: 50%; width: 300px; height: 300px; background: var(--accent-2); filter: blur(150px); opacity: 0.2; transform: translateX(-50%); }
-        .hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 15vw, 10rem); line-height: 0.8; margin-bottom: 15px; z-index: 1; }
-        .hero h1 span { color: var(--accent); text-shadow: 0 0 30px rgba(0,229,255,0.5); }
-        .hero p { letter-spacing: 10px; text-transform: uppercase; color: var(--sub); font-size: 0.9rem; z-index: 1; }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
-        .sec-title { font-family: 'Bebas Neue'; font-size: 4rem; margin-bottom: 50px; text-transform: uppercase; letter-spacing: 2px; }
-
-        /* SERVICES CARDS */
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .service-card { padding: 50px 40px; background: #080808; border: 1px solid #111; border-radius: 4px; transition: 0.4s; }
-        .service-card:hover { border-color: var(--accent); background: #0a0a0a; transform: translateY(-10px); }
-        .service-card h3 { font-family: 'Bebas Neue'; font-size: 2rem; color: var(--accent); margin-bottom: 20px; }
-        .service-card p { color: var(--sub); font-size: 0.95rem; }
-
-        @media (max-width: 768px) {
-            nav { height: 70px; grid-template-columns: 1fr 2fr; }
-            .logo-wrap img { height: 28px; }
-            .nav-right { display: none; }
-            .hero h1 { font-size: 5.5rem; }
-        }
-    </style>
-</head>
-<body>
-    <nav>
-        <div class="logo-wrap"><img src="logo.png" alt="SZD" onerror="this.src='../logo.png'"></div>
-        <div class="nav-links">
-            <a href="index.html" class="active">STUDIO</a>
-            <a href="instrus.html">INSTRUS</a>
-            <a href="tarifs.html">TARIFS</a>
-        </div>
-        <div class="nav-right">SZD STUDIO / MC SKUAL</div>
-    </nav>
-
-    <header class="hero">
-        <p>Advanced Production</p>
-        <h1>SZD <span>PROD</span></h1>
-    </header>
-
-    <section class="container">
-        <h2 class="sec-title">The <span>Workshop</span></h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3>AUDIO PRODUCTION</h3>
-                <p>Beats exclusifs, arrangements millimétrés et direction artistique complète pour tes projets.</p>
+                    <div class="pricing-card">
+                        <h3>Pack Single</h3>
+                        <p>Production, mix/master et identité graphique express pour sortir vite.</p>
+                        <ul>
+                            <li>Beat exclusif + direction artistique</li>
+                            <li>Cover minimaliste + teaser short</li>
+                            <li>Livraison en 10 jours</li>
+                        </ul>
+                        <div class="cta-row">
+                            <div class="price-tag">À partir de 390€</div>
+                            <a class="wa-btn" href="https://wa.me/33600000000" target="_blank" rel="noopener">WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="service-card">
-                <h3>MIX & MASTERING</h3>
-                <p>Précision chirurgicale pour un son puissant et clair, prêt pour les plateformes de streaming mondiales.</p>
-            </div>
-            <div class="service-card">
-                <h3>VISUALS & CLIPS</h3>
-                <p>De la scénarisation à l'étalonnage, on donne une identité visuelle forte à ton univers musical.</p>
-            </div>
-        </div>
-    </section>
 
-    <footer style="text-align:center; padding: 50px; color: #333; font-weight: 700; text-transform: uppercase; letter-spacing: 5px; font-size: 0.7rem;">
-        SZD STUDIO © 2026 - Montlouis-sur-Loire
-    </footer>
+            <div id="video" class="tab-panel">
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3>Visual Pack</h3>
+                        <p>Habillage visuel cyber-premium pour tes sorties et réseaux.</p>
+                        <ul>
+                            <li>Teasers vertical + horizontal</li>
+                            <li>Motions typographiques et glitch</li>
+                            <li>Palette alignée à ton branding</li>
+                        </ul>
+                        <div class="cta-row">
+                            <div class="price-tag">À partir de 240€</div>
+                            <a class="wa-btn" href="https://wa.me/33600000000" target="_blank" rel="noopener">WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>Clip Studio</h3>
+                        <p>Captation en studio, lumière néon, montage punchy prêt pour YouTube.</p>
+                        <ul>
+                            <li>Storyboard rapide + tournage dirigé</li>
+                            <li>Étalonnage violet/cyan signature</li>
+                            <li>Sous-titres stylisés</li>
+                        </ul>
+                        <div class="cta-row">
+                            <div class="price-tag">À partir de 520€</div>
+                            <a class="wa-btn" href="https://wa.me/33600000000" target="_blank" rel="noopener">WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <div class="pricing-card">
+                        <h3>Pack Performance</h3>
+                        <p>Set multi-cam + VFX légers pour capturer l'énergie live de Mc Skual.</p>
+                        <ul>
+                            <li>3 caméras + prise son multipiste</li>
+                            <li>Overlay futuriste & lower-thirds</li>
+                            <li>Livraison 4K + versions courtes</li>
+                        </ul>
+                        <div class="cta-row">
+                            <div class="price-tag">À partir de 680€</div>
+                            <a class="wa-btn" href="https://wa.me/33600000000" target="_blank" rel="noopener">WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>SZD Studio © Mc Skual — Montlouis-sur-Loire</footer>
+
+    <script>
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const panels = document.querySelectorAll('.tab-panel');
+
+        tabButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                tabButtons.forEach(b => b.classList.remove('active'));
+                panels.forEach(panel => panel.classList.remove('active'));
+
+                btn.classList.add('active');
+                const target = btn.getAttribute('data-target');
+                document.getElementById(target).classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>
